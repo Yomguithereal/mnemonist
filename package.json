@@ -1,0 +1,43 @@
+{
+  "name": "mnemonist",
+  "version": "0.0.1",
+  "description": "Collection of classic data structures for JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./*.js ./benchmark ./test",
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yomguithereal/mnemonist.git"
+  },
+  "keywords": [
+    "data structures",
+    "structures",
+    "heap",
+    "stack",
+    "queue",
+    "linked list"
+  ],
+  "author": {
+    "name": "Guillaume Plique",
+    "url": "http://github.com/Yomguithereal"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yomguithereal/mnemonist/issues"
+  },
+  "homepage": "https://github.com/yomguithereal/mnemonist#readme",
+  "devDependencies": {
+    "@yomguithereal/eslint-config": "^3.0.0",
+    "benchmark": "^2.1.1",
+    "eslint": "^3.8.1",
+    "mocha": "^3.1.2"
+  },
+  "eslintConfig": {
+    "extends": "@yomguithereal/eslint-config"
+  }
+}
