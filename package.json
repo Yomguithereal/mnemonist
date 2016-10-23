@@ -8,7 +8,8 @@
     "test": "mocha"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "linked-list.js"
   ],
   "repository": {
     "type": "git",
