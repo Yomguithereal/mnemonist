@@ -1,4 +1,4 @@
-var Benchmark = new require('benchmark'),
+var Benchmark = require('benchmark'),
     ClassicLinkedList = require('./classic.js'),
     ArrayNodeLinkedList = require('./array-node.js'),
     ClassNodeLinkedList = require('./class-node.js'),

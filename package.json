@@ -36,6 +36,7 @@
     "@yomguithereal/eslint-config": "^3.0.0",
     "benchmark": "^2.1.1",
     "eslint": "^3.8.1",
+    "microtime": "^2.1.1",
     "mocha": "^3.1.2"
   },
   "eslintConfig": {
