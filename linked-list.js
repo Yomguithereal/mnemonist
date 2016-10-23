@@ -96,6 +96,29 @@ LinkedList.prototype.toArray = function() {
 };
 
 /**
+ * Convenience known methods.
+ */
+LinkedList.prototype.toString = function() {
+  return this.toArray().join(',');
+};
+
+LinkedList.prototype.toJSON = function() {
+  return this.toArray();
+};
+
+LinkedList.prototype.inspect = function() {
+  var array = this.toArray();
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(array, 'constructor', {
+    value: LinkedList,
+    enumerable: false
+  });
+
+  return array;
+};
+
+/**
  * Exporting.
  */
 module.exports = LinkedList;
