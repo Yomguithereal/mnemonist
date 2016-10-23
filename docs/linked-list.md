@@ -16,7 +16,7 @@ var LinkedList = require('mnemonist/linked-list');
 * [#.unshift](#unshift)
 * [#.shift](#shift)
 * [#.clear](#clear)
-* [#.first, #.peek](#firstpeek)
+* [#.first, #.peek](#first-peek)
 * [#.last](#last)
 * [#.forEach](#foreach)
 * [#.toArray](#toarray)
