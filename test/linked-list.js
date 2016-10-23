@@ -38,6 +38,56 @@ describe('LinkedList', function() {
     assert.deepEqual(list.toArray(), []);
   });
 
+  it('should be possible to get the first & last items of the list.', function() {
+    var list = new LinkedList();
+
+    assert.strictEqual(list.first(), undefined);
+    assert.strictEqual(list.last(), undefined);
+
+    list.push('hello');
+
+    assert.strictEqual(list.first(), 'hello');
+    assert.strictEqual(list.first(), list.last());
+
+    list.push('world');
+
+    assert.strictEqual(list.first(), 'hello');
+    assert.strictEqual(list.last(), 'world');
+
+    assert.strictEqual(list.first(), list.peek());
+  });
+
+  it('should be possible to shift the list.', function() {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    assert.strictEqual(list.shift(), 1);
+    assert.strictEqual(list.shift(), 2);
+    assert.strictEqual(list.shift(), 3);
+    assert.strictEqual(list.shift(), undefined);
+  });
+
+  it('should be possible to iterate over the list.', function() {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    var times = 0;
+
+    list.forEach(function(item, i, l) {
+      assert.strictEqual(item, i + 1);
+      assert.strictEqual(list, l);
+      times++;
+    });
+
+    assert.strictEqual(times, 3);
+  });
+
   it('should be possible to serialize the list to JSON.', function() {
     var list = new LinkedList();
 

@@ -29,6 +29,25 @@ LinkedList.prototype.clear = function() {
 };
 
 /**
+ * Method used to get the first item of the list.
+ *
+ * @return {any}
+ */
+LinkedList.prototype.first = function() {
+  return this.head ? this.head.item : undefined;
+};
+LinkedList.prototype.peek = LinkedList.prototype.first;
+
+/**
+ * Method used to get the last item of the list.
+ *
+ * @return {any}
+ */
+LinkedList.prototype.last = function() {
+  return this.tail ? this.tail.item : undefined;
+};
+
+/**
  * Method used to add an item at the end of the list.
  *
  * @param  {any}  item - The item to add.
@@ -48,7 +67,7 @@ LinkedList.prototype.push = function(item) {
 
   this.size++;
 
-  return node;
+  return this.size;
 };
 
 /**
@@ -73,7 +92,47 @@ LinkedList.prototype.unshift = function(item) {
 
   this.size++;
 
-  return node;
+  return this.size;
+};
+
+/**
+ * Method used to retrieve & remove the first item of the list.
+ *
+ * @return {any}
+ */
+LinkedList.prototype.shift = function() {
+  if (!this.size)
+    return undefined;
+
+  var node = this.head;
+
+  this.head = node.next;
+  this.size--;
+
+  return node.item;
+};
+
+/**
+ * Method used to iterate over the list.
+ *
+ * @param  {function}  callback - Function to call for each item.
+ * @param  {object}    scope    - Optional scope.
+ * @return {undefined}
+ */
+LinkedList.prototype.forEach = function(callback, scope) {
+  if (!this.size)
+    return;
+
+  scope = scope || this;
+
+  var n = this.head,
+      i = 0;
+
+  while (n) {
+    callback.call(scope, n.item, i, this);
+    n = n.next;
+    i++;
+  }
 };
 
 /**
@@ -98,7 +157,7 @@ LinkedList.prototype.toArray = function() {
 /**
  * Convenience known methods.
  */
-LinkedList.prototype.toString = function() {
+LinkedList.prototype.toString = function() {
   return this.toArray().join(',');
 };
 
