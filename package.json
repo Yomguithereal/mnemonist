@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./*.js ./benchmark ./test",
+    "prepublish": "npm test",
     "test": "mocha"
   },
   "files": [
