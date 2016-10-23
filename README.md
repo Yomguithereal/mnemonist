@@ -20,6 +20,7 @@ npm install --save mnemonist
 ## Documentation
 
 * [Linked List](docs/linked-list.md)
+* [Stack](docs/stack.md)
 
 ## Contribution
 
