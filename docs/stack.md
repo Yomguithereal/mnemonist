@@ -21,11 +21,11 @@ var Stack = require('mnemonist/stack');
 
 ### #.size
 
-Number of items in the list.
+Number of items in the stack.
 
 ```js
-var list = new Stack();
-list.size
+var stack = new Stack();
+stack.size
 >>> 0
 ```
 
@@ -36,9 +36,9 @@ Adds an item to the stack.
 `O(1)`
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.push(1);
+stack.push(1);
 ```
 
 ### #.pop
@@ -48,10 +48,10 @@ Retrieve & remove the next item of the stack.
 `O(1)`
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.push(1);
-list.pop();
+stack.push(1);
+stack.pop();
 >>> 1
 ```
 
@@ -62,11 +62,11 @@ Completely clears the stack.
 `O(1)`
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.unshift(1);
-list.clear();
-list.toArray();
+stack.unshift(1);
+stack.clear();
+stack.toArray();
 >>> []
 ```
 
@@ -77,10 +77,10 @@ Retrieves the next item of the stack.
 `O(1)`
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.push(1);
-list.peek();
+stack.push(1);
+stack.peek();
 >>> 1
 ```
 
@@ -89,26 +89,26 @@ list.peek();
 Iterates over the stack in LIFO order.
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.push(1);
-list.push(2);
+stack.push(1);
+stack.push(2);
 
-list.forEach(function(item, index, list) {
+stack.forEach(function(item, index, stack) {
   console.log(index, item);
 });
 ```
 
 ### #.toArray
 
-Converts the list into a LIFO JavaScript array.
+Converts the stack into a LIFO JavaScript array.
 
 ```js
-var list = new Stack();
+var stack = new Stack();
 
-list.push(1);
-list.push(2);
+stack.push(1);
+stack.push(2);
 
-list.toArray();
+stack.toArray();
 >>> [2, 1]
 ```
