@@ -17,9 +17,9 @@ It strives at being:
 npm install --save mnemonist
 ```
 
-## Usage
+## Documentation
 
-WIP
+* [Linked List](docs/linked-list.md)
 
 ## Contribution
 
