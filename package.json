@@ -9,7 +9,8 @@
   },
   "files": [
     "index.js",
-    "linked-list.js"
+    "linked-list.js",
+    "stack.js"
   ],
   "repository": {
     "type": "git",

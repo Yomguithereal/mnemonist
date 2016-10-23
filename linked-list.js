@@ -50,8 +50,8 @@ LinkedList.prototype.last = function() {
 /**
  * Method used to add an item at the end of the list.
  *
- * @param  {any}  item - The item to add.
- * @return {Node}
+ * @param  {any}    item - The item to add.
+ * @return {number}
  */
 LinkedList.prototype.push = function(item) {
   var node = {item: item, next: null};
@@ -73,8 +73,8 @@ LinkedList.prototype.push = function(item) {
 /**
  * Method used to add an item at the beginning of the list.
  *
- * @param  {any}  item - The item to add.
- * @return {Node}
+ * @param  {any}    item - The item to add.
+ * @return {number}
  */
 LinkedList.prototype.unshift = function(item) {
   var node = {item: item, next: null};
@@ -123,7 +123,7 @@ LinkedList.prototype.forEach = function(callback, scope) {
   if (!this.size)
     return;
 
-  scope = scope || this;
+  scope = arguments.length > 1 ? scope : this;
 
   var n = this.head,
       i = 0;
