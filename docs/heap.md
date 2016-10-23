@@ -36,7 +36,7 @@ heap.size
 
 Pushes an item into the heap.
 
-`O(1)`
+`O(log n)`
 
 ```js
 var heap = new Heap();
@@ -47,7 +47,7 @@ heap.push(34);
 
 Retrieve & remove the min item of the heap (or the max item in case of a `MaxHeap`).
 
-`O(1)`
+`O(log n)`
 
 ```js
 var heap = new heap();
