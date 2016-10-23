@@ -4,8 +4,14 @@ function ClassicLinkedList() {
   this.size = 0;
 }
 
+ClassicLinkedList.prototype.clear = function() {
+  this.head = null;
+  this.tail = null;
+  this.size = 0;
+};
+
 ClassicLinkedList.prototype.push = function(item) {
-  var node = {item: item};
+  var node = {item: item, next: null};
 
   if (!this.head) {
     this.head = node;
@@ -16,6 +22,27 @@ ClassicLinkedList.prototype.push = function(item) {
   else {
     this.tail.next = node;
     this.tail = node;
+  }
+
+  this.size++;
+
+  return node;
+};
+
+ClassicLinkedList.prototype.unshift = function(item) {
+  var node = {item: item, next: null};
+
+  if (!this.head) {
+    this.head = node;
+  }
+  if (!this.tail) {
+    this.tail = node;
+  }
+  else {
+    if (!this.head.next)
+      this.tail = this.head;
+    node.next = this.head;
+    this.head = node;
   }
 
   this.size++;

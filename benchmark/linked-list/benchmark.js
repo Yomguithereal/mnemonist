@@ -1,46 +1,44 @@
-var Suite = new require('benchmark').Suite,
+var Benchmark = new require('benchmark'),
     ClassicLinkedList = require('./classic.js'),
     ArrayNodeLinkedList = require('./array-node.js'),
     ClassNodeLinkedList = require('./class-node.js'),
     ObjectNullLinkedList = require('./object-null.js');
 
-// TODO: abstract the scheme to just pass the implementations & functions to run
+Benchmark.options.delay = 1;
+Benchmark.options.initCount = 5;
+
+var Suite = Benchmark.Suite;
 
 var classic,
     arrayNode,
     classNode,
     objectNull;
 
-var s1 = new Suite()
-  .on('start', function() {
-    classic = new ClassicLinkedList();
-    arrayNode = new ArrayNodeLinkedList();
-    classNode = new ClassNodeLinkedList();
-    objectNull = new ObjectNullLinkedList();
-  })
-  .add('Classic#push', function() {
-    classic.push(Math.random());
+function doTimes(Class, method) {
+  var target = new Class();
 
-    if (classic.size === 1000000)
-      classic = new ClassicLinkedList();
+  for (var i = 0; i < 10000; i++)
+    target[method](Math.random());
+
+  target.clear();
+  target = null;
+}
+
+new Suite()
+  .add('Dummy#push', function() {
+    doTimes(ClassicLinkedList, 'push');
   })
   .add('ArrayNode#push', function() {
-    arrayNode.push(Math.random());
-
-    if (arrayNode.size === 1000000)
-      arrayNode = new ArrayNodeLinkedList();
+    doTimes(ArrayNodeLinkedList, 'push');
+  })
+  .add('Classic#push', function() {
+    doTimes(ClassicLinkedList, 'push');
   })
   .add('ClassNode#push', function() {
-    classNode.push(Math.random());
-
-    if (classNode.size === 1000000)
-      classNode = new ClassNodeLinkedList();
+    doTimes(ClassNodeLinkedList, 'push');
   })
   .add('ObjectNull#push', function() {
-    objectNull.push(Math.random());
-
-    if (objectNull.size === 1000000)
-      objectNull = new ClassNodeLinkedList();
+    doTimes(ObjectNullLinkedList, 'push');
   })
   .on('cycle', function(event) {
     console.log(String(event.target));
@@ -52,7 +50,33 @@ var s1 = new Suite()
 
 console.log();
 
-var s2 = new Suite()
+new Suite()
+  .add('Dummy#unshift', function() {
+    doTimes(ClassicLinkedList, 'unshift');
+  })
+  .add('ArrayNode#unshift', function() {
+    doTimes(ArrayNodeLinkedList, 'unshift');
+  })
+  .add('Classic#unshift', function() {
+    doTimes(ClassicLinkedList, 'unshift');
+  })
+  .add('ClassNode#unshift', function() {
+    doTimes(ClassNodeLinkedList, 'unshift');
+  })
+  .add('ObjectNull#unshift', function() {
+    doTimes(ObjectNullLinkedList, 'unshift');
+  })
+  .on('cycle', function(event) {
+    console.log(String(event.target));
+  })
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').map('name'));
+  })
+  .run();
+
+console.log();
+
+new Suite()
   .on('start', function() {
     classic = new ClassicLinkedList();
     arrayNode = new ArrayNodeLinkedList();
@@ -65,6 +89,9 @@ var s2 = new Suite()
       classNode.push(Math.random());
       objectNull.push(Math.random());
     }
+  })
+  .add('Dummy#toArray', function() {
+    classic.toArray();
   })
   .add('Classic#toArray', function() {
     classic.toArray();

@@ -9,6 +9,12 @@ function ClassNodeLinkedList() {
   this.size = 0;
 }
 
+ClassNodeLinkedList.prototype.clear = function() {
+  this.head = null;
+  this.tail = null;
+  this.size = 0;
+};
+
 ClassNodeLinkedList.prototype.push = function(item) {
   var node = new Node(item);
 
@@ -21,6 +27,27 @@ ClassNodeLinkedList.prototype.push = function(item) {
   else {
     this.tail.next = node;
     this.tail = node;
+  }
+
+  this.size++;
+
+  return node;
+};
+
+ClassNodeLinkedList.prototype.unshift = function(item) {
+  var node = new Node(item);
+
+  if (!this.head) {
+    this.head = node;
+  }
+  if (!this.tail) {
+    this.tail = node;
+  }
+  else {
+    if (!this.head.next)
+      this.tail = this.head;
+    node.next = this.head;
+    this.head = node;
   }
 
   this.size++;
