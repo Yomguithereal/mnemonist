@@ -9,6 +9,7 @@
     "test": "mocha"
   },
   "files": [
+    "docs",
     "heap.js",
     "index.js",
     "linked-list.js",
