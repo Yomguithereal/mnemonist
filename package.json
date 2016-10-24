@@ -1,6 +1,6 @@
 {
   "name": "mnemonist",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Collection of classic data structures for JavaScript.",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,8 @@
   },
   "files": [
     "docs",
+    "utils",
+    "fibonacci-heap.js",
     "heap.js",
     "index.js",
     "linked-list.js",
@@ -24,6 +26,7 @@
     "data structures",
     "structures",
     "heap",
+    "fibonacci heap",
     "stack",
     "queue",
     "linked list",

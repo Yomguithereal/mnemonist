@@ -1,15 +1,15 @@
 /**
- * Mnemonist Heap Unit Tests
+ * Mnemonist FibonacciHeap Unit Tests
  * ==========================
  */
 var assert = require('assert'),
-    Heap = require('../heap.js'),
-    MaxHeap = Heap.MaxHeap;
+    FibonacciHeap = require('../fibonacci-heap.js'),
+    MaxFibonacciHeap = FibonacciHeap.MaxFibonacciHeap;
 
-describe('Heap', function() {
+describe('FibonacciHeap', function() {
 
   it('should be possible to add items to the heap.', function() {
-    var heap = new Heap();
+    var heap = new FibonacciHeap();
 
     heap.push('hello');
     heap.push('world');
@@ -18,7 +18,7 @@ describe('Heap', function() {
   });
 
   it('should be possible to peek the heap.', function() {
-    var heap = new Heap();
+    var heap = new FibonacciHeap();
 
     assert.strictEqual(heap.peek(), undefined);
 
@@ -33,7 +33,7 @@ describe('Heap', function() {
   });
 
   it('should be possible to pop the heap.', function() {
-    var heap = new Heap();
+    var heap = new FibonacciHeap();
 
     heap.push(3);
     heap.push(34);
@@ -55,7 +55,7 @@ describe('Heap', function() {
   });
 
   it('should be possible to create a max heap.', function() {
-    var heap = new MaxHeap();
+    var heap = new MaxFibonacciHeap();
 
     heap.push(3);
     heap.push(34);

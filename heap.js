@@ -4,29 +4,10 @@
  *
  * Binary heap implementation.
  */
+var comparators = require('./utils/heap-comparators.js');
 
-/**
- * Defaults.
- */
-var DEFAULT_COMPARATOR = function(a, b) {
-  if (a < b)
-    return -1;
-  if (a > b)
-    return 1;
-
-  return 0;
-};
-
-/**
- * Function used to reverse a comparator.
- */
-function reverseComparator(comparator) {
-  return function(a, b) {
-    return comparator(b, a);
-  };
-}
-
-var DEFAULT_REVERSED_COMPARATOR = reverseComparator(DEFAULT_COMPARATOR);
+var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
+    DEFAULT_REVERSED_COMPARATOR = comparators.DEFAULT_REVERSED_COMPARATOR;
 
 /**
  * Binary Minimum Heap.
@@ -148,6 +129,9 @@ Heap.prototype.peek = function() {
  * @return {any}
  */
 Heap.prototype.pop = function() {
+  if (!this.size)
+    return undefined;
+
   var item = this.items[0],
       last = this.items.pop();
 

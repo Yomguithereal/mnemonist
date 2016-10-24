@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+* Adding `FibonacciHeap`.
+* Fixing bug related to `Heap`.
+
 ## 0.2.0
 
 * Adding `Trie`.
