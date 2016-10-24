@@ -17,6 +17,7 @@ var Trie = require('mnemonist/trie');
 * [#.has](#has)
 * [#.get](#get)
 * [#.longestPrefix](#longestprefix)
+* [#.toObject](#toobject)
 
 ### #.size
 
@@ -95,7 +96,7 @@ trie.get('hel');
 
 ### #.longestPrefix
 
-Returns the longest matched prefix in the trie for the given item.
+Returns the longest matching prefix in the trie for the given item.
 
 ```js
 var trie = new Trie();
@@ -104,3 +105,4 @@ trie.add('roman');
 trie.longestPrefix('romanesque');
 >>> 'roman'
 ```
+
