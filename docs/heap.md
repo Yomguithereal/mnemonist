@@ -50,7 +50,7 @@ Retrieve & remove the min item of the heap (or the max item in case of a `MaxHea
 `O(log n)`
 
 ```js
-var heap = new heap();
+var heap = new Heap();
 
 heap.push(4);
 heap.push(34);
@@ -70,7 +70,7 @@ Completely clears the heap.
 `O(1)`
 
 ```js
-var heap = new heap();
+var heap = new Heap();
 
 heap.push(34);
 heap.clear();
