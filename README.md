@@ -22,6 +22,7 @@ npm install --save mnemonist
 * [Heap](docs/heap.md)
 * [Linked List](docs/linked-list.md)
 * [Stack](docs/stack.md)
+* [Trie](docs/trie.md)
 
 ## Contribution
 

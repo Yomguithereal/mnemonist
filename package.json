@@ -12,7 +12,8 @@
     "heap.js",
     "index.js",
     "linked-list.js",
-    "stack.js"
+    "stack.js",
+    "trie.js"
   ],
   "repository": {
     "type": "git",
@@ -24,7 +25,8 @@
     "heap",
     "stack",
     "queue",
-    "linked list"
+    "linked list",
+    "trie"
   ],
   "author": {
     "name": "Guillaume Plique",

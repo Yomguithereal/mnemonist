@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+* Adding `Trie`.
+
 ## 0.1.0
 
 * Adding `Heap`.
