@@ -17,7 +17,6 @@ var Trie = require('mnemonist/trie');
 * [#.has](#has)
 * [#.get](#get)
 * [#.longestPrefix](#longestprefix)
-* [#.toObject](#toobject)
 
 ### #.size
 
