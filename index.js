@@ -6,6 +6,8 @@
  * of this library should prefer the modular access though.
  */
 module.exports = {
+  Heap: require('./heap.js'),
   LinkedList: require('./linked-list.js'),
-  Stack: require('./stack.js')
+  Stack: require('./stack.js'),
+  Trie: require('./trie.js')
 };
