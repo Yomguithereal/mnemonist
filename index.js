@@ -9,6 +9,7 @@ module.exports = {
   FibonacciHeap: require('./fibonacci-heap.js'),
   Heap: require('./heap.js'),
   LinkedList: require('./linked-list.js'),
+  Queue: require('./queue.js'),
   Stack: require('./stack.js'),
   Trie: require('./trie.js')
 };

@@ -2,6 +2,7 @@
 
 ## 0.4.0
 
+* Adding `Queue`.
 * Adding possibility to pass custom comparator to `Heap` & `FibonacciHeap`.
 
 ## 0.3.0

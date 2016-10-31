@@ -4,7 +4,7 @@
   "description": "Collection of classic data structures for JavaScript.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./*.js ./benchmark ./utils ./test",
+    "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm test",
     "test": "mocha"
   },
@@ -15,6 +15,7 @@
     "heap.js",
     "index.js",
     "linked-list.js",
+    "queue.js",
     "stack.js",
     "trie.js"
   ],

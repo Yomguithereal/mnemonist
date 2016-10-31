@@ -64,7 +64,7 @@ Completely clears the stack.
 ```js
 var stack = new Stack();
 
-stack.unshift(1);
+stack.push(1);
 stack.clear();
 stack.toArray();
 >>> []
