@@ -4,7 +4,7 @@
   "description": "Collection of classic data structures for JavaScript.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./*.js ./benchmark ./test",
+    "lint": "eslint ./*.js ./benchmark ./utils ./test",
     "prepublish": "npm test",
     "test": "mocha"
   },

@@ -22,10 +22,8 @@ function reverseComparator(comparator) {
   };
 }
 
-var DEFAULT_REVERSED_COMPARATOR = reverseComparator(DEFAULT_COMPARATOR);
-
 /**
  * Exporting.
  */
 exports.DEFAULT_COMPARATOR = DEFAULT_COMPARATOR;
-exports.DEFAULT_REVERSED_COMPARATOR = DEFAULT_REVERSED_COMPARATOR;
+exports.reverseComparator = reverseComparator;

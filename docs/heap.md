@@ -9,6 +9,18 @@ var Heap = require('mnemonist/heap');
 // To access min/max heap
 var MinHeap = require('mnemonist/heap').MinHeap;
 var MaxHeap = require('mnemonist/heap').MaxHeap;
+
+// To create a heap:
+var heap = new Heap();
+
+// With a custom comparator:
+var heap = new Heap(function(a, b) {
+  if (a.value < b.value)
+    return -1;
+  if (a.value > b.value)
+    return 1;
+  return 0;
+});
 ```
 
 ## Members

@@ -7,16 +7,19 @@
 var comparators = require('./utils/heap-comparators.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
-    DEFAULT_REVERSED_COMPARATOR = comparators.DEFAULT_REVERSED_COMPARATOR;
+    reverseComparator = comparators.reverseComparator;
 
 /**
  * Binary Minimum Heap.
  *
  * @constructor
  */
-function Heap() {
+function Heap(comparator) {
   this.clear();
-  this.comparator = DEFAULT_COMPARATOR;
+  this.comparator = comparator || DEFAULT_COMPARATOR;
+
+  if (typeof this.comparator !== 'function')
+    throw new Error('mnemonist/Heap.constructor: given comparator should be a function.');
 }
 
 /**
@@ -150,9 +153,14 @@ Heap.prototype.pop = function() {
  *
  * @constructor
  */
-function MaxHeap() {
+function MaxHeap(comparator) {
   this.clear();
-  this.comparator = DEFAULT_REVERSED_COMPARATOR;
+  this.comparator = comparator || DEFAULT_COMPARATOR;
+
+  if (typeof this.comparator !== 'function')
+    throw new Error('mnemonist/Heap.constructor: given comparator should be a function.');
+
+  this.comparator = reverseComparator(this.comparator);
 }
 
 MaxHeap.prototype = Heap.prototype;

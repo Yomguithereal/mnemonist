@@ -8,16 +8,19 @@
 var comparators = require('./utils/heap-comparators.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
-    DEFAULT_REVERSED_COMPARATOR = comparators.DEFAULT_REVERSED_COMPARATOR;
+    reverseComparator = comparators.reverseComparator;
 
 /**
  * Fibonacci Heap.
  *
  * @constructor
  */
-function FibonacciHeap() {
+function FibonacciHeap(comparator) {
   this.clear();
-  this.comparator = DEFAULT_COMPARATOR;
+  this.comparator = comparator || DEFAULT_COMPARATOR;
+
+  if (typeof this.comparator !== 'function')
+    throw new Error('mnemonist/FibonacciHeap.constructor: given comparator should be a function.');
 }
 
 /**
@@ -245,9 +248,14 @@ FibonacciHeap.prototype.pop = function() {
  *
  * @constructor
  */
-function MaxFibonacciHeap() {
+function MaxFibonacciHeap(comparator) {
   this.clear();
-  this.comparator = DEFAULT_REVERSED_COMPARATOR;
+  this.comparator = comparator || DEFAULT_COMPARATOR;
+
+  if (typeof this.comparator !== 'function')
+    throw new Error('mnemonist/FibonacciHeap.constructor: given comparator should be a function.');
+
+  this.comparator = reverseComparator(this.comparator);
 }
 
 MaxFibonacciHeap.prototype = FibonacciHeap.prototype;

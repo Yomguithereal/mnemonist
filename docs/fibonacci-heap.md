@@ -9,6 +9,18 @@ var FibonacciHeap = require('mnemonist/fibonacci-heap');
 // To access min/max fibonacci heap
 var MinFibonacciHeap = require('mnemonist/fibonacci-heap').MinFibonacciHeap;
 var MaxFibonacciHeap = require('mnemonist/fibonacci-heap').MaxFibonacciHeap;
+
+// To create a heap:
+var heap = new FibonacciHeap();
+
+// With a custom comparator:
+var heap = new FibonacciHeap(function(a, b) {
+  if (a.value < b.value)
+    return -1;
+  if (a.value > b.value)
+    return 1;
+  return 0;
+});
 ```
 
 ## Members
