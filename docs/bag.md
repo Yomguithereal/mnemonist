@@ -8,10 +8,8 @@ var Bag = require('mnemonist/bag');
 
 ## Members
 
-* [#.max](#max)
-* [#.min](#min)
 * [#.size](#size)
-* [#.total](#total)
+* [#.sum](#sum)
 
 ## Methods
 
@@ -23,4 +21,3 @@ var Bag = require('mnemonist/bag');
 * [#.has](#has)
 * [#.remove](#remove) - weight
 * [#.set](#set)
-* [#.toObject](#toobject)
