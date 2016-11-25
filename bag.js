@@ -31,22 +31,22 @@ Bag.prototype.clear = function() {
  * Method used to add an item to the bag.
  *
  * @param  {any}    item   - Item to add.
- * @param  {number} weight - Optional weight.
+ * @param  {number} count  - Optional count.
  * @return {Bag}
  */
-Bag.prototype.add = function(item, weight) {
+Bag.prototype.add = function(item, count) {
   if (arguments.length < 2)
-    weight = 1;
+    count = 1;
 
-  var currentWeight = this.items.get(item) || 0,
-      newWeight = currentWeight + weight;
+  var currentCount = this.items.get(item) || 0,
+      newCount = currentCount + count;
 
   if (!this.items.has(item))
     this.size++;
 
-  this.items.set(item, newWeight);
+  this.items.set(item, newCount);
 
-  this.sum += weight;
+  this.sum += count;
 
   return this;
 };
@@ -72,21 +72,21 @@ Bag.prototype.has = function(item) {
 };
 
 /**
- * Method used to set the weight of the given item.
+ * Method used to set the count of the given item.
  *
- * @param  {any}     item - Item to check.
- * @param  {number}  weight - Weight to set.
+ * @param  {any}     item  - Item to check.
+ * @param  {number}  count - Weight to set.
  * @return {Bag}
  */
-Bag.prototype.set = function(item, weight) {
+Bag.prototype.set = function(item, count) {
   if (!this.items.has(item))
-    return this.add(item, weight);
+    return this.add(item, count);
 
-  var currentWeight = this.items.get(item),
-      delta = weight - currentWeight;
+  var currentCount = this.items.get(item),
+      delta = count - currentCount;
 
   this.sum += delta;
-  this.items.set(item, weight);
+  this.items.set(item, count);
 
   return this;
 };
@@ -101,10 +101,10 @@ Bag.prototype.delete = function(item) {
   if (!this.items.has(item))
     return false;
 
-  var weight = this.count(item);
+  var count = this.count(item);
 
   this.size--;
-  this.sum -= weight;
+  this.sum -= count;
   this.items.delete(item);
   return true;
 };
@@ -112,27 +112,29 @@ Bag.prototype.delete = function(item) {
 /**
  * Method used to add an item to the bag.
  *
- * @param  {any}    item   - Item to add.
- * @param  {number} weight - Optional weight.
+ * @param  {any}    item  - Item to add.
+ * @param  {number} count - Optional count.
  * @return {boolean}
  */
-Bag.prototype.remove = function(item, weight) {
-  if (arguments < 2)
-    weight = 1;
+Bag.prototype.remove = function(item, count) {
+  if (arguments.length < 2)
+    count = 1;
 
   if (!this.items.has(item))
     return false;
 
-  var currentWeight = this.count(item),
-      newWeight = currentWeight - weight;
+  var currentCount = this.count(item),
+      newCount = Math.max(0, currentCount - count);
 
-  if (!newWeight)
+  if (!newCount) {
     this.items.delete(item);
-  else
-    this.items.set(item, newWeight);
+    this.size--;
+  }
+  else {
+    this.items.set(item, newCount);
+  }
 
-  this.size--;
-  this.sum -= weight;
+  this.sum -= Math.min(this.sum, count);
 
   return true;
 };
@@ -144,8 +146,10 @@ Bag.prototype.remove = function(item, weight) {
  * @param  {any}       scope    - Optional scope.
  * @return {undefined}
  */
-Bag.prototype.forEach = function() {
-  return this.items.forEach.apply(this.items, arguments);
+Bag.prototype.forEach = function(callback, scope) {
+  scope = arguments.length > 1 ? scope : this;
+
+  return this.items.forEach.call(this.items, callback, scope);
 };
 
 /**
