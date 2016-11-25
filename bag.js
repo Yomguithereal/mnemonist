@@ -140,19 +140,6 @@ Bag.prototype.remove = function(item, count) {
 };
 
 /**
- * Method used to iterate over the bag.
- *
- * @param  {function}  callback - Iteration callback.
- * @param  {any}       scope    - Optional scope.
- * @return {undefined}
- */
-Bag.prototype.forEach = function(callback, scope) {
-  scope = arguments.length > 1 ? scope : this;
-
-  return this.items.forEach.call(this.items, callback, scope);
-};
-
-/**
  * Convenience known methods.
  */
 Bag.prototype.inspect = function() {

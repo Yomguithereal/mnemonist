@@ -95,23 +95,4 @@ describe('Bag', function() {
     assert.strictEqual(bag.sum, 0);
     assert.strictEqual(bag.has('hello'), false);
   });
-
-  it('should be possible to iterate over a bag.', function() {
-    var bag = new Bag();
-
-    bag.add(1);
-    bag.add(2);
-    bag.add(3);
-
-    var times = 0;
-
-    bag.forEach(function(count, item) {
-      assert.strictEqual(item, times + 1);
-      assert.strictEqual(count, 1);
-      assert.strictEqual(bag, this);
-      times++;
-    });
-
-    assert.strictEqual(times, 3);
-  });
 });

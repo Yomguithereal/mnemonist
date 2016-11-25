@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+* Adding `Bag`.
+
 ## 0.4.0
 
 * Adding `Queue`.
