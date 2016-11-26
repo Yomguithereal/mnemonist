@@ -1,16 +1,16 @@
 /**
- * Mnemonist Bag
- * ==============
+ * Mnemonist MultiSet
+ * ===================
  *
- * Bag implementation.
+ * MultiSet implementation.
  */
 
 /**
- * Bag.
+ * MultiSet.
  *
  * @constructor
  */
-function Bag() {
+function MultiSet() {
   this.clear();
 }
 
@@ -19,12 +19,12 @@ function Bag() {
  *
  * @return {undefined}
  */
-Bag.prototype.clear = function() {
+MultiSet.prototype.clear = function() {
 
   // Properties
   this.items = new Map();
+  this.distinctSize = 0;
   this.size = 0;
-  this.sum = 0;
 };
 
 /**
@@ -32,9 +32,9 @@ Bag.prototype.clear = function() {
  *
  * @param  {any}    item   - Item to add.
  * @param  {number} count  - Optional count.
- * @return {Bag}
+ * @return {MultiSet}
  */
-Bag.prototype.add = function(item, count) {
+MultiSet.prototype.add = function(item, count) {
   if (arguments.length < 2)
     count = 1;
 
@@ -42,11 +42,11 @@ Bag.prototype.add = function(item, count) {
       newCount = currentCount + count;
 
   if (!this.items.has(item))
-    this.size++;
+    this.distinctSize++;
 
   this.items.set(item, newCount);
 
-  this.sum += count;
+  this.size += count;
 
   return this;
 };
@@ -57,7 +57,7 @@ Bag.prototype.add = function(item, count) {
  * @param  {any}    item - Item to count.
  * @return {number}
  */
-Bag.prototype.count = function(item) {
+MultiSet.prototype.count = function(item) {
   return this.items.get(item) || 0;
 };
 
@@ -67,7 +67,7 @@ Bag.prototype.count = function(item) {
  * @param  {any}     item - Item to check.
  * @return {boolean}
  */
-Bag.prototype.has = function(item) {
+MultiSet.prototype.has = function(item) {
   return this.items.has(item);
 };
 
@@ -76,16 +76,16 @@ Bag.prototype.has = function(item) {
  *
  * @param  {any}     item  - Item to check.
  * @param  {number}  count - Weight to set.
- * @return {Bag}
+ * @return {MultiSet}
  */
-Bag.prototype.set = function(item, count) {
+MultiSet.prototype.set = function(item, count) {
   if (!this.items.has(item))
     return this.add(item, count);
 
   var currentCount = this.items.get(item),
       delta = count - currentCount;
 
-  this.sum += delta;
+  this.size += delta;
   this.items.set(item, count);
 
   return this;
@@ -97,14 +97,14 @@ Bag.prototype.set = function(item, count) {
  * @param  {any}     item - Item to count.
  * @return {boolean}
  */
-Bag.prototype.delete = function(item) {
+MultiSet.prototype.delete = function(item) {
   if (!this.items.has(item))
     return false;
 
   var count = this.count(item);
 
-  this.size--;
-  this.sum -= count;
+  this.distinctSize--;
+  this.size -= count;
   this.items.delete(item);
   return true;
 };
@@ -116,7 +116,7 @@ Bag.prototype.delete = function(item) {
  * @param  {number} count - Optional count.
  * @return {boolean}
  */
-Bag.prototype.remove = function(item, count) {
+MultiSet.prototype.remove = function(item, count) {
   if (arguments.length < 2)
     count = 1;
 
@@ -128,13 +128,13 @@ Bag.prototype.remove = function(item, count) {
 
   if (!newCount) {
     this.items.delete(item);
-    this.size--;
+    this.distinctSize--;
   }
   else {
     this.items.set(item, newCount);
   }
 
-  this.sum -= Math.min(this.sum, count);
+  this.size -= Math.min(this.size, count);
 
   return true;
 };
@@ -142,12 +142,12 @@ Bag.prototype.remove = function(item, count) {
 /**
  * Convenience known methods.
  */
-Bag.prototype.inspect = function() {
+MultiSet.prototype.inspect = function() {
   var map = this.items;
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(map, 'constructor', {
-    value: Bag,
+    value: MultiSet,
     enumerable: false
   });
 
@@ -157,4 +157,4 @@ Bag.prototype.inspect = function() {
 /**
  * Exporting.
  */
-module.exports = Bag;
+module.exports = MultiSet;

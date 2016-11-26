@@ -11,11 +11,11 @@
   "files": [
     "docs",
     "utils",
-    "bag.js",
     "fibonacci-heap.js",
     "heap.js",
     "index.js",
     "linked-list.js",
+    "multiset.js",
     "queue.js",
     "stack.js",
     "trie.js"
