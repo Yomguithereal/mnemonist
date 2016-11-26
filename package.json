@@ -18,6 +18,7 @@
     "multiset.js",
     "queue.js",
     "stack.js",
+    "suffix-tree.js",
     "trie.js"
   ],
   "repository": {
@@ -35,7 +36,8 @@
     "trie",
     "bag",
     "multiset",
-    "counter"
+    "counter",
+    "suffix tree"
   ],
   "author": {
     "name": "Guillaume Plique",

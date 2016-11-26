@@ -8,7 +8,7 @@
 /**
  * Constants.
  */
-var DEFAULT_END_FLAG = 'end';
+var SENTINEL = 'end';
 
 /**
  * Trie.
@@ -17,7 +17,7 @@ var DEFAULT_END_FLAG = 'end';
  */
 function Trie() {
   this.clear();
-  this.end = DEFAULT_END_FLAG;
+  this.end = SENTINEL;
 }
 
 /**
