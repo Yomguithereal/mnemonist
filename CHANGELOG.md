@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+* Better `Trie` sentinel.
+
 ## 0.5.0
 
 * Adding `Bag`.
