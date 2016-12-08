@@ -8,7 +8,7 @@
 /**
  * Constants.
  */
-var SENTINEL = 'end';
+var SENTINEL = '\uE000';
 
 /**
  * Trie.

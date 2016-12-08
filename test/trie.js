@@ -26,16 +26,16 @@ describe('Trie', function() {
         a: {
           t: {
             e: {
-              end: true
+              '\uE000': true
             },
-            end: true
+            '\uE000': true
           }
         }
       },
       t: {
         a: {
           r: {
-            end: true
+            '\uE000': true
           }
         }
       }
@@ -61,7 +61,7 @@ describe('Trie', function() {
         a: {
           t: {
             e: {
-              end: true
+              '\uE000': true
             }
           }
         }
@@ -69,7 +69,7 @@ describe('Trie', function() {
       t: {
         a: {
           r: {
-            end: true
+            '\uE000': true
           }
         }
       }
@@ -83,7 +83,7 @@ describe('Trie', function() {
       t: {
         a: {
           r: {
-            end: true
+            '\uE000': true
           }
         }
       }
@@ -151,7 +151,7 @@ describe('Trie', function() {
           eats: {
             the: {
               mouse: {
-                end: true
+                '\uE000': true
               }
             }
           }
@@ -159,14 +159,14 @@ describe('Trie', function() {
         mouse: {
           eats: {
             cheese: {
-              end: true
+              '\uE000': true
             }
           }
         }
       },
       hello: {
         world: {
-          end: true
+          '\uE000': true
         }
       }
     });
