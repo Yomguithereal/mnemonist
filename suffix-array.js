@@ -25,6 +25,11 @@
  */
 
 /**
+ * Constants.
+ */
+var SEPARATOR = '\u0001';
+
+/**
  * Function used to sort the triples.
  *
  * @param {string|array} string - Padded sequence.
@@ -200,6 +205,7 @@ function convert(target) {
 function SuffixArray(string) {
 
   // Properties
+  this.hasArbitrarySequence = typeof string !== 'string';
   this.string = string;
   this.length = string.length;
 
@@ -234,6 +240,107 @@ SuffixArray.prototype.inspect = function() {
 };
 
 /**
+ * Generalized Suffix Array.
+ *
+ * @constructor
+ */
+function GeneralizedSuffixArray(strings) {
+
+  // Properties
+  this.hasArbitrarySequence = typeof strings[0] !== 'string';
+  this.size = strings.length;
+
+  if (this.hasArbitrarySequence) {
+    this.text = [];
+
+    for (var i = 0, l = this.size; i < l; i++) {
+      this.text.push.apply(this.text, strings[i]);
+
+      if (i < l - 1)
+        this.text.push(SEPARATOR);
+    }
+  }
+  else {
+    this.text = strings.join(SEPARATOR);
+  }
+
+  this.firstLength = strings[0].length;
+  this.length = this.text.length;
+
+  // Building the array
+  this.array = build(convert(this.text), this.length);
+}
+
+/**
+ * Method used to retrieve the longest common subsequence of the generalized
+ * suffix array.
+ *
+ * @return {string|array}
+ */
+GeneralizedSuffixArray.prototype.longestCommonSubsequence = function() {
+  var lcs = this.hasArbitrarySequence ? [] : '',
+      lcp,
+      i,
+      j,
+      s,
+      t;
+
+  for (i = 1; i < this.length; i++) {
+    s = this.array[i];
+    t = this.array[i - 1];
+
+    if (s < this.firstLength &&
+        t < this.firstLength)
+      continue;
+
+    if (s > this.firstLength &&
+        t > this.firstLength)
+      continue;
+
+    lcp = Math.min(this.length - s, this.length - t);
+
+    for (j = 0; j < lcp; j++) {
+      if (this.text[s + j] !== this.text[t + j]) {
+        lcp = j;
+        break;
+      }
+    }
+
+    if (lcp > lcs.length)
+      lcs = this.text.slice(s, s + lcp);
+  }
+
+  return lcs;
+};
+
+/**
+ * Convenience known methods.
+ */
+GeneralizedSuffixArray.prototype.toString = function() {
+  return this.array.join(',');
+};
+
+GeneralizedSuffixArray.prototype.toJSON = function() {
+  return this.array;
+};
+
+GeneralizedSuffixArray.prototype.inspect = function() {
+  var array = new Array(this.length);
+
+  for (var i = 0; i < this.length; i++)
+    array[i] = this.text.slice(this.array[i]);
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(array, 'constructor', {
+    value: GeneralizedSuffixArray,
+    enumerable: false
+  });
+
+  return array;
+};
+
+/**
  * Exporting.
  */
+SuffixArray.GeneralizedSuffixArray = GeneralizedSuffixArray;
 module.exports = SuffixArray;

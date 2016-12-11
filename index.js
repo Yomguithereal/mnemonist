@@ -20,5 +20,6 @@ module.exports = {
   Queue: require('./queue.js'),
   Stack: require('./stack.js'),
   SuffixArray: SuffixArray,
+  GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,
   Trie: require('./trie.js')
 };

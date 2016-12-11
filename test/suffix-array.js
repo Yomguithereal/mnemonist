@@ -4,7 +4,8 @@
  * ==========================
  */
 var assert = require('assert'),
-    SuffixArray = require('../suffix-array.js');
+    SuffixArray = require('../suffix-array.js'),
+    GeneralizedSuffixArray = SuffixArray.GeneralizedSuffixArray;
 
 describe('SuffixArray', function() {
 
@@ -38,5 +39,52 @@ describe('SuffixArray', function() {
     assert.strictEqual(sa.length, 6);
     assert.deepEqual(sa.string, 'banana'.split(''));
     assert.deepEqual(sa.array, [5, 3, 1, 0, 4, 2]);
+  });
+});
+
+describe('GeneralizedSuffixArray', function() {
+
+  it('should produce the correct array.', function() {
+    var sa = new GeneralizedSuffixArray(['banana', 'ananas']);
+
+    assert.strictEqual(sa.length, 13);
+    assert.strictEqual(sa.size, 2);
+    assert.deepEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
+  });
+
+  it('should also work with arbitrary sequences.', function() {
+    var sa = new GeneralizedSuffixArray(['banana', 'ananas'].map(function(item) {
+      return item.split('');
+    }));
+
+    assert.strictEqual(sa.length, 13);
+    assert.strictEqual(sa.size, 2);
+    assert.deepEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
+  });
+
+  it('should be possible to extract the longest common subsequence.', function() {
+    var sa = new GeneralizedSuffixArray(['banana', 'ananas']);
+
+    assert.strictEqual(
+      sa.longestCommonSubsequence(),
+      'anana'
+    );
+
+    sa = new GeneralizedSuffixArray(['abcd', 'cdef']);
+
+    assert.strictEqual(
+      sa.longestCommonSubsequence(),
+      'cd'
+    );
+
+    sa = new GeneralizedSuffixArray([
+      ['the', 'cat', 'eats', 'the', 'mouse'],
+      ['the', 'mouse', 'eats', 'cheese']
+    ]);
+
+    assert.deepEqual(
+      sa.longestCommonSubsequence(),
+      ['the', 'mouse']
+    );
   });
 });
