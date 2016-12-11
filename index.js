@@ -5,11 +5,20 @@
  * Exporting every data structure through a unified endpoint. Consumers
  * of this library should prefer the modular access though.
  */
+var Heap = require('./heap.js'),
+    FibonacciHeap = require('./fibonacci-heap.js'),
+    SuffixArray = require('./suffix-array.js');
+
 module.exports = {
-  FibonacciHeap: require('./fibonacci-heap.js'),
-  Heap: require('./heap.js'),
+  FibonacciHeap: FibonacciHeap,
+  MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
+  MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,
+  Heap: Heap,
+  MinHeap: Heap.MinHeap,
+  MaxHeap: Heap.MaxHeap,
   LinkedList: require('./linked-list.js'),
   Queue: require('./queue.js'),
   Stack: require('./stack.js'),
+  SuffixArray: SuffixArray,
   Trie: require('./trie.js')
 };

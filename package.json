@@ -18,7 +18,7 @@
     "multiset.js",
     "queue.js",
     "stack.js",
-    "suffix-tree.js",
+    "suffix-array.js",
     "trie.js"
   ],
   "repository": {

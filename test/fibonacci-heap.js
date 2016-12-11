@@ -1,7 +1,7 @@
 /* eslint no-new: 0 */
 /**
  * Mnemonist FibonacciHeap Unit Tests
- * ==========================
+ * ===================================
  */
 var assert = require('assert'),
     FibonacciHeap = require('../fibonacci-heap.js'),

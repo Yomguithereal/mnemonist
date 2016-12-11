@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Mnemonist Trie Unit Tests
  * ==========================
