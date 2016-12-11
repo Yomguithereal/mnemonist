@@ -24,8 +24,13 @@
  * https://github.com/tixxit/suffixarray/blob/master/suffixarray.js
  */
 
-// TODO: docs
-
+/**
+ * Function used to sort the triples.
+ *
+ * @param {string|array} string - Padded sequence.
+ * @param {array}        array  - Array to sort (will be mutated).
+ * @param {number}       offset - Index offset.
+ */
 function sort(string, array, offset) {
   var l = array.length,
       buckets = [],
@@ -52,6 +57,9 @@ function sort(string, array, offset) {
   }
 }
 
+/**
+ * Comparison helper.
+ */
 function compare(string, lookup, m, n) {
   return (
     (string[m] - string[n]) ||
@@ -61,6 +69,13 @@ function compare(string, lookup, m, n) {
   );
 }
 
+/**
+ * Recursive function used to build the suffix tree in linear time.
+ *
+ * @param  {string|array} string - Padded sequence.
+ * @param  {number}       l      - True length of sequence (unpadded).
+ * @return {array}
+ */
 function build(string, l) {
   var a = [],
       b = [],
@@ -218,4 +233,7 @@ SuffixArray.prototype.inspect = function() {
   return array;
 };
 
+/**
+ * Exporting.
+ */
 module.exports = SuffixArray;
