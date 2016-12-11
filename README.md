@@ -24,6 +24,7 @@ npm install --save mnemonist
 * [Linked List](docs/linked-list.md)
 * [Queue](docs/queue.md)
 * [Stack](docs/stack.md)
+* [Suffix Arrays](docs/suffix-array.md)
 * [Trie](docs/trie.md)
 
 ## Contribution

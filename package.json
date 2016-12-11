@@ -1,6 +1,6 @@
 {
   "name": "mnemonist",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Collection of classic data structures for JavaScript.",
   "main": "index.js",
   "scripts": {
