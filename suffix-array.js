@@ -130,26 +130,28 @@ function build(string, l) {
   return result;
 }
 
-// TODO: possibility to pass alphabet
-function SuffixArray(string) {
-
-  // Properties
-  this.string = string;
-  this.length = string.length;
+/**
+ * Function used to create the array we are going to work on.
+ *
+ * @param  {string|array} target - Target sequence.
+ * @return {array}
+ */
+function convert(target) {
 
   // Creating the alphabet array
-  var paddingOffset = this.length % 3,
-      array = new Array(this.length + paddingOffset),
+  var length = target.length,
+      paddingOffset = length % 3,
+      array = new Array(length + paddingOffset),
       l,
       i;
 
   // If we have an arbitrary sequence, we need to transform it
-  if (typeof string !== 'string') {
+  if (typeof target !== 'string') {
     var uniqueTokens = Object.create(null);
 
-    for (i = 0; i < this.length; i++) {
-      if (!uniqueTokens[string[i]])
-        uniqueTokens[string[i]] = true;
+    for (i = 0; i < length; i++) {
+      if (!uniqueTokens[target[i]])
+        uniqueTokens[target[i]] = true;
     }
 
     var alphabet = Object.create(null),
@@ -158,26 +160,49 @@ function SuffixArray(string) {
     for (i = 0, l = sortedUniqueTokens.length; i < l; i++)
       alphabet[sortedUniqueTokens[i]] = i + 1;
 
-    for (i = 0; i < this.length; i++) {
-      array[i] = alphabet[string[i]];
+    for (i = 0; i < length; i++) {
+      array[i] = alphabet[target[i]];
     }
   }
   else {
-    for (i = 0; i < this.length; i++)
-      array[i] = string.charCodeAt(i);
+    for (i = 0; i < length; i++)
+      array[i] = target.charCodeAt(i);
   }
 
   // Padding the array
   for (; i < paddingOffset; i++)
     array[i] = 0;
 
+  return array;
+}
+
+/**
+ * Suffix Array.
+ *
+ * @constructor
+ * @param {string|array} string - Sequence for which to build the suffix array.
+ */
+function SuffixArray(string) {
+
+  // Properties
+  this.string = string;
+  this.length = string.length;
+
   // Building the array
-  this.array = build(array, this.length);
+  this.array = build(convert(string), this.length);
 }
 
 /**
  * Convenience known methods.
  */
+SuffixArray.prototype.toString = function() {
+  return this.array.join(',');
+};
+
+SuffixArray.prototype.toJSON = function() {
+  return this.array;
+};
+
 SuffixArray.prototype.inspect = function() {
   var array = new Array(this.length);
 
