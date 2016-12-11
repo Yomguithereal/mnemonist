@@ -26,8 +26,7 @@
 
 // TODO: docs
 
-// TODO: optimize sort not to use key function
-function sort(array, key) {
+function sort(string, array, offset) {
   var l = array.length,
       buckets = [],
       i = l,
@@ -37,7 +36,7 @@ function sort(array, key) {
       bits;
 
   while (i--)
-    j = Math.max(key(array[i]), j);
+    j = Math.max(string[array[i] + offset], j);
 
   bits = j >> 24 && 32 || j >> 16 && 24 || j >> 8 && 16 || 8;
 
@@ -45,7 +44,7 @@ function sort(array, key) {
     for (i = 16; i--;)
       buckets[i] = [];
     for (i = l; i--;)
-      buckets[(key(array[i]) >> d) & 15].push(array[i]);
+      buckets[((string[array[i] + offset]) >> d) & 15].push(array[i]);
     for (b = 0; b < 16; b++) {
       for (j = buckets[b].length; j--;)
         array[++i] = buckets[b][j];
@@ -81,9 +80,7 @@ function build(string, l) {
     a[i] = ((i * 3) >> 1) + 1;
 
   for (i = 3; i--;)
-    sort(a, function(j) {
-      return string[i + j];
-    });
+    sort(string, a, i);
 
   j = b[((a[0] / 3) | 0) + (a[0] % 3 === 1 ? 0 : r)] = 1;
 
@@ -115,9 +112,7 @@ function build(string, l) {
       b.push(a[i] - 1);
   }
 
-  sort(b, function(j) {
-    return string[j];
-  });
+  sort(string, b, 0);
 
   for (i = 0, j = 0, k = 0; i < al && j < bl;)
     result[k++] = (
