@@ -22,6 +22,7 @@ npm install --save mnemonist
 * [Fibonacci Heap](docs/fibonacci-heap.md)
 * [Heap](docs/heap.md)
 * [Linked List](docs/linked-list.md)
+* [MultiSet](docs/multiset.md)
 * [Queue](docs/queue.md)
 * [Stack](docs/stack.md)
 * [Suffix Arrays](docs/suffix-array.md)

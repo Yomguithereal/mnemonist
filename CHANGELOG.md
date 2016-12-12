@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+* Adding `MultiSet`.
+
 ## 0.5.0
 
 * Adding `SuffixArray` & `GeneralizedSuffixArray`.
