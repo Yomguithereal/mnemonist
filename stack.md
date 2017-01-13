@@ -3,10 +3,32 @@ layout: page
 title: Stack
 ---
 
+A stack is simply a list in **L**ast **I**n **F**irst **O**ut (LIFO) order.
+
+This just mean that inserted items will get out in the reversed insertion order.
+
 For more information about the Stack, you can head [here](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
 
 ```js
 var Stack = require('mnemonist/stack');
+```
+
+## Use case
+
+A stack is really useful to perform, for instance, the depth-first traversal of a tree:
+
+```js
+var stack = new Stack();
+stack.push(tree.root);
+
+while (stack.size) {
+  var node = stack.pop();
+  console.log('Traversed node:', node);
+
+  node.children.forEach(function(child) {
+    stack.push(child);
+  });
+}
 ```
 
 ## Members

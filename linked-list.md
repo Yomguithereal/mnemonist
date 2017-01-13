@@ -3,6 +3,12 @@ layout: page
 title: Linked List
 ---
 
+A linked list is basically a list in which every items keep a reference to the next item in the list.
+
+They are a bit different from arrays - which we are more used to handle in JavaScript - in that they don't need to store their items in contiguous memory blocks and therefore do not allow for random access in constant time.
+
+However, and this is where this structure shine, a linked list is able to modify its order in constant time, which is impossible with an ordinary array.
+
 For more information about the Linked List, you can head [here](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list).
 
 ```js

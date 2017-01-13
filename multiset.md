@@ -2,6 +2,11 @@
 layout: page
 title: MultiSet
 ---
+
+A `MultiSet` is basically a `Set` in which one may add the same items multiple times.
+
+A `MultiSet` is therefore able to count the occurrences of each inserted items & this is probably its most used feature.
+
 For more information about the MultiSet, you can head [here](https://en.wikipedia.org/wiki/Multiset).
 
 ```js

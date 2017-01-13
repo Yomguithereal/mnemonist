@@ -42,6 +42,10 @@ npm install --save mnemonist
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
 * [Trie]({{ site.baseurl }}/trie)
 
+## General notes
+
+WIP `#.from`, `#.inspect` etc.
+
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.
