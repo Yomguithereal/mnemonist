@@ -3,9 +3,11 @@ layout: page
 title: Fibonacci Heap
 ---
 
-For more information about the Fibonacci Heap, you can head [here](https://en.wikipedia.org/wiki/Fibonacci_heap).
+The Fibonacci heap is usually thought as an improvement over the classical [Heap]({{ site.baseurl }}/heap) because some of its operations can run in an amortized constant time.
 
-Note that, by default, the provided `FibonacciHeap` is a min heap and that the `MaxFibonacciHeap` is just some sugar that will reverse the provided comparator for you.
+For more information about the Fibonacci heap, you can head [here](https://en.wikipedia.org/wiki/Fibonacci_heap).
+
+By default, the provided `FibonacciHeap` is a min heap and the `MaxFibonacciHeap` is just some sugar that will reverse the provided comparator for you.
 
 ```js
 var FibonacciHeap = require('mnemonist/fibonacci-heap');
@@ -15,8 +17,14 @@ var MaxFibonacciHeap = require('mnemonist/fibonacci-heap').MaxFibonacciHeap;
 
 // To create a heap:
 var heap = new FibonacciHeap();
+```
 
-// With a custom comparator:
+## Constructor
+
+The `FibonacciHeap` takes a single optional argument being the comparator function to be used to compare the given items.
+
+```js
+// Providing a comparator to handle custom objects
 var heap = new FibonacciHeap(function(a, b) {
   if (a.value < b.value)
     return -1;
@@ -24,6 +32,12 @@ var heap = new FibonacciHeap(function(a, b) {
     return 1;
   return 0;
 });
+
+heap.push({value: 34});
+heap.push({value: 45});
+
+heap.peek();
+>>> 34
 ```
 
 ## Members
