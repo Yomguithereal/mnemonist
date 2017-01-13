@@ -38,8 +38,8 @@ npm install --save mnemonist
 * [MultiSet]({{ site.baseurl }}/multiset)
 * [Queue]({{ site.baseurl }}/queue)
 * [Stack]({{ site.baseurl }}/stack)
-* [Suffix Arrays]({{ site.baseurl }}/suffix-array)
-* [Generalized Suffix Arrays]({{ site.baseurl }}/generalized-suffix-array)
+* [Suffix Array]({{ site.baseurl }}/suffix-array)
+* [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
 * [Trie]({{ site.baseurl }}/trie)
 
 ## Contribution
