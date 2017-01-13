@@ -4,6 +4,8 @@
 
 Mnemonist is a curated collection of data structures for the JavaScript language.
 
+It gathers classic data structures (think heap, trie etc.) as well as more exotic ones such as Buckhard-Keller trees etc.
+
 It strives at being:
 
 * As performant as possible for a high-level language.
