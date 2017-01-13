@@ -20,7 +20,7 @@ npm install --save mnemonist
 
 ## Documentation
 
-Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist/fibonacci-heap).
+Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist).
 
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
