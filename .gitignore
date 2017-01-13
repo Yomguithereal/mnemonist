@@ -1,0 +1,7 @@
+.sass-cache
+.jekyll-metadata
+.DS_Store
+s3_website.yml
+_site
+*.log
+node_modules

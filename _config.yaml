@@ -1,0 +1,8 @@
+# Metadata
+title: "Mnemonist"
+baseurl: /mnemonist
+github: https://github.com/Yomguithereal/mnemonist
+
+# Configuration
+highlighter: rouge
+markdown: kramdown
