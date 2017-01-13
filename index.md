@@ -59,6 +59,10 @@ npm run lint
 npm test
 ```
 
+## Changelog
+
+The full changelog for the library can be found [here]({{ site.baseurl }}/changelog).
+
 ## License
 
 MIT

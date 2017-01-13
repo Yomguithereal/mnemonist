@@ -2,6 +2,7 @@
 layout: page
 title: Linked List
 ---
+
 For more information about the Linked List, you can head [here](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list).
 
 ```js
