@@ -1,9 +1,8 @@
 [![Build Status](https://travis-ci.org/Yomguithereal/mnemonist.svg)](https://travis-ci.org/Yomguithereal/mnemonist)
 
-
 # Mnemonist
 
-Mnemonist is a collection of classic data structures (think heap, trie etc.) for JavaScript.
+Mnemonist is a curated collection of data structures for the JavaScript language.
 
 It strives at being:
 
@@ -19,14 +18,17 @@ npm install --save mnemonist
 
 ## Documentation
 
-* [Fibonacci Heap](docs/fibonacci-heap.md)
-* [Heap](docs/heap.md)
-* [Linked List](docs/linked-list.md)
-* [MultiSet](docs/multiset.md)
-* [Queue](docs/queue.md)
-* [Stack](docs/stack.md)
-* [Suffix Arrays](docs/suffix-array.md)
-* [Trie](docs/trie.md)
+Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist/fibonacci-heap).
+
+* [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
+* [Heap](https://yomguithereal.github.io/mnemonist/heap)
+* [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
+* [MultiSet](https://yomguithereal.github.io/mnemonist/multiset)
+* [Queue](https://yomguithereal.github.io/mnemonist/queue)
+* [Stack](https://yomguithereal.github.io/mnemonist/stack)
+* [Suffix Arrays](https://yomguithereal.github.io/mnemonist/suffix-array)
+* [Generalized Suffix Arrays](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
+* [Trie](https://yomguithereal.github.io/mnemonist/trie)
 
 ## Contribution
 
