@@ -28,8 +28,8 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multiset)
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
-* [Suffix Arrays](https://yomguithereal.github.io/mnemonist/suffix-array)
-* [Generalized Suffix Arrays](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
+* [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
+* [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
 
 ## Contribution
