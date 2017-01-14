@@ -54,9 +54,14 @@ var heap = FibonacciHeap.from([1, 2, 3], comparator);
 
 ## Methods
 
+*Mutation*
+
 * [#.push](#push)
 * [#.pop](#pop)
 * [#.clear](#clear)
+
+*Read*
+
 * [#.peek](#peek)
 
 ### #.size

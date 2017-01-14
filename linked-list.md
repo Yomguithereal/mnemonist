@@ -15,20 +15,43 @@ For more information about the Linked List, you can head [here](https://en.wikip
 var LinkedList = require('mnemonist/linked-list');
 ```
 
+## Constructor
+
+The `LinkedList` takes no argument.
+
+### Static #.from
+
+Alternatively, one can build a `LinkedList` from an arbitrary JavaScript iterable likewise:
+
+```js
+var list = LinkedList.from([1, 2, 3]);
+```
+
 ## Members
 
 * [#.size](#size)
 
 ## Methods
 
+*Mutation*
+
 * [#.push](#push)
 * [#.unshift](#unshift)
 * [#.shift](#shift)
 * [#.clear](#clear)
+
+*Read*
+
 * [#.first, #.peek](#first-peek)
 * [#.last](#last)
+
+*Iteration*
+
 * [#.forEach](#foreach)
 * [#.toArray](#toarray)
+* [#.values](#values)
+* [#.entries](#entries)
+* [Iterable](#iterable)
 
 ### #.size
 
@@ -149,4 +172,42 @@ list.push(2);
 
 list.toArray();
 >>> [1, 2]
+```
+
+### #.values
+
+Returns an iterator over the list's values.
+
+```js
+var list = LinkedList.from([1, 2, 3]);
+
+var iterator = list.values();
+
+iteraror.next().value
+>>> 1
+```
+
+### #.entries
+
+Returns an iterator over the list's entries.
+
+```js
+var list = LinkedList.from([1, 2, 3]);
+
+var iterator = list.entries();
+
+iterator.next().value
+>>> [0, 1]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a list's values using ES2015 `for...of` protocol:
+
+```js
+var list = LinkedList.from([1, 2, 3]);
+
+for (var item of list) {
+  console.log(item);
+}
 ```
