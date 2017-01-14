@@ -97,4 +97,13 @@ describe('LinkedList', function() {
 
     assert.strictEqual(JSON.stringify(list), '[1,2,3]');
   });
+
+  it('should be possible to create a list from an arbitrary iterable.', function() {
+    var items = {one: 1, two: 2, three: 3};
+
+    var list = LinkedList.from(items);
+
+    assert.strictEqual(list.size, 3);
+    assert.strictEqual(list.last(), 3);
+  });
 });

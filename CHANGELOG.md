@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+* Adding static `#.from` method to all relevant structures.
+* Adding iterators to all relevant structures.
+
 ## 0.6.0
 
 * Adding `MultiSet`.

@@ -5,6 +5,7 @@
  * Singly linked list implementation. Uses raw JavaScript objects as nodes
  * as benchmarks proved it was the fastest thing to do.
  */
+var iterateOver = require('./utils/iterate.js');
 
 /**
  * Linked List.
@@ -175,6 +176,23 @@ LinkedList.prototype.inspect = function() {
   });
 
   return array;
+};
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a list.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @return {LinkedList}
+ */
+LinkedList.from = function(iterable) {
+  var list = new LinkedList();
+
+  iterateOver(iterable, function(value) {
+    list.push(value);
+  });
+
+  return list;
 };
 
 /**
