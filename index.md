@@ -46,10 +46,6 @@ Note that this list does not include a `Graph` data structure, whose implementat
 
 However, we advise the reader to take a look at the [`graphology`](https://graphology.github.io/) library instead.
 
-## General notes
-
-WIP `#.from`, `#.inspect` etc.
-
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.
@@ -70,6 +66,10 @@ npm test
 ## Changelog
 
 The full changelog for the library can be found [here]({{ site.baseurl }}/changelog).
+
+## About
+
+This documentation has been built using [Jekyll](https://jekyllrb.com/), using the [Papyrus](https://github.com/hugoferreira/papyrus-theme) theme by [@hugoferreira](https://github.com/hugoferreira).
 
 ## License
 
