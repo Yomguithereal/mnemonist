@@ -4,7 +4,7 @@
  *
  * Binary heap implementation.
  */
-var comparators = require('./utils/heap-comparators.js');
+var comparators = require('./utils/comparators.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
