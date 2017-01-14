@@ -59,7 +59,8 @@
     "extends": "@yomguithereal/eslint-config",
     "globals": {
       "Set": true,
-      "Map": true
+      "Map": true,
+      "Symbol": true
     }
   }
 }
