@@ -1,8 +1,8 @@
 /**
- * Mnemonist Iteration Helpers
- * ============================
+ * Mnemonist Iterate Function
+ * ===========================
  *
- * Miscellaneous helpers dealing with iteration over mixed targets.
+ * Harmonized iteration over mixed targets.
  */
 
 /**
@@ -12,7 +12,7 @@
  * @param  {any}      target - Iteration target.
  * @param  {function} callback - Iteration callback.
  */
-exports.iterate = function(target, callback) {
+module.exports = function iterate(target, callback) {
   var iterator, k, i, l, s;
 
   // The target is an array

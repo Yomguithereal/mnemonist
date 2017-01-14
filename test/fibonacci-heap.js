@@ -103,4 +103,13 @@ describe('FibonacciHeap', function() {
 
     assert.deepEqual(maxHeap.peek(), {value: 34});
   });
+
+  it('should be possible to create a heap from an iterable.', function() {
+    var set = new Set([45, 56, 23]);
+
+    var heap = FibonacciHeap.from(set);
+
+    assert.strictEqual(heap.size, 3);
+    assert.strictEqual(heap.peek(), 23);
+  });
 });

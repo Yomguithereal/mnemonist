@@ -5,7 +5,8 @@
  *
  * Fibonacci heap implementation.
  */
-var comparators = require('./utils/comparators.js');
+var comparators = require('./utils/comparators.js'),
+    iterateOver = require('./utils/iterate.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -244,6 +245,26 @@ FibonacciHeap.prototype.pop = function() {
 };
 
 /**
+ * Convenience known methods.
+ */
+FibonacciHeap.prototype.inspect = function() {
+  var proxy = {
+    size: this.size
+  };
+
+  if (this.min && 'item' in this.min)
+    proxy.top = this.min.item;
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: FibonacciHeap,
+    enumerable: false
+  });
+
+  return proxy;
+};
+
+/**
  * Fibonacci Maximum Heap.
  *
  * @constructor
@@ -259,6 +280,34 @@ function MaxFibonacciHeap(comparator) {
 }
 
 MaxFibonacciHeap.prototype = FibonacciHeap.prototype;
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a heap.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @param  {function} comparator - Custom comparator function.
+ * @return {FibonacciHeap}
+ */
+FibonacciHeap.from = function(iterable, comparator) {
+  var heap = new FibonacciHeap(comparator);
+
+  iterateOver(iterable, function(value) {
+    heap.push(value);
+  });
+
+  return heap;
+};
+
+MaxFibonacciHeap.from = function(iterable, comparator) {
+  var heap = new MaxFibonacciHeap(comparator);
+
+  iterateOver(iterable, function(value) {
+    heap.push(value);
+  });
+
+  return heap;
+};
 
 /**
  * Exporting.
