@@ -32,6 +32,10 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
 
+Note that this list does not include a `Graph` data structure, whose implementation is usually far too complex for the scope of this library.
+
+However, we advise the reader to take a look at the [`graphology`](https://graphology.github.io/) library instead.
+
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.
