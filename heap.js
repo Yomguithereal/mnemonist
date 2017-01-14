@@ -4,7 +4,8 @@
  *
  * Binary heap implementation.
  */
-var comparators = require('./utils/comparators.js');
+var comparators = require('./utils/comparators.js'),
+    iterateOver = require('./utils/iterate.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -149,6 +150,26 @@ Heap.prototype.pop = function() {
 };
 
 /**
+ * Convenience known methods.
+ */
+Heap.prototype.inspect = function() {
+  var proxy = {
+    size: this.size
+  };
+
+  if (this.items.length)
+    proxy.top = this.items[0];
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: Heap,
+    enumerable: false
+  });
+
+  return proxy;
+};
+
+/**
  * Binary Maximum Heap.
  *
  * @constructor
@@ -164,6 +185,34 @@ function MaxHeap(comparator) {
 }
 
 MaxHeap.prototype = Heap.prototype;
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a heap.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @param  {function} comparator - Custom comparator function.
+ * @return {Heap}
+ */
+Heap.from = function(iterable, comparator) {
+  var heap = new Heap(comparator);
+
+  iterateOver(iterable, function(value) {
+    heap.push(value);
+  });
+
+  return heap;
+};
+
+MaxHeap.from = function(iterable, comparator) {
+  var heap = new MaxHeap(comparator);
+
+  iterateOver(iterable, function(value) {
+    heap.push(value);
+  });
+
+  return heap;
+};
 
 /**
  * Exporting.
