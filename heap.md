@@ -3,9 +3,7 @@ layout: page
 title: Heap
 ---
 
-A `Heap` can be seen as a list that keeps the given items sorted.
-
-While it is in fact implemented using a binary tree, this should not distract you from the purpose of this data structure: being able to process items following an arbitrary priority order in reasonable time.
+A `Heap` can be seen as a dynamic list keeping its items sorted at all time.
 
 For more information about the Heap, you can head [here](https://en.wikipedia.org/wiki/Heap_(data_structure)).
 
@@ -23,7 +21,7 @@ var heap = new Heap();
 
 ## Use case
 
-Let's say we need to schedule tasks having different priorities. A [Stack]({{ site.baseurl }}/stack) or a [Queue]({{ site.baseurl }}/queue) might not be enough to do the task since we need to be sure at all time that we will process the most urgent tasks first.
+Let's say we need to schedule tasks having different priorities. A [Stack]({{ site.baseurl }}/stack) or a [Queue]({{ site.baseurl }}/queue) might not be enough since we need to be sure at all time that the most urgent tasks will come first.
 
 In such cases, a `Heap` can help you tremendously by keeping the items you give it ordered following arbitrary logic & preventing you from having to perform costly sort operations on the full list of tasks.
 
