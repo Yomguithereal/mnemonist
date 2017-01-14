@@ -40,6 +40,14 @@ heap.peek();
 >>> 34
 ```
 
+### Static #.from
+
+Alternatively, one can build a `FibonacciHeap` from an arbitrary JavaScript iterable likewise:
+
+```js
+var heap = FibonacciHeap.from([1, 2, 3], comparator);
+```
+
 ## Members
 
 * [#.size](#size)

@@ -73,6 +73,14 @@ heap.peek();
 >>> 34
 ```
 
+### Static #.from
+
+Alternatively, one can build a `Heap` from an arbitrary JavaScript iterable likewise:
+
+```js
+var heap = Heap.from([1, 2, 3], comparator);
+```
+
 ## Members
 
 * [#.size](#size)
