@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
-    "prepublish": "npm test",
+    "prepublish": "npm run lint && npm test",
     "test": "mocha"
   },
   "files": [
@@ -60,6 +60,12 @@
       "Set": true,
       "Map": true,
       "Symbol": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "ecmaFeatures": {
+      "forOf": true
     }
   }
 }

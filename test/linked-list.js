@@ -106,4 +106,34 @@ describe('LinkedList', function() {
     assert.strictEqual(list.size, 3);
     assert.strictEqual(list.last(), 3);
   });
+
+  it('should be possible to create a values iterator.', function() {
+    var list = LinkedList.from([1, 2, 3]);
+
+    var iterator = list.values();
+
+    assert.strictEqual(iterator.next().value, 1);
+    assert.strictEqual(iterator.next().value, 2);
+    assert.strictEqual(iterator.next().value, 3);
+    assert.strictEqual(iterator.next().done, true);
+  });
+
+  it('should be possible to create an entries iterator.', function() {
+    var list = LinkedList.from([1, 2, 3]);
+
+    var iterator = list.entries();
+
+    assert.deepEqual(iterator.next().value, [1, 0]);
+    assert.deepEqual(iterator.next().value, [2, 1]);
+    assert.deepEqual(iterator.next().value, [3, 2]);
+    assert.strictEqual(iterator.next().done, true);
+  });
+
+  it('should be possible to iterate over the list.', function() {
+    var list = LinkedList.from([1, 2, 3]),
+        i = 0;
+
+    for (var item of list)
+      assert.strictEqual(item, ++i);
+  });
 });

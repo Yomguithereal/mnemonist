@@ -156,6 +156,69 @@ LinkedList.prototype.toArray = function() {
 };
 
 /**
+ * Linked List Iterator class.
+ */
+function LinkedListIterator(next) {
+  this.next = next;
+}
+
+/**
+ * Method used to create an iterator over a list's values.
+ *
+ * @return {Iterator}
+ */
+LinkedList.prototype.values = function() {
+  var n = this.head;
+
+  return new LinkedListIterator(function() {
+    if (!n)
+      return {
+        done: true
+      };
+
+    var value = n.item;
+    n = n.next;
+
+    return {
+      value: value,
+      done: false
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a list's entries.
+ *
+ * @return {Iterator}
+ */
+LinkedList.prototype.entries = function() {
+  var n = this.head,
+      i = 0;
+
+  return new LinkedListIterator(function() {
+    if (!n)
+      return {
+        done: true
+      };
+
+    var value = n.item;
+    n = n.next;
+    i++;
+
+    return {
+      value: [value, i - 1],
+      done: false
+    };
+  });
+};
+
+/**
+ * Attaching the #.entries method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  LinkedList.prototype[Symbol.iterator] = LinkedList.prototype.values;
+
+/**
  * Convenience known methods.
  */
 LinkedList.prototype.toString = function() {
