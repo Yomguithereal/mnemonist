@@ -187,4 +187,16 @@ describe('Trie', function() {
 
     assert.deepEqual(trie.longestPrefix(['the', 'cat', 'eats', 'cheese']), ['the', 'cat', 'eats']);
   });
+
+  it('should be possible to create a trie from an arbitrary iterable.', function() {
+    var words = [
+      'roman',
+      'romanesque'
+    ];
+
+    var trie = Trie.from(words);
+
+    assert.strictEqual(trie.size, 2);
+    assert.deepEqual(trie.get('ro'), ['roman', 'romanesque']);
+  });
 });

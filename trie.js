@@ -4,6 +4,7 @@
  *
  * Very simple Trie implementation.
  */
+var iterateOver = require('./utils/iterate.js');
 
 /**
  * Constants.
@@ -227,8 +228,39 @@ Trie.prototype.longestPrefix = function(item) {
 /**
  * Convenience known methods.
  */
+Trie.prototype.inspect = function() {
+  var proxy = {
+    size: this.size
+  };
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: Trie,
+    enumerable: false
+  });
+
+  return proxy;
+};
+
 Trie.prototype.toJSON = function() {
   return this.root;
+};
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a trie.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @return {Heap}
+ */
+Trie.from = function(iterable) {
+  var trie = new Trie();
+
+  iterateOver(iterable, function(value) {
+    trie.add(value);
+  });
+
+  return trie;
 };
 
 module.exports = Trie;
