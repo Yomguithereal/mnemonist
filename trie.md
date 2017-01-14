@@ -39,15 +39,23 @@ Even if this approach is perfectly fine, we are going to need `O(n)` computation
 A trie, on the contrary, is able to answer this kind of query more efficiently:
 
 ```js
-var trie = new Trie();
-
-// Let's index our words in the trie:
-words.forEach(function(word) {
-  trie.add(word);
-});
+// Let's create a trie from our words
+var trie = Trie.from(words);
 
 // Now let's query our trie
 var wordsWithMatchingPrefix = trie.get(query);
+```
+
+## Constructor
+
+The `Trie` takes no argument.
+
+### Static #.from
+
+Alternatively, one can build a `Trie` from an arbitrary JavaScript iterable likewise:
+
+```js
+var list = Trie.from(['roman', 'romanesque']);
 ```
 
 ## Members
