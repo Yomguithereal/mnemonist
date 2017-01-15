@@ -189,7 +189,7 @@ Queue.prototype.inspect = function() {
  * a queue.
  *
  * @param  {Iterable} iterable   - Target iterable.
- * @return {LinkedList}
+ * @return {Queue}
  */
 Queue.from = function(iterable) {
   var queue = new Queue();

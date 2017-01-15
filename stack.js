@@ -5,6 +5,7 @@
  * Stack implementation relying on JavaScript arrays, which are fast enough &
  * correctly optimized for this kind of work.
  */
+var iterateOver = require('./utils/iterate.js');
 
 /**
  * Stack
@@ -81,6 +82,71 @@ Stack.prototype.toArray = function() {
 };
 
 /**
+ * Stack Iterator class.
+ */
+function StackIterator(next) {
+  this.next = next;
+}
+
+/**
+ * Method used to create an iterator over a stack's values.
+ *
+ * @return {Iterator}
+ */
+Stack.prototype.values = function() {
+  var items = this.items,
+      l = items.length,
+      i = 0;
+
+  return new StackIterator(function() {
+    if (i >= l)
+      return {
+        done: true
+      };
+
+    var value = items[l - i - 1];
+    i++;
+
+    return {
+      value: value,
+      done: false
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a stack's entries.
+ *
+ * @return {Iterator}
+ */
+Stack.prototype.entries = function() {
+  var items = this.items,
+      l = items.length,
+      i = 0;
+
+  return new StackIterator(function() {
+    if (i >= l)
+      return {
+        done: true
+      };
+
+    var value = items[l - i - 1];
+
+    return {
+      value: [value, i++],
+      done: false
+    };
+  });
+};
+
+/**
+ * Attaching the #.values method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  Stack.prototype[Symbol.iterator] = Stack.prototype.values;
+
+
+/**
  * Convenience known methods.
  */
 Stack.prototype.toString = function() {
@@ -101,6 +167,23 @@ Stack.prototype.inspect = function() {
   });
 
   return array;
+};
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a stack.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @return {Stack}
+ */
+Stack.from = function(iterable) {
+  var stack = new Stack();
+
+  iterateOver(iterable, function(value) {
+    stack.push(value);
+  });
+
+  return stack;
 };
 
 /**
