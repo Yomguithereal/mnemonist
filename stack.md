@@ -31,18 +31,41 @@ while (stack.size) {
 }
 ```
 
+## Constructor
+
+The `Stack` takes no argument.
+
+### Static #.from
+
+Alternatively, one can build a `Stack` from an arbitrary JavaScript iterable likewise:
+
+```js
+var list = Stack.from([1, 2, 3]);
+```
+
 ## Members
 
 * [#.size](#size)
 
 ## Methods
 
+*Mutation*
+
 * [#.push](#push)
 * [#.pop](#pop)
 * [#.clear](#clear)
+
+*Read*
+
 * [#.peek](#peek)
+
+*Iteration*
+
 * [#.forEach](#foreach)
 * [#.toArray](#toarray)
+* [#.values](#values)
+* [#.entries](#entries)
+* [Iterable](#iterable)
 
 ### #.size
 
@@ -136,4 +159,42 @@ stack.push(2);
 
 stack.toArray();
 >>> [2, 1]
+```
+
+### #.values
+
+Returns an iterator over the stack's values.
+
+```js
+var stack = Stack.from([1, 2, 3]);
+
+var iterator = stack.values();
+
+iteraror.next().value
+>>> 3
+```
+
+### #.entries
+
+Returns an iterator over the stack's entries.
+
+```js
+var stack = Stack.from([1, 2, 3]);
+
+var iterator = stack.entries();
+
+iterator.next().value
+>>> [3, 0]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a stack's values using ES2015 `for...of` protocol:
+
+```js
+var stack = Stack.from([1, 2, 3]);
+
+for (var item of stack) {
+  console.log(item);
+}
 ```

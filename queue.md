@@ -184,7 +184,7 @@ var queue = Queue.from([1, 2, 3]);
 var iterator = queue.entries();
 
 iterator.next().value
->>> [0, 1]
+>>> [1, 0]
 ```
 
 ### Iterable
