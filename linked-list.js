@@ -213,7 +213,7 @@ LinkedList.prototype.entries = function() {
 };
 
 /**
- * Attaching the #.entries method to Symbol.iterator if possible.
+ * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
   LinkedList.prototype[Symbol.iterator] = LinkedList.prototype.values;

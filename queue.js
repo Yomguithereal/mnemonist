@@ -5,6 +5,7 @@
  * Queue implementation based on the ideas of Queue.js that seems to beat
  * a LinkedList one in performance.
  */
+var iterateOver = require('./utils/iterate.js');
 
 /**
  * Queue
@@ -97,6 +98,70 @@ Queue.prototype.toArray = function() {
 };
 
 /**
+ * Queue Iterator class.
+ */
+function QueueIterator(next) {
+  this.next = next;
+}
+
+/**
+ * Method used to create an iterator over a queue's values.
+ *
+ * @return {Iterator}
+ */
+Queue.prototype.values = function() {
+  var items = this.items,
+      i = this.offset;
+
+  return new QueueIterator(function() {
+    if (i >= items.length)
+      return {
+        done: true
+      };
+
+    var value = items[i];
+    i++;
+
+    return {
+      value: value,
+      done: false
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a queue's entries.
+ *
+ * @return {Iterator}
+ */
+Queue.prototype.entries = function() {
+  var items = this.items,
+      i = this.offset,
+      j = 0;
+
+  return new QueueIterator(function() {
+    if (i >= items.length)
+      return {
+        done: true
+      };
+
+    var value = items[i];
+    i++;
+
+    return {
+      value: [value, j++],
+      done: false
+    };
+  });
+};
+
+/**
+ * Attaching the #.values method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  Queue.prototype[Symbol.iterator] = Queue.prototype.values;
+
+/**
  * Convenience known methods.
  */
 Queue.prototype.toString = function() {
@@ -117,6 +182,23 @@ Queue.prototype.inspect = function() {
   });
 
   return array;
+};
+
+/**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a queue.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @return {LinkedList}
+ */
+Queue.from = function(iterable) {
+  var queue = new Queue();
+
+  iterateOver(iterable, function(value) {
+    queue.enqueue(value);
+  });
+
+  return queue;
 };
 
 /**
