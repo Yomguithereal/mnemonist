@@ -31,18 +31,41 @@ while (queue.size) {
 }
 ```
 
+## Constructor
+
+The `Queue` takes no argument.
+
+### Static #.from
+
+Alternatively, one can build a `Queue` from an arbitrary JavaScript iterable likewise:
+
+```js
+var list = Queue.from([1, 2, 3]);
+```
+
 ## Members
 
 * [#.size](#size)
 
 ## Methods
 
+*Mutation*
+
 * [#.enqueue](#enqueue)
 * [#.dequeue](#dequeue)
 * [#.clear](#clear)
+
+*Read*
+
 * [#.peek](#peek)
+
+*Iteration*
+
 * [#.forEach](#foreach)
 * [#.toArray](#toarray)
+* [#.values](#values)
+* [#.entries](#entries)
+* [Iterable](#iterable)
 
 ### #.size
 
@@ -136,4 +159,42 @@ queue.enqueue(2);
 
 queue.toArray();
 >>> [1, 2]
+```
+
+### #.values
+
+Returns an iterator over the queue's values.
+
+```js
+var queue = Queue.from([1, 2, 3]);
+
+var iterator = queue.values();
+
+iteraror.next().value
+>>> 1
+```
+
+### #.entries
+
+Returns an iterator over the queue's entries.
+
+```js
+var queue = Queue.from([1, 2, 3]);
+
+var iterator = queue.entries();
+
+iterator.next().value
+>>> [0, 1]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a queue's values using ES2015 `for...of` protocol:
+
+```js
+var queue = Queue.from([1, 2, 3]);
+
+for (var item of queue) {
+  console.log(item);
+}
 ```
