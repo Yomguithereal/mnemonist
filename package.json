@@ -14,7 +14,6 @@
     "heap.js",
     "index.js",
     "linked-list.js",
-    "multiset.js",
     "queue.js",
     "stack.js",
     "suffix-array.js",
