@@ -138,7 +138,7 @@ index.add({name: 'United Nations', 'UN'});
 
 // Now we can query using various schemes
 index.get('NATO');
->>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'};
+>>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
 
 index.get('united nations');
 >>> {name: 'United Nations', 'UN'}
@@ -168,8 +168,9 @@ index.set(movie.title, movie);
 Alternatively, one can build a `Index` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = Index.from(list, hashFunction);
-var list = Index.from(list, insertHashFunction, getHashFunction);
+var index = Index.from(list, hashFunction);
+var index = Index.from(list, insertHashFunction, getHashFunction);
+var index = Index.from(list, descriptors);
 ```
 
 ## Members
@@ -182,24 +183,24 @@ var list = Index.from(list, insertHashFunction, getHashFunction);
 
 * [#.add](#add)
 * [#.set](#set)
+* [#.delete](#delete)
 * [#.clear](#clear)
 
 *Read*
 
+* [#.has](#has)
 * [#.get](#get)
 * [#.getFrom](#getfrom)
 
 *Iteration*
 
 * [#.forEach](#foreach)
-* [#.keys](#keys)
 * [#.values](#values)
-* [#.entries](#entries)
 * [Iterable](#iterable)
 
 ### #.size
 
-Number of items stored in the index.
+Number of distinct items stored in the index.
 
 ```js
 var index = new Index();
@@ -230,6 +231,21 @@ var movie = {title: 'Great movie', year: 1999};
 index.set(movie.title, movie);
 ```
 
+### #.delete
+
+Deletes an item from the index & from all the subindices in the case of a complex index.
+
+```js
+var index = new Index();
+var movie = {title: 'Great movie', year: 1999};
+
+index.set(movie.title, movie);
+index.delete(movie.title);
+
+index.has(movie.title);
+>>> false
+```
+
 ### #.clear
 
 Completely clears the index of its items.
@@ -241,6 +257,24 @@ index.clear();
 
 index.size
 >>> 0
+```
+
+### #.has
+
+Check whether an item exists in the index using the provided key that will be processed by the relevant hash function.
+
+In case of a complex index, every subindex will be tested until we find a relevant key.
+
+```js
+var index = new Index(function(string) {
+  return string.toLowerCase();
+});
+index.set('hello world', 34);
+index.has('Hello World');
+>>> true
+
+index.has('hello');
+>>> false
 ```
 
 ### #.get
@@ -293,87 +327,53 @@ index.getFrom(['firstLetter', 'lowercase'], 'Romanesque');
 
 ### #.forEach
 
-Iterates over each item stored in the index.
+Iterates over each value stored in the index.
 
 ```js
 var index = new Index(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', 1);
-index.set('World', 2);
+index.set('Hello', {name: 'hello'});
+index.set('World', {name: 'world'});
 
-index.forEach(function(value, key) {
-  console.log(key, value);
+index.forEach(function(value) {
+  console.log(value);
 });
->>> 'hello', 1
->>> 'world', 2
-```
-
-### #.keys
-
-Creates an iterator over the index's keys.
-
-```js
-var index = new Index(function(string) {
-  return string.toLowerCase();
-});
-
-index.set('Hello', 1);
-index.set('World', 2);
-
-var iterator = index.keys();
-iterator.next().value();
->>> 'hello'
+>>> {name: 'hello'}
+>>> {name: 'world'}
 ```
 
 ### #.values
 
-Creates an iterator over the index's values.
+Creates an iterator over the index's distinct values (will iterate only once over a value even in the case of a complex index).
 
 ```js
 var index = new Index(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', 1);
-index.set('World', 2);
+index.set('Hello', {name: 'hello'});
+index.set('World', {name: 'world'});
 
 var iterator = index.values();
 iterator.next().value();
->>> 1
-```
-
-### #.entries
-
-Creates an iterator over the index's entries.
-
-```js
-var index = new Index(function(string) {
-  return string.toLowerCase();
-});
-
-index.set('Hello', 1);
-index.set('World', 2);
-
-var iterator = index.entries();
-iterator.next().value();
->>> [1, 'hello']
+>>> {name: 'hello'}
 ```
 
 ### Iterable
 
-Alternatively, you can iterate over a list's entries using ES2015 `for...of` protocol:
+Alternatively, you can iterate over an index' values using ES2015 `for...of` protocol:
 
 ```js
 var index = new Index(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', 1);
-index.set('World', 2);
+index.set('Hello', {name: 'hello'});
+index.set('World', {name: 'world'});
 
-for (var entry of list) {
+for (var entry of index) {
   console.log(entry);
 }
 ```
