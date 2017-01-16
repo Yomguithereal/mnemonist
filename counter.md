@@ -38,7 +38,7 @@ var Counter = require('mnemonist/counter');
 TODO: document here
 
 * [#.forEach](#foreach)
-* [#.keys](#keys)
+* [#.counts](#counts)
 * [#.values](#values)
 * [#.entries](#entries)
 * [Iterable](#iterable)
