@@ -35,7 +35,6 @@ npm install --save mnemonist
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
 * [Linked List]({{ site.baseurl }}/linked-list)
-* [MultiSet]({{ site.baseurl }}/multiset)
 * [Queue]({{ site.baseurl }}/queue)
 * [Stack]({{ site.baseurl }}/stack)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
