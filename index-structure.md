@@ -63,6 +63,8 @@ Note that if you need to store multiple values under a same key, you should prob
 
 The `Index` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or two arguments, the first being the hash function for the inserted items or keys and the second for the queries.
 
+Alternatively, one may build a "complex" index by providing a list of descriptors that will each create a subindex based on different hash methods.
+
 *Example with one hash function*
 
 ```js
@@ -98,6 +100,69 @@ index.add(movie);
 index.get(queryTitle);
 ```
 
+*Example with a complex index*
+
+```js
+// Let's create an index that will use two different hashing methods
+// 1. By organization acronym
+// 2. Lowercase organization name
+var index = new Index([
+  {
+    name: 'acronym',
+    hash: [
+      function(org) {
+        return org.acronym;
+      },
+
+      // Using null here is the same as passing the identity function
+      // because the query should not be hashed.
+      null
+    ]
+  },
+  {
+    name: 'name',
+    hash: [
+      function(org) {
+        return org.name.toLowerCase();
+      },
+      function(query) {
+        return query.toLowerCase();
+      }
+    ]
+  }
+]);
+
+// Inserting some organizations
+index.add({name: 'North Atlantic Treaty Organization', acronym: 'NATO'});
+index.add({name: 'United Nations', 'UN'});
+
+// Now we can query using various schemes
+index.get('NATO');
+>>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'};
+
+index.get('united nations');
+>>> {name: 'United Nations', 'UN'}
+
+index.get('WHO');
+>>> undefined
+
+index.getBy('name', 'north Atlantic treaty OrganiZation');
+>>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
+```
+
+**Warning!**: the index will not consider any falsy key processed by its hash functions.
+
+```js
+var index = new Index(function(item) {
+  return item.title && item.title.toLowerCase();
+});
+
+var movie = {year: 1999};
+
+// This will not be indexed on `undefined`
+index.set(movie.title, movie);
+```
+
 ### Static #.from
 
 Alternatively, one can build a `Index` from an arbitrary JavaScript iterable likewise:
@@ -122,6 +187,7 @@ var list = Index.from(list, insertHashFunction, getHashFunction);
 *Read*
 
 * [#.get](#get)
+* [#.getFrom](#getfrom)
 
 *Iteration*
 
@@ -181,6 +247,8 @@ index.size
 
 Retrieves an item in the index using the provided key that will be processed by the relevant hash function.
 
+In case of a complex index, every subindex will be tested until we find a relevant key.
+
 ```js
 var index = new Index(function(string) {
   return string.toLowerCase();
@@ -188,6 +256,39 @@ var index = new Index(function(string) {
 index.set('hello world', 34);
 index.get('Hello World');
 >>> 34
+```
+
+### #.getFrom
+
+Retrieves an item in the index using the provided key only in the desired subindex or list of prioritized subindices.
+
+```js
+var index = new Index([
+  {
+    name: 'lowercase',
+    hash: function(string) {
+      return string.toLowerCase();
+    }
+  },
+  {
+    name: 'firstLetter',
+    hash: function(string) {
+      return string[0];
+    }
+  },
+  {
+    name: 'lastLetter',
+    hash: function(string) {
+      return string[string.length - 1];
+    }
+  }
+]);
+
+// Getting an item by `firstLetter`
+index.getFrom('firstLetter', 'Romanesque');
+
+// Getting an item by `firstLetter` then `lowercase` in that order
+index.getFrom(['firstLetter', 'lowercase'], 'Romanesque');
 ```
 
 ### #.forEach
