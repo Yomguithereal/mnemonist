@@ -3,7 +3,7 @@ layout: page
 title: Index
 ---
 
-The index is a hashmap-like kind of data structure that will process the given values so that one may query them using arbitrary logic.
+The index is a hashmap-like kind of data structure that takes items and hash them to find by which key they will be known thereafter when querying.
 
 ```js
 var Index = require('mnemonist/index');
@@ -53,17 +53,18 @@ index.add({name: 'Bad movie', year: 2001});
 // Querying the index
 index.get('bad Movie');
 >>> {name: 'Bad movie', year: 2001}
+
 index.get('boring movie');
 >>> undefined
 ```
 
 Note that if you need to store multiple values under a same key, you should probably check out the [`MultiIndex`]({{ site.baseurl }}/multi-index) instead.
 
+You can also check out the [`CompositeIndex`]({{ site.baseurl }}/composite-index) if you need to store your items using multiple strategies at once.
+
 ## Constructor
 
 The `Index` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or two arguments, the first being the hash function for the inserted items or keys and the second for the queries.
-
-Alternatively, one may build a "complex" index by providing a list of descriptors that will each create a subindex based on different hash methods.
 
 *Example with one hash function*
 
@@ -82,7 +83,7 @@ index.get(queryTitle);
 
 ```js
 // Let's create an index using two different hash functions:
-var index = new Index(
+var index = new Index([
   
   // Hash function for inserted items:
   function(movie) {
@@ -93,61 +94,11 @@ var index = new Index(
   function(query) {
     return query.toLowerCase();
   }
-);
+]);
 
 // Then you'll probably use #.add to insert items
 index.add(movie);
 index.get(queryTitle);
-```
-
-*Example with a complex index*
-
-```js
-// Let's create an index that will use two different hashing methods
-// 1. By organization acronym
-// 2. Lowercase organization name
-var index = new Index([
-  {
-    name: 'acronym',
-    hash: [
-      function(org) {
-        return org.acronym;
-      },
-
-      // Using null here is the same as passing the identity function
-      // because the query should not be hashed.
-      null
-    ]
-  },
-  {
-    name: 'name',
-    hash: [
-      function(org) {
-        return org.name.toLowerCase();
-      },
-      function(query) {
-        return query.toLowerCase();
-      }
-    ]
-  }
-]);
-
-// Inserting some organizations
-index.add({name: 'North Atlantic Treaty Organization', acronym: 'NATO'});
-index.add({name: 'United Nations', 'UN'});
-
-// Now we can query using various schemes
-index.get('NATO');
->>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
-
-index.get('united nations');
->>> {name: 'United Nations', 'UN'}
-
-index.get('WHO');
->>> undefined
-
-index.getBy('name', 'north Atlantic treaty OrganiZation');
->>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
 ```
 
 **Warning!**: the index will not consider any falsy key processed by its hash functions.
@@ -168,9 +119,8 @@ index.set(movie.title, movie);
 Alternatively, one can build a `Index` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = Index.from(list, hashFunction);
-var index = Index.from(list, insertHashFunction, getHashFunction);
-var index = Index.from(list, descriptors);
+var index = Index.from(list, hashFunction [, useSet=false]);
+var index = Index.from(list, hashFunctions [, useSet=false]);
 ```
 
 ## Members
@@ -183,14 +133,11 @@ var index = Index.from(list, descriptors);
 
 * [#.add](#add)
 * [#.set](#set)
-* [#.delete](#delete)
 * [#.clear](#clear)
 
 *Read*
 
-* [#.has](#has)
 * [#.get](#get)
-* [#.getFrom](#getfrom)
 
 *Iteration*
 
@@ -200,7 +147,7 @@ var index = Index.from(list, descriptors);
 
 ### #.size
 
-Number of distinct items stored in the index.
+Number of items stored in the index.
 
 ```js
 var index = new Index();
@@ -212,38 +159,27 @@ index.size
 
 ### #.add
 
-Add an item to the index by computing its key from the first hash function.
+Computes the item's key by hashing the given item using the relevant function then adds the item to the index using the key.
 
 ```js
 var index = new Index();
 
 index.add({title: 'Great movie', year: 1999});
+
+// In fact, same as doing
+var movie = {title: 'Great movie', year: 1999};
+index.set(movie, movie);
 ```
 
 ### #.set
 
-Adds an item to the index using the provided key that will be processed by the first hash function.
+Adds an item to the index using the provided key that will be processed by the relevant hash function.
 
 ```js
 var index = new Index();
 var movie = {title: 'Great movie', year: 1999};
 
 index.set(movie.title, movie);
-```
-
-### #.delete
-
-Deletes an item from the index & from all the subindices in the case of a complex index.
-
-```js
-var index = new Index();
-var movie = {title: 'Great movie', year: 1999};
-
-index.set(movie.title, movie);
-index.delete(movie.title);
-
-index.has(movie.title);
->>> false
 ```
 
 ### #.clear
@@ -259,75 +195,22 @@ index.size
 >>> 0
 ```
 
-### #.has
-
-Check whether an item exists in the index using the provided key that will be processed by the relevant hash function.
-
-In case of a complex index, every subindex will be tested until we find a relevant key.
-
-```js
-var index = new Index(function(string) {
-  return string.toLowerCase();
-});
-index.set('hello world', 34);
-index.has('Hello World');
->>> true
-
-index.has('hello');
->>> false
-```
-
 ### #.get
 
 Retrieves an item in the index using the provided key that will be processed by the relevant hash function.
 
-In case of a complex index, every subindex will be tested until we find a relevant key.
-
 ```js
 var index = new Index(function(string) {
   return string.toLowerCase();
 });
-index.set('hello world', 34);
+index.set('hello world', {name: 'hello world'});
 index.get('Hello World');
->>> 34
-```
-
-### #.getFrom
-
-Retrieves an item in the index using the provided key only in the desired subindex or list of prioritized subindices.
-
-```js
-var index = new Index([
-  {
-    name: 'lowercase',
-    hash: function(string) {
-      return string.toLowerCase();
-    }
-  },
-  {
-    name: 'firstLetter',
-    hash: function(string) {
-      return string[0];
-    }
-  },
-  {
-    name: 'lastLetter',
-    hash: function(string) {
-      return string[string.length - 1];
-    }
-  }
-]);
-
-// Getting an item by `firstLetter`
-index.getFrom('firstLetter', 'Romanesque');
-
-// Getting an item by `firstLetter` then `lowercase` in that order
-index.getFrom(['firstLetter', 'lowercase'], 'Romanesque');
+>>> {name: 'hello world'}
 ```
 
 ### #.forEach
 
-Iterates over each value stored in the index.
+Iterates over the values stored in the index.
 
 ```js
 var index = new Index(function(string) {
@@ -346,7 +229,7 @@ index.forEach(function(value) {
 
 ### #.values
 
-Creates an iterator over the index's distinct values (will iterate only once over a value even in the case of a complex index).
+Creates an iterator over the index's values.
 
 ```js
 var index = new Index(function(string) {
@@ -373,7 +256,7 @@ var index = new Index(function(string) {
 index.set('Hello', {name: 'hello'});
 index.set('World', {name: 'world'});
 
-for (var entry of index) {
-  console.log(entry);
+for (var value of index) {
+  console.log(value);
 }
 ```

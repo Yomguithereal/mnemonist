@@ -3,9 +3,7 @@ layout: page
 title: MultiIndex
 ---
 
-The `MultiIndex` is very similar to the [`Index`]({{ site.baseurl }}/index-structure) in that it relies on hash functions to process the given items or keys.
-
-However, the `MultiIndex` is slightly different because it can accept more than one value per key, holding every item in a bucket of colliding keys.
+The `MultiIndex` is basically an [`Index`]({{ site.baseurl }}/index-structure) that accepts more than one value per key and stores the colliding items in buckets.
 
 ```js
 var MultiIndex = require('mnemonist/multi-index');
@@ -37,17 +35,15 @@ universities.forEach(function(university) {
 
 // Now we can query the index
 universities.get('university of carolina');
->>> Set {
+>>> [
   {name: 'University of Carolina'},
   {name: 'Carolina, university of.'}
-}
+]
 ```
 
 ## Constructor
 
 The `MultiIndex` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or two arguments, the first being the hash function for the inserted items or keys and the second for the queries.
-
-Alternatively, one may build a "complex" index by providing a list of descriptors that will each create a subindex based on different hash methods.
 
 *Example with one hash function*
 
@@ -84,64 +80,6 @@ index.add(movie);
 index.get(queryTitle);
 ```
 
-*Example with a complex index*
-
-```js
-// Let's create an index that will use two different hashing methods
-// 1. By organization acronym
-// 2. Lowercase organization name
-var index = new MultiIndex([
-  {
-    name: 'acronym',
-    hash: [
-      function(org) {
-        return org.acronym;
-      },
-
-      // Using null here is the same as passing the identity function
-      // because the query should not be hashed.
-      null
-    ]
-  },
-  {
-    name: 'name',
-    hash: [
-      function(org) {
-        return org.name.toLowerCase();
-      },
-      function(query) {
-        return query.toLowerCase();
-      }
-    ]
-  }
-]);
-
-// Inserting some organizations
-index.add({name: 'North Atlantic Treaty Organization', acronym: 'NATO'});
-index.add({acronym: 'NATO', year: 1949});
-index.add({name: 'United Nations', 'UN'});
-
-// Now we can query using various schemes
-index.get('NATO');
->>> Set {
-  {name: 'North Atlantic Treaty Organization', acronym: 'NATO'},
-  {acronym: 'NATO', year: 1949}
-}
-
-index.get('united nations');
->>> Set {
-  {name: 'United Nations', 'UN'}
-}
-
-index.get('WHO');
->>> undefined
-
-index.getBy('name', 'north Atlantic treaty OrganiZation');
->>> Set {
-  {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
-}
-```
-
 **Warning!**: the index will not consider any falsy key processed by its hash functions.
 
 ```js
@@ -160,9 +98,8 @@ index.set(movie.title, movie);
 Alternatively, one can build a `MultiIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = MultiIndex.from(list, hashFunction);
-var list = MultiIndex.from(list, insertHashFunction, getHashFunction);
-var index = MultiIndex.from(list, descriptors);
+var index = MultiIndex.from(list, hashFunction [, useSet=false]);
+var index = MultiIndex.from(list, hashFunctions [, useSet=false]);
 ```
 
 ## Members
@@ -175,16 +112,11 @@ var index = MultiIndex.from(list, descriptors);
 
 * [#.add](#add)
 * [#.set](#set)
-* [#.delete](#delete) TODO
 * [#.clear](#clear)
 
 *Read*
 
-* [#.has](#has) TODO
 * [#.get](#get)
-* [#.getFrom](#getfrom) TODO
-* [#.union](#union) TODO
-* [#.unionFrom](#unionFrom) TODO
 
 *Iteration*
 
@@ -194,7 +126,7 @@ var index = MultiIndex.from(list, descriptors);
 
 ### #.size
 
-Number of distinct items stored in the index.
+Number of items stored in the index.
 
 ```js
 var index = new MultiIndex();
@@ -206,17 +138,21 @@ index.size
 
 ### #.add
 
-Add an item to the index by computing its key from the first hash function.
+Computes the item's key by hashing the given item using the relevant function then adds the item to the index using the key.
 
 ```js
 var index = new MultiIndex();
 
 index.add({title: 'Great movie', year: 1999});
+
+// In fact, same as doing
+var movie = {title: 'Great movie', year: 1999};
+index.set(movie, movie);
 ```
 
 ### #.set
 
-Adds an item to the index using the provided key that will be processed by the first hash function.
+Adds an item to the index using the provided key that will be processed by the relevant hash function.
 
 ```js
 var index = new MultiIndex();
@@ -240,52 +176,56 @@ index.size
 
 ### #.get
 
-Retrieves a list of items in the index using the provided key that will be processed by the relevant hash function.
+Hash the given key using the relevant function then returns the set of items stored by this key.
 
 ```js
 var index = new MultiIndex(function(string) {
   return string.toLowerCase();
 });
-index.set('hello world', 34);
-index.set('hello WorldD', 54);
-index.get('Hello World');
->>> Set {34, 54}
+index.set('John', {name: 'John', surname: 'Williams'});
+index.set('John', {name: 'John', surname: 'Ableton'});
+
+index.get('john');
+>>> [
+  {name: 'John', surname: 'Williams'},
+  {name: 'John', surname: 'Ableton'}
+]
 ```
 
 ### #.forEach
 
-Iterates over each values stored in the index.
+Iterates over the values stored in the index.
 
 ```js
 var index = new MultiIndex(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', {name: 'hello'});
-index.set('World', {name: 'world'});
+index.set('John', {name: 'John', surname: 'Williams'});
+index.set('John', {name: 'John', surname: 'Ableton'});
 
 index.forEach(function(value) {
   console.log(value);
 });
->>> {name: 'hello'}
->>> {name: 'world'}
+>>> {name: 'John', surname: 'Williams'}
+>>> {name: 'John', surname: 'Ableton'}
 ```
 
 ### #.values
 
-Creates an iterator over the index's values (being buckets).
+Creates an iterator over the index's values.
 
 ```js
 var index = new MultiIndex(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', {name: 'hello'});
-index.set('World', {name: 'world'});
+index.set('John', {name: 'John', surname: 'Williams'});
+index.set('John', {name: 'John', surname: 'Ableton'});
 
 var iterator = index.values();
 iterator.next().value();
->>> {name: 'hello'}
+>>> {name: 'John', surname: 'Williams'}
 ```
 
 ### Iterable
@@ -297,8 +237,8 @@ var index = new MultiIndex(function(string) {
   return string.toLowerCase();
 });
 
-index.set('Hello', {name: 'hello'});
-index.set('World', {name: 'world'});
+index.set('John', {name: 'John', surname: 'Williams'});
+index.set('John', {name: 'John', surname: 'Ableton'});
 
 for (var value of index) {
   console.log(value);
