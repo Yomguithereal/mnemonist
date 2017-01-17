@@ -184,7 +184,7 @@ var stack = Stack.from([1, 2, 3]);
 var iterator = stack.entries();
 
 iterator.next().value
->>> [3, 0]
+>>> [0, 3]
 ```
 
 ### Iterable

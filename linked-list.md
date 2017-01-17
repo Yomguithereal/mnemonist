@@ -197,7 +197,7 @@ var list = LinkedList.from([1, 2, 3]);
 var iterator = list.entries();
 
 iterator.next().value
->>> [1, 0]
+>>> [0, 1]
 ```
 
 ### Iterable
