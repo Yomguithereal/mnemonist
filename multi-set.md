@@ -25,8 +25,8 @@ var set = MultiSet.from([1, 2, 3]);
 
 ## Members
 
+* [#.dimension](#dimension)
 * [#.size](#size)
-* [#.cardinality](#cardinality)
 
 ## Methods
 
@@ -49,32 +49,181 @@ var set = MultiSet.from([1, 2, 3]);
 * [#.multiplicities](#multiplicities)
 * [Iterable](#iterable)
 
-### #.size
+### #.dimension
 
-Number of containers stored by the set.
+Number of distinct items in the set.
 
 ```js
 var set = new MultiSet();
 
-set.set('hello');
+set.add('hello');
+set.add('hello');
 
-set.size
+set.dimension
 >>> 1
 ```
 
-### #.cardinality
+### #.size
 
-Total number of items stored by the set.
+Total number of items in the set.
 
 ```js
 var set = new MultiSet();
 
-set.add('John');
-set.add('John');
+set.add('hello');
+set.add('hello');
 
 set.size
->>> 1
-
-set.cardinality
 >>> 2
+```
+
+### #.add
+
+Adds the item to the set. Optionally, you can provide a number which is the number of times the same item is added.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+
+// Adding "hello" more than once
+set.add('hello', 3);
+```
+
+### #.remove
+
+Removes the item from the set once. Optionally, you can provide a number which is the number of times the same item is removed.
+
+```js
+var set = new MultiSet();
+
+set.add('hello', 3);
+
+set.remove('hello');
+set.multiplicity('hello');
+>>> 2
+
+set.remove('hello', 2);
+set.multiplicity('hello');
+>>> 0
+```
+
+### #.delete
+
+Removes all the occurrences of the given item from the set.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('hello');
+
+set.delete('hello');
+set.multiplicity('hello');
+>>> 0
+```
+
+### #.clear
+
+Completly clears the set of all its items.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.clear();
+
+set.size
+>>> 0
+```
+
+### #.has
+
+Returns whether the given item is found in the set.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.has('hello');
+>>> true
+
+set.has('world');
+>>> false
+```
+
+### #.multiplicity
+
+Returns the number of times the given item is found in the set.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.multiplicity('hello');
+>>> 1
+```
+
+### #.forEach
+
+Iterates over each of the items stored by the set.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('hello');
+
+set.forEach(function(value) {
+  console.log(value);
+});
+>>> 'hello'
+>>> 'hello'
+```
+
+### #.values
+
+Returns an iterator over the set's values.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('world');
+
+var iterator = set.values();
+
+iterator.next().value
+>>> 'hello'
+```
+
+### #.multiplicities
+
+Returns an iterator over the set's multiplicities.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('hello');
+
+var iterator = set.multiplicities();
+
+iterator.next().value
+>>> ['hello', 2]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('hello');
+
+for (var value of set) {
+  console.log(value);
+}
 ```
