@@ -64,7 +64,7 @@ You can also check out the [`CompositeIndex`]({{ site.baseurl }}/composite-index
 
 ## Constructor
 
-The `Index` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or two arguments, the first being the hash function for the inserted items or keys and the second for the queries.
+The `Index` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or a tuple containing two hash functions, one for the inserted items or keys and the second one for the queries.
 
 *Example with one hash function*
 

@@ -88,3 +88,61 @@ map.size
 map.cardinality
 >>> 2
 ```
+
+### #.set
+
+Adds an item to the multimap using the provided key.
+
+```js
+var map = new MultiMap();
+
+map.set(key, value);
+```
+
+### #.remove
+
+Remove the given item at the provided key.
+
+```js
+var map = new MultiMap();
+
+map.set('hello', 45);
+map.remove('hello', 45);
+
+map.get('hello');
+>>> []
+```
+
+### #.delete
+
+Removes every items stored using the provided key.
+
+```js
+var map = new MultiMap();
+
+map.set('J', 'John');
+map.set('J', 'Jack');
+
+map.get('J');
+>>> ['John', 'Jack']
+
+map.delete('J');
+map.get('J');
+>>> []
+```
+
+### #.clear
+
+Completely clears the multimap of every item.
+
+```js
+var map = new MultiMap();
+
+map.set('J', 'John');
+map.set('J', 'Jack');
+
+map.clear();
+
+map.size
+>>> 0
+```

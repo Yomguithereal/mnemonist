@@ -40,7 +40,7 @@ index.get('mouse');
   'The mouse eats cheese'
 ]
 
-index.get('cats cheese');
+index.union('cats cheese');
 >>> [
   'The cats eats the mouse',
   'The mouse eats cheese'
@@ -48,6 +48,45 @@ index.get('cats cheese');
 ```
 
 If you need more to retrieve more information about the indexed documents such as occurrences, positions etc., check out the [`SearchIndex`]({{ site.baseurl }}/search-index).
+
+## Constructor
+
+The `InvertedIndex` either takes a single argument being a tokenizer function that will process both inserted items or keys & the queries; or a tuple containing two tokenizer functions, one for the inserted items or keys and the second one for the queries.
+
+*Example with one tokenizer function*
+
+```js
+// Let's create an index using a single hash function:
+var index = new InvertedIndex(function(value) {
+  return words(value);
+});
+
+// Then you'll probably use #.set to insert items
+index.set(movie.title, movie);
+index.get(queryTitle);
+```
+
+*Example with two tokenizer functions*
+
+```js
+// Let's create an index using two different hash functions:
+var index = new Index([
+  
+  // Tokenizer function for inserted items:
+  function(movie) {
+    return words(movie.title);
+  },
+
+  // Tokenizer function for queries
+  function(query) {
+    return words(query);
+  }
+]);
+
+// Then you'll probably use #.add to insert items
+index.add(movie);
+index.get(queryTitle);
+```
 
 ## Members
 
@@ -63,7 +102,8 @@ If you need more to retrieve more information about the indexed documents such a
 
 *Read*
 
-* [#.get](#get)
+* [#.get, #.intersection](#get)
+* [#.union](#union)
 
 *Iteration*
 

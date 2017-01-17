@@ -11,7 +11,9 @@ var MultiIndex = require('mnemonist/multi-index');
 
 ## Use case
 
-Let's say we need to store items in an index using a fuzzy key so that we may match them against not so precise queries. We could use a `MultiIndex` to help us do so:
+Let's say we need to store items in an index using a fuzzy key so that we may match them against not so precise queries.
+
+Furthermore, since the key produced might be the same for several items and because we want to keep multiple values for each key, we could use a `MultiIndex` to help us in this task.
 
 ```js
 // Using lodash to create a naive fuzzy key using the given title
@@ -43,7 +45,7 @@ universities.get('university of carolina');
 
 ## Constructor
 
-The `MultiIndex` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or two arguments, the first being the hash function for the inserted items or keys and the second for the queries.
+The `MultiIndex` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or a tuple containing two hash functions, one for the inserted items or keys and the second one for the queries.
 
 *Example with one hash function*
 

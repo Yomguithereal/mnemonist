@@ -13,26 +13,17 @@ var CompositeIndex = require('mnemonist/composite-index');
 
 ## Use case
 
-Let's say we want to index *"not-so-clean"* data concerning organizations and we'll need to store/query them both by acronym & by lowercased names because some may not have an acronym, and some others may even lack a name.
+Let's say we  wan to process *"not-so-clean* data concerning organizations and will need to merge entries coming from various sources related to the same organization.
 
-Then the `CompositeIndex` is the tool for the job.
+We might have relevant information about our organizations such as a name and an acronym but maybe not both.
+
+Therefore, we want an index able to store & query our organizations using various strategies so we are able to match our entries and merge them together.
 
 ```js
 // Let's create an index that using two different hashing methods:
-// 1. Uppercase organization acronym
-// 2. Lowercase organization name
+// 1. Lowercase organization name
+// 2. Uppercase organization acronym
 var index = new CompositeIndex([
-  {
-    name: 'acronym',
-    hash: [
-      function(org) {
-        return org.acronym.toUpperCase();
-      },
-      function(query) {
-        return query.toUpperCase();
-      }
-    ]
-  },
   {
     name: 'name',
     hash: [
@@ -43,10 +34,21 @@ var index = new CompositeIndex([
         return query.toLowerCase();
       }
     ]
+  },
+  {
+    name: 'acronym',
+    hash: [
+      function(org) {
+        return org.acronym.toUpperCase();
+      },
+      function(query) {
+        return query.toUpperCase();
+      }
+    ]
   }
 ]);
 
-// Inserting some organizations
+// Inserting various organizations
 index.add({
   name: 'North Atlantic Treaty Organization',
   acronym: 'nato'
@@ -69,12 +71,13 @@ index.get('united nations');
 index.get('WHO');
 >>> undefined
 
-// Specifying the subindex to hit
-index.get('name', 'north Atlantic treaty OrganiZation');
->>> {name: 'North Atlantic Treaty Organization', acronym: 'NATO'}
-```
+// Now, let's say we have the following entry, with a year for NATO
+var entry = {acronym: 'nato', year: 1947}
 
-Note that if you need to store multiple values under a same key, you should probably check out the [`CompositeMultiIndex`]({{ site.baseurl }}/composite-multi-index) instead.
+// We will be able to find it in the index & be able to merge information
+var match = index.get(entry.acronym);
+match.year = entry.year;
+```
 
 ## Constructor
 
