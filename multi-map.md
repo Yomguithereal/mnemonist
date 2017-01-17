@@ -32,15 +32,14 @@ var map = MultiMap.from([1, 2, 3], container);
 
 ## Members
 
+* [#.dimension](#dimension)
 * [#.size](#size)
-* [#.cardinality](#cardinality)
 
 ## Methods
 
 *Mutation*
 
 * [#.set](#set)
-* [#.remove](#remove)
 * [#.delete](#delete)
 * [#.clear](#clear)
 
@@ -59,7 +58,7 @@ var map = MultiMap.from([1, 2, 3], container);
 * [#.associations](#associations)
 * [Iterable](#iterable)
 
-### #.size
+### #.dimension
 
 Number of containers stored by the map.
 
@@ -68,11 +67,11 @@ var map = new MultiMap();
 
 map.set('hello', 'world');
 
-map.size
+map.dimension
 >>> 1
 ```
 
-### #.cardinality
+### #.size
 
 Total number of items stored by the map.
 
@@ -82,10 +81,10 @@ var map = new MultiMap();
 map.set('J', 'John');
 map.set('J', 'Jack');
 
-map.size
+map.dimension
 >>> 1
 
-map.cardinality
+map.size
 >>> 2
 ```
 
@@ -97,20 +96,6 @@ Adds an item to the multimap using the provided key.
 var map = new MultiMap();
 
 map.set(key, value);
-```
-
-### #.remove
-
-Remove the given item at the provided key.
-
-```js
-var map = new MultiMap();
-
-map.set('hello', 45);
-map.remove('hello', 45);
-
-map.get('hello');
->>> []
 ```
 
 ### #.delete
@@ -145,4 +130,151 @@ map.clear();
 
 map.size
 >>> 0
+```
+
+### #.has
+
+Returns whether the map holds a container at the given key.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John'});
+
+map.has('john');
+>>> true
+```
+
+### #.get
+
+Returns the container at the given key or `undefined`.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John'});
+
+map.get('john');
+>>> [{name: 'John'}]
+```
+
+### #.forEach
+
+Iterates over each of the entries of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+map.forEach(function(value, key) {
+  console.log(key, value);
+});
+>>> 'john', {name: 'John', surname: 'Doe'}
+>>> 'john', {name: 'John', surname: 'Watson'}
+```
+
+### #.keys
+
+Returns an iterator over the keys of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+var iterator = map.keys();
+
+iterator.next().value
+>>> 'john'
+```
+
+### #.values
+
+Returns an iterator over the values of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+var iterator = map.values();
+
+iterator.next().value
+>>> {name: 'John', surname: 'Doe'}
+```
+
+### #.entries
+
+Returns an iterator over the entries of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+var iterator = map.entries();
+
+iterator.next().value
+>>> ['john', {name: 'John', surname: 'Doe'}]
+```
+
+### #.containers
+
+Returns an iterator over the containers of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+var iterator = map.containers();
+
+iterator.next().value
+>>> [
+  {name: 'John', surname: 'Doe'},
+  {name: 'John', surname: 'Watson'}
+]
+```
+
+### #.associations
+
+Returns an iterator over the associations (key, container) of the multimap.
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+var iterator = map.containers();
+
+iterator.next().value
+>>> [
+  'john',
+  [
+    {name: 'John', surname: 'Doe'},
+    {name: 'John', surname: 'Watson'}
+  ]
+]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a list's entries using ES2015 `for...of` protocol:
+
+```js
+var map = new MultiMap();
+
+map.set('john', {name: 'John', surname: 'Doe'});
+map.set('john', {name: 'John', surname: 'Watson'});
+
+for (var entry of map) {
+  console.log(entry);
+}
 ```
