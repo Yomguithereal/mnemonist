@@ -206,7 +206,7 @@ LinkedList.prototype.entries = function() {
     i++;
 
     return {
-      value: [value, i - 1],
+      value: [i - 1, value],
       done: false
     };
   });

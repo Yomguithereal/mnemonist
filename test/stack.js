@@ -104,9 +104,9 @@ describe('Stack', function() {
 
     var iterator = stack.entries();
 
-    assert.deepEqual(iterator.next().value, [3, 0]);
-    assert.deepEqual(iterator.next().value, [2, 1]);
+    assert.deepEqual(iterator.next().value, [0, 3]);
     assert.deepEqual(iterator.next().value, [1, 2]);
+    assert.deepEqual(iterator.next().value, [2, 1]);
     assert.strictEqual(iterator.next().done, true);
   });
 

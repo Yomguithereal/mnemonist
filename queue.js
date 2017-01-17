@@ -149,7 +149,7 @@ Queue.prototype.entries = function() {
     i++;
 
     return {
-      value: [value, j++],
+      value: [j++, value],
       done: false
     };
   });

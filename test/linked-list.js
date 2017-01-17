@@ -123,9 +123,9 @@ describe('LinkedList', function() {
 
     var iterator = list.entries();
 
-    assert.deepEqual(iterator.next().value, [1, 0]);
-    assert.deepEqual(iterator.next().value, [2, 1]);
-    assert.deepEqual(iterator.next().value, [3, 2]);
+    assert.deepEqual(iterator.next().value, [0, 1]);
+    assert.deepEqual(iterator.next().value, [1, 2]);
+    assert.deepEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

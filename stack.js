@@ -133,7 +133,7 @@ Stack.prototype.entries = function() {
     var value = items[l - i - 1];
 
     return {
-      value: [value, i++],
+      value: [i++, value],
       done: false
     };
   });
