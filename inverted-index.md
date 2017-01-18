@@ -3,7 +3,7 @@ layout: page
 title: Inverted Index
 ---
 
-An `InvertedIndex` is an index that considers the inserted items as a set of tokens that should all work as potential keys.
+An `InvertedIndex` is an index that considers the inserted documents as a set of tokens that are all keys that one can use to retrieve the documents.
 
 ```js
 var InvertedIndex = require('mnemonist/inverted-index');
@@ -11,12 +11,12 @@ var InvertedIndex = require('mnemonist/inverted-index');
 
 ## Use case
 
-Usually, `InvertedIndex` are used to build full-text search.
+Usually, `InvertedIndex` are used to build full-text search engines.
 
 Here is how it works:
 
 1. Transform the inserted document into a set of tokens.
-2. For each token, create an entry in an internal map being a set and add the document to it.
+2. For each token, add an entry to an internal map with the key being the token & the value being the document.
 
 Let's see how we could search for documents using a very naive word tokenizer:
 
@@ -88,6 +88,15 @@ index.add(movie);
 index.get(queryTitle);
 ```
 
+### Static #.from
+
+Alternatively, one can build an `InvertedIndex` from an arbitrary JavaScript iterable likewise:
+
+```js
+var index = InvertedIndex.from(list, tokenizer [, useSet=false]);
+var index = InvertedIndex.from(list, tokenizers [, useSet=false]);
+```
+
 ## Members
 
 * [#.size](#size)
@@ -105,10 +114,96 @@ index.get(queryTitle);
 * [#.get, #.intersection](#get)
 * [#.union](#union)
 
-*Iteration*
+### #.size
 
-* [#.forEach](#foreach)
-* [#.tokens](#tokens)
-* [#.values](#values)
-* [#.entries](#entries)
-* [Iterable](#iterable)
+Number of documents stored in the index.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+
+index.size
+>>> 1
+```
+
+### #.add
+
+Tokenize the given document using the relevant function and adds it to the index.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+```
+
+### #.set
+
+Tokenize the given key using the relevant function and add the given document to the index.
+
+```js
+var index = new InvertedIndex(words);
+
+var doc = {text: 'The cat eats the mouse.', id: 34}
+
+index.set(doc.text, doc);
+```
+
+### #.clear
+
+Completely clears the index of its documents.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.clear();
+
+index.size
+>>> 1
+```
+
+### #.get, #.intersection
+
+Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+index.get('mouse');
+>>> [
+  'The cat eats the mouse.',
+  'The mouse eats cheese.'
+]
+
+index.get('cat mouse');
+>>> [
+  'The cat eats the mouse.'
+]
+```
+
+### #.union
+
+Tokenize the query using the relevant function, then retrieves the union of documents containing the resulting tokens.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+index.get('mouse');
+>>> [
+  'The cat eats the mouse.',
+  'The mouse eats cheese.'
+]
+
+index.get('cat mouse');
+>>> [
+  'The cat eats the mouse.',
+  'The mouse eats cheese.'
+]
+```

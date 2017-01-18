@@ -13,7 +13,7 @@ var CompositeIndex = require('mnemonist/composite-index');
 
 ## Use case
 
-Let's say we  wan to process *"not-so-clean* data concerning organizations and will need to merge entries coming from various sources related to the same organization.
+Let's say we  wan to process *"not-so-clean"* data concerning organizations and will need to merge entries coming from various sources related to the same organization.
 
 We might have relevant information about our organizations such as a name and an acronym but maybe not both.
 
