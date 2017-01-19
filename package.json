@@ -10,14 +10,7 @@
   },
   "files": [
     "utils",
-    "fibonacci-heap.js",
-    "heap.js",
-    "index.js",
-    "linked-list.js",
-    "queue.js",
-    "stack.js",
-    "suffix-array.js",
-    "trie.js"
+    "*.js"
   ],
   "repository": {
     "type": "git",
@@ -35,7 +28,9 @@
     "bag",
     "multiset",
     "counter",
-    "suffix tree"
+    "suffix tree",
+    "bk tree",
+    "Burkhard-Keller tree"
   ],
   "author": {
     "name": "Guillaume Plique",
@@ -50,6 +45,7 @@
     "@yomguithereal/eslint-config": "^3.0.0",
     "benchmark": "^2.1.1",
     "eslint": "^3.8.1",
+    "leven": "^2.0.0",
     "microtime": "^2.1.1",
     "mocha": "^3.1.2"
   },
@@ -68,5 +64,6 @@
     "ecmaFeatures": {
       "forOf": true
     }
-  }
+  },
+  "dependencies": {}
 }
