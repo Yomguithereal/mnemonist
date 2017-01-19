@@ -14,7 +14,7 @@ layout: home
 
 Mnemonist is a collection of data structures implemented in JavaScript.
 
-It gathers classic data structures (think [heap]({{ site.baseurl }}/heap), [trie]({{ site.baseurl }}/trie) etc.) as well as more exotic ones such as [Buckhard-Keller trees]({{ site.baseurl }}/bk-tree) etc.
+It gathers classic data structures (think [heap]({{ site.baseurl }}/heap), [trie]({{ site.baseurl }}/trie) etc.) as well as more exotic ones such as [Burkhard-Keller trees]({{ site.baseurl }}/bk-tree) etc.
 
 It strives at being:
 
