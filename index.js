@@ -10,6 +10,7 @@ var Heap = require('./heap.js'),
     SuffixArray = require('./suffix-array.js');
 
 module.exports = {
+  BloomFilter: require('./bloom-filter.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,
