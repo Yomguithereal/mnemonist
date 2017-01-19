@@ -54,6 +54,7 @@ var filter = BloomFilter.from([1, 2, 3], options);
 *Mutation*
 
 * [#.add](#add)
+* [#.clear](#clear)
 
 *Read*
 
@@ -91,6 +92,19 @@ Will throw if the capacity of the filter is exceeded.
 ```js
 var filter = new BloomFilter(5);
 filter.add('hello');
+```
+
+### #.clear
+
+Completely clears the filter of its items.
+
+```js
+var filter = new BloomFilter(5);
+filter.add('hello');
+filter.clear();
+
+filter.size
+>>> 0
 ```
 
 ### #.test
