@@ -8,3 +8,5 @@ This is a basic Todo list of things when adding a new structure:
 * [ ] Add proper iterators
 * [ ] Add a static `#.from` function
 * [ ] Add unit tests
+* [ ] Add the structure to the endpoint
+* [ ] Add a changelog entry

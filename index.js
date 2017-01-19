@@ -11,6 +11,7 @@ var Heap = require('./heap.js'),
 
 module.exports = {
   BloomFilter: require('./bloom-filter.js'),
+  BKTree: require('./bk-tree.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,

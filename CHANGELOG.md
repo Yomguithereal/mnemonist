@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+* Adding `BKTree`.
+
 ## 0.7.0
 
 * Adding `BloomFilter`.
