@@ -2,6 +2,7 @@
 
 This is a basic Todo list of things when adding a new structure:
 
+* [ ] Documentation
 * [ ] Code the structure
 * [ ] Add convenience methods (`#.inspect`, `#.toString`, `#.toJSON` etc.)
 * [ ] Add proper iterators
