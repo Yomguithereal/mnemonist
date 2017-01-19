@@ -64,8 +64,14 @@ var list = Trie.from(['roman', 'romanesque']);
 
 ## Methods
 
+*Mutation*
+
 * [#.add](#add)
 * [#.delete](#delete)
+* [#.clear](#clear)
+
+*Read*
+
 * [#.has](#has)
 * [#.get](#get)
 * [#.longestPrefix](#longestprefix)
@@ -112,6 +118,21 @@ trie.delete('hello');
 
 trie.delete('world');
 >>> false
+```
+
+### #.clear
+
+Completely clears the trie of its items.
+
+```js
+var trie = new Trie();
+trie.add('hello');
+trie.add('roman');
+
+trie.clear();
+
+trie.size
+>>> 0
 ```
 
 ### #.has
