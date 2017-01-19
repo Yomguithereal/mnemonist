@@ -22,10 +22,10 @@ npm install --save mnemonist
 
 Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist).
 
+* [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
 * [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
-* [MultiSet](https://yomguithereal.github.io/mnemonist/multiset)
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)

@@ -58,7 +58,9 @@
     "globals": {
       "Set": true,
       "Map": true,
-      "Symbol": true
+      "Symbol": true,
+      "Uint8Array": true,
+      "Uint16Array": true
     },
     "parserOptions": {
       "ecmaVersion": 6

@@ -2,6 +2,7 @@
 
 ## 0.7.0
 
+* Adding `BloomFilter`.
 * Adding static `#.from` method to all relevant structures.
 * Adding iterators to all relevant structures.
 * Removing the `MultiSet` until proper API is found.
