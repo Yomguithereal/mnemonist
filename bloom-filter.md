@@ -47,7 +47,8 @@ var filter = BloomFilter.from([1, 2, 3], options);
 ## Members
 
 * [#.capacity](#capacity)
-* [#.size](#size)
+* [#.errorRate](#errorate)
+* [#.hashFunctions](#hashfunctions)
 
 ## Methods
 
@@ -71,23 +72,31 @@ filter.capacity
 >>> 5
 ```
 
-### #.size
+### #.errorRate
 
-Number of items currently stored by the filter.
+Error rate of the filter. Defaults to `0.005`.
 
 ```js
 var filter = new BloomFilter(5);
-filter.add('hello');
 
-filter.size
->>> 1
+filter.errorRate
+>>> 0.005
+```
+
+### #.hashFunctions
+
+Number of hash functions.
+
+```js
+var filter = new BloomFilter(3);
+
+filter.hashFunctions
+>>> 7
 ```
 
 ### #.add
 
 Add the given item to the filter.
-
-Will throw if the capacity of the filter is exceeded.
 
 ```js
 var filter = new BloomFilter(5);

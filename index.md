@@ -32,6 +32,7 @@ npm install --save mnemonist
 
 ## Documentation
 
+* [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
 * [Linked List]({{ site.baseurl }}/linked-list)
