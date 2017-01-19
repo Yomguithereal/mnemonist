@@ -3,15 +3,15 @@ layout: page
 title: Bloom Filter
 ---
 
-A `BloomFilter` is very space-efficient probabilistic set based on hash functions.
+A `BloomFilter` is space-efficient probabilistic set based on hash functions.
 
-This means that, like with a classic `Set`, you can add items to it and ask whether the item exists in it. The twist is that if the filter answers no, you can be sure about it, but if the filter answers yes, it might be wrong.
+This means that, like a classic `Set`, you can add items to it and ask whether the item exists in it. The twist is that if the filter answers no, you can be sure about it, but if the filter answers yes, it might be wrong.
 
 Basically, a `BloomFilter` cannot answer with false negatives but can answer with false positives.
 
 Moreover, because it stores information on byte arrays, a `BloomFilter` cannot have a dynamic size and one cannot iterate over its items since it does only store "traces" about inserted items.
 
-For more information about the Heap, you can head [here](https://en.wikipedia.org/wiki/Bloom_filter).
+For more information about the `BloomFilter`, you can head [here](https://en.wikipedia.org/wiki/Bloom_filter).
 
 ```js
 var BloomFilter = require('mnemonist/bloom-filter');
