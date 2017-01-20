@@ -11,8 +11,6 @@ For more information about the Burkhard-Keller Tree, you can head [here](https:/
 var BKTree = require('mnemonist/bk-tree');
 ```
 
-Burkhard-Keller trees are data structures usually used to index strings that one can then query using distance metrics such as the [Levenshtein]({{ site.baseurl }}/metrics/distance#levenshtein) distance.
-
 ## Use case
 
 Let's say we want to build an autocomplete system.

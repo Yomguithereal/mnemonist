@@ -73,6 +73,10 @@ article {
     position: relative;
     padding: 0;
     margin-left: 0;
+
+    ul {
+      margin-left: 20px;
+    }
   }
 
   ul > li:before {

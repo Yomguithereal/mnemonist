@@ -27,8 +27,8 @@
     .kp    {  font-weight: bold } // Keyword.Pseudo
     .kr    {  font-weight: bold } // Keyword.Reserved
     .kt    {  font-weight: bold } // Keyword.Type
-    .m     { color: $alt-color; } // Literal.Number
-    .s     { color: $alt-color; } // Literal.String
+    .m     { color: $accent-color; } // Literal.Number
+    .s     { color: $accent-color; } // Literal.String
     .na    {  } // Name.Attribute
     .nb    {  } // Name.Builtin
     .nc    {  font-weight: bold } // Name.Class
@@ -41,10 +41,10 @@
     .nv    {  } // Name.Variable
     .ow    {  font-weight: bold } // Operator.Word
     .w     {  } // Text.Whitespace
-    .mf    { color: $alt-color; } // Literal.Number.Float
-    .mh    { color: $alt-color; } // Literal.Number.Hex
-    .mi    { color: $alt-color; } // Literal.Number.Integer
-    .mo    { color: $alt-color; } // Literal.Number.Oct
+    .mf    { color: $accent-color; } // Literal.Number.Float
+    .mh    { color: $accent-color; } // Literal.Number.Hex
+    .mi    { color: $accent-color; } // Literal.Number.Integer
+    .mo    { color: $accent-color; } // Literal.Number.Oct
     .sb    { color: $alt-color; } // Literal.String.Backtick
     .sc    { color: $alt-color; } // Literal.String.Char
     .sd    { color: $alt-color; } // Literal.String.Doc
