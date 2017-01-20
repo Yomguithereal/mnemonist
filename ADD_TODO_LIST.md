@@ -10,3 +10,4 @@ This is a basic Todo list of things when adding a new structure:
 * [ ] Add unit tests
 * [ ] Add the structure to the endpoint
 * [ ] Add a changelog entry
+* [ ] Add keywords
