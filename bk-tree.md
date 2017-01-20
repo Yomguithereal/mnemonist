@@ -51,7 +51,7 @@ var tree = new BKTree(distance);
 Alternatively, one can build a `BKTree` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var heap = BKTree.from(['hello', 'mello'], distance);
+var tree = BKTree.from(['hello', 'mello'], distance);
 ```
 
 ## Members
