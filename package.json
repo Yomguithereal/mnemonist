@@ -56,7 +56,8 @@
       "Map": true,
       "Symbol": true,
       "Uint8Array": true,
-      "Uint16Array": true
+      "Uint16Array": true,
+      "Float64Array": true
     },
     "parserOptions": {
       "ecmaVersion": 6
