@@ -294,9 +294,17 @@ VPTree.prototype.neighbors = function(radius, query) {
 /**
  * Convenience known methods.
  */
-// VPTree.prototype.inspect = function() {
+VPTree.prototype.inspect = function() {
+  var array = this.items.slice();
 
-// };
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(array, 'constructor', {
+    value: VPTree,
+    enumerable: false
+  });
+
+  return array;
+};
 
 /**
  * Static @.from function taking an abitrary iterable & converting it into

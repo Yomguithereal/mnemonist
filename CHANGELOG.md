@@ -3,6 +3,7 @@
 ## 0.8.0
 
 * Adding `BKTree`.
+* Adding `VPTree`.
 
 ## 0.7.0
 
