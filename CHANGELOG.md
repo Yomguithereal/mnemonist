@@ -1,9 +1,12 @@
 # Changelog
 
+## 0.9.0
+
+* Adding `VPTree`.
+
 ## 0.8.0
 
 * Adding `BKTree`.
-* Adding `VPTree`.
 
 ## 0.7.0
 
