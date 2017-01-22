@@ -2,7 +2,7 @@
   "name": "mnemonist",
   "version": "0.9.0",
   "description": "Curated collection of data structures for the JavaScript language.",
-  "main": "index.js",
+  "main": "endpoint.js",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm run lint && npm test",
@@ -27,6 +27,7 @@
     "trie",
     "bag",
     "multiset",
+    "multimap",
     "counter",
     "suffix tree",
     "bk tree",

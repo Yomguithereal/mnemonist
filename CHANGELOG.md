@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+
+* Adding `MultiMap`.
+
 ## 0.9.0
 
 * Adding `VPTree`.
