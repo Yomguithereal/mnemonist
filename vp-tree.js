@@ -171,7 +171,7 @@ function VPTree(distance, items) {
  *
  * @param  {number} k     - Number of neighbors to retrieve.
  * @param  {any}    query - The query.
- * @return {arrau}
+ * @return {array}
  */
 VPTree.prototype.nearestNeighbors = function(k, query) {
   var neighbors = new Heap(comparator),
@@ -234,6 +234,69 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
 
   return array;
 };
+
+/**
+ * Function used to retrieve every neighbors of query in the given radius.
+ *
+ * @param  {number} radius - Radius.
+ * @param  {any}    query  - The query.
+ * @return {array}
+ */
+VPTree.prototype.neighbors = function(radius, query) {
+  var neighbors = [],
+      stack = [0],
+      tau = Infinity,
+      nodeIndex,
+      itemIndex,
+      vantagePoint,
+      leftIndex,
+      rightIndex,
+      mu,
+      d;
+
+  while (stack.length) {
+    nodeIndex = stack.pop();
+    itemIndex = this.data[nodeIndex];
+    vantagePoint = this.items[itemIndex];
+
+    // Distance between query & the current vantage point
+    d = this.distance(vantagePoint, query);
+
+    if (d <= radius)
+      neighbors.push({distance: d, item: vantagePoint});
+
+    leftIndex = this.data[nodeIndex + 2];
+    rightIndex = this.data[nodeIndex + 3];
+
+    // We are a leaf
+    if (!leftIndex && !rightIndex)
+      continue;
+
+    mu = this.data[nodeIndex + 1];
+
+    if (d < mu) {
+      if (leftIndex && d < mu + tau)
+        stack.push(leftIndex);
+      if (rightIndex && d >= mu - tau) // ALT
+        stack.push(rightIndex);
+    }
+    else {
+      if (rightIndex && d >= mu - tau)
+        stack.push(rightIndex);
+      if (leftIndex && d < mu + tau) // ALT
+        stack.push(leftIndex);
+    }
+  }
+
+  return neighbors;
+};
+
+/**
+ * Convenience known methods.
+ */
+// VPTree.prototype.inspect = function() {
+
+// };
 
 /**
  * Static @.from function taking an abitrary iterable & converting it into

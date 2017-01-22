@@ -32,6 +32,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
+* [Vantage Point Tree](https://yomguithereal.github.io/mnemonist/vp-tree)
 
 Note that this list does not include a `Graph` data structure, whose implementation is usually far too complex for the scope of this library.
 

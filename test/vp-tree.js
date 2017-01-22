@@ -109,4 +109,49 @@ describe('VPTree', function() {
       {distance: 3, item: 'shock'}
     ]);
   });
+
+  it('should be possible to find every neighbor within radius.', function() {
+    var tree = new VPTree(levenshtein, WORDS);
+
+    assert.deepEqual(tree.neighbors(2, 'look'), [
+      {distance: 2, item: 'bock'},
+      {distance: 1, item: 'book'},
+      {distance: 1, item: 'lock'}
+    ]);
+
+    assert.deepEqual(tree.neighbors(3, 'look'), [
+      {distance: 3, item: 'shock'},
+      {distance: 2, item: 'bock'},
+      {distance: 1, item: 'book'},
+      {distance: 3, item: 'mack'},
+      {distance: 3, item: 'back'},
+      {distance: 1, item: 'lock'}
+    ]);
+  });
+
+  it('should be possible to create a tree from an arbitrary iterable.', function() {
+    var tree = VPTree.from(new Set(WORDS), levenshtein);
+
+    assert.strictEqual(tree.size, 15);
+
+    assert.deepEqual(tree.nearestNeighbors(2, 'look'), [
+      {distance: 1, item: 'book'},
+      {distance: 1, item: 'lock'}
+    ]);
+  });
+
+  it('should be possible to insert arbitrary items in the tree.', function() {
+    var items = WORDS.map(function(item) {
+      return {value: item};
+    });
+
+    var tree = new VPTree(function(a, b) {
+      return levenshtein(a.value, b.value);
+    }, items);
+
+    assert.deepEqual(tree.nearestNeighbors(2, {value: 'look'}), [
+      {distance: 1, item: {value: 'book'}},
+      {distance: 1, item: {value: 'lock'}}
+    ]);
+  });
 });
