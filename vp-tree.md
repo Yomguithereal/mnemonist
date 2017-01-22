@@ -7,6 +7,8 @@ A `VPTree` is a data structure used to index items in an arbitrary metric space 
 
 It works by choosing a point in the dataset and making it the "vantage point" of the node then splitting the remaining points into two children nodes one storing the nearest points and the other the farthest ones. It continues recursively until all points have been stored in the tree.
 
+One should know, however, that a `VPTree` has worst cases - mostly due to median ambiguity - and will often build trees that are not perfectly balanced. This is frequently the case, for instance, with datasets where everything stands close together or that are too small.
+
 For more information about the `VPTree`, you can head [here](https://en.wikipedia.org/wiki/Vantage-point_tree).
 
 ```js
@@ -17,6 +19,8 @@ var VPTree = require('mnemonist/vp-tree');
 
 The `VPTree` takes two arguments being the distance metric to use & the list of items to index (a `VPTree` does not support addition nor deletion).
 
+Note that the provided metric distance must be a [true metric](https://en.wikipedia.org/wiki/Metric_(mathematics)) else the tree will produce invalid results.
+
 ```js
 var tree = new VPTree(distance, items);
 ```
@@ -26,7 +30,7 @@ var tree = new VPTree(distance, items);
 Alternatively, one can build a `VPTree` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var tree = VPTree.from(['hello', 'mello'], distance, items);
+var tree = VPTree.from(['hello', 'mello'], distance);
 ```
 
 ## Members
@@ -53,7 +57,7 @@ tree.size
 
 ### #.nearestNeighbors
 
-Returns the k nearest neighbors of the given query.
+Returns the k nearest neighbors of the given query. Note that the resulting array will be ordered with by ascending distance.
 
 ```js
 var words = [
@@ -78,7 +82,7 @@ tree.nearestNeighbors(2, 'look');
 
 ### #.neighbors
 
-Return all the neighbors of the given query for the given range.
+Return all the neighbors of the given query for the given radius. Note that the resulting array will not be ordered.
 
 ```js
 var words = [

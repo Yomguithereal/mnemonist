@@ -42,6 +42,7 @@ npm install --save mnemonist
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
 * [Trie]({{ site.baseurl }}/trie)
+* [Vantage Point Tree]({{ site.baseurl }}/vp-tree)
 
 Note that this list does not include a `Graph` data structure whose implementation is usually far too complex for the scope of this library.
 
