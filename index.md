@@ -38,6 +38,7 @@ npm install --save mnemonist
 * [Heap]({{ site.baseurl }}/heap)
 * [Linked List]({{ site.baseurl }}/linked-list)
 * [MultiMap]({{ site.baseurl }}/multi-map)
+* [MultiSet]({{ site.baseurl }}/multi-set)
 * [Queue]({{ site.baseurl }}/queue)
 * [Stack]({{ site.baseurl }}/stack)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
