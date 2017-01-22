@@ -30,7 +30,9 @@
     "counter",
     "suffix tree",
     "bk tree",
-    "Burkhard-Keller tree"
+    "burkhard-keller tree",
+    "vp tree",
+    "vantage point tree"
   ],
   "author": {
     "name": "Guillaume Plique",

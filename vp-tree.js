@@ -5,10 +5,29 @@
  * JavaScript implementation of the Vantage Point Tree storing the binary
  * tree as a flat byte array.
  *
+ * Note that a VPTree has worst cases and is likely not to be perfectly
+ * balanced because of median ambiguity. It is therefore not suitable
+ * for hairballs and tiny datasets.
+ *
  * [Reference]:
  * https://en.wikipedia.org/wiki/Vantage-point_tree
  */
-var iterateOver = require('./utils/iterate.js');
+var iterateOver = require('./utils/iterate.js'),
+    Heap = require('./heap.js');
+
+// TODO: implement better selection technique for the vantage point
+// The one minimizing spread of sample using stdev is usually the accepted one
+
+/**
+ * Heap comparator used by the #.nearestNeighbors method.
+ */
+function comparator(a, b) {
+  if (a.distance < b.distance)
+    return 1;
+  if (a.distance > b.distance)
+    return -1;
+  return 0;
+}
 
 /**
  * Function used to create the binary tree.
@@ -19,11 +38,9 @@ var iterateOver = require('./utils/iterate.js');
  * @return {Float64Array}          - The flat binary tree.
  */
 function createBinaryTree(distance, items, indexes) {
-  var n = indexes.length,
-      k = Math.ceil(Math.log2(n + 1) - 1),
-      L = Math.pow(2, k + 1) - 1;
-
-  var data = new Float64Array(L * 2),
+  var N = indexes.length,
+      C = 0,
+      data = new Float64Array(N * 4),
       stack = [0, indexes],
       distances = [],
       sortedDistances = [],
@@ -55,26 +72,15 @@ function createBinaryTree(distance, items, indexes) {
 
     if (l === 1) {
 
-      // We put remaining item to the left
+      // We put remaining item to the right
       mu = distance(items[vantagePoint], items[currentIndexes[0]]);
 
-      data[L + nodeIndex] = mu;
-      data[nodeIndex * 2 + 1] = currentIndexes[0];
+      data[nodeIndex + 1] = mu;
 
-      continue;
-    }
-
-    if (l === 2) {
-
-      // We put last two items to the left & right respectively
-      mu = (
-        distance(items[vantagePoint], items[currentIndexes[0]]) +
-        distance(items[vantagePoint], items[currentIndexes[1]])
-      ) / 2;
-
-      data[L + nodeIndex] = mu;
-      data[nodeIndex * 2 + 1] = currentIndexes[0];
-      data[nodeIndex * 2 + 2] = currentIndexes[1];
+      // Right
+      C += 4;
+      data[nodeIndex + 3] = C;
+      data[C] = currentIndexes[0];
 
       continue;
     }
@@ -95,25 +101,34 @@ function createBinaryTree(distance, items, indexes) {
       sortedDistances[Math.ceil(medianIndex)];
 
     // Storing mu
-    data[L + nodeIndex] = mu;
+    data[nodeIndex + 1] = mu;
 
     // Dispatching the indexes left & right
     left = [];
     right = [];
-    h = Math.floor(h);
 
     for (i = 0; i < l; i++) {
-      if (distances[i] >= mu && right.length < h)
+      if (distances[i] >= mu)
         right.push(currentIndexes[i]);
       else
         left.push(currentIndexes[i]);
     }
 
-    stack.push(2 * nodeIndex + 2);
-    stack.push(right);
+    // Right
+    if (right.length) {
+      C += 4;
+      data[nodeIndex + 3] = C;
+      stack.push(C);
+      stack.push(right);
+    }
 
-    stack.push(2 * nodeIndex + 1);
-    stack.push(left);
+    // Left
+    if (left.length) {
+      C += 4;
+      data[nodeIndex + 2] = C;
+      stack.push(C);
+      stack.push(left);
+    }
   }
 
   return data;
@@ -134,14 +149,12 @@ function VPTree(distance, items) {
     throw new Error('mnemonist/VPTree.constructor: you must provide items to the tree. A VPTree cannot be updated after its creation.');
 
   // Properties
-  // NOTE: this.items starts with a null value so that we may use `0` as
-  // an empty value in our Float64Array, making the stored indices 1-based.
   this.distance = distance;
-  this.items = [null];
+  this.items = [];
 
   var indexes = [],
       self = this,
-      i = 1;
+      i = 0;
 
   iterateOver(items, function(value) {
     self.items.push(value);
@@ -152,6 +165,75 @@ function VPTree(distance, items) {
   this.size = indexes.length;
   this.data = createBinaryTree(distance, this.items, indexes);
 }
+
+/**
+ * Function used to retrieve the k nearest neighbors of the query.
+ *
+ * @param  {number} k     - Number of neighbors to retrieve.
+ * @param  {any}    query - The query.
+ * @return {arrau}
+ */
+VPTree.prototype.nearestNeighbors = function(k, query) {
+  var neighbors = new Heap(comparator),
+      stack = [0],
+      tau = Infinity,
+      nodeIndex,
+      itemIndex,
+      vantagePoint,
+      leftIndex,
+      rightIndex,
+      mu,
+      d;
+
+  while (stack.length) {
+    nodeIndex = stack.pop();
+    itemIndex = this.data[nodeIndex];
+    vantagePoint = this.items[itemIndex];
+
+    // Distance between query & the current vantage point
+    d = this.distance(vantagePoint, query);
+
+    if (d < tau) {
+      neighbors.push({distance: d, item: vantagePoint});
+
+      // Trimming
+      if (neighbors.size > k)
+        neighbors.pop();
+
+      // Adjusting tau
+      tau = neighbors.peek().distance;
+    }
+
+    leftIndex = this.data[nodeIndex + 2];
+    rightIndex = this.data[nodeIndex + 3];
+
+    // We are a leaf
+    if (!leftIndex && !rightIndex)
+      continue;
+
+    mu = this.data[nodeIndex + 1];
+
+    if (d < mu) {
+      if (leftIndex && d < mu + tau)
+        stack.push(leftIndex);
+      if (rightIndex && d >= mu - tau) // ALT
+        stack.push(rightIndex);
+    }
+    else {
+      if (rightIndex && d >= mu - tau)
+        stack.push(rightIndex);
+      if (leftIndex && d < mu + tau) // ALT
+        stack.push(leftIndex);
+    }
+  }
+
+  var array = new Array(neighbors.size);
+
+  for (var i = neighbors.size - 1; i >= 0; i--)
+    array[i] = neighbors.pop();
+
+  return array;
+};
 
 /**
  * Static @.from function taking an abitrary iterable & converting it into
