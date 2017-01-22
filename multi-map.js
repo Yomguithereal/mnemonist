@@ -138,7 +138,10 @@ function MultiMapIterator(next) {
 MultiMap.prototype.keys = function() {
   var iterator = this.items.keys();
 
-  iterator.constructor = MultiMapIterator;
+  Object.defineProperty(iterator, 'constructor', {
+    value: MultiMapIterator,
+    enumerable: false
+  });
 
   return iterator;
 };
@@ -280,7 +283,10 @@ MultiMap.prototype.entries = function() {
 MultiMap.prototype.containers = function() {
   var iterator = this.items.values();
 
-  iterator.constructor = MultiMapIterator;
+  Object.defineProperty(iterator, 'constructor', {
+    value: MultiMapIterator,
+    enumerable: false
+  });
 
   return iterator;
 };
@@ -293,7 +299,10 @@ MultiMap.prototype.containers = function() {
 MultiMap.prototype.associations = function() {
   var iterator = this.items.entries();
 
-  iterator.constructor = MultiMapIterator;
+  Object.defineProperty(iterator, 'constructor', {
+    value: MultiMapIterator,
+    enumerable: false
+  });
 
   return iterator;
 };

@@ -3,6 +3,7 @@
 ## 0.10.0
 
 * Adding `MultiMap`.
+* Adding `MultiSet`.
 
 ## 0.9.0
 
