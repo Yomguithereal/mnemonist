@@ -42,6 +42,7 @@ npm install --save mnemonist
 * [Queue]({{ site.baseurl }}/queue)
 * [Stack]({{ site.baseurl }}/stack)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
+* [SymSpell]({{ site.baseurl }}/symspell)
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
 * [Trie]({{ site.baseurl }}/trie)
 * [Vantage Point Tree]({{ site.baseurl }}/vp-tree)
