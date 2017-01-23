@@ -1,25 +1,25 @@
 /**
- * Mnemonist Index
- * ================
+ * Mnemonist MultiIndex
+ * =====================
  *
- * The Index is basically an abstract HashMap where given keys or items
- * are hashed by a function to produce a specific key so that one may
- * query it using the same strategies.
+ * Same as the index but relying on a MultiMap rather than a Map.
  */
-var iterateOver = require('./utils/iterate.js');
+var MultiMap = require('./multi-map.js'),
+    iterateOver = require('./utils/iterate.js');
 
 var identity = function(x) {
   return x;
 };
 
 /**
- * Index.
+ * MultiIndex.
  *
  * @constructor
  * @param {array|function} descriptor - Hash functions descriptor.
+ * @param {function}       Container  - Container to use.
  */
-function Index(descriptor) {
-  this.items = new Map();
+function MultiIndex(descriptor, Container) {
+  this.items = new MultiMap(Container);
   this.clear();
 
   if (Array.isArray(descriptor)) {
@@ -37,10 +37,10 @@ function Index(descriptor) {
     this.readHashFunction = identity;
 
   if (typeof this.writeHashFunction !== 'function')
-    throw new Error('mnemonist/Index.constructor: invalid hash function given.');
+    throw new Error('mnemonist/MultiIndex.constructor: invalid hash function given.');
 
   if (typeof this.readHashFunction !== 'function')
-    throw new Error('mnemonist/Index.constructor: invalid hash function given.');
+    throw new Error('mnemonist/MultiIndex.constructor: invalid hash function given.');
 }
 
 /**
@@ -48,7 +48,7 @@ function Index(descriptor) {
  *
  * @return {undefined}
  */
-Index.prototype.clear = function() {
+MultiIndex.prototype.clear = function() {
   this.items.clear();
 
   // Properties
@@ -59,9 +59,9 @@ Index.prototype.clear = function() {
  * Method used to add an item to the index.
  *
  * @param  {any} item - Item to add.
- * @return {Index}
+ * @return {MultiIndex}
  */
-Index.prototype.add = function(item) {
+MultiIndex.prototype.add = function(item) {
   var key = this.writeHashFunction(item);
 
   this.items.set(key, item);
@@ -75,9 +75,9 @@ Index.prototype.add = function(item) {
  *
  * @param  {any} key  - Key to use.
  * @param  {any} item - Item to add.
- * @return {Index}
+ * @return {MultiIndex}
  */
-Index.prototype.set = function(key, item) {
+MultiIndex.prototype.set = function(key, item) {
   key = this.writeHashFunction(key);
 
   this.items.set(key, item);
@@ -90,9 +90,9 @@ Index.prototype.set = function(key, item) {
  * Method used to retrieve an item from the index.
  *
  * @param  {any} key - Key to use.
- * @return {Index}
+ * @return {MultiIndex}
  */
-Index.prototype.get = function(key) {
+MultiIndex.prototype.get = function(key) {
   key = this.readHashFunction(key);
 
   return this.items.get(key);
@@ -105,7 +105,7 @@ Index.prototype.get = function(key) {
  * @param  {object}    scope    - Optional scope.
  * @return {undefined}
  */
-Index.prototype.forEach = function(callback, scope) {
+MultiIndex.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
   this.items.forEach(function(value) {
@@ -115,22 +115,22 @@ Index.prototype.forEach = function(callback, scope) {
 
 
 /**
- * Index Iterator class.
+ * MultiIndex Iterator class.
  */
-function IndexIterator(next) {
+function MultiIndexIterator(next) {
   this.next = next;
 }
 
 /**
  * Method returning an iterator over the index's values.
  *
- * @return {IndexIterator}
+ * @return {MultiIndexIterator}
  */
-Index.prototype.values = function() {
+MultiIndex.prototype.values = function() {
   var iterator = this.items.values();
 
   Object.defineProperty(iterator, 'constructor', {
-    value: IndexIterator,
+    value: MultiIndexIterator,
     enumerable: false
   });
 
@@ -141,16 +141,16 @@ Index.prototype.values = function() {
  * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  Index.prototype[Symbol.iterator] = Index.prototype.values;
+  MultiIndex.prototype[Symbol.iterator] = MultiIndex.prototype.values;
 
 /**
  * Convenience known method.
  */
-Index.prototype.inspect = function() {
-  var array = Array.from(this.items.values());
+MultiIndex.prototype.inspect = function() {
+  var array = Array.from(this);
 
   Object.defineProperty(array, 'constructor', {
-    value: Index,
+    value: MultiIndex,
     enumerable: false
   });
 
@@ -163,11 +163,19 @@ Index.prototype.inspect = function() {
  *
  * @param  {Iterable}       iterable   - Target iterable.
  * @param  {array|function} descriptor - Hash functions descriptor.
+ * @param  {function}       Container  - Container to use.
  * @param  {boolean}        useSet     - Whether to use #.set or #.add
- * @return {Index}
+ * @return {MultiIndex}
  */
-Index.from = function(iterable, descriptor, useSet) {
-  var index = new Index(descriptor);
+MultiIndex.from = function(iterable, descriptor, Container, useSet) {
+  if (arguments.length === 3) {
+    if (typeof Container === 'boolean') {
+      useSet = Container;
+      Container = Array;
+    }
+  }
+
+  var index = new MultiIndex(descriptor, Container);
 
   iterateOver(iterable, function(value, key) {
     if (useSet)
@@ -182,4 +190,4 @@ Index.from = function(iterable, descriptor, useSet) {
 /**
  * Exporting.
  */
-module.exports = Index;
+module.exports = MultiIndex;

@@ -3,6 +3,7 @@
 ## 0.10.0
 
 * Adding `Index`.
+* Adding `MultiIndex`.
 * Adding `MultiMap`.
 * Adding `MultiSet`.
 * Adding `SymSpell`.

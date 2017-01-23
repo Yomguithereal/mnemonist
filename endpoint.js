@@ -20,6 +20,7 @@ module.exports = {
   MaxHeap: Heap.MaxHeap,
   Index: require('./index.js'),
   LinkedList: require('./linked-list.js'),
+  MultiIndex: require('./multi-index.js'),
   MultiMap: require('./multi-map.js'),
   MultiSet: require('./multi-set.js'),
   Queue: require('./queue.js'),

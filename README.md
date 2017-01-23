@@ -28,6 +28,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
 * [Index](https://yomguithereal.github.io/mnemonist/index-structure)
 * [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
+* [MultiIndex](https://yomguithereal.github.io/mnemonist/multi-index)
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multi-set)
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
