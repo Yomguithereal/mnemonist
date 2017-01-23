@@ -36,6 +36,7 @@ npm install --save mnemonist
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
+* [Index]({{ site.baseurl }}/index-structure)
 * [Linked List]({{ site.baseurl }}/linked-list)
 * [MultiMap]({{ site.baseurl }}/multi-map)
 * [MultiSet]({{ site.baseurl }}/multi-set)
