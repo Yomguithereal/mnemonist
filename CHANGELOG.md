@@ -4,6 +4,7 @@
 
 * Adding `MultiMap`.
 * Adding `MultiSet`.
+* Adding `SymSpell`.
 
 ## 0.9.0
 

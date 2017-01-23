@@ -25,6 +25,7 @@ module.exports = {
   Stack: require('./stack.js'),
   SuffixArray: SuffixArray,
   GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,
+  SymSpell: require('./symspell.js'),
   Trie: require('./trie.js'),
   VPTree: require('./vp-tree.js')
 };
