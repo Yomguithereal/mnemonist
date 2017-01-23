@@ -163,10 +163,11 @@ function damerauLevenshtein(source, target) {
     H[0][j + 1] = INF;
   }
 
-  const st = source + target;
+  var st = source + target,
+      letter;
 
   for (i = 0, l = st.length; i < l; i++) {
-    const letter = st[i];
+    letter = st[i];
 
     if (!sd.has(letter))
       sd.set(letter, 0);

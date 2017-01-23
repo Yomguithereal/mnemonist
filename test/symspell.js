@@ -4,7 +4,8 @@
  * ==============================
  */
 var assert = require('assert'),
-    SymSpell = require('../symspell.js');
+    SymSpell = require('../symspell.js'),
+    damerauLevenshtein = require('damerau-levenshtein');
 
 var DATA = [
   'Hello',
@@ -54,12 +55,12 @@ describe('SymSpell', function() {
       ]
     );
 
-    // index.search('ello').every(suggestion => {
-    //   assert.strictEqual(
-    //     suggestion.distance,
-    //     damerauLevenshtein(suggestion.term, 'ello').steps
-    //   );
-    // });
+    index.search('ello').every(suggestion => {
+      assert.strictEqual(
+        suggestion.distance,
+        damerauLevenshtein(suggestion.term, 'ello').steps
+      );
+    });
   });
 
   it('should be possible to increase the maximum edit distance.', function() {
