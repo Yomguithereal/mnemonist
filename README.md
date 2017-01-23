@@ -26,6 +26,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
+* [Index](https://yomguithereal.github.io/mnemonist/index-structure)
 * [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multi-set)
