@@ -34,8 +34,8 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
-* [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
+* [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
 * [Vantage Point Tree](https://yomguithereal.github.io/mnemonist/vp-tree)
 
