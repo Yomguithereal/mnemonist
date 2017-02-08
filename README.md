@@ -43,6 +43,8 @@ Note that this list does not include a `Graph` data structure, whose implementat
 
 However, we advise the reader to take a look at the [`graphology`](https://graphology.github.io/) library instead.
 
+Don't find the data structure you want? Maybe we can work it out [together](./issues).
+
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.
