@@ -60,7 +60,7 @@ index.get('boring movie');
 
 Note that if you need to store multiple values under a same key, you should probably check out the [`MultiIndex`]({{ site.baseurl }}/multi-index) instead.
 
-You can also check out the [`CompositeIndex`]({{ site.baseurl }}/composite-index) if you need to store your items using multiple strategies at once.
+<!-- You can also check out the [`CompositeIndex`]({{ site.baseurl }}/composite-index) if you need to store your items using multiple strategies at once. -->
 
 ## Constructor
 
