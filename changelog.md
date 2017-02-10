@@ -3,6 +3,18 @@ layout: page
 title: Changelog
 ---
 
+## 0.10.1
+
+* Fixing an error in `VPTree.neighbors`.
+
+## 0.10.0
+
+* Adding `Index`.
+* Adding `MultiIndex`.
+* Adding `MultiMap`.
+* Adding `MultiSet`.
+* Adding `SymSpell`.
+
 ## 0.9.0
 
 * Adding `VPTree`.
