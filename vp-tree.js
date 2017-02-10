@@ -245,7 +245,6 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
 VPTree.prototype.neighbors = function(radius, query) {
   var neighbors = [],
       stack = [0],
-      tau = Infinity,
       nodeIndex,
       itemIndex,
       vantagePoint,
@@ -275,15 +274,15 @@ VPTree.prototype.neighbors = function(radius, query) {
     mu = this.data[nodeIndex + 1];
 
     if (d < mu) {
-      if (leftIndex && d < mu + tau)
+      if (leftIndex && d < mu + radius)
         stack.push(leftIndex);
-      if (rightIndex && d >= mu - tau) // ALT
+      if (rightIndex && d >= mu - radius) // Might not be necessary to test
         stack.push(rightIndex);
     }
     else {
-      if (rightIndex && d >= mu - tau)
+      if (rightIndex && d >= mu - radius)
         stack.push(rightIndex);
-      if (leftIndex && d < mu + tau) // ALT
+      if (leftIndex && d < mu + radius) // Might not be necessary to test
         stack.push(leftIndex);
     }
   }
