@@ -31,7 +31,7 @@ In such cases, a `Heap` can help you tremendously by keeping the items you give 
 var heap = new Heap(function(a, b) {
   if (a.priority > b.priority)
     return -1;
-  else (a.priority < b.priority)
+  if (a.priority < b.priority)
     return 1;
   return 0;
 });
