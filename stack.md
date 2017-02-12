@@ -5,7 +5,7 @@ title: Stack
 
 A stack is simply a list in **L**ast **I**n **F**irst **O**ut (LIFO) order.
 
-This just mean that inserted items will get out in the reversed insertion order.
+This just means that inserted items will get out in the reversed insertion order.
 
 For more information about the Stack, you can head [here](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
 
@@ -170,7 +170,7 @@ var stack = Stack.from([1, 2, 3]);
 
 var iterator = stack.values();
 
-iteraror.next().value
+iterator.next().value
 >>> 3
 ```
 
