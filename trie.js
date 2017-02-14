@@ -152,12 +152,8 @@ Trie.prototype.has = function(item) {
  */
 Trie.prototype.get = function(prefix) {
   var string = typeof prefix === 'string',
-      item = prefix;
-
-  if (string)
-    item = prefix.split('');
-
-  var matches = [];
+      item = prefix,
+      matches = [];
 
   if (!item || !item.length)
     return matches;
@@ -170,24 +166,27 @@ Trie.prototype.get = function(prefix) {
     node = node[token];
 
     if (!node)
-      return [];
+      return matches;
   }
 
-  var queue = [[node, string ? '' : []]],
+  var stack = [node, string ? '' : []],
       tokens,
-      step,
       k;
 
-  while (queue.length) {
-    step = queue.pop();
-    node = step[0];
-    tokens = step[1];
+  while (stack.length) {
+    tokens = stack.pop();
+    node = stack.pop();
 
     if (node[this.end])
       matches.push(string ? prefix + tokens : prefix.concat(tokens));
 
-    for (k in node)
-      queue.push([node[k], string ? tokens + k : tokens.concat(k)]);
+    for (k in node) {
+      if (k === this.end)
+        continue;
+
+      stack.push(node[k]);
+      stack.push(string ? tokens + k : tokens.concat(k));
+    }
   }
 
   return matches;
