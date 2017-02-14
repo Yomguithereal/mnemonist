@@ -58,6 +58,10 @@ Trie.prototype.add = function(item) {
     node = node[token];
   }
 
+  // The item already exists in the trie, we don't need to increase size
+  if (node[this.end])
+    return this;
+
   node[this.end] = true;
 
   this.size++;

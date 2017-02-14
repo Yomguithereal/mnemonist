@@ -43,6 +43,16 @@ describe('Trie', function() {
     });
   });
 
+  it('adding the same item several times should not increase size.', function() {
+    var trie = new Trie();
+
+    trie.add('rat');
+    trie.add('rate');
+    trie.add('rat');
+
+    assert.strictEqual(trie.size, 2);
+  });
+
   it('should be possible to delete items.', function() {
     var trie = new Trie();
 
