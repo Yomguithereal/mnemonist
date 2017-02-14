@@ -3,6 +3,11 @@ layout: page
 title: Changelog
 ---
 
+## 0.10.2
+
+* Fixing error in `Trie.get`.
+* Fixing error related to `Trie.size`.
+
 ## 0.10.1
 
 * Fixing an error in `VPTree.neighbors`.
