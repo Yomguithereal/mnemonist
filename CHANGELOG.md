@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.2
+
+* Fixing error in `Trie.get`.
+
 ## 0.10.1
 
 * Fixing an error in `VPTree.neighbors`.
