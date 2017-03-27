@@ -21,11 +21,10 @@ describe('utils', function() {
     });
 
     it('should properly iterate over an object.', function() {
-      var object = {
-        one: 1,
-        two: 2,
-        three: 3
-      };
+      var object = Object.create({four: 5});
+      object.one = 1;
+      object.two = 2;
+      object.three = 3;
 
       var keys = Object.keys(object),
           i = 1;

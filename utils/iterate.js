@@ -52,8 +52,11 @@ module.exports = function iterate(target, callback) {
   }
 
   // The target is a plain object
-  for (k in target)
-    callback(target[k], k);
+  for (k in target) {
+    if (target.hasOwnProperty(k)) {
+      callback(target[k], k);
+    }
+  }
 
   return;
 };
