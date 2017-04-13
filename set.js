@@ -61,3 +61,30 @@ exports.intersection = function() {
 
   return I;
 };
+
+/**
+ * Variadic function computing the union of multiple sets.
+ *
+ * @param  {...Set} sets - Sets to unite.
+ * @return {Set}         - The union.
+ */
+exports.union = function() {
+  if (arguments.length < 2)
+    throw new Error('mnemonist/Set.union: needs at least two arguments.');
+
+  var U = new Set();
+
+  var i, l = arguments.length;
+
+  var iterator,
+      step;
+
+  for (i = 0; i < l; i++) {
+    iterator = arguments[i].values();
+
+    while ((step = iterator.next(), !step.done))
+      U.add(step.value);
+  }
+
+  return U;
+};

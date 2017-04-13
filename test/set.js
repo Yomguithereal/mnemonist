@@ -30,4 +30,27 @@ describe('Set functions', function() {
       assert.deepEqual(Array.from(I), [4]);
     });
   });
+
+  describe('#.union', function() {
+
+    it('should properly compute the union of two sets.', function() {
+      var A = new Set([1, 2, 3]),
+          B = new Set([2, 3, 4]);
+
+      var I = functions.union(A, B);
+
+      assert.deepEqual(Array.from(I), [1, 2, 3, 4]);
+    });
+
+    it('should be variadic.', function() {
+      var A = new Set([1, 2, 3, 4]),
+          B = new Set([2, 3, 4]),
+          C = new Set([1, 4]),
+          D = new Set([4, 5, 6]);
+
+      var I = functions.union(A, B, C, D);
+
+      assert.deepEqual(Array.from(I), [1, 2, 3, 4, 5, 6]);
+    });
+  });
 });
