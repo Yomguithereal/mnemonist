@@ -37,9 +37,9 @@ describe('Set functions', function() {
       var A = new Set([1, 2, 3]),
           B = new Set([2, 3, 4]);
 
-      var I = functions.union(A, B);
+      var U = functions.union(A, B);
 
-      assert.deepEqual(Array.from(I), [1, 2, 3, 4]);
+      assert.deepEqual(Array.from(U), [1, 2, 3, 4]);
     });
 
     it('should be variadic.', function() {
@@ -48,9 +48,21 @@ describe('Set functions', function() {
           C = new Set([1, 4]),
           D = new Set([4, 5, 6]);
 
-      var I = functions.union(A, B, C, D);
+      var U = functions.union(A, B, C, D);
 
-      assert.deepEqual(Array.from(I), [1, 2, 3, 4, 5, 6]);
+      assert.deepEqual(Array.from(U), [1, 2, 3, 4, 5, 6]);
+    });
+  });
+
+  describe('#.difference', function() {
+
+    it('should properly compute the difference of two sets.', function() {
+      var A = new Set([1, 2, 3, 4, 5]),
+          B = new Set([2, 3]);
+
+      var D = functions.difference(A, B);
+
+      assert.deepEqual(Array.from(D), [1, 4, 5]);
     });
   });
 });

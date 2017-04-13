@@ -88,3 +88,24 @@ exports.union = function() {
 
   return U;
 };
+
+/**
+ * Function computing the difference between two sets.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {Set}   - The difference.
+ */
+exports.difference = function(A, B) {
+  var D = new Set();
+
+  var iterator = A.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!B.has(step.value))
+      D.add(step.value);
+  }
+
+  return D;
+};
