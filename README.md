@@ -32,6 +32,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multi-set)
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
+* [Set (helpers)](https://yomguithereal.github.io/mnemonist/set)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
