@@ -77,4 +77,66 @@ describe('Set functions', function() {
       assert.deepEqual(Array.from(S), [1, 2, 4, 5]);
     });
   });
+
+  describe('#.isSubset', function() {
+    it('should properly return if the first set is a subset of the second.', function() {
+      var A = new Set([1, 2]),
+          B = new Set([1, 2, 3]),
+          C = new Set([2, 4]);
+
+      assert.strictEqual(functions.isSubset(A, B), true);
+      assert.strictEqual(functions.isSubset(C, B), false);
+    });
+  });
+
+  describe('#.isSuperset', function() {
+    it('should properly return if the first set is a subset of the second.', function() {
+      var A = new Set([1, 2]),
+          B = new Set([1, 2, 3]),
+          C = new Set([2, 4]);
+
+      assert.strictEqual(functions.isSuperset(B, A), true);
+      assert.strictEqual(functions.isSuperset(B, C), false);
+    });
+  });
+
+  describe('#.add', function() {
+    it('should properly add the second set to the first.', function() {
+      var A = new Set([1, 2]);
+
+      functions.add(A, new Set([2, 3]));
+
+      assert.deepEqual(Array.from(A), [1, 2, 3]);
+    });
+  });
+
+  describe('#.subtract', function() {
+    it('should properly subtract the second set to the first.', function() {
+      var A = new Set([1, 2]);
+
+      functions.subtract(A, new Set([2, 3]));
+
+      assert.deepEqual(Array.from(A), [1]);
+    });
+  });
+
+  describe('#.intersect', function() {
+    it('should properly intersect the second set to the first.', function() {
+      var A = new Set([1, 2]);
+
+      functions.intersect(A, new Set([2, 3]));
+
+      assert.deepEqual(Array.from(A), [2]);
+    });
+  });
+
+  describe('#.disjunct', function() {
+    it('should properly disjunct the second set to the first.', function() {
+      var A = new Set([1, 2]);
+
+      functions.disjunct(A, new Set([2, 3]));
+
+      assert.deepEqual(Array.from(A), [1, 3]);
+    });
+  });
 });

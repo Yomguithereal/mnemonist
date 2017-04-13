@@ -138,4 +138,112 @@ exports.symmetricDifference = function(A, B) {
   return S;
 };
 
-// TODO: subset, superset, in-place
+/**
+ * Function returning whether A is a subset of B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {boolean}
+ */
+exports.isSubset = function(A, B) {
+  var iterator = A.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!B.has(step.value))
+      return false;
+  }
+
+  return true;
+};
+
+/**
+ * Function returning whether A is a superset of B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {boolean}
+ */
+exports.isSuperset = function(A, B) {
+  return exports.isSubset(B, A);
+};
+
+/**
+ * Function adding the items of set B to the set A.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.add = function(A, B) {
+  var iterator = B.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done))
+    A.add(step.value);
+
+  return;
+};
+
+/**
+ * Function subtracting the items of set B from the set A.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.subtract = function(A, B) {
+  var iterator = B.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done))
+    A.delete(step.value);
+
+  return;
+};
+
+/**
+ * Function intersecting the items of A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.intersect = function(A, B) {
+  var iterator = A.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!B.has(step.value))
+      A.delete(step.value);
+  }
+
+  return;
+};
+
+/**
+ * Function disjuncting the items of A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.disjunct = function(A, B) {
+  var iterator = A.values(),
+      step;
+
+  var toRemove = [];
+
+  while ((step = iterator.next(), !step.done)) {
+    if (B.has(step.value))
+      toRemove.push(step.value);
+  }
+
+  iterator = B.values();
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!A.has(step.value))
+      A.add(step.value);
+  }
+
+  for (var i = 0, l = toRemove.length; i < l; i++)
+    A.delete(toRemove[i]);
+
+  return;
+};
