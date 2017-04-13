@@ -15,6 +15,8 @@ exports.intersection = function() {
   if (arguments.length < 2)
     throw new Error('mnemonist/Set.intersection: needs at least two arguments.');
 
+  var I = new Set();
+
   // First we need to find the smallest set
   var smallestSize = Infinity,
       smallestSet = null;
@@ -24,15 +26,17 @@ exports.intersection = function() {
   for (i = 0; i < l; i++) {
     s = arguments[i];
 
+    // If one of the set has no items, we can stop right there
+    if (s.size === 0)
+      return I;
+
     if (s.size < smallestSize) {
       smallestSize = s.size;
       smallestSet = s;
     }
   }
 
-  // Now we need to interset this set with the others
-  var I = new Set();
-
+  // Now we need to intersect this set with the others
   var iterator = smallestSet.values(),
       step,
       item,
@@ -97,6 +101,14 @@ exports.union = function() {
  * @return {Set}   - The difference.
  */
 exports.difference = function(A, B) {
+
+  // If first set is empty
+  if (!A.size)
+    return new Set();
+
+  if (!B.size)
+    return new Set(A);
+
   var D = new Set();
 
   var iterator = A.values(),

@@ -113,7 +113,6 @@ MultiIndex.prototype.forEach = function(callback, scope) {
   });
 };
 
-
 /**
  * MultiIndex Iterator class.
  */

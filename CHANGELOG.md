@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0 (provisional)
+
+* Adding `InvertedIndex`.
+
 ## 0.11.0
 
 * Adding bunch of set functions.
