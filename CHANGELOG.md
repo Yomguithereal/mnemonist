@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+* Adding bunch of set functions.
+
 ## 0.10.2
 
 * Fixing error in `Trie.get`.
