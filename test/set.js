@@ -65,4 +65,16 @@ describe('Set functions', function() {
       assert.deepEqual(Array.from(D), [1, 4, 5]);
     });
   });
+
+  describe('#.symmetricDifference', function() {
+
+    it('should properly compute the symmetric difference of two sets.', function() {
+      var A = new Set([1, 2, 3]),
+          B = new Set([3, 4, 5]);
+
+      var S = functions.symmetricDifference(A, B);
+
+      assert.deepEqual(Array.from(S), [1, 2, 4, 5]);
+    });
+  });
 });

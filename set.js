@@ -109,3 +109,33 @@ exports.difference = function(A, B) {
 
   return D;
 };
+
+/**
+ * Function computing the symmetric difference between two sets.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {Set}   - The symmetric difference.
+ */
+exports.symmetricDifference = function(A, B) {
+  var S = new Set();
+
+  var iterator = A.values(),
+      step;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!B.has(step.value))
+      S.add(step.value);
+  }
+
+  iterator = B.values();
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!A.has(step.value))
+      S.add(step.value);
+  }
+
+  return S;
+};
+
+// TODO: subset, superset, in-place
