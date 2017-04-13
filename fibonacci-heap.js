@@ -21,7 +21,7 @@ function FibonacciHeap(comparator) {
   this.comparator = comparator || DEFAULT_COMPARATOR;
 
   if (typeof this.comparator !== 'function')
-    throw new Error('FibonacciHeap.constructor: given comparator should be a function.');
+    throw new Error('mnemonist/FibonacciHeap.constructor: given comparator should be a function.');
 }
 
 /**
@@ -274,7 +274,7 @@ function MaxFibonacciHeap(comparator) {
   this.comparator = comparator || DEFAULT_COMPARATOR;
 
   if (typeof this.comparator !== 'function')
-    throw new Error('FibonacciHeap.constructor: given comparator should be a function.');
+    throw new Error('mnemonist/FibonacciHeap.constructor: given comparator should be a function.');
 
   this.comparator = reverseComparator(this.comparator);
 }

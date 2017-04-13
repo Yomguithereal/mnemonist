@@ -20,7 +20,7 @@ function Heap(comparator) {
   this.comparator = comparator || DEFAULT_COMPARATOR;
 
   if (typeof this.comparator !== 'function')
-    throw new Error('Heap.constructor: given comparator should be a function.');
+    throw new Error('mnemonist/Heap.constructor: given comparator should be a function.');
 }
 
 /**
@@ -179,7 +179,7 @@ function MaxHeap(comparator) {
   this.comparator = comparator || DEFAULT_COMPARATOR;
 
   if (typeof this.comparator !== 'function')
-    throw new Error('Heap.constructor: given comparator should be a function.');
+    throw new Error('mnemonist/Heap.constructor: given comparator should be a function.');
 
   this.comparator = reverseComparator(this.comparator);
 }

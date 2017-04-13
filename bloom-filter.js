@@ -62,7 +62,7 @@ function BloomFilter(capacityOrOptions) {
   var options = {};
 
   if (!capacityOrOptions)
-    throw new Error('BloomFilter.constructor: a BloomFilter must be created with a capacity.');
+    throw new Error('mnemonist/BloomFilter.constructor: a BloomFilter must be created with a capacity.');
 
   if (typeof capacityOrOptions === 'object')
     options = capacityOrOptions;
@@ -71,7 +71,7 @@ function BloomFilter(capacityOrOptions) {
 
   // Handling capacity
   if (typeof options.capacity !== 'number' || options.capacity <= 0)
-    throw new Error('BloomFilter.constructor: `capacity` option should be a positive integer.');
+    throw new Error('mnemonist/BloomFilter.constructor: `capacity` option should be a positive integer.');
 
   this.capacity = options.capacity;
 
@@ -79,7 +79,7 @@ function BloomFilter(capacityOrOptions) {
   this.errorRate = options.errorRate || DEFAULTS.errorRate;
 
   if (typeof this.errorRate !== 'number' || options.errorRate <= 0)
-    throw new Error('BloomFilter.constructor: `errorRate` option should be a positive float.');
+    throw new Error('mnemonist/BloomFilter.constructor: `errorRate` option should be a positive float.');
 
   this.clear();
 }
