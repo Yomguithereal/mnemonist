@@ -47,7 +47,7 @@ index.union('cats cheese');
 ]
 ```
 
-If you need more to retrieve more information about the indexed documents such as occurrences, positions etc., check out the [`SearchIndex`]({{ site.baseurl }}/search-index).
+<!-- If you need more to retrieve more information about the indexed documents such as occurrences, positions etc., check out the [`SearchIndex`]({{ site.baseurl }}/search-index). -->
 
 ## Constructor
 
@@ -61,9 +61,8 @@ var index = new InvertedIndex(function(value) {
   return words(value);
 });
 
-// Then you'll probably use #.set to insert items
-index.set(movie.title, movie);
-index.get(queryTitle);
+index.add('The mouse likes cheese.');
+index.query('cheese');
 ```
 
 *Example with two tokenizer functions*
@@ -72,9 +71,9 @@ index.get(queryTitle);
 // Let's create an index using two different hash functions:
 var index = new Index([
   
-  // Tokenizer function for inserted items:
-  function(movie) {
-    return words(movie.title);
+  // Tokenizer function for inserted documents:
+  function(doc) {
+    return words(doc.text);
   },
 
   // Tokenizer function for queries
@@ -84,8 +83,8 @@ var index = new Index([
 ]);
 
 // Then you'll probably use #.add to insert items
-index.add(movie);
-index.get(queryTitle);
+index.add({text: 'The mouse likes cheese.'});
+index.query('mouse');
 ```
 
 ### Static #.from
@@ -93,26 +92,33 @@ index.get(queryTitle);
 Alternatively, one can build an `InvertedIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = InvertedIndex.from(list, tokenizer [, useSet=false]);
-var index = InvertedIndex.from(list, tokenizers [, useSet=false]);
+var index = InvertedIndex.from(list, tokenizer);
+var index = InvertedIndex.from(list, tokenizers);
 ```
 
 ## Members
 
 * [#.size](#size)
+* [#.dimension](#dimension)
 
 ## Methods
 
 *Mutation*
 
 * [#.add](#add)
-* [#.set](#set)
 * [#.clear](#clear)
 
 *Read*
 
-* [#.get, #.intersection](#get)
-* [#.union](#union)
+* [#.query, #.andQuery](#query-andquery)
+* [#.orQuery](#orQuery)
+
+*Iteration*
+
+* [#.forEach](#foreach)
+* [#.documents](#documents)
+* [#.tokens](#tokens)
+* [Iterable](#iterable)
 
 ### #.size
 
@@ -127,6 +133,19 @@ index.size
 >>> 1
 ```
 
+### #.dimension
+
+Number of distinct tokens stored in the index (size of the dictionary, if you will).
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+
+index.dimension
+>>> 4
+```
+
 ### #.add
 
 Tokenize the given document using the relevant function and adds it to the index.
@@ -135,18 +154,6 @@ Tokenize the given document using the relevant function and adds it to the index
 var index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
-```
-
-### #.set
-
-Tokenize the given key using the relevant function and add the given document to the index.
-
-```js
-var index = new InvertedIndex(words);
-
-var doc = {text: 'The cat eats the mouse.', id: 34}
-
-index.set(doc.text, doc);
 ```
 
 ### #.clear
@@ -160,10 +167,10 @@ index.add('The cat eats the mouse.');
 index.clear();
 
 index.size
->>> 1
+>>> 0
 ```
 
-### #.get, #.intersection
+### #.query, #.andQuery
 
 Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
 
@@ -173,19 +180,19 @@ var index = new InvertedIndex(words);
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-index.get('mouse');
+index.query('mouse');
 >>> [
   'The cat eats the mouse.',
   'The mouse eats cheese.'
 ]
 
-index.get('cat mouse');
+index.query('cat mouse');
 >>> [
   'The cat eats the mouse.'
 ]
 ```
 
-### #.union
+### #.orQuery
 
 Tokenize the query using the relevant function, then retrieves the union of documents containing the resulting tokens.
 
@@ -195,15 +202,78 @@ var index = new InvertedIndex(words);
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-index.get('mouse');
+index.orQuery('mouse');
 >>> [
   'The cat eats the mouse.',
   'The mouse eats cheese.'
 ]
 
-index.get('cat mouse');
+index.orQuery('cat mouse');
 >>> [
   'The cat eats the mouse.',
   'The mouse eats cheese.'
 ]
 ```
+
+### #.forEach
+
+Iterates over the index by applying the callback to every stored document.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+index.forEach(function(doc) {
+  console.log(doc);
+});
+```
+
+### #.documents
+
+Returns an iterator over the index's documents.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+var iterator = index.documents();
+
+iteraror.next().value
+>>> 'The cat eats the mouse.'
+```
+
+### #.tokens
+
+Returns an iterator over the index's tokens.
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+var iterator = index.tokens();
+
+iterator.next().value
+>>> 'The'
+```
+
+### Iterable
+
+Alternatively, you can iterate over an index's documents using ES2015 `for...of` protocol:
+
+```js
+var index = new InvertedIndex(words);
+
+index.add('The cat eats the mouse.');
+index.add('The mouse eats cheese.');
+
+for (var doc of index) {
+  console.log(doc);
+}
+```
+
