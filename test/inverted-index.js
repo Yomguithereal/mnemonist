@@ -73,20 +73,32 @@ describe('InvertedIndex', function() {
   it('should be possible to query the index.', function() {
     var index = InvertedIndex.from(DOCS, tokenizer);
 
-    var results = index.get('A mouse.');
+    var results = index.query('A mouse.');
     assert.deepEqual(results, DOCS);
 
-    results = index.get('cheese');
+    results = index.query('cheese');
     assert.deepEqual(results, DOCS.slice(1));
 
-    results = index.get('The cat');
+    results = index.query('The cat');
     assert.deepEqual(results, [DOCS[0]]);
 
-    results = index.get('The cat likes');
+    results = index.query('The cat likes');
     assert.deepEqual(results, []);
 
-    results = index.get('really something');
+    results = index.query('really something');
     assert.deepEqual(results, DOCS.slice(-1));
+
+    assert.deepEqual(index.query('really'), index.andQuery('really'));
+  });
+
+  it('should be possible to query union.', function() {
+    var index = InvertedIndex.from(DOCS, tokenizer);
+
+    var results = index.orQuery('something');
+    assert.deepEqual(results, DOCS.slice(-1));
+
+    results = index.orQuery('The cat is really');
+    assert.deepEqual(results, [DOCS[0], DOCS[2]]);
   });
 
   it('should be possible to iterate using #.forEach', function() {

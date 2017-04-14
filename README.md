@@ -27,6 +27,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
 * [Index](https://yomguithereal.github.io/mnemonist/index-structure)
+* [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
 * [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
 * [MultiIndex](https://yomguithereal.github.io/mnemonist/multi-index)
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)

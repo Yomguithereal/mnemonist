@@ -7,8 +7,6 @@
 var iterateOver = require('./utils/iterate.js'),
     helpers = require('./set.js');
 
-var intersect = helpers.intersect;
-
 function identity(x) {
   return x;
 }
@@ -100,24 +98,27 @@ InvertedIndex.prototype.add = function(doc) {
 };
 
 /**
- * Method used to query the index.
+ * Method used to query the index in a AND fashion.
  *
  * @param  {any} query - Query
  * @return {Set}       - Intersection of documents matching the query.
  */
-InvertedIndex.prototype.get = function(query) {
+InvertedIndex.prototype.query = function(query) {
 
   // Early termination
   if (!this.size)
-    return new Set();
+    return [];
 
   // First we need to tokenize the query
   var tokens = this.queryTokenizer(query);
 
   if (!Array.isArray(tokens))
-    throw new Error('mnemonist/InvertedIndex.get: tokenizer function should return an array of tokens.');
+    throw new Error('mnemonist/InvertedIndex.query: tokenizer function should return an array of tokens.');
 
-  var matchingSet,
+  if (!tokens.length)
+    return [];
+
+  var matchingSet = new Set(),
       token,
       set,
       i,
@@ -131,10 +132,61 @@ InvertedIndex.prototype.get = function(query) {
     if (!set || !set.size)
       return new Set();
 
-    if (!matchingSet)
-      matchingSet = new Set(set);
+    if (!matchingSet.size)
+      helpers.add(matchingSet, set);
     else
-      intersect(matchingSet, set);
+      helpers.intersect(matchingSet, set);
+  }
+
+  var results = new Array(matchingSet.size),
+      iterator = matchingSet.values(),
+      step;
+
+  i = 0;
+
+  while ((step = iterator.next(), !step.done))
+    results[i++] = this.items[step.value];
+
+  return results;
+};
+InvertedIndex.prototype.andQuery = InvertedIndex.prototype.query;
+
+/**
+ * Method used to query the index in an OR fashion.
+ *
+ * @param  {any} query - Query
+ * @return {Set}       - Union of documents matching the query.
+ */
+InvertedIndex.prototype.orQuery = function(query) {
+
+  // Early termination
+  if (!this.size)
+    return [];
+
+  // First we need to tokenize the query
+  var tokens = this.queryTokenizer(query);
+
+  if (!Array.isArray(tokens))
+    throw new Error('mnemonist/InvertedIndex.orQuery: tokenizer function should return an array of tokens.');
+
+  if (!tokens.length)
+    return [];
+
+  var matchingSet = new Set(),
+      token,
+      set,
+      i,
+      l;
+
+  for (i = 0, l = tokens.length; i < l; i++) {
+    token = tokens[i];
+    set = this.mapping.get(token);
+
+    // Empty set
+    if (!set || !set.size)
+      continue;
+
+    helpers.add(matchingSet, set);
   }
 
   var results = new Array(matchingSet.size),

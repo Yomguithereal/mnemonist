@@ -19,6 +19,7 @@ module.exports = {
   MinHeap: Heap.MinHeap,
   MaxHeap: Heap.MaxHeap,
   Index: require('./index.js'),
+  InvertedIndex: require('./inverted-index.js'),
   LinkedList: require('./linked-list.js'),
   MultiIndex: require('./multi-index.js'),
   MultiMap: require('./multi-map.js'),
@@ -27,6 +28,7 @@ module.exports = {
   Stack: require('./stack.js'),
   SuffixArray: SuffixArray,
   GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,
+  Set: require('./set.js'),
   SymSpell: require('./symspell.js'),
   Trie: require('./trie.js'),
   VPTree: require('./vp-tree.js')
