@@ -3,6 +3,14 @@ layout: page
 title: Changelog
 ---
 
+## 0.12.0
+
+* Adding `InvertedIndex`.
+
+## 0.11.0
+
+* Adding bunch of set functions.
+
 ## 0.10.2
 
 * Fixing error in `Trie.get`.
