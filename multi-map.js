@@ -116,10 +116,15 @@ MultiMap.prototype.get = function(key) {
 MultiMap.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
-  this.items.forEach(function(container, key) {
-    container.forEach(function(value) {
-      callback.call(scope, value, key);
-    });
+  // Inner iteration function is created here to avoid creating it in the loop
+  var key;
+  function inner(value) {
+    callback.call(scope, value, key);
+  }
+
+  this.items.forEach(function(container, k) {
+    key = k;
+    container.forEach(inner);
   });
 };
 
