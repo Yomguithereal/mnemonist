@@ -69,5 +69,29 @@ describe('utils', function() {
         i++;
       });
     });
+
+    it('should properly iterate over an arbitrary iterable.', function() {
+      function Iterable() {}
+
+      Iterable[Symbol.iterator] = function() {
+        var i = 0;
+
+        return {
+          next: function() {
+            if (i < 3)
+              return {value: i++};
+            return {done: true};
+          }
+        };
+      };
+
+      var j = 0;
+
+      iterate(new Iterable(), function(value, key) {
+        assert.strictEqual(value, j + 1);
+        assert.strictEqual(key, j);
+        j++;
+      });
+    });
   });
 });

@@ -28,6 +28,10 @@ module.exports = function iterate(target, callback) {
     return;
   }
 
+  // The target is iterable
+  if (typeof Symbol !== 'undefined' && Symbol.iterator in target)
+    target = target[Symbol.iterator]();
+
   // The target is an iterator
   if (typeof target.next === 'function') {
     iterator = target;
@@ -37,16 +41,6 @@ module.exports = function iterate(target, callback) {
       callback(s.value, i);
       i++;
     }
-
-    return;
-  }
-
-  // The target is iterable
-  if (typeof Symbol !== 'undefined' && Symbol.iterator in target) {
-    iterator = target[Symbol.iterator]();
-
-    while ((s = iterator.next(), !s.done))
-      callback(s[0], s[1]);
 
     return;
   }
