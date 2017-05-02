@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.1 (provisional)
+
+* Fixing universal iterator.
+
 ## 0.12.0
 
 * Adding `InvertedIndex`.

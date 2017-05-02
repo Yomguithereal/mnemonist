@@ -20,6 +20,18 @@ describe('utils', function() {
       });
     });
 
+    it('should properly iterate over a string.', function() {
+      var string = 'abc',
+          map = ['a', 'b', 'c'],
+          i = 0;
+
+      iterate(string, function(value, key) {
+        assert.strictEqual(i, key);
+        assert.strictEqual(value, map[i]);
+        i++;
+      });
+    });
+
     it('should properly iterate over an object.', function() {
       var object = Object.create({four: 5});
       object.one = 1;

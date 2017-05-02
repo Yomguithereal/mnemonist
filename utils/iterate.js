@@ -16,7 +16,7 @@ module.exports = function iterate(target, callback) {
   var iterator, k, i, l, s;
 
   // The target is an array
-  if (Array.isArray(target)) {
+  if (Array.isArray(target) || typeof target === 'string') {
     for (i = 0, l = target.length; i < l; i++)
       callback(target[i], i);
     return;
