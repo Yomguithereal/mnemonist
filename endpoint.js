@@ -10,6 +10,7 @@ var Heap = require('./heap.js'),
     SuffixArray = require('./suffix-array.js');
 
 module.exports = {
+  BiMap: require('./bi-map.js'),
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
   FibonacciHeap: FibonacciHeap,

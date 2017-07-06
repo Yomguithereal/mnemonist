@@ -237,6 +237,8 @@ describe('MultiMap', function() {
       assert.strictEqual(entry[1], i === 1 ? 'world' : 'hello');
       i++;
     }
+
+    assert.strictEqual(i, 3);
   });
 
   it('should be possible to create a map from an abitrary iterable.', function() {

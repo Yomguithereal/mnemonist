@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.12.1 (provisional)
+## 0.13.0 (provisional)
 
+* Adding `BiMap`.
 * Fixing universal iterator.
 
 ## 0.12.0

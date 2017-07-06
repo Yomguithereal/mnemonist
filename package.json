@@ -17,6 +17,7 @@
     "url": "git+https://github.com/yomguithereal/mnemonist.git"
   },
   "keywords": [
+    "bimap",
     "data structures",
     "structures",
     "heap",
