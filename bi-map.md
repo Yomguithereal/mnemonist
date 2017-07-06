@@ -3,11 +3,11 @@ layout: page
 title: BiMap
 ---
 
-A `BiMap` is a an invertible map where, as in a usual `Map`, it's easy to get value from key but also, and this is the main perk of the `BiMap`, trace back from value to key.
+A `BiMap` is a an invertible map where, like with a `Map`, it's easy to get value from key but also, and this is the main use of the `BiMap`, trace back from value to key.
 
 This means, however, that the BiMap needs to ensure that some constraints are respected to remain a bijection.
 
-So, here are the three conflicting cases you need to keep in mind:
+Here are the three conflicting cases you need to keep in mind:
 
 1. If the `{A,B}` relation exists in the `BiMap` and you add the `{A,C}` relation, you will delete the former one (value conflict).
 2. If the `{A,B}` relation exists in the `BiMap` and you add the `{C,B}` one, you will delete the former one (key conflict).
