@@ -32,8 +32,9 @@ npm install --save mnemonist
 
 ## Documentation
 
-* [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
+* [BiMap]({{ site.baseurl }}/bi-map)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
+* [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
 * [Index]({{ site.baseurl }}/index-structure)
