@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.13.0 (provisional)
+## 0.13.0
 
 * Adding `BiMap`.
 * Adding `BitSet`.

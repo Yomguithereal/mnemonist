@@ -23,6 +23,7 @@ npm install --save mnemonist
 Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist).
 
 * [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
+* [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 * [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
