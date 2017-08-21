@@ -11,6 +11,7 @@ var Heap = require('./heap.js'),
 
 module.exports = {
   BiMap: require('./bi-map.js'),
+  BitSet: require('./bit-set.js'),
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
   FibonacciHeap: FibonacciHeap,

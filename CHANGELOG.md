@@ -3,6 +3,7 @@
 ## 0.13.0 (provisional)
 
 * Adding `BiMap`.
+* Adding `BitSet`.
 * Fixing universal iterator.
 
 ## 0.12.0
