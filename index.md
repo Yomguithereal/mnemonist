@@ -33,6 +33,7 @@ npm install --save mnemonist
 ## Documentation
 
 * [BiMap]({{ site.baseurl }}/bi-map)
+* [BitSet]({{ site.baseurl }}/bit-set)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 * [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
