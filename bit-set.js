@@ -140,6 +140,110 @@ BitSet.prototype.forEach = function(callback, scope) {
   }
 };
 
+/**
+ * Bit Set Iterator class.
+ */
+function BitSetIterator(next) {
+  this.next = next;
+}
+
+/**
+ * Method used to create an iterator over a set's values.
+ *
+ * @return {Iterator}
+ */
+BitSet.prototype.values = function() {
+  var length = this.length,
+      inner = false,
+      byte,
+      bit,
+      array = this.array,
+      l = array.length,
+      i = 0,
+      j = -1,
+      b;
+
+  return new BitSetIterator(function next() {
+    if (!inner) {
+
+      if (i >= l)
+        return {
+          done: true
+        };
+
+      b = i === l - 1 ? length % 8 : 8;
+      byte = array[i++];
+      inner = true;
+      j = -1;
+    }
+
+    j++;
+
+    if (j >= b) {
+      inner = false;
+      return next();
+    }
+
+    bit = (byte >> j) & 1;
+
+    return {
+      value: bit
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a set's entries.
+ *
+ * @return {Iterator}
+ */
+BitSet.prototype.entries = function() {
+  var length = this.length,
+      inner = false,
+      byte,
+      bit,
+      array = this.array,
+      index,
+      l = array.length,
+      i = 0,
+      j = -1,
+      b;
+
+  return new BitSetIterator(function next() {
+    if (!inner) {
+
+      if (i >= l)
+        return {
+          done: true
+        };
+
+      b = i === l - 1 ? length % 8 : 8;
+      byte = array[i++];
+      inner = true;
+      j = -1;
+    }
+
+    j++;
+    index = (~-i) * 8 + j;
+
+    if (j >= b) {
+      inner = false;
+      return next();
+    }
+
+    bit = (byte >> j) & 1;
+
+    return {
+      value: [index, bit]
+    };
+  });
+};
+
+/**
+ * Attaching the #.values method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  BitSet.prototype[Symbol.iterator] = BitSet.prototype.values;
 
 /**
  * Convenience known methods.

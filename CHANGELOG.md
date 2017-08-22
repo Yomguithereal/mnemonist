@@ -1,5 +1,9 @@
 # Changelog
 
+## O.14.0 (provisional)
+
+* Adding iterator methods to `BitSet`.
+
 ## 0.13.0
 
 * Adding `BiMap`.

@@ -4,7 +4,8 @@
  * ===================================
  */
 var assert = require('assert'),
-    BitSet = require('../bit-set.js');
+    BitSet = require('../bit-set.js'),
+    obliterator = require('obliterator');
 
 describe('BitSet', function() {
 
@@ -57,5 +58,12 @@ describe('BitSet', function() {
       assert.strictEqual(bit, array[j]);
       assert.strictEqual(j, i++);
     });
+
+    var indexedArray = array.map(function(bit, j) {
+      return [j, bit];
+    });
+
+    assert.deepEqual(obliterator.consume(set.values()), array);
+    assert.deepEqual(obliterator.consume(set.entries()), indexedArray);
   });
 });

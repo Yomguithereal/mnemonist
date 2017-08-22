@@ -54,7 +54,8 @@
     "eslint": "^4.1.1",
     "leven": "^2.0.0",
     "lodash": "^4.17.4",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "obliterator": "^1.2.0"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
