@@ -39,6 +39,9 @@ var set = new BitSet(length);
 *Iteration*
 
 * [#.forEach](#foreach)
+* [#.values](#values)
+* [#.entries](#entries)
+* [Iterable](#iterable)
 
 ### #.array
 
@@ -181,4 +184,49 @@ set.set(1);
 set.forEach(function(bit, i) {
   console.log(bit, i);
 });
+```
+
+### #.values
+
+Returns an iterator over the set's values.
+
+```js
+var set = new BitSet(4);
+
+set.set(1);
+
+var iterator = set.values()
+
+iteraror.next().value
+>>> 0
+```
+
+### #.entries
+
+Returns an iterator over the set's entries.
+
+```js
+var set = new BitSet(4);
+
+set.set(0);
+
+var iterator = set.entries()
+
+iteraror.next().value
+>>> [0, 1]
+
+iterator.next().value
+>>> [1, 0]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
+
+```js
+var set = new BitSet(4);
+
+for (var bit of set) {
+  console.log(bit);
+}
 ```
