@@ -3,7 +3,7 @@ layout: page
 title: BitSet
 ---
 
-A `BitSet` is a fixed-size bit array implemented over a regular `Uint8Array`. It's a really memory-efficient way to store set information or series of flags.
+A `BitSet` is a fixed-size bit array implemented over a regular `Uint32Array`. It's a really memory-efficient way to store set information or series of flags.
 
 
 ```js
