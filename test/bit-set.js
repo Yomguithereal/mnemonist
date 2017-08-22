@@ -1,7 +1,6 @@
-/* eslint no-new: 0 */
 /**
- * Mnemonist FibonacciHeap Unit Tests
- * ===================================
+ * Mnemonist BitSet Unit Tests
+ * ============================
  */
 var assert = require('assert'),
     BitSet = require('../bit-set.js'),
