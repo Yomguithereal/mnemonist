@@ -9,9 +9,9 @@ var assert = require('assert'),
 describe('BitSet', function() {
 
   it('should be possible to create a bit set.', function() {
-    var set = new BitSet(17);
+    var set = new BitSet(74);
 
-    assert.strictEqual(set.length, 17);
+    assert.strictEqual(set.length, 74);
     assert.strictEqual(set.array.length, 3);
     assert.strictEqual(set.size, 0);
   });

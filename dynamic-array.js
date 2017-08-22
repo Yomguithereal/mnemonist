@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 0 */
+
 /**
  * Mnemonist DynamicArray
  * =======================
@@ -50,7 +52,7 @@ function DynamicArray(ArrayClass, initialSizeOrOptions) {
  * @return {DynamicArray}
  */
 DynamicArray.prototype.set = function(index, value) {
-
+  this.array[index] = value;
 };
 
 /**
@@ -60,7 +62,7 @@ DynamicArray.prototype.set = function(index, value) {
  * @return {any}
  */
 DynamicArray.prototype.get = function(index) {
-
+  return this.array[index];
 };
 
 /**

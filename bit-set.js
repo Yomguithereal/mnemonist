@@ -2,7 +2,7 @@
  * Mnemonist BitSet
  * =================
  *
- * JavaScript implementation of a fixed-size BitSet based upon a Uint8Array.
+ * JavaScript implementation of a fixed-size BitSet based upon a Uint32Array.
  */
 
 /**
@@ -26,7 +26,7 @@ BitSet.prototype.clear = function() {
 
   // Properties
   this.size = 0;
-  this.array = new Uint8Array(Math.ceil(this.length / 8));
+  this.array = new Uint32Array(Math.ceil(this.length / 32));
 };
 
 /**
@@ -40,8 +40,8 @@ BitSet.prototype.set = function(index, value) {
   if (arguments.length < 2)
     value = 1;
 
-  var byteIndex = (index / 8) | 0,
-      pos = index % 8,
+  var byteIndex = (index / 32) | 0,
+      pos = index % 32,
       oldByte = this.array[byteIndex],
       newByte;
 
@@ -76,8 +76,8 @@ BitSet.prototype.reset = function(index) {
  * @return {BitSet}
  */
 BitSet.prototype.flip = function(index) {
-  var byteIndex = (index / 8) | 0,
-      pos = index % 8,
+  var byteIndex = (index / 32) | 0,
+      pos = index % 32,
       oldByte = this.array[byteIndex];
 
   var newByte = this.array[byteIndex] ^= (1 << pos);
@@ -98,8 +98,8 @@ BitSet.prototype.flip = function(index) {
  * @return {number}
  */
 BitSet.prototype.get = function(index) {
-  var byteIndex = (index / 8) | 0,
-      pos = index % 8;
+  var byteIndex = (index / 32) | 0,
+      pos = index % 32;
 
   return (this.array[byteIndex] >> pos) & 1;
 };
@@ -130,12 +130,12 @@ BitSet.prototype.forEach = function(callback, scope) {
   for (var i = 0, l = this.array.length; i < l; i++) {
     byte = this.array[i];
 
-    var b = i === l - 1 ? this.length % 8 : 8;
+    var b = i === l - 1 ? this.length % 32 : 32;
 
     for (var j = 0; j < b; j++) {
       bit = (byte >> j) & 1;
 
-      callback.call(scope, bit, i * 8 + j);
+      callback.call(scope, bit, i * 32 + j);
     }
   }
 };
@@ -171,7 +171,7 @@ BitSet.prototype.values = function() {
           done: true
         };
 
-      b = i === l - 1 ? length % 8 : 8;
+      b = i === l - 1 ? length % 32 : 32;
       byte = array[i++];
       inner = true;
       j = -1;
@@ -217,14 +217,14 @@ BitSet.prototype.entries = function() {
           done: true
         };
 
-      b = i === l - 1 ? length % 8 : 8;
+      b = i === l - 1 ? length % 32 : 32;
       byte = array[i++];
       inner = true;
       j = -1;
     }
 
     j++;
-    index = (~-i) * 8 + j;
+    index = (~-i) * 32 + j;
 
     if (j >= b) {
       inner = false;
