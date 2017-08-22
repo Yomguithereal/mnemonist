@@ -46,6 +46,7 @@ npm install --save mnemonist
 * [MultiSet]({{ site.baseurl }}/multi-set)
 * [Queue]({{ site.baseurl }}/queue)
 * [Set (helpers)]({{ site.baseurl}}/set)
+* [SparseSet]({{ site.baseurl }}/sparse-set)
 * [Stack]({{ site.baseurl }}/stack)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
