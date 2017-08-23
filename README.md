@@ -26,6 +26,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 * [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
+* [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
 * [Index](https://yomguithereal.github.io/mnemonist/index-structure)
@@ -48,7 +49,7 @@ Note that this list does not include a `Graph` data structure, whose implementat
 
 However, we advise the reader to take a look at the [`graphology`](https://graphology.github.io/) library instead.
 
-Don't find the data structure you want? Maybe we can work it out [together](https://github.com/Yomguithereal/mnemonist/issues).
+Don't find the data structure you need? Maybe we can work it out [together](https://github.com/Yomguithereal/mnemonist/issues).
 
 ## Contribution
 

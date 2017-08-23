@@ -46,6 +46,12 @@ function DynamicArray(ArrayClass, initialSizeOrOptions) {
  * @param  {any}    value - Value.
  * @return {DynamicArray}
  */
+
+// TODO: grow the array if needed
+// TODO: create a trim method
+// TODO: add pop
+// TODO: add forEach
+// TODO: see transfer and ArrayBuffers
 DynamicArray.prototype.set = function(index, value) {
   this.array[index] = value;
 
