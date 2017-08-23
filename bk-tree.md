@@ -48,6 +48,8 @@ var tree = new BKTree(distance);
 
 **N.B.** the given distance metric must return integers. As such, the [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index), for instance, is not suitable to use with this data strucure.
 
+What's more, only a [true metric](https://en.wikipedia.org/wiki/Metric_(mathematics)) can be used.
+
 ### Static #.from
 
 Alternatively, one can build a `BKTree` from an arbitrary JavaScript iterable likewise:
