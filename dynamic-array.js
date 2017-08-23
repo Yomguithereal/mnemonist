@@ -5,6 +5,7 @@
  * Abstract implementation of a growing array that can be used with JavaScript
  * typed arrays and other array-like structures.
  */
+// var iterateOver = require('./utils/iterate.js');
 
 /**
  * Constants.
@@ -139,11 +140,34 @@ DynamicArray.prototype.inspect = function() {
  * @param  {Iterable} iterable - Target iterable.
  * @return {DynamicArray}
  */
-// DynamicArray.from = function(iterable) {
+// DynamicArray.from = function(iterable, ArrayClass, initialSizeOrOptions) {
 
 // };
 
 /**
  * Exporting.
  */
+function subClass(ArrayClass) {
+  var SubClass = function(initialSizeOrOptions) {
+    DynamicArray.call(this, ArrayClass, initialSizeOrOptions);
+  };
+
+  for (var k in DynamicArray.prototype) {
+    if (DynamicArray.prototype.hasOwnProperty(k))
+      SubClass.prototype[k] = DynamicArray.prototype[k];
+  }
+
+  return SubClass;
+}
+
+DynamicArray.DynamicInt8Array = subClass(Int8Array);
+DynamicArray.DynamicUint8Array = subClass(Uint8Array);
+DynamicArray.DynamicUint8ClampedArray = subClass(Uint8ClampedArray);
+DynamicArray.DynamicInt16Array = subClass(Int16Array);
+DynamicArray.DynamicUint16Array = subClass(Uint16Array);
+DynamicArray.DynamicInt32Array = subClass(Int32Array);
+DynamicArray.DynamicUint32Array = subClass(Uint32Array);
+DynamicArray.DynamicFloat32Array = subClass(Float32Array);
+DynamicArray.DynamicFloat64Array = subClass(Float64Array);
+
 module.exports = DynamicArray;

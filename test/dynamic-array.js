@@ -72,4 +72,14 @@ describe('DynamicArray', function() {
     assert.strictEqual(array.length, 3);
     assert.strictEqual(array.allocated, 4);
   });
+
+  it('should be possible to use the subclasses.', function() {
+    var array = new DynamicArray.DynamicUint8Array(4);
+
+    array.set(2, 24);
+
+    assert.strictEqual(array.length, 3);
+
+    assert.strictEqual(array.get(2), 24);
+  });
 });
