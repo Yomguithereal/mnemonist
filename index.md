@@ -36,6 +36,7 @@ npm install --save mnemonist
 * [BitSet]({{ site.baseurl }}/bit-set)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 * [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
+* [Dynamic Arrays]({{ site.baseurl }}/dynamic-array)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
 * [Index]({{ site.baseurl }}/index-structure)
@@ -58,7 +59,7 @@ Note that this list does not include a `Graph` data structure whose implementati
 
 However, we advise the reader to take a look at the [`graphology`](https://graphology.github.io/) library instead.
 
-Don't find the data structure you want? Maybe we can work it out [together]({{ site.github }}/issues).
+Don't find the data structure you need? Maybe we can work it out [together]({{ site.github }}/issues).
 
 ## Contribution
 
