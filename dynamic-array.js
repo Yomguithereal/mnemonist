@@ -5,7 +5,6 @@
  * Abstract implementation of a growing array that can be used with JavaScript
  * typed arrays and other array-like structures.
  */
-// var iterateOver = require('./utils/iterate.js');
 
 /**
  * Constants.
@@ -89,16 +88,6 @@ DynamicArray.prototype.grow = function() {
 };
 
 /**
- * Method used to resize the array.
- *
- * @param  {number}       length - Desired length.
- * @return {DynamicArray}
- */
-// DynamicArray.prototype.resize = function(length) {
-
-// };
-
-/**
  * Method used to push a value into the array.
  *
  * @param  {any}    value - Value to push.
@@ -132,17 +121,6 @@ DynamicArray.prototype.inspect = function() {
 
   return proxy;
 };
-
-/**
- * Static @.from function taking an abitrary iterable & converting it into
- * a structure.
- *
- * @param  {Iterable} iterable - Target iterable.
- * @return {DynamicArray}
- */
-// DynamicArray.from = function(iterable, ArrayClass, initialSizeOrOptions) {
-
-// };
 
 /**
  * Exporting.

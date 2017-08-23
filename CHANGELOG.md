@@ -2,6 +2,7 @@
 
 ## O.14.0 (provisional)
 
+* Adding `DynamicArray`.
 * Adding `SparseSet`.
 * Adding iterator methods to `BitSet`.
 * `BitSet` now relies on `Uint32Array` rather than `Uint8Array`.
