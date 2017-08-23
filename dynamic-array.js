@@ -1,19 +1,16 @@
-/* eslint no-unused-vars: 0 */
-
 /**
  * Mnemonist DynamicArray
  * =======================
  *
  * Abstract implementation of a growing array that can be used with JavaScript
- * typed arrays and other array-like structures like the BitSet.
+ * typed arrays and other array-like structures.
  */
-var iterateOver = require('./utils/iterate.js');
 
 /**
  * Constants.
  */
 var DEFAULT_GROWING_POLICY = function(currentSize) {
-  return currentSize * 1.5;
+  return Math.ceil(currentSize * 1.5);
 };
 
 /**
@@ -24,8 +21,6 @@ var DEFAULT_GROWING_POLICY = function(currentSize) {
  * @param {number|object} initialSizeOrOptions - Self-explanatory.
  */
 function DynamicArray(ArrayClass, initialSizeOrOptions) {
-  this.clear();
-
   if (arguments.length < 2)
     throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
 
@@ -53,6 +48,11 @@ function DynamicArray(ArrayClass, initialSizeOrOptions) {
  */
 DynamicArray.prototype.set = function(index, value) {
   this.array[index] = value;
+
+  if (index > this.length - 1)
+    this.length = index + 1;
+
+  return this;
 };
 
 /**
@@ -66,13 +66,25 @@ DynamicArray.prototype.get = function(index) {
 };
 
 /**
- * Method used to push a value into the array.
+ * Method used to grow the array.
  *
- * @param  {any}    value - Value to push.
- * @return {number}       - Length of the array.
+ * @return {DynamicArray}
  */
-DynamicArray.prototype.push = function(value) {
+DynamicArray.prototype.grow = function() {
+  var allocated = this.allocated;
 
+  this.allocated = this.policy(allocated);
+
+  if (this.allocated <= allocated)
+    throw new Error('mnemonist/dynamic-array.grow: policy returned a less or equal length to allocate.');
+
+  var oldArray = this.array;
+  this.array = new this.ArrayClass(this.allocated);
+
+  for (var i = 0, l = this.length; i < l; i++)
+    this.array[i] = oldArray[i];
+
+  return this;
 };
 
 /**
@@ -81,8 +93,43 @@ DynamicArray.prototype.push = function(value) {
  * @param  {number}       length - Desired length.
  * @return {DynamicArray}
  */
-DynamicArray.prototype.resize = function(length) {
+// DynamicArray.prototype.resize = function(length) {
 
+// };
+
+/**
+ * Method used to push a value into the array.
+ *
+ * @param  {any}    value - Value to push.
+ * @return {number}       - Length of the array.
+ */
+DynamicArray.prototype.push = function(value) {
+  if (this.length >= this.allocated)
+    this.grow();
+
+  this.set(this.length++, value);
+
+  return this.length;
+};
+
+/**
+ * Convenience known methods.
+ */
+DynamicArray.prototype.inspect = function() {
+  var proxy = new this.ArrayClass(this.length);
+
+  for (var i = 0; i < this.length; i++)
+    proxy[i] = this.array[i];
+
+  proxy.type = this.ArrayClass.name;
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: DynamicArray,
+    enumerable: false
+  });
+
+  return proxy;
 };
 
 /**
@@ -92,9 +139,9 @@ DynamicArray.prototype.resize = function(length) {
  * @param  {Iterable} iterable - Target iterable.
  * @return {DynamicArray}
  */
-DynamicArray.from = function(iterable) {
+// DynamicArray.from = function(iterable) {
 
-};
+// };
 
 /**
  * Exporting.
