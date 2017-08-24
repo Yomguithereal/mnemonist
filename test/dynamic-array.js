@@ -74,7 +74,7 @@ describe('DynamicArray', function() {
   });
 
   it('should be possible to use the subclasses.', function() {
-    var array = new DynamicArray.DynamicUint8Array(4);
+    var array = new DynamicArray.DynamicFloat64Array(4);
 
     array.set(2, 24);
 
