@@ -53,6 +53,7 @@ var array = new DynamicArray.DynamicFloat64Array(initialSize);
 *Mutation*
 
 * [#.set](#set)
+* [#.pop](#pop)
 * [#.push](#push)
 
 *Read*
@@ -127,6 +128,23 @@ array.set(1, 45);
 
 array.get(1);
 >>> 45
+```
+
+### #.pop
+
+Removes & returns the last value of the array.
+
+```js
+var array = new DynamicArray(Uint8Array, 2);
+
+array.push(1);
+array.push(2);
+array.push(3);
+
+array.pop();
+>>> 3
+array.length
+>>> 2
 ```
 
 ### #.push
