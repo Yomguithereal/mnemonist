@@ -42,6 +42,26 @@ describe('DynamicArray', function() {
     assert.strictEqual(array.get(34), 34);
   });
 
+  it('should be possible to pop values.', function() {
+    var array = new DynamicArray(Uint32Array, 3);
+
+    array.push(1);
+    array.push(2);
+
+    assert.strictEqual(array.pop(), 2);
+    assert.strictEqual(array.length, 1);
+    assert.strictEqual(array.pop(), 1);
+    assert.strictEqual(array.length, 0);
+    assert.strictEqual(array.pop(), undefined);
+    assert.strictEqual(array.length, 0);
+
+    array.push(34);
+    array.push(35);
+
+    assert.strictEqual(array.get(1), 35);
+    assert.strictEqual(array.length, 2);
+  });
+
   it('should throw if the policy returns an irrelevant size.', function() {
     var array = new DynamicArray(Uint8Array, {
       initialSize: 1,

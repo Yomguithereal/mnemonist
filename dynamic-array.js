@@ -4,6 +4,8 @@
  *
  * Abstract implementation of a growing array that can be used with JavaScript
  * typed arrays and other array-like structures.
+ *
+ * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 
 /**
@@ -49,9 +51,7 @@ function DynamicArray(ArrayClass, initialSizeOrOptions) {
 
 // TODO: grow the array if needed
 // TODO: create a trim method
-// TODO: add pop
 // TODO: add forEach
-// TODO: see transfer and ArrayBuffers
 DynamicArray.prototype.set = function(index, value) {
   this.array[index] = value;
 
@@ -109,13 +109,22 @@ DynamicArray.prototype.push = function(value) {
 };
 
 /**
+ * Method used to pop the last value of the array.
+ *
+ * @return {number} - The popped value.
+ */
+DynamicArray.prototype.pop = function() {
+  if (!this.length)
+    return;
+
+  return this.array[--this.length];
+};
+
+/**
  * Convenience known methods.
  */
 DynamicArray.prototype.inspect = function() {
-  var proxy = new this.ArrayClass(this.length);
-
-  for (var i = 0; i < this.length; i++)
-    proxy[i] = this.array[i];
+  var proxy = this.array.slice(0, this.length);
 
   proxy.type = this.ArrayClass.name;
 
