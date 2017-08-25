@@ -6,6 +6,7 @@
 * Adding `SparseSet`.
 * Adding iterator methods to `BitSet`.
 * `BitSet` now relies on `Uint32Array` rather than `Uint8Array`.
+* Improving `BitSet` performances.
 
 ## 0.13.0
 
