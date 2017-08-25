@@ -67,7 +67,20 @@ BitSet.prototype.set = function(index, value) {
 * @return {BitSet}
 */
 BitSet.prototype.reset = function(index) {
-  return this.set(index, false);
+  var byteIndex = index >> 5,
+      pos = index & 0x0000001f,
+      oldByte = this.array[byteIndex],
+      newByte;
+
+  newByte = this.array[byteIndex] &= ~(1 << pos);
+
+  // Updating size
+  if (newByte > oldByte)
+    this.size++;
+  else if (newByte < oldByte)
+    this.size--;
+
+  return this;
 };
 
 /**

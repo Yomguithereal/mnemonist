@@ -43,6 +43,19 @@ describe('BitSet', function() {
     assert.strictEqual(set.test(3), false);
   });
 
+  it('should be possible to reset bits.', function() {
+    var set = new BitSet(4);
+
+    set.set(0);
+    set.set(1);
+
+    set.reset(0);
+    set.reset(1);
+
+    assert.strictEqual(set.get(0), 0);
+    assert.strictEqual(set.get(1), 0);
+  });
+
   it('should be possible to iterate over bits.', function() {
     var set = new BitSet(10);
 
