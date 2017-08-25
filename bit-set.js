@@ -3,6 +3,10 @@
  * =================
  *
  * JavaScript implementation of a fixed-size BitSet based upon a Uint32Array.
+ *
+ * Notes:
+ *   - (i >> 5) is the same as ((i / 32) | 0)
+ *   - (i & 0x0000001f) is the sames as (i % 32)
  */
 
 /**
@@ -37,18 +41,15 @@ BitSet.prototype.clear = function() {
  * @return {BitSet}
  */
 BitSet.prototype.set = function(index, value) {
-  if (arguments.length < 2)
-    value = 1;
-
-  var byteIndex = (index / 32) | 0,
-      pos = index % 32,
+  var byteIndex = index >> 5,
+      pos = index & 0x0000001f,
       oldByte = this.array[byteIndex],
       newByte;
 
-  if (value)
-    newByte = this.array[byteIndex] |= (1 << pos);
-  else
+  if (value === 0)
     newByte = this.array[byteIndex] &= ~(1 << pos);
+  else
+    newByte = this.array[byteIndex] |= (1 << pos);
 
   // Updating size
   if (newByte > oldByte)
@@ -60,11 +61,11 @@ BitSet.prototype.set = function(index, value) {
 };
 
 /**
- * Method used to reset the given bit's value.
- *
- * @param  {number} index - Target bit index.
- * @return {BitSet}
- */
+* Method used to reset the given bit's value.
+*
+* @param  {number} index - Target bit index.
+* @return {BitSet}
+*/
 BitSet.prototype.reset = function(index) {
   return this.set(index, false);
 };
@@ -76,8 +77,8 @@ BitSet.prototype.reset = function(index) {
  * @return {BitSet}
  */
 BitSet.prototype.flip = function(index) {
-  var byteIndex = (index / 32) | 0,
-      pos = index % 32,
+  var byteIndex = index >> 5,
+      pos = index & 0x0000001f,
       oldByte = this.array[byteIndex];
 
   var newByte = this.array[byteIndex] ^= (1 << pos);
@@ -98,8 +99,8 @@ BitSet.prototype.flip = function(index) {
  * @return {number}
  */
 BitSet.prototype.get = function(index) {
-  var byteIndex = (index / 32) | 0,
-      pos = index % 32;
+  var byteIndex = index >> 5,
+      pos = index & 0x0000001f;
 
   return (this.array[byteIndex] >> pos) & 1;
 };
