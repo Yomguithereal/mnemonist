@@ -34,6 +34,8 @@ var set = new BitSet(length);
 *Read*
 
 * [#.get](#get)
+* [#.rank](#rank)
+* [#.select](#select)
 * [#.test](#test)
 
 *Iteration*
@@ -154,6 +156,38 @@ set.get(1);
 
 set.get(3);
 >>> 0
+```
+
+### #.rank
+
+Returns the number of bits set to 1 up to (but not including) the provided index.
+
+```js
+var set = new BitSet(4);
+
+set.set(1);
+set.set(2);
+
+set.rank(1);
+>>> 0
+set.rank(3);
+>>> 2
+```
+
+### #.select
+
+Returns the index of the nth bit set to 1 in the set.
+
+```js
+var set = new BitSet(4);
+
+set.set(0);
+set.set(2);
+
+set.select(1);
+>>> 0
+set.select(2);
+>>> 2
 ```
 
 ### #.test
