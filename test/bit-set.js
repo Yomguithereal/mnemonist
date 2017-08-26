@@ -84,6 +84,24 @@ describe('BitSet', function() {
     assert.strictEqual(set.rank(2), 1);
   });
 
+  it('should be possible to use the select operator.', function() {
+    var set = new BitSet(11);
+    set.set(1);
+    set.set(3);
+    set.set(4);
+    set.set(5);
+    set.set(9);
+    set.set(10);
+
+    var zeros = set.rank(set.length);
+    assert.strictEqual(zeros, 6);
+
+    var results = [null, 1, 3, 4, 5, 9, 10];
+
+    for (var i = 1; i <= zeros; i++)
+      assert.strictEqual(set.select(i), results[i]);
+  });
+
   it('should be possible to iterate over bits.', function() {
     var set = new BitSet(10);
 

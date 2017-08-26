@@ -133,10 +133,13 @@ BitSet.prototype.test = function(index) {
  * Method used to return the number of 1 from the beginning of the set up to
  * the ith index.
  *
- * @param  {number} i - Ith index.
+ * @param  {number} i - Ith index (cannot be > length).
  * @return {number}
  */
 BitSet.prototype.rank = function(i) {
+  if (this.size === 0)
+    return 0;
+
   var byteIndex = i >> 5,
       pos = i & 0x0000001f,
       r = 0;
@@ -151,6 +154,49 @@ BitSet.prototype.rank = function(i) {
   r += bitwise.popcount(maskedByte);
 
   return r;
+};
+
+/**
+ * Method used to return the position of the rth 1 in the set or -1 if the
+ * set is empty.
+ *
+ * Note: usually select is implemented using binary search over rank but I
+ * tend to think the following linear implementation is faster since here
+ * rank is O(n) anyway.
+ *
+ * @param  {number} r - Rth 1 to select (should be < length).
+ * @return {number}
+ */
+BitSet.prototype.select = function(r) {
+  if (this.size === 0)
+    return -1;
+
+  // TODO: throw?
+  if (r >= this.length)
+    return -1;
+
+  var byte,
+      b = 0,
+      p = 0,
+      c = 0;
+
+  for (var i = 0, l = this.length; i < l; i++) {
+    byte = this.array[i];
+
+    // TODO: This branching might not be useful here
+    b = i === l - 1 ? this.length % 32 : 32;
+
+    // The byte is empty, let's continue
+    if (byte === 0)
+      continue;
+
+    for (var j = 0; j < b; j++, p++) {
+      c += (byte >> j) & 1;
+
+      if (c === r)
+        return p;
+    }
+  }
 };
 
 /**
