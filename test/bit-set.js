@@ -74,6 +74,14 @@ describe('BitSet', function() {
 
     for (i = j = 0; i <= 8000; i += 8000 / 4, j++)
       assert.strictEqual(set.rank(i), results[j][1]);
+
+    set = new BitSet(2);
+
+    set.set(1);
+
+    assert.strictEqual(set.rank(0), 0);
+    assert.strictEqual(set.rank(1), 0);
+    assert.strictEqual(set.rank(2), 1);
   });
 
   it('should be possible to iterate over bits.', function() {
