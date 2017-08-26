@@ -183,12 +183,14 @@ BitSet.prototype.select = function(r) {
   for (var i = 0, l = this.length; i < l; i++) {
     byte = this.array[i];
 
-    // TODO: This branching might not be useful here
-    b = i === l - 1 ? this.length % 32 : 32;
-
     // The byte is empty, let's continue
     if (byte === 0)
       continue;
+
+    // TODO: This branching might not be useful here
+    b = i === l - 1 ? this.length % 32 : 32;
+
+    // TODO: popcount should speed things up here
 
     for (var j = 0; j < b; j++, p++) {
       c += (byte >> j) & 1;
