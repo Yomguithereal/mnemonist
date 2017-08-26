@@ -5,6 +5,7 @@
 * Adding `DynamicArray`.
 * Adding `SparseSet`.
 * Adding iterator methods to `BitSet`.
+* Adding `#.rank` & `#.select` to `BitSet`.
 * `BitSet` now relies on `Uint32Array` rather than `Uint8Array`.
 * Improving `BitSet` performances.
 
