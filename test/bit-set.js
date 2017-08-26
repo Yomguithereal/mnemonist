@@ -56,6 +56,26 @@ describe('BitSet', function() {
     assert.strictEqual(set.get(1), 0);
   });
 
+  it('should be possible to use the rank operator.', function() {
+    var set = new BitSet(8010); // Using 8010 not to have a perfect 32bits seq
+
+    var results = [
+      [0, 0],
+      [2000, 20],
+      [4000, 40],
+      [6000, 60],
+      [8000, 80]
+    ];
+
+    var i, j;
+
+    for (i = 0; i < 8000; i += 100)
+      set.set(i);
+
+    for (i = j = 0; i <= 8000; i += 8000 / 4, j++)
+      assert.strictEqual(set.rank(i), results[j][1]);
+  });
+
   it('should be possible to iterate over bits.', function() {
     var set = new BitSet(10);
 

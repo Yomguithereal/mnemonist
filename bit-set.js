@@ -8,6 +8,7 @@
  *   - (i >> 5) is the same as ((i / 32) | 0)
  *   - (i & 0x0000001f) is the sames as (i % 32)
  */
+var bitwise = require('./utils/bitwise.js');
 
 /**
  * BitSet.
@@ -126,6 +127,30 @@ BitSet.prototype.get = function(index) {
  */
 BitSet.prototype.test = function(index) {
   return Boolean(this.get(index));
+};
+
+/**
+ * Method used to return the number of 1 from the beginning of the set up to
+ * the ith index.
+ *
+ * @param  {number} i - Ith index.
+ * @return {number}
+ */
+BitSet.prototype.rank = function(i) {
+  var byteIndex = i >> 5,
+      pos = i & 0x0000001f,
+      r = 0;
+
+  // Accessing the bytes before the last one
+  for (var j = 0; j < byteIndex; j++)
+    r += bitwise.popcount(this.array[j]);
+
+  // Handling masked last byte
+  var maskedByte = this.array[byteIndex] & ((1 << pos) - 1);
+
+  r += bitwise.popcount(maskedByte);
+
+  return r;
 };
 
 /**
