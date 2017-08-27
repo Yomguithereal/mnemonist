@@ -12,7 +12,7 @@
  * @param  {any}      target - Iteration target.
  * @param  {function} callback - Iteration callback.
  */
-module.exports = function iterate(target, callback) {
+function iterate(target, callback) {
   var iterator, k, i, l, s;
 
   // The target is an array
@@ -53,4 +53,26 @@ module.exports = function iterate(target, callback) {
   }
 
   return;
+}
+
+/**
+ * Function used to attempt to guess the length of the structure over which we
+ * are going to iterate.
+ *
+ * @param  {any} target - Iteration target.
+ * @return {number|undefined}
+ */
+iterate.guessLength = function(target) {
+  if (typeof target.length === 'number')
+    return target.length;
+
+  if (typeof target.size === 'number')
+    return target.size;
+
+  return;
 };
+
+/**
+ * Exporting.
+ */
+module.exports = iterate;
