@@ -20,3 +20,24 @@ exports.popcount = function(x) {
   x += x >> 16;
   return x & 0x7f;
 };
+
+/**
+ * Slightly faster popcount function based on a precomputed table of 8bits
+ * words.
+ *
+ * @param  {number} x - Target number.
+ * @return {number}
+ */
+var TABLE8 = new Uint8Array(Math.pow(2, 8));
+
+for (var i = 0, l = TABLE8.length; i < l; i++)
+  TABLE8[i] = exports.popcount(i);
+
+exports.table8Popcount = function(x) {
+  return (
+    TABLE8[x & 0xff] +
+    TABLE8[(x >> 8) & 0xff] +
+    TABLE8[(x >> 16) & 0xff] +
+    TABLE8[(x >> 24) & 0xff]
+  );
+};

@@ -146,12 +146,12 @@ BitSet.prototype.rank = function(i) {
 
   // Accessing the bytes before the last one
   for (var j = 0; j < byteIndex; j++)
-    r += bitwise.popcount(this.array[j]);
+    r += bitwise.table8Popcount(this.array[j]);
 
   // Handling masked last byte
   var maskedByte = this.array[byteIndex] & ((1 << pos) - 1);
 
-  r += bitwise.popcount(maskedByte);
+  r += bitwise.table8Popcount(maskedByte);
 
   return r;
 };
