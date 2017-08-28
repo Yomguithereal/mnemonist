@@ -26,6 +26,10 @@ function StaticDisjointSet(size) {
   this.dimension = size;
   this.parents = new ParentsTypedArray(size);
   this.ranks = new RanksTypedArray(size);
+
+  // Initializing parents
+  for (var i = 0; i < size; i++)
+    this.parents[i] = i;
 }
 
 /**
@@ -97,31 +101,92 @@ StaticDisjointSet.prototype.union = function(x, y) {
   return this;
 };
 
-// TODO: possible to track size of sets
+/**
+ * Method returning whether two items are connected.
+ *
+ * @param  {number} x - First item.
+ * @param  {number} y - Second item.
+ * @return {boolean}
+ */
+StaticDisjointSet.prototype.connected = function(x, y) {
+  var xRoot = this.find(x);
 
-// i = 0;
-// map = {};
-// result = new Array(this.dimension);
-// for set in sets:
-//   if not root:
-//     continue
-//   result[i] = []
-//   map[i++] = root
+  return xRoot === this.find(y);
+};
 
-// for set in sets:
-//   root = find(set)
-//   result[map[root]].push(set)
+/**
+ * Method returning the set mapping.
+ *
+ * @return {TypedArray}
+ */
+StaticDisjointSet.prototype.mapping = function() {
+  var MappingClass = helpers.getPointerArray(this.dimension);
 
-// return result
+  var ids = {},
+      mapping = new MappingClass(this.size),
+      c = 0;
 
-// TODO: method returning sets map
-// TODO: method to iterate over sets (need to use a linked multimap)
-// TODO: method to test connectivity
-// TODO: possibility to iterate on sets using a heap (convoluted)
+  var r;
+
+  for (var i = 0, l = this.parents.length; i < l; i++) {
+    r = this.find(i);
+
+    if (typeof ids[r] === 'undefined') {
+      mapping[i] = c;
+      ids[r] = c++;
+    }
+    else {
+      mapping[i] = ids[r];
+    }
+  }
+
+  return mapping;
+};
+
+/**
+ * Method used to compile the disjoint set into an array of arrays.
+ *
+ * @return {array}
+ */
+StaticDisjointSet.prototype.compile = function() {
+  var ids = {},
+      result = [],
+      c = 0;
+
+  var r;
+
+  for (var i = 0, l = this.parents.length; i < l; i++) {
+    r = this.find(i);
+
+    if (typeof ids[r] === 'undefined') {
+      result[c] = [i];
+      ids[r] = c++;
+    }
+    else {
+      result[ids[r]].push(i);
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Convenience known methods.
+ */
+StaticDisjointSet.prototype.inspect = function() {
+  var array = this.compile();
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(array, 'constructor', {
+    value: StaticDisjointSet,
+    enumerable: false
+  });
+
+  return array;
+};
+
 
 /**
  * Exporting.
  */
-module.exports = {
-  StaticDisjointSet: StaticDisjointSet
-};
+module.exports = StaticDisjointSet;

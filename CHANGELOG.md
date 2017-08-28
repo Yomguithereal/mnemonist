@@ -1,13 +1,15 @@
 # Changelog
 
-## O.14.0 (provisional)
+## O.14.0
 
 * Adding `DynamicArray`.
 * Adding `SparseSet`.
+* Adding `StaticDisjointSet`.
 * Adding iterator methods to `BitSet`.
 * Adding `#.rank` & `#.select` to `BitSet`.
 * `BitSet` now relies on `Uint32Array` rather than `Uint8Array`.
 * Improving `BitSet` performances.
+* Using `obliterator` to handle iterators.
 
 ## 0.13.0
 

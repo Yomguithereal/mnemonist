@@ -14,6 +14,8 @@ module.exports = {
   BitSet: require('./bit-set.js'),
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
+  StaticDisjointSet: require('./static-disjoint-set.js'),
+  DynamicArray: require('./dynamic-array.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,

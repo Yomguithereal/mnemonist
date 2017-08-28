@@ -26,6 +26,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 * [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
+* [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
 * [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)

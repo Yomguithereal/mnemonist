@@ -1,6 +1,6 @@
 {
   "name": "mnemonist",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Curated collection of data structures for the JavaScript language.",
   "main": "endpoint.js",
   "scripts": {
@@ -22,7 +22,9 @@
     "bit set",
     "bit array",
     "bit vector",
+    "counter",
     "data structures",
+    "disjoint set",
     "structures",
     "heap",
     "fibonacci heap",
@@ -34,7 +36,7 @@
     "bag",
     "multiset",
     "multimap",
-    "counter",
+    "union find",
     "sparse set",
     "suffix tree",
     "symspell",
