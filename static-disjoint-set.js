@@ -56,7 +56,7 @@ StaticDisjointSet.prototype.find = function(x) {
   while (true) {
     p = this.parents[x];
 
-    if (x === p)
+    if (p === y)
       break;
 
     this.parents[x] = y;
