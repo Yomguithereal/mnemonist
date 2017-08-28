@@ -6,6 +6,7 @@
  *
  * [Reference]: https://research.swtch.com/sparse
  */
+var Iterator = require('obliterator/iterator');
 
 /**
  * SparseSet.
@@ -100,13 +101,6 @@ SparseSet.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * Sparse Set Iterator class.
- */
-function SparseSetIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method used to create an iterator over a set's values.
  *
  * @return {Iterator}
@@ -116,7 +110,7 @@ SparseSet.prototype.values = function() {
       dense = this.dense,
       i = 0;
 
-  return new SparseSetIterator(function() {
+  return new Iterator(function() {
     if (i < size) {
       var item = dense[i];
       i++;

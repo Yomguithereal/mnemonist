@@ -5,7 +5,8 @@
  * Stack implementation relying on JavaScript arrays, which are fast enough &
  * correctly optimized for this kind of work.
  */
-var iterateOver = require('./utils/iterate.js');
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js');
 
 /**
  * Stack
@@ -82,13 +83,6 @@ Stack.prototype.toArray = function() {
 };
 
 /**
- * Stack Iterator class.
- */
-function StackIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method used to create an iterator over a stack's values.
  *
  * @return {Iterator}
@@ -98,7 +92,7 @@ Stack.prototype.values = function() {
       l = items.length,
       i = 0;
 
-  return new StackIterator(function() {
+  return new Iterator(function() {
     if (i >= l)
       return {
         done: true
@@ -124,7 +118,7 @@ Stack.prototype.entries = function() {
       l = items.length,
       i = 0;
 
-  return new StackIterator(function() {
+  return new Iterator(function() {
     if (i >= l)
       return {
         done: true

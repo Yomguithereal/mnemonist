@@ -4,7 +4,8 @@
  *
  * JavaScript implementation of an inverted index.
  */
-var iterateOver = require('./utils/iterate.js'),
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js'),
     helpers = require('./set.js');
 
 function identity(x) {
@@ -216,23 +217,16 @@ InvertedIndex.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * InvertedIndex Iterator class.
- */
-function InvertedIndexIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method returning an iterator over the index's documents.
  *
- * @return {InvertedIndexIterator}
+ * @return {Iterator}
  */
 InvertedIndex.prototype.documents = function() {
   var documents = this.items,
       l = documents.length,
       i = 0;
 
-  return new InvertedIndexIterator(function() {
+  return new Iterator(function() {
     if (i >= l)
       return {
         done: true
@@ -250,17 +244,10 @@ InvertedIndex.prototype.documents = function() {
 /**
  * Method returning an iterator over the index's tokens.
  *
- * @return {InvertedIndexIterator}
+ * @return {Iterator}
  */
 InvertedIndex.prototype.tokens = function() {
-  var iterator = this.mapping.keys();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: InvertedIndexIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.mapping.keys();
 };
 
 /**

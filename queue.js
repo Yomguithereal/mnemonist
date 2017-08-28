@@ -5,7 +5,8 @@
  * Queue implementation based on the ideas of Queue.js that seems to beat
  * a LinkedList one in performance.
  */
-var iterateOver = require('./utils/iterate.js');
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js');
 
 /**
  * Queue
@@ -98,13 +99,6 @@ Queue.prototype.toArray = function() {
 };
 
 /**
- * Queue Iterator class.
- */
-function QueueIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method used to create an iterator over a queue's values.
  *
  * @return {Iterator}
@@ -113,7 +107,7 @@ Queue.prototype.values = function() {
   var items = this.items,
       i = this.offset;
 
-  return new QueueIterator(function() {
+  return new Iterator(function() {
     if (i >= items.length)
       return {
         done: true
@@ -139,7 +133,7 @@ Queue.prototype.entries = function() {
       i = this.offset,
       j = 0;
 
-  return new QueueIterator(function() {
+  return new Iterator(function() {
     if (i >= items.length)
       return {
         done: true

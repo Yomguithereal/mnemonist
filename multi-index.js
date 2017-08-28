@@ -114,26 +114,12 @@ MultiIndex.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * MultiIndex Iterator class.
- */
-function MultiIndexIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method returning an iterator over the index's values.
  *
  * @return {MultiIndexIterator}
  */
 MultiIndex.prototype.values = function() {
-  var iterator = this.items.values();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: MultiIndexIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.values();
 };
 
 /**

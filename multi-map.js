@@ -4,7 +4,8 @@
  *
  * Implementation of a MultiMap with custom container.
  */
-var iterateOver = require('./utils/iterate.js');
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js');
 
 /**
  * MultiMap.
@@ -129,32 +130,18 @@ MultiMap.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * MultiMap Iterator class.
- */
-function MultiMapIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method returning an iterator over the map's keys.
  *
- * @return {MultiMapIterator}
+ * @return {Iterator}
  */
 MultiMap.prototype.keys = function() {
-  var iterator = this.items.keys();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: MultiMapIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.keys();
 };
 
 /**
  * Method returning an iterator over the map's keys.
  *
- * @return {MultiMapIterator}
+ * @return {Iterator}
  */
 MultiMap.prototype.values = function() {
   var iterator = this.items.values(),
@@ -165,7 +152,7 @@ MultiMap.prototype.values = function() {
       l;
 
   if (this.Container === Set)
-    return new MultiMapIterator(function next() {
+    return new Iterator(function next() {
       if (!inContainer) {
         step = iterator.next();
 
@@ -189,7 +176,7 @@ MultiMap.prototype.values = function() {
       };
     });
 
-  return new MultiMapIterator(function next() {
+  return new Iterator(function next() {
     if (!inContainer) {
       step = iterator.next();
 
@@ -217,7 +204,7 @@ MultiMap.prototype.values = function() {
 /**
  * Method returning an iterator over the map's entries.
  *
- * @return {MultiMapIterator}
+ * @return {Iterator}
  */
 MultiMap.prototype.entries = function() {
   var iterator = this.items.entries(),
@@ -229,7 +216,7 @@ MultiMap.prototype.entries = function() {
       l;
 
   if (this.Container === Set)
-    return new MultiMapIterator(function next() {
+    return new Iterator(function next() {
       if (!inContainer) {
         step = iterator.next();
 
@@ -254,7 +241,7 @@ MultiMap.prototype.entries = function() {
       };
     });
 
-  return new MultiMapIterator(function next() {
+  return new Iterator(function next() {
     if (!inContainer) {
       step = iterator.next();
 
@@ -283,33 +270,19 @@ MultiMap.prototype.entries = function() {
 /**
  * Method returning an iterator over the map's containers.
  *
- * @return {MultiMapIterator}
+ * @return {Iterator}
  */
 MultiMap.prototype.containers = function() {
-  var iterator = this.items.values();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: MultiMapIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.values();
 };
 
 /**
  * Method returning an iterator over the map's associations.
  *
- * @return {MultiMapIterator}
+ * @return {Iterator}
  */
 MultiMap.prototype.associations = function() {
-  var iterator = this.items.entries();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: MultiMapIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.entries();
 };
 
 /**

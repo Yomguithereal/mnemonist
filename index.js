@@ -113,28 +113,13 @@ Index.prototype.forEach = function(callback, scope) {
   });
 };
 
-
-/**
- * Index Iterator class.
- */
-function IndexIterator(next) {
-  this.next = next;
-}
-
 /**
  * Method returning an iterator over the index's values.
  *
  * @return {IndexIterator}
  */
 Index.prototype.values = function() {
-  var iterator = this.items.values();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: IndexIterator,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.values();
 };
 
 /**

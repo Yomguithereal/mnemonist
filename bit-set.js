@@ -8,7 +8,8 @@
  *   - (i >> 5) is the same as ((i / 32) | 0)
  *   - (i & 0x0000001f) is the sames as (i % 32)
  */
-var bitwise = require('./utils/bitwise.js');
+var Iterator = require('obliterator/iterator'),
+    bitwise = require('./utils/bitwise.js');
 
 /**
  * BitSet.
@@ -228,13 +229,6 @@ BitSet.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * Bit Set Iterator class.
- */
-function BitSetIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method used to create an iterator over a set's values.
  *
  * @return {Iterator}
@@ -250,7 +244,7 @@ BitSet.prototype.values = function() {
       j = -1,
       b;
 
-  return new BitSetIterator(function next() {
+  return new Iterator(function next() {
     if (!inner) {
 
       if (i >= l)
@@ -296,7 +290,7 @@ BitSet.prototype.entries = function() {
       j = -1,
       b;
 
-  return new BitSetIterator(function next() {
+  return new Iterator(function next() {
     if (!inner) {
 
       if (i >= l)

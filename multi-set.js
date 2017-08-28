@@ -4,7 +4,8 @@
  *
  * JavaScript implementation of a MultiSet.
  */
-var iterateOver = require('./utils/iterate.js');
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js');
 
 /**
  * MultiSet.
@@ -139,16 +140,9 @@ MultiSet.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * MultiSet Iterator class.
- */
-function MultiSetIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method returning an iterator over the set's values.
  *
- * @return {MultiSetIterator}
+ * @return {Iterator}
  */
 MultiSet.prototype.values = function() {
   var iterator = this.items.entries(),
@@ -158,7 +152,7 @@ MultiSet.prototype.values = function() {
       multiplicty,
       i;
 
-  return new MultiSetIterator(function next() {
+  return new Iterator(function next() {
     if (!inContainer) {
       step = iterator.next();
 
@@ -188,17 +182,10 @@ MultiSet.prototype.values = function() {
 /**
  * Method returning an iterator over the set's multiplicities.
  *
- * @return {MultiSetIterator}
+ * @return {Iterator}
  */
 MultiSet.prototype.multiplicities = function() {
-  var iterator = this.items.entries();
-
-  Object.defineProperty(iterator, 'constructor', {
-    value: MultiSet,
-    enumerable: false
-  });
-
-  return iterator;
+  return this.items.entries();
 };
 
 /**

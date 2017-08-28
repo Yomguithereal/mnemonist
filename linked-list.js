@@ -5,7 +5,8 @@
  * Singly linked list implementation. Uses raw JavaScript objects as nodes
  * as benchmarks proved it was the fastest thing to do.
  */
-var iterateOver = require('./utils/iterate.js');
+var Iterator = require('obliterator/iterator'),
+    iterateOver = require('./utils/iterate.js');
 
 /**
  * Linked List.
@@ -156,13 +157,6 @@ LinkedList.prototype.toArray = function() {
 };
 
 /**
- * Linked List Iterator class.
- */
-function LinkedListIterator(next) {
-  this.next = next;
-}
-
-/**
  * Method used to create an iterator over a list's values.
  *
  * @return {Iterator}
@@ -170,7 +164,7 @@ function LinkedListIterator(next) {
 LinkedList.prototype.values = function() {
   var n = this.head;
 
-  return new LinkedListIterator(function() {
+  return new Iterator(function() {
     if (!n)
       return {
         done: true
@@ -195,7 +189,7 @@ LinkedList.prototype.entries = function() {
   var n = this.head,
       i = 0;
 
-  return new LinkedListIterator(function() {
+  return new Iterator(function() {
     if (!n)
       return {
         done: true
