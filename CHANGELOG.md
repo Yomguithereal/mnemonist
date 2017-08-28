@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.1 (provisional)
+
+* Fixing `StaticDisjointSet.find` complexity.
+
 ## O.14.0
 
 * Adding `DynamicArray`.
