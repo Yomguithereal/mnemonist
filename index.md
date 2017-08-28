@@ -36,6 +36,7 @@ npm install --save mnemonist
 * [BitSet]({{ site.baseurl }}/bit-set)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 * [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
+* [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
 * [Dynamic Arrays]({{ site.baseurl }}/dynamic-array)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
