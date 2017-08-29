@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.14.1 (provisional)
+## 0.15.0 (provisional)
 
+* Adding `RangeMap`.
 * Fixing `StaticDisjointSet.find` complexity.
 
 ## O.14.0

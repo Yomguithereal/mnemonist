@@ -74,29 +74,6 @@ RangeMap.prototype.add = function(key) {
 };
 
 /**
- * Convenience known method.
- */
-RangeMap.prototype.inspect = function() {
-  var proxy = [];
-
-  proxy.step = this.step;
-  proxy.offset = this.offset;
-
-  var iterator = this.map.entries(),
-      step;
-
-  while ((step = iterator.next(), !step.done))
-    proxy.push(step.value);
-
-  Object.defineProperty(proxy, 'constructor', {
-    value: RangeMap,
-    enumerable: false
-  });
-
-  return proxy;
-};
-
-/**
  * Bootstrapping methods.
  */
 RangeMap.prototype.get = function(key) {
@@ -118,6 +95,35 @@ RangeMap.prototype.entries = function() {
 
 RangeMap.prototype.forEach = function() {
   return this.map.forEach.apply(this.map, arguments);
+};
+
+/**
+ * Attaching the #.entries method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  RangeMap.prototype[Symbol.iterator] = RangeMap.prototype.entries;
+
+/**
+ * Convenience known method.
+ */
+RangeMap.prototype.inspect = function() {
+  var proxy = [];
+
+  proxy.step = this.step;
+  proxy.offset = this.offset;
+
+  var iterator = this.map.entries(),
+      step;
+
+  while ((step = iterator.next(), !step.done))
+    proxy.push(step.value);
+
+  Object.defineProperty(proxy, 'constructor', {
+    value: RangeMap,
+    enumerable: false
+  });
+
+  return proxy;
 };
 
 /**
