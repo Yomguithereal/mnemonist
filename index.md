@@ -47,6 +47,7 @@ npm install --save mnemonist
 * [MultiMap]({{ site.baseurl }}/multi-map)
 * [MultiSet]({{ site.baseurl }}/multi-set)
 * [Queue]({{ site.baseurl }}/queue)
+* [RangeMap]({{ site.baseurl }}/range-map)
 * [Set (helpers)]({{ site.baseurl}}/set)
 * [SparseSet]({{ site.baseurl }}/sparse-set)
 * [Stack]({{ site.baseurl }}/stack)
