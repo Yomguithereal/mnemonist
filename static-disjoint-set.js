@@ -150,7 +150,7 @@ StaticDisjointSet.prototype.mapping = function() {
  */
 StaticDisjointSet.prototype.compile = function() {
   var ids = {},
-      result = [],
+      result = new Array(this.dimension),
       c = 0;
 
   var r;
