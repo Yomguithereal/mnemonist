@@ -23,4 +23,28 @@ describe('RangeMap', function() {
     assert.strictEqual(map.has('world'), true);
     assert.strictEqual(map.has('unknown'), false);
   });
+
+  it('should be possible to change step/offset.', function() {
+    var map = new RangeMap({step: 2, offset: 2});
+
+    map.add('one');
+    map.add('two');
+
+    assert.strictEqual(map.has('one'), true);
+    assert.strictEqual(map.has('three'), false);
+    assert.strictEqual(map.get('one'), 2);
+    assert.strictEqual(map.get('two'), 4);
+  });
+
+  it('should be possible to use iterators.', function() {
+    var map = new RangeMap();
+
+    map.add('one');
+    map.add('two');
+    map.add('three');
+
+    assert.deepEqual(Array.from(map.keys()), ['one', 'two', 'three']);
+    assert.deepEqual(Array.from(map.values()), [0, 1, 2]);
+    assert.deepEqual(Array.from(map.entries()), [['one', 0], ['two', 1], ['three', 2]]);
+  });
 });

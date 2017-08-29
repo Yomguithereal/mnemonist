@@ -27,6 +27,7 @@ function RangeMap(range) {
     this.offset = 0;
   }
 
+  this.map = new Map();
   this.clear();
 }
 
@@ -40,7 +41,7 @@ RangeMap.prototype.clear = function() {
   // Properties
   this.size = 0;
   this.counter = this.offset;
-  this.map = new Map();
+  this.map.clear();
 };
 
 /**
@@ -73,26 +74,6 @@ RangeMap.prototype.add = function(key) {
 };
 
 /**
- * Method used to get the index mapped to the given key.
- *
- * @param  {any}    key - Key to add.
- * @return {number}
- */
-RangeMap.prototype.get = function(key) {
-  return this.map.get(key);
-};
-
-/**
- * Method used to check the existence of a key in the map.
- *
- * @param  {any}    key - Key to test.
- * @return {number}
- */
-RangeMap.prototype.has = function(key) {
-  return this.map.has(key);
-};
-
-/**
  * Convenience known method.
  */
 RangeMap.prototype.inspect = function() {
@@ -113,6 +94,30 @@ RangeMap.prototype.inspect = function() {
   });
 
   return proxy;
+};
+
+/**
+ * Bootstrapping methods.
+ */
+RangeMap.prototype.get = function(key) {
+  return this.map.get(key);
+};
+RangeMap.prototype.has = function(key) {
+  return this.map.has(key);
+};
+
+RangeMap.prototype.keys = function() {
+  return this.map.keys();
+};
+RangeMap.prototype.values = function() {
+  return this.map.values();
+};
+RangeMap.prototype.entries = function() {
+  return this.map.entries();
+};
+
+RangeMap.prototype.forEach = function() {
+  return this.map.forEach.apply(this.map, arguments);
 };
 
 /**
@@ -150,8 +155,6 @@ RangeMap.fromDistinct = function(iterable, range) {
 
   return map;
 };
-
-// TODO: add iteration methods
 
 /**
  * Exporting.
