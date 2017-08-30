@@ -72,6 +72,7 @@
       "Set": true,
       "Map": true,
       "Symbol": true,
+      "ArrayBuffer": true,
       "Uint8Array": true,
       "Uint8ClampedArray": true,
       "Uint16Array": true,

@@ -56,10 +56,10 @@ function iterate(target, callback) {
 }
 
 /**
- * Function used to attempt to guess the length of the structure over which we
- * are going to iterate.
+ * Function used to guess the length of the structure over which we are going
+ * to iterate.
  *
- * @param  {any} target - Iteration target.
+ * @param  {any} target - Target object.
  * @return {number|undefined}
  */
 iterate.guessLength = function(target) {
@@ -70,6 +70,20 @@ iterate.guessLength = function(target) {
     return target.size;
 
   return;
+};
+
+/**
+ * Function used to determine whether the given object supports array-like
+ * random access.
+ *
+ * @param  {any} target - Target object.
+ * @return {boolean}
+ */
+iterate.isArrayLike = function(target) {
+  return (
+    Array.isArray(target) ||
+    (typeof ArrayBuffer !== 'undefined' && ArrayBuffer.isView(target))
+  );
 };
 
 /**
