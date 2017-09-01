@@ -64,7 +64,8 @@
     "leven": "^2.0.0",
     "lodash": "^4.17.4",
     "matcha": "^0.7.0",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "pandemonium": "^1.1.0"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
