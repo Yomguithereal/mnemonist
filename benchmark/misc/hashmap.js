@@ -1,7 +1,17 @@
 var fs = require('fs');
+var SemiDynamicTrie = require('../../semi-dynamic-trie');
 
 var words = fs.readFileSync('/usr/share/dict/words', 'utf-8').split('\n');
 words.length--;
+
+// const trie = new SemiDynamicTrie();
+
+// trie.add('abc');
+// trie.add('abd');
+// trie.add('bde');
+
+// console.log(trie, trie.has('abc'), trie.has('bde'));
+// throw new Error('stop');
 
 function HashMap(size) {
   this.items = new Uint8Array(size);
@@ -72,6 +82,11 @@ for (var w = 0, y = words.length; w < y; w++)
   m.set(words[w], w % 255);
 console.timeEnd('InsertMap');
 
+console.time('InsertTrie');
+var t = new SemiDynamicTrie();
+for (var w = 0, y = words.length; w < y; w++)
+  t.add(words[w]);
+console.timeEnd('InsertTrie');
 var v;
 
 console.time('Get');
@@ -88,3 +103,24 @@ console.time('GetMap');
 for (var w = 0, y = words.length; w < y; w++)
   v = m.get(words[w]);
 console.timeEnd('GetMap');
+
+console.time('GetTrie');
+for (var w = 0, y = words.length; w < y; w++)
+  v = t.has(words[w]);
+console.timeEnd('GetTrie');
+
+console.time('MissesObject');
+for (var w = 0, y = words.length; w < y; w++)
+  v = ob['bweoufhoeufg']
+console.timeEnd('MissesObject');
+
+console.time('MissesMap');
+for (var w = 0, y = words.length; w < y; w++)
+  v = m.get('bweoufhoeufg');
+console.timeEnd('MissesMap');
+
+console.time('MissesTrie');
+for (var w = 0, y = words.length; w < y; w++)
+  v = t.has('bweoufhoeufg');
+
+console.timeEnd('MissesTrie');

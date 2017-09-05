@@ -48,15 +48,36 @@ function DynamicArray(ArrayClass, initialSizeOrOptions) {
  * @param  {any}    value - Value.
  * @return {DynamicArray}
  */
-
-// TODO: grow the array if needed
-// TODO: create a trim method
-// TODO: add forEach
 DynamicArray.prototype.set = function(index, value) {
+
+  // Do we need to grow the array?
+  var allocated = this.allocated;
+
+  if (index >= allocated) {
+    while (index >= this.allocated) {
+      this.allocated = this.policy(this.allocated);
+
+      // Sanity check
+      if (this.allocated <= allocated)
+        throw new Error('mnemonist/dynamic-array.set: policy returned a less or equal length to allocate.');
+    }
+
+    // Transferring
+    var oldArray = this.array;
+    this.array = new this.ArrayClass(this.allocated);
+
+    for (var i = 0, l = this.length; i < l; i++)
+      this.array[i] = oldArray[i];
+  }
+
+  // Updating value
   this.array[index] = value;
 
-  if (index > this.length - 1)
-    this.length = index + 1;
+  // Updating length
+  index++;
+
+  if (index > this.length)
+    this.length = index;
 
   return this;
 };
@@ -81,6 +102,7 @@ DynamicArray.prototype.grow = function() {
 
   this.allocated = this.policy(allocated);
 
+  // Sanity check
   if (this.allocated <= allocated)
     throw new Error('mnemonist/dynamic-array.grow: policy returned a less or equal length to allocate.');
 

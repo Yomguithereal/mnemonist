@@ -3,6 +3,7 @@
 ## 0.15.0 (provisional)
 
 * Adding `RangeMap`.
+* Out-of-bound `DynamicArray.set` will now correctly grow the array.
 * Fixing `StaticDisjointSet.find` complexity.
 
 ## O.14.0

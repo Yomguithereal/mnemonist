@@ -31,6 +31,28 @@ describe('DynamicArray', function() {
     assert.strictEqual(array.get(2), 24);
   });
 
+  it('setting an out-of-bound value should grow the array.', function() {
+    var array = new DynamicArray(Uint8Array, {
+      initialSize: 2,
+      policy: function(allocated) {
+        return allocated + 2;
+      }
+    });
+
+    array.set(3, 4);
+
+    assert.strictEqual(array.length, 4);
+    assert.strictEqual(array.get(3), 4);
+    assert.deepEqual(Array.from(array.array), [0, 0, 0, 4]);
+
+    array.set(6, 22);
+
+    assert.strictEqual(array.length, 7);
+    assert.strictEqual(array.get(6), 22);
+    assert.strictEqual(array.get(2), 0);
+    assert.deepEqual(Array.from(array.array), [0, 0, 0, 4, 0, 0, 22, 0]);
+  });
+
   it('should be possible to push values.', function() {
     var array = new DynamicArray(Uint8Array, 5);
 
