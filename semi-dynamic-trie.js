@@ -38,7 +38,6 @@ SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
   // Do we have a root?
   if (this.characters.length === 0) {
 
-    // TODO: fix
     this.nextPointers.push(0);
     this.childPointers.push(0);
     this.characters.push(character);
@@ -63,7 +62,6 @@ SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
   // We append the characted to the list
   var newBlock = this.characters.length;
 
-  // TODO: fix
   this.nextPointers.push(0);
   this.childPointers.push(0);
   this.nextPointers.set(block, newBlock);
@@ -122,7 +120,6 @@ SemiDynamicTrie.prototype.add = function(key) {
     childBlock = this.characters.length;
     this.characters.push(key.charCodeAt(i));
 
-    // TODO: fix
     this.childPointers.push(0);
     this.nextPointers.push(0);
     this.childPointers.set(block, childBlock);
