@@ -1,5 +1,6 @@
 var fs = require('fs');
 var SemiDynamicTrie = require('../../semi-dynamic-trie');
+var randomString = require('pandemonium/random-string');
 
 var words = fs.readFileSync('/usr/share/dict/words', 'utf-8').split('\n');
 words.length--;
@@ -109,31 +110,17 @@ for (var w = 0, y = words.length; w < y; w++)
   v = t.has(words[w]);
 console.timeEnd('GetTrie');
 
-function makeid() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 5; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
-
-for (var w = 0, y = words.length; w < y; w++)
-  v = makeid()
-
 console.time('MissesObject');
 for (var w = 0, y = words.length; w < y; w++)
-  v = ob[makeid()]
+  v = ob[randomString(4, 10)]
 console.timeEnd('MissesObject');
 
 console.time('MissesMap');
 for (var w = 0, y = words.length; w < y; w++)
-  v = m.get(makeid());
+  v = m.get(randomString(4, 10));
 console.timeEnd('MissesMap');
 
 console.time('MissesTrie');
 for (var w = 0, y = words.length; w < y; w++)
-  v = t.has(makeid());
-
+  v = t.has(randomString(4, 10));
 console.timeEnd('MissesTrie');
