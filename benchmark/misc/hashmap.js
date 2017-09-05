@@ -6,11 +6,10 @@ words.length--;
 
 // const trie = new SemiDynamicTrie();
 
-// trie.add('abc');
-// trie.add('abd');
-// trie.add('bde');
+// words.forEach(word => trie.add(word));
 
-// console.log(trie, trie.has('abc'), trie.has('bde'));
+// console.log(trie.has('elephant'), trie.has('efliehoefhehueohfoehfeouh'), trie.has('zxzzyzzzzzzzz'));
+
 // throw new Error('stop');
 
 function HashMap(size) {
@@ -87,6 +86,7 @@ var t = new SemiDynamicTrie();
 for (var w = 0, y = words.length; w < y; w++)
   t.add(words[w]);
 console.timeEnd('InsertTrie');
+
 var v;
 
 console.time('Get');
@@ -109,18 +109,31 @@ for (var w = 0, y = words.length; w < y; w++)
   v = t.has(words[w]);
 console.timeEnd('GetTrie');
 
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
+for (var w = 0, y = words.length; w < y; w++)
+  v = makeid()
+
 console.time('MissesObject');
 for (var w = 0, y = words.length; w < y; w++)
-  v = ob['bweoufhoeufg']
+  v = ob[makeid()]
 console.timeEnd('MissesObject');
 
 console.time('MissesMap');
 for (var w = 0, y = words.length; w < y; w++)
-  v = m.get('bweoufhoeufg');
+  v = m.get(makeid());
 console.timeEnd('MissesMap');
 
 console.time('MissesTrie');
 for (var w = 0, y = words.length; w < y; w++)
-  v = t.has('bweoufhoeufg');
+  v = t.has(makeid());
 
 console.timeEnd('MissesTrie');

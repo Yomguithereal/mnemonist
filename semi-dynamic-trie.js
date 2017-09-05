@@ -5,8 +5,17 @@
  *
  * Lowlevel Trie working at character level, storing information in typed
  * array and organizing its children in linked lists.
+ *
+ * This implementation also uses a "fat node" strategy to boost access to some
+ * bloated node's children when the number of children rises above a certain
+ * threshold.
  */
 var DynamicArray = require('./dynamic-array.js');
+
+/**
+ * Constants.
+ */
+const MAX_LINKED = 7;
 
 /**
  * SemiDynamicTrie.
@@ -17,8 +26,9 @@ function SemiDynamicTrie() {
 
   // Properties
   this.characters = new DynamicArray.DynamicUint8Array(256);
-  this.nextPointers = new DynamicArray.DynamicUint32Array(256);
+  this.nextPointers = new DynamicArray.DynamicInt32Array(256);
   this.childPointers = new DynamicArray.DynamicUint32Array(256);
+  this.maps = new DynamicArray.DynamicUint32Array(256);
 }
 
 /**
@@ -33,7 +43,8 @@ SemiDynamicTrie.prototype.clear = function() {
 
 SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
   var nextCharacter,
-      nextBlock;
+      nextBlock,
+      newBlock;
 
   // Do we have a root?
   if (this.characters.length === 0) {
@@ -45,22 +56,80 @@ SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
     return block;
   }
 
+  // Are we traversing a fat node?
+  var fatNode = this.nextPointers.array[block];
+
+  if (fatNode < 0) {
+    var mapIndex = -fatNode + character;
+
+    nextBlock = this.maps.array[mapIndex];
+
+    if (nextBlock !== 0)
+      return nextBlock;
+
+    newBlock = this.characters.length;
+
+    this.nextPointers.push(0);
+    this.childPointers.push(0);
+    this.characters.push(character);
+
+    this.maps.set(mapIndex, newBlock);
+
+    return newBlock;
+  }
+
+  var listLength = 1,
+      startingBlock = block;
+
   while (true) {
-    nextCharacter = this.characters.get(block);
+    nextCharacter = this.characters.array[block];
 
     if (nextCharacter === character)
       return block;
 
-    nextBlock = this.nextPointers.get(block);
+    nextBlock = this.nextPointers.array[block];
 
     if (nextBlock === 0)
       break;
 
+    listLength++;
     block = nextBlock;
   }
 
-  // We append the characted to the list
-  var newBlock = this.characters.length;
+  // If the list is too long, we create a fat node
+  if (listLength > MAX_LINKED) {
+    block = startingBlock;
+
+    var offset = this.maps.length;
+    this.maps.set(offset + 255, 0);
+
+    while (true) {
+      nextBlock = this.nextPointers.array[block];
+
+      if (nextBlock === 0)
+        break;
+
+      nextCharacter = this.characters.array[nextBlock];
+      this.maps.set(offset + nextCharacter, nextBlock);
+
+      block = nextBlock;
+    }
+
+    this.nextPointers.set(startingBlock, -offset);
+
+    newBlock = this.characters.length;
+
+    this.nextPointers.push(0);
+    this.childPointers.push(0);
+    this.characters.push(character);
+
+    this.maps.set(offset + character, newBlock);
+
+    return newBlock;
+  }
+
+  // Else, we append the character to the list
+  newBlock = this.characters.length;
 
   this.nextPointers.push(0);
   this.childPointers.push(0);
@@ -73,13 +142,27 @@ SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
 SemiDynamicTrie.prototype.findSibling = function(block, character) {
   var nextCharacter;
 
+  // Do we have a fat node?
+  var fatNode = this.nextPointers.array[block];
+
+  if (fatNode < 0) {
+    var mapIndex = -fatNode + character;
+
+    var nextBlock = this.maps.array[mapIndex];
+
+    if (nextBlock === 0)
+      return -1;
+
+    return nextBlock;
+  }
+
   while (true) {
-    nextCharacter = this.characters.get(block);
+    nextCharacter = this.characters.array[block];
 
     if (nextCharacter === character)
       return block;
 
-    block = this.nextPointers.get(block);
+    block = this.nextPointers.array[block];
 
     if (block === 0)
       return -1;
@@ -105,7 +188,7 @@ SemiDynamicTrie.prototype.add = function(key) {
     if (i < l) {
 
       // Descending
-      childBlock = this.childPointers.get(block);
+      childBlock = this.childPointers.array[block];
 
       if (childBlock === 0)
         break;
@@ -142,10 +225,11 @@ SemiDynamicTrie.prototype.has = function(key) {
     if (siblingBlock === -1)
       return false;
 
+    // TODO: be sure
     if (i === l - 1)
       return true;
 
-    block = this.childPointers.get(siblingBlock);
+    block = this.childPointers.array[siblingBlock];
 
     if (block === 0)
       return false;
