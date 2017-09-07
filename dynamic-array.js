@@ -128,7 +128,7 @@ DynamicArray.prototype.push = function(value) {
   if (this.length >= this.allocated)
     this.grow();
 
-  this.set(this.length++, value);
+  this.array[this.length++] = value;
 
   return this.length;
 };
