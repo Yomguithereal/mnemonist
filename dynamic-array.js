@@ -89,6 +89,9 @@ DynamicArray.prototype.set = function(index, value) {
  * @return {any}
  */
 DynamicArray.prototype.get = function(index) {
+  if (this.length < index)
+    return undefined;
+
   return this.array[index];
 };
 

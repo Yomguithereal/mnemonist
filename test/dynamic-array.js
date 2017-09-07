@@ -31,6 +31,12 @@ describe('DynamicArray', function() {
     assert.strictEqual(array.get(2), 24);
   });
 
+  it('should return undefined on out-of-bound values.', function() {
+    var array = new DynamicArray(Uint8Array, 5);
+
+    assert.strictEqual(array.get(2), undefined);
+  });
+
   it('setting an out-of-bound value should grow the array.', function() {
     var array = new DynamicArray(Uint8Array, {
       initialSize: 2,
