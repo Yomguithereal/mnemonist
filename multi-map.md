@@ -252,7 +252,7 @@ var map = new MultiMap();
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.containers();
+var iterator = map.associations();
 
 iterator.next().value
 >>> [
