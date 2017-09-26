@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.15.0 (provisional)
+## 0.15.0
 
 * Adding `RangeMap`.
 * Improving `MultiSet`.
