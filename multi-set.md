@@ -33,8 +33,10 @@ var set = MultiSet.from([1, 2, 3]);
 *Mutation*
 
 * [#.add](#add)
+* [#.set](#set)
 * [#.remove](#remove)
 * [#.delete](#delete)
+* [#.edit](#edit)
 * [#.clear](#clear)
 
 *Read*
@@ -90,6 +92,10 @@ set.add('hello');
 set.add('hello', 3);
 ```
 
+### #.set
+
+Same as [#.add](#add).
+
 ### #.remove
 
 Removes the item from the set once. Optionally, you can provide a number which is the number of times the same item is removed.
@@ -121,6 +127,27 @@ set.add('hello');
 set.delete('hello');
 set.multiplicity('hello');
 >>> 0
+```
+
+### #.edit
+
+Edit an item to become another one. If the item does not exist in the set, this will do nothing. If target item already exist in the set, multiplicities will be merged.
+
+```js
+var set = new MultiSet();
+
+set.add('a');
+set.add('b');
+
+set.edit('a', 'c'); // 'a' becomes 'c' in the set
+set.has('a');
+>>> false
+
+set.edit('c', 'b'); // 'c' becomes 'b', totalling 2 occurrences
+set.has('c');
+>>> false
+set.multiplicity('b');
+>>> 2
 ```
 
 ### #.clear
