@@ -48,17 +48,19 @@ MultiSet.prototype.add = function(item, count) {
 
   this.size += count;
 
-  if (!this.items.has(item)) {
+  const currentCount = this.items.get(item);
+
+  if (currentCount === undefined)
     this.dimension++;
-  }
-  else {
-    count += this.items.get(item);
-  }
+  else
+    count += currentCount;
 
   this.items.set(item, count);
 
   return this;
 };
+
+MultiSet.prototype.set = MultiSet.prototype.add;
 
 /**
  * Method used to return whether the item exists in the set.
@@ -108,6 +110,29 @@ MultiSet.prototype.remove = function(item, count) {
   }
 
   return;
+};
+
+/**
+ * Method used to change a key into another one, merging counts if the target
+ * key already exists.
+ *
+ * @param  {any} a - From key.
+ * @param  {any} b - To key.
+ * @return {MultiSet}
+ */
+MultiSet.prototype.edit = function(a, b) {
+  const am = this.multiplicity(a);
+
+  // If a does not exist in the set, we can stop right there
+  if (am === 0)
+    return;
+
+  const bm = this.multiplicity(b);
+
+  this.items.set(b, am + bm);
+  this.items.delete(a);
+
+  return this;
 };
 
 /**

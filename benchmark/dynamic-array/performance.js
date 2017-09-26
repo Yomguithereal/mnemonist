@@ -1,7 +1,7 @@
 var DynamicArray = require('../../dynamic-array.js');
 var HashedArrayTree = require('../../hashed-array-tree.js');
 
-var SIZE = 50000000;
+var SIZE = 20000000;
 
 console.time('Standard JavaScript Array (holding uint8) #push');
 var array = [];

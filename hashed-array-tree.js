@@ -6,6 +6,11 @@
  * dynamically.
  */
 
+// TODO: initial size
+// TODO: set should adjust size
+// TODO: inspect
+// TODO: docs
+
 /**
  * Defaults.
  */

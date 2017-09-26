@@ -84,6 +84,26 @@ describe('MultiSet', function() {
     assert.strictEqual(set.has('hello'), false);
   });
 
+  it('should be possible to edit a key from the set.', function() {
+    var set = new MultiSet();
+
+    set.edit('a', 'b');
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.has('a'), false);
+    assert.strictEqual(set.has('b'), false);
+
+    set.add('a');
+    set.edit('a', 'b');
+
+    assert.deepEqual(Array.from(set.multiplicities()), [['b', 1]]);
+
+    set.add('c');
+    set.edit('b', 'c');
+
+    assert.deepEqual(Array.from(set.multiplicities()), [['c', 2]]);
+  });
+
   it('should be possible to iterate over a set.', function() {
     var set = new MultiSet();
 
