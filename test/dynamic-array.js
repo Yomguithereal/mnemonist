@@ -39,7 +39,7 @@ describe('DynamicArray', function() {
 
   it('setting an out-of-bound value should grow the array.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialSize: 2,
+      initialLength: 2,
       policy: function(allocated) {
         return allocated + 2;
       }
@@ -92,7 +92,7 @@ describe('DynamicArray', function() {
 
   it('should throw if the policy returns an irrelevant size.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialSize: 1,
+      initialLength: 1,
       policy: function(allocated) {
         return allocated;
       }
@@ -107,7 +107,7 @@ describe('DynamicArray', function() {
 
   it('should be possible to use a custom policy.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialSize: 2,
+      initialLength: 2,
       policy: function(allocated) {
         return allocated + 2;
       }

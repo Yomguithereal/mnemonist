@@ -19,26 +19,26 @@ var DEFAULT_GROWING_POLICY = function(currentSize) {
  * DynamicArray.
  *
  * @constructor
- * @param {function}      ArrayClass           - An array constructor.
- * @param {number|object} initialSizeOrOptions - Self-explanatory.
+ * @param {function}      ArrayClass             - An array constructor.
+ * @param {number|object} initialLengthOrOptions - Self-explanatory.
  */
-function DynamicArray(ArrayClass, initialSizeOrOptions) {
+function DynamicArray(ArrayClass, initialLengthOrOptions) {
   if (arguments.length < 2)
     throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
 
-  var initialSize = initialSizeOrOptions,
+  var initialLength = initialLengthOrOptions,
       policy = DEFAULT_GROWING_POLICY;
 
-  if (typeof initialSizeOrOptions === 'object') {
-    initialSize = initialSizeOrOptions.initialSize;
-    policy = initialSizeOrOptions.policy || policy;
+  if (typeof initialLengthOrOptions === 'object') {
+    initialLength = initialLengthOrOptions.initialLength;
+    policy = initialLengthOrOptions.policy || policy;
   }
 
   this.ArrayClass = ArrayClass;
   this.length = 0;
-  this.allocated = initialSize;
+  this.allocated = initialLength;
   this.policy = policy;
-  this.array = new ArrayClass(initialSize);
+  this.array = new ArrayClass(initialLength);
 }
 
 /**
@@ -166,8 +166,8 @@ DynamicArray.prototype.inspect = function() {
  * Exporting.
  */
 function subClass(ArrayClass) {
-  var SubClass = function(initialSizeOrOptions) {
-    DynamicArray.call(this, ArrayClass, initialSizeOrOptions);
+  var SubClass = function(initialLengthOrOptions) {
+    DynamicArray.call(this, ArrayClass, initialLengthOrOptions);
   };
 
   for (var k in DynamicArray.prototype) {

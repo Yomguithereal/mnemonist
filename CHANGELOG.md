@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.0 (provisional)
+
+* Renaming `DynamicArray` `initialSize` option to `initialLength`.
+
 ## 0.15.0
 
 * Adding `RangeMap`.
