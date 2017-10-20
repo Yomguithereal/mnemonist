@@ -1,37 +1,37 @@
 ---
 layout: page
-title: RangeMap
+title: IncrementalMap
 ---
 
-A `RangeMap` is an helpful utility class mapping arbitrary keys to a growing range of integers.
+A `IncrementalMap` is an helpful utility class mapping arbitrary keys to a growing range of integers.
 
 It's often useful when one needs to map unknown keys unto array indices.
 
 ```js
-var RangeMap = require('mnemonist/range-map');
+var IncrementalMap = require('mnemonist/incremental-map');
 ```
 
 ## Constructor
 
-The `RangeMap` may take, as single argument, some options such as the size of the range's steps and an initial offset.
+The `IncrementalMap` may take, as single argument, some options such as the size of the range's steps and an initial offset.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 // If you need a range starting from 1 and making steps of 2
-var map = new RangeMap({offset: 1, step: 2});
+var map = new IncrementalMap({offset: 1, step: 2});
 ```
 
 ### Static #.from
 
-Alternatively, one can build a `RangeMap` from an arbitrary JavaScript iterable likewise:
+Alternatively, one can build a `IncrementalMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = RangeMap.from(['one', 'two', 'three']);
+var list = IncrementalMap.from(['one', 'two', 'three']);
 
 // Alternatively, if you know your iterable will yield distinct values,
 // you can use #.fromDistinct which is more performant
-var list = RangeMap.fromDistinct(['one', 'two', 'three']);
+var list = IncrementalMap.fromDistinct(['one', 'two', 'three']);
 ```
 
 ## Members
@@ -63,7 +63,7 @@ var list = RangeMap.fromDistinct(['one', 'two', 'three']);
 Number of keys stored by the map.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 map.size
 >>> 0
 
@@ -77,7 +77,7 @@ map.size
 Maps a key to a range's integer.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.get('hello');
@@ -89,7 +89,7 @@ map.get('hello');
 Completely clears the map.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.clear();
@@ -103,7 +103,7 @@ map.size;
 Retrieves the desired key's mapped integer in the map's range.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 
@@ -116,7 +116,7 @@ map.get('hello');
 Returns whether the desired key is mapped to a range integer.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 
@@ -131,7 +131,7 @@ map.has('world');
 Iterates over the map's range.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.add('world');
@@ -146,7 +146,7 @@ map.forEach(function(index, key) {
 Returns an iterator over the map's keys.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.add('world');
@@ -162,7 +162,7 @@ iterator.next().value
 Returns an iterator over the map's values, i.e. the range's integers.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.add('world');
@@ -178,7 +178,7 @@ iterator.next().value
 Returns an iterator over the map's entries.
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.add('world');
@@ -194,7 +194,7 @@ iterator.next().value
 Alternatively, you can iterate over a range map's entries using ES2015 `for...of` protocol:
 
 ```js
-var map = new RangeMap();
+var map = new IncrementalMap();
 
 map.add('hello');
 map.add('world');
