@@ -17,29 +17,29 @@ var DynamicArray = require('mnemonist/dynamic-array');
 
 ## Constructor
 
-The `DynamicArray` takes a typed array class as first argument and an initial size or alternatively more complex options as second argument.
+The `DynamicArray` takes a typed array class as first argument and an initial length or alternatively more complex options as second argument.
 
 ```js
-var array = new DynamicArray(ArrayClass, initialSize);
+var array = new DynamicArray(ArrayClass, initialLength);
 
 // If you need to pass options such as a custom growth policy
 var array = new DynamicArray(ArrayClass, {
-  initialSize: 10,
+  initialLength: 10,
   policy: function(allocated) {
     return Math.ceil(allocated * 2.5);
   }
 });
 
 // Subclass for each of JS typed array also exists as a convenience
-var array = new DynamicArray.DynamicInt8Array(initialSize);
-var array = new DynamicArray.DynamicUint8Array(initialSize);
-var array = new DynamicArray.DynamicUint8ClampedArray(initialSize);
-var array = new DynamicArray.DynamicInt16Array(initialSize);
-var array = new DynamicArray.DynamicUint16Array(initialSize);
-var array = new DynamicArray.DynamicInt32Array(initialSize);
-var array = new DynamicArray.DynamicUint32Array(initialSize);
-var array = new DynamicArray.DynamicFloat32Array(initialSize);
-var array = new DynamicArray.DynamicFloat64Array(initialSize);
+var array = new DynamicArray.DynamicInt8Array(initialLength);
+var array = new DynamicArray.DynamicUint8Array(initialLength);
+var array = new DynamicArray.DynamicUint8ClampedArray(initialLength);
+var array = new DynamicArray.DynamicInt16Array(initialLength);
+var array = new DynamicArray.DynamicUint16Array(initialLength);
+var array = new DynamicArray.DynamicInt32Array(initialLength);
+var array = new DynamicArray.DynamicUint32Array(initialLength);
+var array = new DynamicArray.DynamicFloat32Array(initialLength);
+var array = new DynamicArray.DynamicFloat64Array(initialLength);
 ```
 
 ## Members
