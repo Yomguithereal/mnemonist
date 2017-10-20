@@ -1,6 +1,6 @@
 /**
- * Mnemonist Range Map
- * ====================
+ * Mnemonist Incremental Map
+ * ==========================
  *
  * Simple utility class mapping a set of keys unknown beforehand to a range
  * of increasing integers. Very useful to map a set of hashable keys to
@@ -9,14 +9,14 @@
 var iterateOver = require('./utils/iterate.js');
 
 /**
- * RangeMap.
+ * IncrementalMap.
  *
  * @constructor
  * @param {object} range    - Range options:
  * @param {number}   step   - Step of the counter. Defaults to 1.
  * @param {number}   offset - Starting offset. Defaults to 0.
  */
-function RangeMap(range) {
+function IncrementalMap(range) {
 
   if (typeof range === 'object') {
     this.step = range.step || 1;
@@ -36,7 +36,7 @@ function RangeMap(range) {
  *
  * @return {undefined}
  */
-RangeMap.prototype.clear = function() {
+IncrementalMap.prototype.clear = function() {
 
   // Properties
   this.size = 0;
@@ -49,9 +49,9 @@ RangeMap.prototype.clear = function() {
  * beforehand.
  *
  * @param  {any}      key - Key to add.
- * @return {RangeMap}
+ * @return {IncrementalMap}
  */
-RangeMap.prototype.unsafeAdd = function(key) {
+IncrementalMap.prototype.unsafeAdd = function(key) {
   this.map.set(key, this.counter);
   this.counter += this.step;
   this.size++;
@@ -61,9 +61,9 @@ RangeMap.prototype.unsafeAdd = function(key) {
  * Method used to add a key to the structure.
  *
  * @param  {any}      key - Key to add.
- * @return {RangeMap}
+ * @return {IncrementalMap}
  */
-RangeMap.prototype.add = function(key) {
+IncrementalMap.prototype.add = function(key) {
   if (!this.map.has(key)) {
     this.map.set(key, this.counter);
     this.counter += this.step;
@@ -76,24 +76,24 @@ RangeMap.prototype.add = function(key) {
 /**
  * Bootstrapping methods.
  */
-RangeMap.prototype.get = function(key) {
+IncrementalMap.prototype.get = function(key) {
   return this.map.get(key);
 };
-RangeMap.prototype.has = function(key) {
+IncrementalMap.prototype.has = function(key) {
   return this.map.has(key);
 };
 
-RangeMap.prototype.keys = function() {
+IncrementalMap.prototype.keys = function() {
   return this.map.keys();
 };
-RangeMap.prototype.values = function() {
+IncrementalMap.prototype.values = function() {
   return this.map.values();
 };
-RangeMap.prototype.entries = function() {
+IncrementalMap.prototype.entries = function() {
   return this.map.entries();
 };
 
-RangeMap.prototype.forEach = function() {
+IncrementalMap.prototype.forEach = function() {
   return this.map.forEach.apply(this.map, arguments);
 };
 
@@ -101,12 +101,12 @@ RangeMap.prototype.forEach = function() {
  * Attaching the #.entries method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  RangeMap.prototype[Symbol.iterator] = RangeMap.prototype.entries;
+  IncrementalMap.prototype[Symbol.iterator] = IncrementalMap.prototype.entries;
 
 /**
  * Convenience known method.
  */
-RangeMap.prototype.inspect = function() {
+IncrementalMap.prototype.inspect = function() {
   var proxy = [];
 
   proxy.step = this.step;
@@ -119,7 +119,7 @@ RangeMap.prototype.inspect = function() {
     proxy.push(step.value);
 
   Object.defineProperty(proxy, 'constructor', {
-    value: RangeMap,
+    value: IncrementalMap,
     enumerable: false
   });
 
@@ -132,10 +132,10 @@ RangeMap.prototype.inspect = function() {
  *
  * @param  {Iterable} iterable - Target iterable.
  * @param  {object}   range    - Range options.
- * @return {RangeMap}
+ * @return {IncrementalMap}
  */
-RangeMap.from = function(iterable, range) {
-  var map = new RangeMap(range);
+IncrementalMap.from = function(iterable, range) {
+  var map = new IncrementalMap(range);
 
   iterateOver(function(item) {
     map.add(item);
@@ -150,10 +150,10 @@ RangeMap.from = function(iterable, range) {
  *
  * @param  {Iterable} iterable - Target iterable.
  * @param  {object}   range    - Range options.
- * @return {RangeMap}
+ * @return {IncrementalMap}
  */
-RangeMap.fromDistinct = function(iterable, range) {
-  var map = new RangeMap(range);
+IncrementalMap.fromDistinct = function(iterable, range) {
+  var map = new IncrementalMap(range);
 
   iterateOver(function(item) {
     map.unsafeAdd(item);
@@ -165,4 +165,4 @@ RangeMap.fromDistinct = function(iterable, range) {
 /**
  * Exporting.
  */
-module.exports = RangeMap;
+module.exports = IncrementalMap;

@@ -2,6 +2,7 @@
 
 ## 0.16.0 (provisional)
 
+* Renaming `RangeMap` to `IncrementalMap`.
 * Renaming `DynamicArray` `initialSize` option to `initialLength`.
 
 ## 0.15.0

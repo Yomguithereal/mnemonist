@@ -1,14 +1,14 @@
 /**
- * Mnemonist RangeMap Unit Tests
- * ==============================
+ * Mnemonist IncrementalMap Unit Tests
+ * ====================================
  */
 var assert = require('assert'),
-    RangeMap = require('../range-map.js');
+    IncrementalMap = require('../incremental-map.js');
 
-describe('RangeMap', function() {
+describe('IncrementalMap', function() {
 
   it('should be possible to add/get keys.', function() {
-    var map = new RangeMap();
+    var map = new IncrementalMap();
 
     map.add('hello');
     map.add('world');
@@ -25,7 +25,7 @@ describe('RangeMap', function() {
   });
 
   it('should be possible to change step/offset.', function() {
-    var map = new RangeMap({step: 2, offset: 2});
+    var map = new IncrementalMap({step: 2, offset: 2});
 
     map.add('one');
     map.add('two');
@@ -37,7 +37,7 @@ describe('RangeMap', function() {
   });
 
   it('should be possible to use iterators.', function() {
-    var map = new RangeMap();
+    var map = new IncrementalMap();
 
     map.add('one');
     map.add('two');
