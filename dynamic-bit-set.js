@@ -6,7 +6,7 @@
  *
  * Notes:
  *   - (i >> 5) is the same as ((i / 32) | 0)
- *   - (i & 0x0000001f) is the sames as (i % 32)
+ *   - (i & 0x0000001f) is the same as (i % 32)
  */
 var Iterator = require('obliterator/iterator'),
     bitwise = require('./utils/bitwise.js');
