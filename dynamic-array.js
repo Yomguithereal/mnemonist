@@ -26,11 +26,11 @@ function DynamicArray(ArrayClass, initialLengthOrOptions) {
   if (arguments.length < 2)
     throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
 
-  var initialLength = initialLengthOrOptions,
+  var initialLength = initialLengthOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY;
 
   if (typeof initialLengthOrOptions === 'object') {
-    initialLength = initialLengthOrOptions.initialLength;
+    initialLength = initialLengthOrOptions.initialLength || 0;
     policy = initialLengthOrOptions.policy || policy;
   }
 
