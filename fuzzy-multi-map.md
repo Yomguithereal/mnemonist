@@ -119,6 +119,7 @@ var map = FuzzyMultiMap.from(list, hashFunctions [, useSet=false]);
 *Read*
 
 * [#.get](#get)
+* [#.has](#has)
 
 *Iteration*
 
@@ -192,6 +193,21 @@ map.get('john');
   {name: 'John', surname: 'Williams'},
   {name: 'John', surname: 'Ableton'}
 ]
+```
+
+### #.has
+
+Test whether the provided key, processed by the relevant hash function, would return a container.
+
+```js
+var map = new FuzzyMultiMap(function(string) {
+  return string.toLowerCase();
+});
+map.set('John', {name: 'John', surname: 'Williams'});
+map.set('John', {name: 'John', surname: 'Ableton'});
+
+map.get('john');
+>>> true
 ```
 
 ### #.forEach

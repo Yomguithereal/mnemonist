@@ -136,6 +136,7 @@ var map = FuzzyMap.from(list, hashFunctions [, useSet=false]);
 *Read*
 
 * [#.get](#get)
+* [#.has](#has)
 
 *Iteration*
 
@@ -204,6 +205,19 @@ var map = new FuzzyMap(function(string) {
 map.set('hello world', {name: 'hello world'});
 map.get('Hello World');
 >>> {name: 'hello world'}
+```
+
+### #.has
+
+Test whether the provided key, processed by the relevant hash function, would return an item.
+
+```js
+var map = new FuzzyMap(function(string) {
+  return string.toLowerCase();
+});
+map.set('hello world', {name: 'hello world'});
+map.has('Hello World');
+>>> true
 ```
 
 ### #.forEach
