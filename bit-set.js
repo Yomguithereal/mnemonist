@@ -77,9 +77,7 @@ BitSet.prototype.reset = function(index) {
   newByte = this.array[byteIndex] &= ~(1 << pos);
 
   // Updating size
-  if (newByte > oldByte)
-    this.size++;
-  else if (newByte < oldByte)
+  if (newByte < oldByte)
     this.size--;
 
   return this;
