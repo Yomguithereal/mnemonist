@@ -46,7 +46,7 @@ MultiMap.prototype.clear = function() {
  */
 MultiMap.prototype.set = function(key, value) {
   var container = this.items.get(key),
-      sizeIncrease = 0;
+      sizeBefore;
 
   if (!container) {
     this.dimension++;
@@ -55,15 +55,16 @@ MultiMap.prototype.set = function(key, value) {
   }
 
   if (this.Container === Set) {
-    sizeIncrease = +!container.has(value);
+    sizeBefore = container.size;
     container.add(value);
+
+    if (sizeBefore < container.size)
+      this.size++;
   }
   else {
-    sizeIncrease = 1;
     container.push(value);
+    this.size++;
   }
-
-  this.size += sizeIncrease;
 
   return this;
 };

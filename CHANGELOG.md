@@ -8,6 +8,7 @@
 * Renaming `Index` to `FuzzyMap`.
 * Renaming `MultiIndex` to `FuzzyMultiMap`.
 * Renaming `DynamicArray` `initialSize` option to `initialLength`.
+* Improving `MultiMap` performance.
 * Improving `Set.isSubset` & `Set.isSuperset` performance.
 
 ## 0.15.0
