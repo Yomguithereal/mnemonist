@@ -1,25 +1,25 @@
 /**
- * Mnemonist MultiIndex
- * =====================
+ * Mnemonist Fuzzy Map
+ * ====================
  *
- * Same as the index but relying on a MultiMap rather than a Map.
+ * The fuzzy map is a map whose keys are processed by a function before
+ * read/write operations. This can often result in multiple keys accessing
+ * the same resource (example: a map with lowercased keys).
  */
-var MultiMap = require('./multi-map.js'),
-    iterateOver = require('./utils/iterate.js');
+var iterateOver = require('./utils/iterate.js');
 
 var identity = function(x) {
   return x;
 };
 
 /**
- * MultiIndex.
+ * FuzzyMap.
  *
  * @constructor
  * @param {array|function} descriptor - Hash functions descriptor.
- * @param {function}       Container  - Container to use.
  */
-function MultiIndex(descriptor, Container) {
-  this.items = new MultiMap(Container);
+function FuzzyMap(descriptor) {
+  this.items = new Map();
   this.clear();
 
   if (Array.isArray(descriptor)) {
@@ -37,10 +37,10 @@ function MultiIndex(descriptor, Container) {
     this.readHashFunction = identity;
 
   if (typeof this.writeHashFunction !== 'function')
-    throw new Error('mnemonist/MultiIndex.constructor: invalid hash function given.');
+    throw new Error('mnemonist/FuzzyMap.constructor: invalid hash function given.');
 
   if (typeof this.readHashFunction !== 'function')
-    throw new Error('mnemonist/MultiIndex.constructor: invalid hash function given.');
+    throw new Error('mnemonist/FuzzyMap.constructor: invalid hash function given.');
 }
 
 /**
@@ -48,7 +48,7 @@ function MultiIndex(descriptor, Container) {
  *
  * @return {undefined}
  */
-MultiIndex.prototype.clear = function() {
+FuzzyMap.prototype.clear = function() {
   this.items.clear();
 
   // Properties
@@ -56,12 +56,12 @@ MultiIndex.prototype.clear = function() {
 };
 
 /**
- * Method used to add an item to the index.
+ * Method used to add an item to the FuzzyMap.
  *
  * @param  {any} item - Item to add.
- * @return {MultiIndex}
+ * @return {FuzzyMap}
  */
-MultiIndex.prototype.add = function(item) {
+FuzzyMap.prototype.add = function(item) {
   var key = this.writeHashFunction(item);
 
   this.items.set(key, item);
@@ -71,13 +71,13 @@ MultiIndex.prototype.add = function(item) {
 };
 
 /**
- * Method used to set an item in the index using the given key.
+ * Method used to set an item in the FuzzyMap using the given key.
  *
  * @param  {any} key  - Key to use.
  * @param  {any} item - Item to add.
- * @return {MultiIndex}
+ * @return {FuzzyMap}
  */
-MultiIndex.prototype.set = function(key, item) {
+FuzzyMap.prototype.set = function(key, item) {
   key = this.writeHashFunction(key);
 
   this.items.set(key, item);
@@ -87,25 +87,25 @@ MultiIndex.prototype.set = function(key, item) {
 };
 
 /**
- * Method used to retrieve an item from the index.
+ * Method used to retrieve an item from the FuzzyMap.
  *
  * @param  {any} key - Key to use.
- * @return {MultiIndex}
+ * @return {FuzzyMap}
  */
-MultiIndex.prototype.get = function(key) {
+FuzzyMap.prototype.get = function(key) {
   key = this.readHashFunction(key);
 
   return this.items.get(key);
 };
 
 /**
- * Method used to iterate over each of the index's values.
+ * Method used to iterate over each of the FuzzyMap's values.
  *
  * @param  {function}  callback - Function to call for each item.
  * @param  {object}    scope    - Optional scope.
  * @return {undefined}
  */
-MultiIndex.prototype.forEach = function(callback, scope) {
+FuzzyMap.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
   this.items.forEach(function(value) {
@@ -114,11 +114,11 @@ MultiIndex.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * Method returning an iterator over the index's values.
+ * Method returning an iterator over the FuzzyMap's values.
  *
- * @return {MultiIndexIterator}
+ * @return {FuzzyMapIterator}
  */
-MultiIndex.prototype.values = function() {
+FuzzyMap.prototype.values = function() {
   return this.items.values();
 };
 
@@ -126,16 +126,16 @@ MultiIndex.prototype.values = function() {
  * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  MultiIndex.prototype[Symbol.iterator] = MultiIndex.prototype.values;
+  FuzzyMap.prototype[Symbol.iterator] = FuzzyMap.prototype.values;
 
 /**
  * Convenience known method.
  */
-MultiIndex.prototype.inspect = function() {
-  var array = Array.from(this);
+FuzzyMap.prototype.inspect = function() {
+  var array = Array.from(this.items.values());
 
   Object.defineProperty(array, 'constructor', {
-    value: MultiIndex,
+    value: FuzzyMap,
     enumerable: false
   });
 
@@ -148,31 +148,23 @@ MultiIndex.prototype.inspect = function() {
  *
  * @param  {Iterable}       iterable   - Target iterable.
  * @param  {array|function} descriptor - Hash functions descriptor.
- * @param  {function}       Container  - Container to use.
  * @param  {boolean}        useSet     - Whether to use #.set or #.add
- * @return {MultiIndex}
+ * @return {FuzzyMap}
  */
-MultiIndex.from = function(iterable, descriptor, Container, useSet) {
-  if (arguments.length === 3) {
-    if (typeof Container === 'boolean') {
-      useSet = Container;
-      Container = Array;
-    }
-  }
-
-  var index = new MultiIndex(descriptor, Container);
+FuzzyMap.from = function(iterable, descriptor, useSet) {
+  var map = new FuzzyMap(descriptor);
 
   iterateOver(iterable, function(value, key) {
     if (useSet)
-      index.set(key, value);
+      map.set(key, value);
     else
-      index.add(value);
+      map.add(value);
   });
 
-  return index;
+  return map;
 };
 
 /**
  * Exporting.
  */
-module.exports = MultiIndex;
+module.exports = FuzzyMap;

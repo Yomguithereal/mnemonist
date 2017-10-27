@@ -3,6 +3,8 @@
 ## 0.16.0 (provisional)
 
 * Renaming `RangeMap` to `IncrementalMap`.
+* Renaming `Index` to `FuzzyMap`.
+* Renaming `MultiIndex` to `FuzzyMultiMap`.
 * Renaming `DynamicArray` `initialSize` option to `initialLength`.
 * Improving `Set.isSubset` & `Set.isSuperset` performance.
 

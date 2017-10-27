@@ -2,7 +2,6 @@
   "name": "mnemonist",
   "version": "0.15.0",
   "description": "Curated collection of data structures for the JavaScript language.",
-  "main": "endpoint.js",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm run lint && npm test",
