@@ -4,6 +4,7 @@
 
 * Renaming `RangeMap` to `IncrementalMap`.
 * Renaming `DynamicArray` `initialSize` option to `initialLength`.
+* Improving `Set.isSubset` & `Set.isSuperset` performance.
 
 ## 0.15.0
 

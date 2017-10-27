@@ -161,6 +161,13 @@ exports.isSubset = function(A, B) {
   var iterator = A.values(),
       step;
 
+  // Shortcuts
+  if (A === B)
+    return true;
+
+  if (A.size > B.size)
+    return false;
+
   while ((step = iterator.next(), !step.done)) {
     if (!B.has(step.value))
       return false;
