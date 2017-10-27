@@ -41,6 +41,13 @@ Structure.prototype.clear = function() {
 };
 
 /**
+ * Convenience known methods.
+ */
+Structure.prototype.inspect = function() {
+  return this;
+};
+
+/**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.
  *
