@@ -73,6 +73,19 @@ describe('FuzzyMultiMap', function() {
     assert.deepEqual(map.get('shawarama'), undefined);
   });
 
+  it('should be possible to test the existence of an item in the map.', function() {
+    var map = new FuzzyMultiMap(function(item) {
+      return item.toLowerCase();
+    });
+
+    map.set('HELLO', {title: 'hello'});
+
+    assert.strictEqual(map.has('HELLO'), true);
+    assert.strictEqual(map.has('Hello'), true);
+    assert.strictEqual(map.has('hello'), true);
+    assert.strictEqual(map.has('test'), false);
+  });
+
   it('should be possible to iterate over an index\'s values.', function() {
     var map = new FuzzyMultiMap(function(item) {
       return item.toLowerCase();

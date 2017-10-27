@@ -3,6 +3,7 @@
 ## 0.16.0 (provisional)
 
 * Adding `#.has` to `FuzzyMap`.
+* Adding `#.has` to `FuzzyMultiMap`.
 * Renaming `RangeMap` to `IncrementalMap`.
 * Renaming `Index` to `FuzzyMap`.
 * Renaming `MultiIndex` to `FuzzyMultiMap`.
