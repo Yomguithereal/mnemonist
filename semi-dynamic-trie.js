@@ -12,6 +12,8 @@
  */
 var DynamicArray = require('./dynamic-array.js');
 
+// TODO: rename => ternary search tree
+
 /**
  * Constants.
  */
@@ -25,6 +27,8 @@ const MAX_LINKED = 7;
 function SemiDynamicTrie() {
 
   // Properties
+
+  // TODO: make it 16 bits
   this.characters = new DynamicArray.DynamicUint8Array(256);
   this.nextPointers = new DynamicArray.DynamicInt32Array(256);
   this.childPointers = new DynamicArray.DynamicUint32Array(256);

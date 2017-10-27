@@ -16,7 +16,8 @@
  * @return {TypedArray}
  */
 var MAX_8BIT_INTEGER = Math.pow(2, 8) - 1,
-    MAX_16BIT_INTEGER = Math.pow(2, 16) - 1;
+    MAX_16BIT_INTEGER = Math.pow(2, 16) - 1,
+    MAX_32BIT_INTEGER = Math.pow(2, 32) - 1;
 
 exports.getPointerArray = function(size) {
   var maxIndex = size - 1;
@@ -27,5 +28,8 @@ exports.getPointerArray = function(size) {
   if (maxIndex <= MAX_16BIT_INTEGER)
     return Uint16Array;
 
-  return Uint32Array;
+  if (maxIndex <= MAX_32BIT_INTEGER)
+    return Uint32Array;
+
+  return Float64Array;
 };

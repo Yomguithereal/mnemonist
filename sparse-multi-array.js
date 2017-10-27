@@ -95,6 +95,9 @@ SparseMultiArray.prototype.containers = function() {
   });
 };
 
+// TODO: version static cells + nb of objects low level taking a array constructor
+// online creation
+
 // #.count
 // #.entries
 // #.containers
