@@ -90,12 +90,24 @@ FuzzyMap.prototype.set = function(key, item) {
  * Method used to retrieve an item from the FuzzyMap.
  *
  * @param  {any} key - Key to use.
- * @return {FuzzyMap}
+ * @return {any}
  */
 FuzzyMap.prototype.get = function(key) {
   key = this.readHashFunction(key);
 
   return this.items.get(key);
+};
+
+/**
+ * Method used to test the existence of an item in the map.
+ *
+ * @param  {any} key - Key to use.
+ * @return {boolean}
+ */
+FuzzyMap.prototype.has = function(key) {
+  key = this.readHashFunction(key);
+
+  return this.items.has(key);
 };
 
 /**
