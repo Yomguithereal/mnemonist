@@ -27,6 +27,28 @@ describe('MultiMap', function() {
     assert.strictEqual(map.has('two'), false);
   });
 
+  it('should be possible to get the multiplicity of a key in the map.', function() {
+    var map = new MultiMap();
+
+    map.set('one', 'hello');
+    map.set('one', 'world');
+    map.set('two', 'test');
+
+    assert.strictEqual(map.multiplicity('three'), 0);
+    assert.strictEqual(map.multiplicity('one'), 2);
+    assert.strictEqual(map.multiplicity('two'), 1);
+
+    map = new MultiMap(Set);
+
+    map.set('one', 'hello');
+    map.set('one', 'hello');
+    map.set('two', 'test');
+
+    assert.strictEqual(map.multiplicity('three'), 0);
+    assert.strictEqual(map.multiplicity('one'), 1);
+    assert.strictEqual(map.multiplicity('two'), 1);
+  });
+
   it('should be possible to delete keys.', function() {
     var map = new MultiMap();
 

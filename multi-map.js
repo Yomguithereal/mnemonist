@@ -109,6 +109,22 @@ MultiMap.prototype.get = function(key) {
 };
 
 /**
+ * Method used to return the multiplicity of the given key, meaning the number
+ * of times it is set, or, more trivially, the size of the attached container.
+ *
+ * @param  {any}     key - Key to check.
+ * @return {number}
+ */
+MultiMap.prototype.multiplicity = function(key) {
+  var container = this.items.get(key);
+
+  if (typeof container === 'undefined')
+    return 0;
+
+  return this.Container === Set ? container.size : container.length;
+};
+
+/**
  * Method used to iterate over each of the key/value pairs.
  *
  * @param  {function}  callback - Function to call for each item.

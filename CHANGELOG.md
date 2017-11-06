@@ -4,6 +4,7 @@
 
 * Adding `#.has` to `FuzzyMap`.
 * Adding `#.has` to `FuzzyMultiMap`.
+* Adding `#.multiplicity` to `MultiMap`.
 * Renaming `RangeMap` to `IncrementalMap`.
 * Renaming `Index` to `FuzzyMap`.
 * Renaming `MultiIndex` to `FuzzyMultiMap`.
