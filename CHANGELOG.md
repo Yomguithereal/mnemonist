@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.16.0 (provisional)
+## 0.16.0
 
 * Adding `#.has` to `FuzzyMap`.
 * Adding `#.has` to `FuzzyMultiMap`.
