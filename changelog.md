@@ -3,6 +3,43 @@ layout: page
 title: Changelog
 ---
 
+## 0.16.0
+
+* Adding `#.has` to `FuzzyMap`.
+* Adding `#.has` to `FuzzyMultiMap`.
+* Adding `#.multiplicity` to `MultiMap`.
+* Renaming `RangeMap` to `IncrementalMap`.
+* Renaming `Index` to `FuzzyMap`.
+* Renaming `MultiIndex` to `FuzzyMultiMap`.
+* Renaming `DynamicArray` `initialSize` option to `initialLength`.
+* Improving `MultiMap.set` performance.
+* Improving `BitSet.reset` performance.
+* Improving `Set.isSubset` & `Set.isSuperset` performance.
+
+## 0.15.0
+
+* Adding `RangeMap`.
+* Improving `MultiSet`.
+* Out-of-bound `DynamicArray.set` will now correctly grow the array.
+* Fixing `StaticDisjointSet.find` complexity.
+
+## O.14.0
+
+* Adding `DynamicArray`.
+* Adding `SparseSet`.
+* Adding `StaticDisjointSet`.
+* Adding iterator methods to `BitSet`.
+* Adding `#.rank` & `#.select` to `BitSet`.
+* `BitSet` now relies on `Uint32Array` rather than `Uint8Array`.
+* Improving `BitSet` performances.
+* Using `obliterator` to handle iterators.
+
+## 0.13.0
+
+* Adding `BiMap`.
+* Adding `BitSet`.
+* Fixing universal iterator.
+
 ## 0.12.0
 
 * Adding `InvertedIndex`.
