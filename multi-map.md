@@ -47,6 +47,7 @@ var map = MultiMap.from([1, 2, 3], container);
 
 * [#.has](#has)
 * [#.get](#get)
+* [#.multiplicity](#multiplicity)
 
 *Iteration*
 
@@ -143,6 +144,21 @@ map.set('john', {name: 'John'});
 
 map.has('john');
 >>> true
+```
+
+### #.multiplicity
+
+Returns the number of times the given key is set in the map. Or more simply said, the size of the hypothetical container stored for the given key.
+
+```js
+var map = new MultiMap();
+
+map.multiplicity('hello');
+>>> 0
+
+map.set('hello', 'world');
+map.multiplicity('hello');
+>>> 0
 ```
 
 ### #.get
