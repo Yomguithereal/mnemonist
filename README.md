@@ -34,12 +34,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
 
-**Utility classes**
-
-* [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
-* [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
-
-**Low-level & specific structures**
+**Low-level & structures for very specific use cases**
 
 * [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
@@ -55,7 +50,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
 * [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
 
-**Metric space**
+**Metric space indexation**
 
 * [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
 * [Vantage Point Tree](https://yomguithereal.github.io/mnemonist/vp-tree)
@@ -63,6 +58,13 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Probabilistic & succinct data structures**
 
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
+
+**Utility classes**
+
+* [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
+* [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
+
+---
 
 Note that this list does not include a `Graph` data structure, whose implementation is usually far too complex for the scope of this library.
 
