@@ -32,30 +32,47 @@ npm install --save mnemonist
 
 ## Documentation
 
+**Classics**
+
+* [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
+* [Heap]({{ site.baseurl }}/heap)
+* [Linked List]({{ site.baseurl }}/linked-list)
+* [MultiMap]({{ site.baseurl }}/multi-map)
+* [MultiSet]({{ site.baseurl }}/multi-set)
+* [Queue]({{ site.baseurl }}/queue)
+* [Set (helpers)]({{ site.baseurl }}/set)
+* [Stack]({{ site.baseurl }}/stack)
+* [Trie]({{ site.baseurl }}/trie)
+
+**Utility classes**
+
 * [BiMap]({{ site.baseurl }}/bi-map)
+* [IncrementalMap]({{ site.baseurl }}/incremental-map)
+
+**Low-level & specific structures**
+
 * [BitSet]({{ site.baseurl }}/bit-set)
-* [Bloom Filter]({{ site.baseurl }}/bloom-filter)
-* [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
 * [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
 * [Dynamic Arrays]({{ site.baseurl }}/dynamic-array)
-* [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
+* [SparseSet]({{ site.baseurl }}/sparse-set)
+* [Suffix Array]({{ site.baseurl }}/suffix-array)
+* [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
+
+**Information retrieval & Natural language processing**
+
 * [Fuzzy Map]({{ site.baseurl }}/fuzzy-map)
 * [Fuzzy MultiMap]({{ site.baseurl }}/fuzzy-multi-map)
-* [Heap]({{ site.baseurl }}/heap)
-* [IncrementalMap]({{ site.baseurl }}/incremental-map)
 * [Inverted Index]({{ site.baseurl }}/inverted-index)
-* [Linked List]({{ site.baseurl }}/linked-list)
-* [MultiMap]({{ site.baseurl }}/multi-map)
-* [MultiSet]({{ site.baseurl }}/multi-set)
-* [Queue]({{ site.baseurl }}/queue)
-* [Set (helpers)]({{ site.baseurl}}/set)
-* [SparseSet]({{ site.baseurl }}/sparse-set)
-* [Stack]({{ site.baseurl }}/stack)
-* [Suffix Array]({{ site.baseurl }}/suffix-array)
-* [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
-* [SymSpell]({{ site.baseurl }}/symspell)
-* [Trie]({{ site.baseurl }}/trie)
+* [SymSpell]({{ site.baseurl }}/symspell)
+
+**Metric space**
+
+* [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
 * [Vantage Point Tree]({{ site.baseurl }}/vp-tree)
+
+**Probabilistic & succinct data structures**
+
+* [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 
 Note that this list does not include a `Graph` data structure whose implementation is usually far too complex for the scope of this library.
 
