@@ -14,8 +14,8 @@ var Iterator = require('obliterator/iterator'),
 /**
  * Constants.
  */
-var DEFAULT_GROWING_POLICY = function(currentSize) {
-  return Math.ceil(currentSize * 1.5);
+var DEFAULT_GROWING_POLICY = function(capacity) {
+  return Math.max(1, Math.ceil(capacity * 1.5));
 };
 
 /**
@@ -39,31 +39,12 @@ function DynamicBitSet(initialLengthOrOptions) {
     policy = initialLengthOrOptions.policy || policy;
   }
 
-  // Virtual length of the array
-  this.length = 0;
-
-  // Number of bits set to 1
   this.size = 0;
-
-  // Real length of the array
-  this.allocated = initialLength;
-
-  // Policy and underlying container
+  this.length = initialLength;
+  this.capacity = initialLength;
   this.policy = policy;
-  this.clear();
+  this.array = createByteArray(this.capacity);
 }
-
-/**
- * Method used to clear the bit set. Note that it won't affect the set's length.
- *
- * @return {undefined}
- */
-DynamicBitSet.prototype.clear = function() {
-
-  // Properties
-  this.size = 0;
-  this.array = createByteArray(this.allocated);
-};
 
 /**
  * Method used to set the given bit's value.
@@ -74,25 +55,9 @@ DynamicBitSet.prototype.clear = function() {
  */
 DynamicBitSet.prototype.set = function(index, value) {
 
-  // Do we need to grow the array?
-  var allocated = this.allocated;
-
-  if (index >= allocated) {
-    while (index >= this.allocated) {
-      this.allocated = this.policy(this.allocated);
-
-      // Sanity check
-      if (this.allocated <= allocated)
-        throw new Error('mnemonist/dynamic-bit-set.set: policy returned a less or equal length to allocate.');
-    }
-
-    // Transferring
-    var oldArray = this.array;
-    this.array = createByteArray(this.allocated);
-
-    for (var i = 0, l = this.length; i < l; i++)
-      this.array[i] = oldArray[i];
-  }
+  // Out of bounds?
+  if (this.length < index)
+    throw new Error('DynamicBitSet.set: index out of bounds.');
 
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
@@ -109,12 +74,6 @@ DynamicBitSet.prototype.set = function(index, value) {
     this.size++;
   else if (newByte < oldByte)
     this.size--;
-
-  // Updating length
-  index++;
-
-  if (index > this.length)
-    this.length = index;
 
   return this;
 };

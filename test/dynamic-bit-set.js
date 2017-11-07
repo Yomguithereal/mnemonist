@@ -11,7 +11,7 @@ describe('DynamicBitSet', function() {
   it('should be possible to create a dynamic bit set.', function() {
     var set = new DynamicBitSet(74);
 
-    assert.strictEqual(set.length, 0);
+    assert.strictEqual(set.length, 74);
     assert.strictEqual(set.array.length, 3);
     assert.strictEqual(set.size, 0);
   });
@@ -128,29 +128,7 @@ describe('DynamicBitSet', function() {
   it('should return undefined on out-of-bound values.', function() {
     var set = new DynamicBitSet(5);
 
-    assert.strictEqual(set.get(2), undefined);
-    assert.strictEqual(set.test(2), false);
-  });
-
-  it('setting an out-of-bound value should grow the set.', function() {
-    var set = new DynamicBitSet({
-      initialLength: 2,
-      policy: function(allocated) {
-        return allocated + 2;
-      }
-    });
-
-    set.set(3);
-
-    assert.strictEqual(set.length, 4);
-    assert.strictEqual(set.get(3), 1);
-    assert.deepEqual(Array.from(set.values()), [0, 0, 0, 1]);
-
-    set.set(6);
-
-    assert.strictEqual(set.length, 7);
-    assert.strictEqual(set.get(6), 1);
-    assert.strictEqual(set.get(2), 0);
-    assert.deepEqual(Array.from(set.values()), [0, 0, 0, 1, 0, 0, 1]);
+    assert.strictEqual(set.get(17), undefined);
+    assert.strictEqual(set.test(17), false);
   });
 });
