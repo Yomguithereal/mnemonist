@@ -49,6 +49,9 @@ MultiSet.prototype.add = function(item, count) {
   if (count === 0)
     return this;
 
+  if (count < 0)
+    return this.remove(item, -count);
+
   count = count || 1;
 
   this.size += count;
@@ -75,8 +78,8 @@ MultiSet.prototype.add = function(item, count) {
 MultiSet.prototype.set = function(item, count) {
   var currentCount;
 
-  // Setting an item to 0 means deleting it from the set
-  if (count === 0) {
+  // Setting an item to 0 or to a negative number means deleting it from the set
+  if (count <= 0) {
     currentCount = this.items.get(item);
 
     if (typeof currentCount !== 'undefined') {
@@ -144,6 +147,9 @@ MultiSet.prototype.delete = function(item) {
 MultiSet.prototype.remove = function(item, count) {
   if (count === 0)
     return;
+
+  if (count < 0)
+    return this.add(item, -count);
 
   count = count || 1;
 

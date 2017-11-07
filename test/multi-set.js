@@ -28,6 +28,16 @@ describe('MultiSet', function() {
     assert.strictEqual(set.has('hello'), false);
   });
 
+  it('adding a negative count will remove items.', function() {
+    var set = new MultiSet();
+
+    set.add('hello', 4);
+    set.add('hello', -2);
+
+    assert.strictEqual(set.size, 2);
+    assert.strictEqual(set.multiplicity('hello'), 2);
+  });
+
   it('should be possible to check whether an item exists in the set.', function() {
     var set = new MultiSet();
 
@@ -103,6 +113,15 @@ describe('MultiSet', function() {
     assert.strictEqual(set.multiplicity('hello'), 1);
   });
 
+  it('removing a negative number should add items.', function() {
+    var set = new MultiSet();
+
+    set.remove('hello', -2);
+
+    assert.strictEqual(set.size, 2);
+    assert.strictEqual(set.multiplicity('hello'), 2);
+  });
+
   it('should be possible to set the multiplicity of an item in the set.', function() {
     var set = new MultiSet();
 
@@ -113,6 +132,18 @@ describe('MultiSet', function() {
     assert.strictEqual(set.multiplicity('hello'), 4);
 
     set.set('hello', 0);
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.dimension, 0);
+    assert.strictEqual(set.multiplicity('hello'), 0);
+    assert.strictEqual(set.has('hello'), false);
+  });
+
+  it('setting a negative multiplicity should result in deleting the item from the set.', function() {
+    var set = new MultiSet();
+
+    set.set('hello', 4);
+    set.set('hello', -34);
 
     assert.strictEqual(set.size, 0);
     assert.strictEqual(set.dimension, 0);
