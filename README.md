@@ -36,7 +36,6 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 **Low-level & structures for very specific use cases**
 
-* [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
 * [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
 * [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
@@ -57,6 +56,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 **Probabilistic & succinct data structures**
 
+* [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 
 **Utility classes**
