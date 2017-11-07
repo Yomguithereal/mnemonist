@@ -2,11 +2,12 @@
  * Mnemonist SparseSet
  * ====================
  *
- * JavaScript sparse set implemented on top of a Uint32Array.
+ * JavaScript sparse set implemented on top of byte arrays.
  *
  * [Reference]: https://research.swtch.com/sparse
  */
-var Iterator = require('obliterator/iterator');
+var Iterator = require('obliterator/iterator'),
+    getPointerArray = require('./utils/typed-arrays.js').getPointerArray;
 
 /**
  * SparseSet.
@@ -15,11 +16,13 @@ var Iterator = require('obliterator/iterator');
  */
 function SparseSet(length) {
 
+  var ByteArray = getPointerArray(length);
+
   // Properties
   this.size = 0;
   this.length = length;
-  this.dense = new Uint32Array(length);
-  this.sparse = new Uint32Array(length);
+  this.dense = new ByteArray(length);
+  this.sparse = new ByteArray(length);
 }
 
 /**

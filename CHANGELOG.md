@@ -4,7 +4,8 @@
 
 * Adding `#.frequency` to `MultiSet`.
 * Fixing several `MultiSet` issues.
-* Optimizing `MultiSet`.
+* Optimizing `MultiSet` performance.
+* Optimizing `SparseSet` memory consumption.
 
 ## 0.16.0
 
