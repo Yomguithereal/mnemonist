@@ -3,7 +3,7 @@ layout: page
 title: DynamicArray
 ---
 
-The `DynamicArray` is an abstract class representing a JavaScript typed arra, ysuch as the `Int32Array`, that can grow dynamically (at a typical *1.5* rate).
+The `DynamicArray` is an abstract class representing a JavaScript typed array, such as the `Int32Array`, but able to grow dynamically (at a typical *1.5* rate).
 
 It is a very useful structure when you don't know the size of your typed array beforehand and is quite memory-efficient (typed arrays are really lean compared to an `Array` and you'll be able to store billions of entries while such an `Array` would crash your engine).
 
@@ -109,7 +109,7 @@ array.array
 
 ### #.length
 
-Current length of the array, that is to say the last capacity index plus one.
+Current length of the array, that is to say the last set index plus one.
 
 ```js
 var array = new DynamicArray(Uint8Array, 10);
