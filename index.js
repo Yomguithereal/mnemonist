@@ -21,6 +21,7 @@ module.exports = {
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,
   FuzzyMap: require('./fuzzy-map.js'),
   FuzzyMultiMap: require('./fuzzy-multi-map.js'),
+  HashedArrayTree: require('./hashed-array-tree.js'),
   Heap: Heap,
   MinHeap: Heap.MinHeap,
   MaxHeap: Heap.MaxHeap,
