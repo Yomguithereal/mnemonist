@@ -6,11 +6,6 @@
  * dynamically.
  */
 
-// TODO: initial size
-// TODO: grow resize reallocate
-// TODO: inspect
-// TODO: docs
-
 /**
  * Defaults.
  */
@@ -47,14 +42,21 @@ function HashedArrayTree(ArrayClass, initialCapacityOrOptions) {
   if (!blockSize || !powerOfTwo(blockSize))
     throw new Error('mnemonist/hashed-array-tree: block size should be a power of two.');
 
+  var capacity = Math.max(initialLength, initialCapacity),
+      initialBlocks = Math.ceil(capacity / blockSize);
+
   this.ArrayClass = ArrayClass;
   this.length = initialLength;
-  this.capacity = Math.max(initialLength, initialCapacity);
+  this.capacity = initialBlocks * blockSize;
   this.blockSize = blockSize;
-  this.blockLg2 = Math.log2(blockSize);
+  this.offsetMask = blockSize - 1;
+  this.blockMask = Math.log2(blockSize);
 
-  // Allocate!
-  this.blocks = new Array();
+  // Allocating initial blocks
+  this.blocks = new Array(initialBlocks);
+
+  for (var i = 0; i < initialBlocks; i++)
+    this.blocks[i] = new this.ArrayClass(this.blockSize);
 }
 
 /**
@@ -65,8 +67,13 @@ function HashedArrayTree(ArrayClass, initialCapacityOrOptions) {
  * @return {HashedArrayTree}
  */
 HashedArrayTree.prototype.set = function(index, value) {
-  var block = index >> this.blockLg2,
-      i = index & (this.blockSize - 1);
+
+  // Out of bounds?
+  if (this.length < index)
+    throw new Error('HashedArrayTree(' + this.ArrayClass.name + ').set: index out of bounds.');
+
+  var block = index >> this.blockMask,
+      i = index & this.offsetMask;
 
   this.blocks[block][i] = value;
 
@@ -83,8 +90,8 @@ HashedArrayTree.prototype.get = function(index) {
   if (this.length < index)
     return;
 
-  var block = index >> this.blockLg2,
-      i = index & (this.blockSize - 1);
+  var block = index >> this.blockMask,
+      i = index & this.offsetMask;
 
   return this.blocks[block][i];
 };
@@ -92,11 +99,41 @@ HashedArrayTree.prototype.get = function(index) {
 /**
  * Method used to grow the array.
  *
+ * @param  {number}          capacity - Optional capacity to accomodate.
  * @return {HashedArrayTree}
  */
-HashedArrayTree.prototype.grow = function() {
-  this.blocks.push(new this.ArrayClass(this.blockSize));
-  this.capacity += this.blockSize;
+HashedArrayTree.prototype.grow = function(capacity) {
+  if (typeof capacity !== 'number')
+    capacity = this.capacity + this.blockSize;
+
+  if (this.capacity >= capacity)
+    return this;
+
+  while (this.capacity < capacity) {
+    this.blocks.push(new this.ArrayClass(this.blockSize));
+    this.capacity += this.blockSize;
+  }
+
+  return this;
+};
+
+/**
+ * Method used to resize the array. Won't deallocate.
+ *
+ * @param  {number}       length - Target length.
+ * @return {HashedArrayTree}
+ */
+HashedArrayTree.prototype.resize = function(length) {
+  if (length === this.length)
+    return this;
+
+  if (length < this.length) {
+    this.length = length;
+    return this;
+  }
+
+  this.length = length;
+  this.grow(length);
 
   return this;
 };
@@ -113,8 +150,8 @@ HashedArrayTree.prototype.push = function(value) {
 
   var index = this.length;
 
-  var block = index >> this.blockLg2,
-      i = index & (this.blockSize - 1);
+  var block = index >> this.blockMask,
+      i = index & this.offsetMask;
 
   this.blocks[block][i] = value;
 
@@ -127,9 +164,12 @@ HashedArrayTree.prototype.push = function(value) {
  * @return {number} - The popped value.
  */
 HashedArrayTree.prototype.pop = function() {
+  if (this.length === 0)
+    return;
+
   var lastBlock = this.blocks[this.blocks.length - 1];
 
-  var i = (--this.length) & (this.blockSize - 1);
+  var i = (--this.length) & this.offsetMask;
 
   return lastBlock[i];
 };
@@ -138,18 +178,26 @@ HashedArrayTree.prototype.pop = function() {
  * Convenience known methods.
  */
 HashedArrayTree.prototype.inspect = function() {
-  return this;
-  // var proxy = this.array.slice(0, this.length);
+  var proxy = new this.ArrayClass(this.length),
+      block;
 
-  // proxy.type = this.ArrayClass.name;
+  for (var i = 0, l = this.length; i < l; i++) {
+    block = i >> this.blockMask;
+    proxy[i] = this.blocks[block][i & this.offsetMask];
+  }
 
-  // // Trick so that node displays the name of the constructor
-  // Object.defineProperty(proxy, 'constructor', {
-  //   value: HashedArrayTree,
-  //   enumerable: false
-  // });
+  proxy.type = this.ArrayClass.name;
+  proxy.items = this.length;
+  proxy.capacity = this.capacity;
+  proxy.blockSize = this.blockSize;
 
-  // return proxy;
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: HashedArrayTree,
+    enumerable: false
+  });
+
+  return proxy;
 };
 
 /**

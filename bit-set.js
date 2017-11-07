@@ -7,6 +7,8 @@
  * Notes:
  *   - (i >> 5) is the same as ((i / 32) | 0)
  *   - (i & 0x0000001f) is the same as (i % 32)
+ *   - I could use a Float64Array to store more in less blocks but I would lose
+ *     the benefits of byte comparison to keep track of size without popcounts.
  */
 var Iterator = require('obliterator/iterator'),
     bitwise = require('./utils/bitwise.js');

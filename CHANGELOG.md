@@ -2,6 +2,7 @@
 
 ## 0.17.0 (provisional)
 
+* Adding `HashedArrayTree`.
 * Adding `#.frequency` to `MultiSet`.
 * Adding `#.grow` to `DynamicArray`.
 * Adding `#.reallocate` to `DynamicArray`.
