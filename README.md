@@ -39,7 +39,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
 * [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
 
-**Low-level specific structures**
+**Low-level & specific structures**
 
 * [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
