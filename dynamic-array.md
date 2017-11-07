@@ -25,6 +25,7 @@ var array = new DynamicArray(ArrayClass, initialCapacity);
 // If you need to pass options such as a custom growth policy
 var array = new DynamicArray(ArrayClass, {
   initialCapacity: 10,
+  initialLength: 3,
   policy: function(capacity) {
     return Math.ceil(capacity * 2.5);
   }
@@ -52,9 +53,12 @@ var array = new DynamicArray.DynamicFloat64Array(initialCapacity);
 
 *Mutation*
 
+* [#.grow](#grow)
 * [#.set](#set)
 * [#.pop](#pop)
 * [#.push](#push)
+* [#.reallocate](#reallocate)
+* [#.resize](#resize)
 
 *Read*
 
@@ -117,6 +121,21 @@ array.length
 >>> 2
 ```
 
+### #.grow
+
+Applies the growing policy once and reallocates the underlying array.
+
+If given a number, will run the growing policy until we attain a suitable capacity.
+
+```js
+var array = new DynamicArray(Uint8Array, 3);
+
+array.grow();
+
+// Grow until we can store at least 100 items:
+array.grow(100);
+```
+
 ### #.set
 
 Sets the value at the given index.
@@ -164,6 +183,44 @@ array.length
 
 array.get(1);
 >>> 2
+```
+
+### #.reallocate
+
+Reallocates the underlying array and truncates the length if needed.
+
+```js
+var array = new DynamicArray(Uint8Array, 3);
+
+array.reallocate(10);
+
+array.set(7, 3);
+
+// This will truncate length
+array.reallocate(5);
+```
+
+### #.resize
+
+Resize the array's length. Will reallocate if current capacity is insufficient.
+
+Note that it won't deallocate if the given length is inferior to the current one. You can use [#.reallocate](#reallocate) for that.
+
+```js
+var array = new DynamicArray(Uint8Array, {initialLength: 10});
+
+array.resize(5);
+array.length;
+>>> 5
+array.capacity;
+>>> 10
+
+// This will reallocate
+array.resize(25);
+array.length;
+>>> 25
+array.capacity;
+>>> 25
 ```
 
 ### #.get
