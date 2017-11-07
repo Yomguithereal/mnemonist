@@ -41,7 +41,9 @@ var set = MultiSet.from([1, 2, 3]);
 
 *Read*
 
+* [#.frequency](#frequency)
 * [#.has](#has)
+* [#.get](#get)
 * [#.multiplicity](#multiplicity)
 
 *Iteration*
@@ -182,6 +184,21 @@ set.size
 >>> 0
 ```
 
+### #.frequency
+
+Returns the frequency of the given item in the set.
+
+```js
+var set = new MultiSet();
+
+set.add('apple', 5);
+set.add('pear', 2);
+set.add('melon', 3);
+
+set.frequency('apple');
+>>> 0.5
+```
+
 ### #.has
 
 Returns whether the given item is found in the set.
@@ -196,6 +213,10 @@ set.has('hello');
 set.has('world');
 >>> false
 ```
+
+### #.get
+
+Same as [#.multiplicity](#multiplicity) below.
 
 ### #.multiplicity
 
