@@ -19,6 +19,15 @@ describe('MultiSet', function() {
     assert.strictEqual(set.dimension, 2);
   });
 
+  it('adding 0 should be a noop.', function() {
+    var set = new MultiSet();
+
+    set.add('hello', 0);
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.has('hello'), false);
+  });
+
   it('should be possible to check whether an item exists in the set.', function() {
     var set = new MultiSet();
 
@@ -77,6 +86,33 @@ describe('MultiSet', function() {
     assert.strictEqual(set.multiplicity('hello'), 4);
 
     set.remove('hello', 16);
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.dimension, 0);
+    assert.strictEqual(set.multiplicity('hello'), 0);
+    assert.strictEqual(set.has('hello'), false);
+  });
+
+  it('removing 0 items should be a noop.', function() {
+    var set = new MultiSet();
+
+    set.add('hello');
+    set.remove('hello', 0);
+
+    assert.strictEqual(set.size, 1);
+    assert.strictEqual(set.multiplicity('hello'), 1);
+  });
+
+  it('should be possible to set the multiplicity of an item in the set.', function() {
+    var set = new MultiSet();
+
+    set.set('hello', 4);
+
+    assert.strictEqual(set.size, 4);
+    assert.strictEqual(set.dimension, 1);
+    assert.strictEqual(set.multiplicity('hello'), 4);
+
+    set.set('hello', 0);
 
     assert.strictEqual(set.size, 0);
     assert.strictEqual(set.dimension, 0);

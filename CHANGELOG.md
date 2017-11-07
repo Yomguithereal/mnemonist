@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.1 (provisional)
+
+* Fixing several `MultiSet` issues.
+* Optimizing `MultiSet`.
+
 ## 0.16.0
 
 * Adding `#.has` to `FuzzyMap`.

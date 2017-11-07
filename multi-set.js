@@ -7,6 +7,8 @@
 var Iterator = require('obliterator/iterator'),
     iterateOver = require('./utils/iterate.js');
 
+// TODO: helper functions
+
 /**
  * MultiSet.
  *
@@ -44,6 +46,9 @@ MultiSet.prototype.clear = function() {
  * @return {MultiSet}
  */
 MultiSet.prototype.add = function(item, count) {
+  if (count === 0)
+    return this;
+
   count = count || 1;
 
   this.size += count;
@@ -60,7 +65,45 @@ MultiSet.prototype.add = function(item, count) {
   return this;
 };
 
-MultiSet.prototype.set = MultiSet.prototype.add;
+/**
+ * Method used to set the multiplicity of an item in the set.
+ *
+ * @param  {any}    item  - Target item.
+ * @param  {number} count - Desired multiplicity.
+ * @return {MultiSet}
+ */
+MultiSet.prototype.set = function(item, count) {
+  var currentCount;
+
+  // Setting an item to 0 means deleting it from the set
+  if (count === 0) {
+    currentCount = this.items.get(item);
+
+    if (typeof currentCount !== 'undefined') {
+      this.size -= currentCount;
+      this.dimension--;
+    }
+
+    this.items.delete(item);
+    return this;
+  }
+
+  count = count || 1;
+
+  currentCount = this.items.get(item);
+
+  if (typeof currentCount === 'number') {
+    this.items.set(item, currentCount + count);
+  }
+  else {
+    this.dimension++;
+    this.items.set(item, count);
+  }
+
+  this.size += count;
+
+  return this;
+};
 
 /**
  * Method used to return whether the item exists in the set.
@@ -79,13 +122,16 @@ MultiSet.prototype.has = function(item) {
  * @return {boolan}
  */
 MultiSet.prototype.delete = function(item) {
-  var count = this.multiplicity(item);
+  var count = this.items.get(item);
+
+  if (count === 0)
+    return false;
 
   this.size -= count;
   this.dimension--;
   this.items.delete(item);
 
-  return !!count;
+  return true;
 };
 
 /**
@@ -96,12 +142,15 @@ MultiSet.prototype.delete = function(item) {
  * @return {undefined}
  */
 MultiSet.prototype.remove = function(item, count) {
+  if (count === 0)
+    return;
+
   count = count || 1;
 
   var currentCount = this.multiplicity(item),
       newCount = Math.max(0, currentCount - count);
 
-  if (!newCount) {
+  if (newCount === 0) {
     this.delete(item);
   }
   else {
@@ -121,13 +170,13 @@ MultiSet.prototype.remove = function(item, count) {
  * @return {MultiSet}
  */
 MultiSet.prototype.edit = function(a, b) {
-  const am = this.multiplicity(a);
+  var am = this.multiplicity(a);
 
   // If a does not exist in the set, we can stop right there
   if (am === 0)
     return;
 
-  const bm = this.multiplicity(b);
+  var bm = this.multiplicity(b);
 
   this.items.set(b, am + bm);
   this.items.delete(a);
@@ -142,7 +191,12 @@ MultiSet.prototype.edit = function(a, b) {
  * @return {number}
  */
 MultiSet.prototype.multiplicity = function(item) {
-  return this.items.get(item) || 0;
+  var count = this.items.get(item);
+
+  if (typeof count === 'undefined')
+    return 0;
+
+  return count;
 };
 
 /**
