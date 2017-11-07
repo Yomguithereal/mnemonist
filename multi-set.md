@@ -85,6 +85,8 @@ Adds the item to the set. Optionally, you can provide a number which is the numb
 
 Adding an item 0 times is a no-op.
 
+Adding an item a negative number of times will remove items.
+
 ```js
 var set = new MultiSet();
 
@@ -98,7 +100,7 @@ set.add('hello', 3);
 
 Sets the multiplicity of an item in the set.
 
-Setting the multiplicity of an item to be 0 will remove said item from the set.
+Setting the multiplicity of an item to be 0 or a negative number will remove said item from the set.
 
 ```js
 var set = new MultiSet();
@@ -113,6 +115,8 @@ set.multiplicity('hello');
 Removes the item from the set once. Optionally, you can provide a number which is the number of times the same item is removed.
 
 Removing an item 0 times is a no-op.
+
+Removing an item a negative number of times will add items.
 
 ```js
 var set = new MultiSet();
