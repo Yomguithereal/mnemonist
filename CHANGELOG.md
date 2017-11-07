@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.16.1 (provisional)
+## 0.17.0 (provisional)
 
+* Adding `#.frequency` to `MultiSet`.
 * Fixing several `MultiSet` issues.
 * Optimizing `MultiSet`.
 

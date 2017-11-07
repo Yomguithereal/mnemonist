@@ -58,6 +58,16 @@ describe('MultiSet', function() {
     assert.strictEqual(set.multiplicity('warum?'), 0);
   });
 
+  it('should be possible to retrieve an item\'s frequency.', function() {
+    var set = new MultiSet();
+
+    set.add('apple', 5);
+    set.add('pear', 2);
+    set.add('melon', 3);
+
+    assert.strictEqual(set.frequency('apple'), 1 / 2);
+  });
+
   it('should be possible to completely clear the set.', function() {
     var set = new MultiSet();
 

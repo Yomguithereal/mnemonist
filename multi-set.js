@@ -204,6 +204,22 @@ MultiSet.prototype.multiplicity = function(item) {
 
   return count;
 };
+MultiSet.prototype.get = MultiSet.prototype.multiplicity;
+
+/**
+ * Method used to return the frequency of the given item in the set.
+ *
+ * @param  {any} item - Item to get.
+ * @return {number}
+ */
+MultiSet.prototype.frequency = function(item) {
+  if (this.size === 0)
+    return 0;
+
+  var count = this.multiplicity(item);
+
+  return count / this.size;
+};
 
 /**
  * Method used to iterate over the set's values.
