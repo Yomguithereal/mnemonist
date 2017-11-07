@@ -7,7 +7,7 @@
  */
 
 // TODO: initial size
-// TODO: set should adjust size
+// TODO: grow resize reallocate
 // TODO: inspect
 // TODO: docs
 
@@ -28,27 +28,32 @@ function powerOfTwo(x) {
  *
  * @constructor
  * @param {function}      ArrayClass           - An array constructor.
- * @param {number|object} initialSizeOrOptions - Self-explanatory.
+ * @param {number|object} initialCapacityOrOptions - Self-explanatory.
  */
-function HashedArrayTree(ArrayClass, initialSizeOrOptions) {
+function HashedArrayTree(ArrayClass, initialCapacityOrOptions) {
+  if (arguments.length < 1)
+    throw new Error('mnemonist/hashed-array)-tree: expecting at least a byte array constructor.');
 
-  /* eslint no-unused-vars: 0 */
-  var initialSize = initialSizeOrOptions || 0,
-      blockSize = DEFAULT_BLOCK_SIZE;
+  var initialCapacity = initialCapacityOrOptions || 0,
+      blockSize = DEFAULT_BLOCK_SIZE,
+      initialLength = 0;
 
-  if (typeof initialSizeOrOptions === 'object') {
-    initialSize = initialSizeOrOptions.initialSize || 0;
-    blockSize = initialSizeOrOptions.blockSize || DEFAULT_BLOCK_SIZE;
+  if (typeof initialCapacityOrOptions === 'object') {
+    initialCapacity = initialCapacityOrOptions.initialCapacity || 0;
+    initialLength = initialCapacityOrOptions.initialLength || 0;
+    blockSize = initialCapacityOrOptions.blockSize || DEFAULT_BLOCK_SIZE;
   }
 
   if (!blockSize || !powerOfTwo(blockSize))
     throw new Error('mnemonist/hashed-array-tree: block size should be a power of two.');
 
   this.ArrayClass = ArrayClass;
-  this.length = 0;
-  this.capacity = 0;
+  this.length = initialLength;
+  this.capacity = Math.max(initialLength, initialCapacity);
   this.blockSize = blockSize;
   this.blockLg2 = Math.log2(blockSize);
+
+  // Allocate!
   this.blocks = new Array();
 }
 
@@ -103,7 +108,7 @@ HashedArrayTree.prototype.grow = function() {
  * @return {number}       - Length of the array.
  */
 HashedArrayTree.prototype.push = function(value) {
-  if (this.length >= this.capacity)
+  if (this.capacity === this.length)
     this.grow();
 
   var index = this.length;

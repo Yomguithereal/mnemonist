@@ -37,28 +37,6 @@ describe('DynamicArray', function() {
     assert.strictEqual(array.get(2), undefined);
   });
 
-  // it('setting an out-of-bound index should grow the array.', function() {
-  //   var array = new DynamicArray(Uint8Array, {
-  //     initialCapacity: 2,
-  //     policy: function(capacity) {
-  //       return capacity + 2;
-  //     }
-  //   });
-
-  //   array.set(3, 4);
-
-  //   assert.strictEqual(array.length, 4);
-  //   assert.strictEqual(array.get(3), 4);
-  //   assert.deepEqual(Array.from(array.array), [0, 0, 0, 4]);
-
-  //   array.set(6, 22);
-
-  //   assert.strictEqual(array.length, 7);
-  //   assert.strictEqual(array.get(6), 22);
-  //   assert.strictEqual(array.get(2), 0);
-  //   assert.deepEqual(Array.from(array.array), [0, 0, 0, 4, 0, 0, 22, 0]);
-  // });
-
   it('setting an out-of-bound index should throw.', function() {
     var array = new DynamicArray(Uint8Array, 4);
 

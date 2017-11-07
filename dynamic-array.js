@@ -27,7 +27,7 @@ var DEFAULT_GROWING_POLICY = function(currentCapacity) {
  */
 function DynamicArray(ArrayClass, initialCapacityOrOptions) {
   if (arguments.length < 1)
-    throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
+    throw new Error('mnemonist/dynamic-array: expecting at least a byte array constructor.');
 
   var initialCapacity = initialCapacityOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY,
@@ -87,9 +87,13 @@ DynamicArray.prototype.get = function(index) {
 DynamicArray.prototype.applyPolicy = function(override) {
   var newCapacity = this.policy(override || this.capacity);
 
+  if (typeof newCapacity !== 'number' || newCapacity < 0)
+    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned an invalid value (expecting a positive integer).');
+
   if (newCapacity <= this.capacity)
     throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned a less or equal capacity to allocate.');
 
+  // TODO: we should probably check that the returned number is an integer
   return newCapacity;
 };
 
@@ -177,7 +181,7 @@ DynamicArray.prototype.resize = function(length) {
  * @return {number}       - Length of the array.
  */
 DynamicArray.prototype.push = function(value) {
-  if (this.length >= this.capacity)
+  if (this.capacity === this.length)
     this.grow();
 
   this.array[this.length++] = value;
