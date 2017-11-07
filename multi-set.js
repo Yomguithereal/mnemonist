@@ -7,7 +7,7 @@
 var Iterator = require('obliterator/iterator'),
     iterateOver = require('./utils/iterate.js');
 
-// TODO: helper functions
+// TODO: helper functions: union, intersection, sum, difference, subtract
 
 /**
  * MultiSet.

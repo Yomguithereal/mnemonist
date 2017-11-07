@@ -19,6 +19,13 @@ var DEFAULT_GROWING_POLICY = function(currentSize) {
 };
 
 /**
+ * Helpers.
+ */
+function createByteArray(allocated) {
+  return new Uint32Array(Math.ceil(allocated / 32));
+}
+
+/**
  * DynamicBitSet.
  *
  * @constructor
@@ -32,12 +39,18 @@ function DynamicBitSet(initialLengthOrOptions) {
     policy = initialLengthOrOptions.policy || policy;
   }
 
-  // TODO: ask
+  // Virtual length of the array
   this.length = 0;
+
+  // Number of bits set to 1
   this.size = 0;
+
+  // Real length of the array
   this.allocated = initialLength;
+
+  // Policy and underlying container
   this.policy = policy;
-  this.array = new Uint32Array(Math.ceil(this.allocated / 32));
+  this.clear();
 }
 
 /**
@@ -49,9 +62,7 @@ DynamicBitSet.prototype.clear = function() {
 
   // Properties
   this.size = 0;
-
-  for (var i = 0, l = this.length; i < l; i++)
-    this.array[i] = 0;
+  this.array = createByteArray(this.allocated);
 };
 
 /**
@@ -62,6 +73,27 @@ DynamicBitSet.prototype.clear = function() {
  * @return {DynamicBitSet}
  */
 DynamicBitSet.prototype.set = function(index, value) {
+
+  // Do we need to grow the array?
+  var allocated = this.allocated;
+
+  if (index >= allocated) {
+    while (index >= this.allocated) {
+      this.allocated = this.policy(this.allocated);
+
+      // Sanity check
+      if (this.allocated <= allocated)
+        throw new Error('mnemonist/dynamic-bit-set.set: policy returned a less or equal length to allocate.');
+    }
+
+    // Transferring
+    var oldArray = this.array;
+    this.array = createByteArray(this.allocated);
+
+    for (var i = 0, l = this.length; i < l; i++)
+      this.array[i] = oldArray[i];
+  }
+
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
       oldByte = this.array[byteIndex],
@@ -77,6 +109,12 @@ DynamicBitSet.prototype.set = function(index, value) {
     this.size++;
   else if (newByte < oldByte)
     this.size--;
+
+  // Updating length
+  index++;
+
+  if (index > this.length)
+    this.length = index;
 
   return this;
 };
@@ -131,6 +169,9 @@ DynamicBitSet.prototype.flip = function(index) {
  * @return {number}
  */
 DynamicBitSet.prototype.get = function(index) {
+  if (this.length < index)
+    return undefined;
+
   var byteIndex = index >> 5,
       pos = index & 0x0000001f;
 
@@ -144,6 +185,9 @@ DynamicBitSet.prototype.get = function(index) {
  * @return {DynamicBitSet}
  */
 DynamicBitSet.prototype.test = function(index) {
+  if (this.length < index)
+    return false;
+
   return Boolean(this.get(index));
 };
 

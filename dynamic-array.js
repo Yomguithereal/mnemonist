@@ -8,6 +8,12 @@
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 
+
+// TODO: maybe we should not accept out-of-bounds sets
+// TODO: growTo increase capacity
+// TODO: initialCapacity
+// TODO: resize method
+
 /**
  * Constants.
  */
