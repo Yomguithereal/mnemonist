@@ -101,7 +101,7 @@ npm test
 
 ## Changelog
 
-The full changelog for the library can be found [here]({{ site.baseurl }}/changelog).
+The full changelog for the library can be found [here](https://github.com/Yomguithereal/mnemonist/blob/master/CHANGELOG.md#changelog).
 
 ## About
 

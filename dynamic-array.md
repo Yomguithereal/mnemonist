@@ -20,31 +20,31 @@ var DynamicArray = require('mnemonist/dynamic-array');
 The `DynamicArray` takes a typed array class as first argument and an initial length or alternatively more complex options as second argument.
 
 ```js
-var array = new DynamicArray(ArrayClass, initialLength);
+var array = new DynamicArray(ArrayClass, initialCapacity);
 
 // If you need to pass options such as a custom growth policy
 var array = new DynamicArray(ArrayClass, {
-  initialLength: 10,
-  policy: function(allocated) {
-    return Math.ceil(allocated * 2.5);
+  initialCapacity: 10,
+  policy: function(capacity) {
+    return Math.ceil(capacity * 2.5);
   }
 });
 
 // Subclass for each of JS typed array also exists as a convenience
-var array = new DynamicArray.DynamicInt8Array(initialLength);
-var array = new DynamicArray.DynamicUint8Array(initialLength);
-var array = new DynamicArray.DynamicUint8ClampedArray(initialLength);
-var array = new DynamicArray.DynamicInt16Array(initialLength);
-var array = new DynamicArray.DynamicUint16Array(initialLength);
-var array = new DynamicArray.DynamicInt32Array(initialLength);
-var array = new DynamicArray.DynamicUint32Array(initialLength);
-var array = new DynamicArray.DynamicFloat32Array(initialLength);
-var array = new DynamicArray.DynamicFloat64Array(initialLength);
+var array = new DynamicArray.DynamicInt8Array(initialCapacity);
+var array = new DynamicArray.DynamicUint8Array(initialCapacity);
+var array = new DynamicArray.DynamicUint8ClampedArray(initialCapacity);
+var array = new DynamicArray.DynamicInt16Array(initialCapacity);
+var array = new DynamicArray.DynamicUint16Array(initialCapacity);
+var array = new DynamicArray.DynamicInt32Array(initialCapacity);
+var array = new DynamicArray.DynamicUint32Array(initialCapacity);
+var array = new DynamicArray.DynamicFloat32Array(initialCapacity);
+var array = new DynamicArray.DynamicFloat64Array(initialCapacity);
 ```
 
 ## Members
 
-* [#.allocated](#allocated)
+* [#.capacity](#capacity)
 * [#.array](#array)
 * [#.length](#length)
 
@@ -60,9 +60,9 @@ var array = new DynamicArray.DynamicFloat64Array(initialLength);
 
 * [#.get](#get)
 
-### #.allocated
+### #.capacity
 
-Real length of the underlying array. Not to be confused with [#.length](#length).
+Real length of the underlying array, i.e. the maximum number of items the array can hold before needing to resize. Not to be confused with [#.length](#length).
 
 ```js
 var array = new DynamicArray(Uint8Array, 10);
@@ -70,13 +70,13 @@ var array = new DynamicArray(Uint8Array, 10);
 array.push(1);
 array.push(2);
 
-array.allocated
+array.capacity
 >>> 10
 ```
 
 ### #.array
 
-The underlying typed array, if you need it for any reason.
+The underlying typed array, if you need it for any reason (probably performance, in some precise use cases).
 
 ```js
 var array = new DynamicArray(Uint8Array, 4);
@@ -105,7 +105,7 @@ array.array
 
 ### #.length
 
-Current length of the array, that is to say the last allocated index plus one.
+Current length of the array, that is to say the last capacity index plus one.
 
 ```js
 var array = new DynamicArray(Uint8Array, 10);
