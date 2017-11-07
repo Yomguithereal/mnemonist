@@ -11,7 +11,6 @@
 
 // TODO: maybe we should not accept out-of-bounds sets
 // TODO: growTo increase capacity
-// TODO: initialCapacity
 // TODO: resize method
 
 /**
@@ -26,25 +25,25 @@ var DEFAULT_GROWING_POLICY = function(currentSize) {
  *
  * @constructor
  * @param {function}      ArrayClass             - An array constructor.
- * @param {number|object} initialLengthOrOptions - Self-explanatory.
+ * @param {number|object} initialCapacityOrOptions - Self-explanatory.
  */
-function DynamicArray(ArrayClass, initialLengthOrOptions) {
+function DynamicArray(ArrayClass, initialCapacityOrOptions) {
   if (arguments.length < 2)
     throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
 
-  var initialLength = initialLengthOrOptions || 0,
+  var initialCapacity = initialCapacityOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY;
 
-  if (typeof initialLengthOrOptions === 'object') {
-    initialLength = initialLengthOrOptions.initialLength || 0;
-    policy = initialLengthOrOptions.policy || policy;
+  if (typeof initialCapacityOrOptions === 'object') {
+    initialCapacity = initialCapacityOrOptions.initialCapacity || 0;
+    policy = initialCapacityOrOptions.policy || policy;
   }
 
   this.ArrayClass = ArrayClass;
   this.length = 0;
-  this.allocated = initialLength;
+  this.capacity = initialCapacity;
   this.policy = policy;
-  this.array = new ArrayClass(initialLength);
+  this.array = new ArrayClass(initialCapacity);
 }
 
 /**
@@ -57,20 +56,20 @@ function DynamicArray(ArrayClass, initialLengthOrOptions) {
 DynamicArray.prototype.set = function(index, value) {
 
   // Do we need to grow the array?
-  var allocated = this.allocated;
+  var capacity = this.capacity;
 
-  if (index >= allocated) {
-    while (index >= this.allocated) {
-      this.allocated = this.policy(this.allocated);
+  if (index >= capacity) {
+    while (index >= this.capacity) {
+      this.capacity = this.policy(this.capacity);
 
       // Sanity check
-      if (this.allocated <= allocated)
+      if (this.capacity <= capacity)
         throw new Error('mnemonist/dynamic-array.set: policy returned a less or equal length to allocate.');
     }
 
     // Transferring
     var oldArray = this.array;
-    this.array = new this.ArrayClass(this.allocated);
+    this.array = new this.ArrayClass(this.capacity);
 
     for (var i = 0, l = this.length; i < l; i++)
       this.array[i] = oldArray[i];
@@ -107,16 +106,16 @@ DynamicArray.prototype.get = function(index) {
  * @return {DynamicArray}
  */
 DynamicArray.prototype.grow = function() {
-  var allocated = this.allocated;
+  var capacity = this.capacity;
 
-  this.allocated = this.policy(allocated);
+  this.capacity = this.policy(capacity);
 
   // Sanity check
-  if (this.allocated <= allocated)
+  if (this.capacity <= capacity)
     throw new Error('mnemonist/dynamic-array.grow: policy returned a less or equal length to allocate.');
 
   var oldArray = this.array;
-  this.array = new this.ArrayClass(this.allocated);
+  this.array = new this.ArrayClass(this.capacity);
 
   for (var i = 0, l = this.length; i < l; i++)
     this.array[i] = oldArray[i];
@@ -131,7 +130,7 @@ DynamicArray.prototype.grow = function() {
  * @return {number}       - Length of the array.
  */
 DynamicArray.prototype.push = function(value) {
-  if (this.length >= this.allocated)
+  if (this.length >= this.capacity)
     this.grow();
 
   this.array[this.length++] = value;
@@ -172,8 +171,8 @@ DynamicArray.prototype.inspect = function() {
  * Exporting.
  */
 function subClass(ArrayClass) {
-  var SubClass = function(initialLengthOrOptions) {
-    DynamicArray.call(this, ArrayClass, initialLengthOrOptions);
+  var SubClass = function(initialCapacityOrOptions) {
+    DynamicArray.call(this, ArrayClass, initialCapacityOrOptions);
   };
 
   for (var k in DynamicArray.prototype) {

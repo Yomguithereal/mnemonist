@@ -4,6 +4,8 @@
 
 * Adding `#.frequency` to `MultiSet`.
 * Fixing several `MultiSet` issues.
+* Renaming the `DynamicArray.initialLength` option to `initialCapacity`.
+* Renaming `DynamicArray.allocated` to `capacity`.
 * Optimizing `MultiSet` performance.
 * Optimizing `SparseSet` memory consumption.
 

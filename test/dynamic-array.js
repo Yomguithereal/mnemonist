@@ -18,7 +18,7 @@ describe('DynamicArray', function() {
     var array = new DynamicArray(Uint8Array, 5);
 
     assert.strictEqual(array.length, 0);
-    assert.strictEqual(array.allocated, 5);
+    assert.strictEqual(array.capacity, 5);
   });
 
   it('should be possible to set and get values.', function() {
@@ -39,9 +39,9 @@ describe('DynamicArray', function() {
 
   it('setting an out-of-bound value should grow the array.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialLength: 2,
-      policy: function(allocated) {
-        return allocated + 2;
+      initialCapacity: 2,
+      policy: function(capacity) {
+        return capacity + 2;
       }
     });
 
@@ -66,7 +66,7 @@ describe('DynamicArray', function() {
       array.push(i);
 
     assert.strictEqual(array.length, 250);
-    assert.strictEqual(array.allocated, 315);
+    assert.strictEqual(array.capacity, 315);
     assert.strictEqual(array.get(34), 34);
   });
 
@@ -92,9 +92,9 @@ describe('DynamicArray', function() {
 
   it('should throw if the policy returns an irrelevant size.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialLength: 1,
-      policy: function(allocated) {
-        return allocated;
+      initialCapacity: 1,
+      policy: function(capacity) {
+        return capacity;
       }
     });
 
@@ -107,9 +107,9 @@ describe('DynamicArray', function() {
 
   it('should be possible to use a custom policy.', function() {
     var array = new DynamicArray(Uint8Array, {
-      initialLength: 2,
-      policy: function(allocated) {
-        return allocated + 2;
+      initialCapacity: 2,
+      policy: function(capacity) {
+        return capacity + 2;
       }
     });
 
@@ -118,7 +118,7 @@ describe('DynamicArray', function() {
     array.push(3);
 
     assert.strictEqual(array.length, 3);
-    assert.strictEqual(array.allocated, 4);
+    assert.strictEqual(array.capacity, 4);
   });
 
   it('should be possible to use the subclasses.', function() {
