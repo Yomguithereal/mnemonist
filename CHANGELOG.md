@@ -3,6 +3,9 @@
 ## 0.17.0 (provisional)
 
 * Adding `#.frequency` to `MultiSet`.
+* Adding `#.grow` to `DynamicArray`.
+* Adding `#.reallocate` to `DynamicArray`.
+* Adding `#.resize` to `DynamicArray`.
 * Fixing several `MultiSet` issues.
 * Renaming the `DynamicArray.initialLength` option to `initialCapacity`.
 * Renaming `DynamicArray.allocated` to `capacity`.

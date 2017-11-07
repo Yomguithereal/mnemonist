@@ -8,16 +8,11 @@
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 
-
-// TODO: maybe we should not accept out-of-bounds sets
-// TODO: growTo increase capacity
-// TODO: resize method
-
 /**
- * Constants.
+ * Defaults.
  */
-var DEFAULT_GROWING_POLICY = function(currentSize) {
-  return Math.ceil(currentSize * 1.5);
+var DEFAULT_GROWING_POLICY = function(currentCapacity) {
+  return Math.max(1, Math.ceil(currentCapacity * 1.5));
 };
 
 /**
@@ -25,25 +20,30 @@ var DEFAULT_GROWING_POLICY = function(currentSize) {
  *
  * @constructor
  * @param {function}      ArrayClass             - An array constructor.
- * @param {number|object} initialCapacityOrOptions - Self-explanatory.
+ * @param {number|object} initialCapacityOrOptions - Self-explanatory:
+ * @param {number}        initialCapacity          - Initial capacity.
+ * @param {number}        initialLength            - Initial length.
+ * @param {function}      policy                   - Allocation policy.
  */
 function DynamicArray(ArrayClass, initialCapacityOrOptions) {
-  if (arguments.length < 2)
+  if (arguments.length < 1)
     throw new Error('mnemonist/dynamic-array: expecting at least an array constructor and an initial size or options.');
 
   var initialCapacity = initialCapacityOrOptions || 0,
-      policy = DEFAULT_GROWING_POLICY;
+      policy = DEFAULT_GROWING_POLICY,
+      initialLength = 0;
 
   if (typeof initialCapacityOrOptions === 'object') {
     initialCapacity = initialCapacityOrOptions.initialCapacity || 0;
+    initialLength = initialCapacityOrOptions.initialLength || 0;
     policy = initialCapacityOrOptions.policy || policy;
   }
 
   this.ArrayClass = ArrayClass;
-  this.length = 0;
-  this.capacity = initialCapacity;
+  this.length = initialLength;
+  this.capacity = Math.max(initialLength, initialCapacity);
   this.policy = policy;
-  this.array = new ArrayClass(initialCapacity);
+  this.array = new ArrayClass(this.capacity);
 }
 
 /**
@@ -55,34 +55,12 @@ function DynamicArray(ArrayClass, initialCapacityOrOptions) {
  */
 DynamicArray.prototype.set = function(index, value) {
 
-  // Do we need to grow the array?
-  var capacity = this.capacity;
-
-  if (index >= capacity) {
-    while (index >= this.capacity) {
-      this.capacity = this.policy(this.capacity);
-
-      // Sanity check
-      if (this.capacity <= capacity)
-        throw new Error('mnemonist/dynamic-array.set: policy returned a less or equal length to allocate.');
-    }
-
-    // Transferring
-    var oldArray = this.array;
-    this.array = new this.ArrayClass(this.capacity);
-
-    for (var i = 0, l = this.length; i < l; i++)
-      this.array[i] = oldArray[i];
-  }
+  // Out of bounds?
+  if (this.length < index)
+    throw new Error('DynamicArray(' + this.ArrayClass.name + ').set: index out of bounds.');
 
   // Updating value
   this.array[index] = value;
-
-  // Updating length
-  index++;
-
-  if (index > this.length)
-    this.length = index;
 
   return this;
 };
@@ -101,24 +79,93 @@ DynamicArray.prototype.get = function(index) {
 };
 
 /**
- * Method used to grow the array.
+ * Method used to apply the growing policy.
  *
+ * @param  {number} [override] - Override capacity.
+ * @return {number}
+ */
+DynamicArray.prototype.applyPolicy = function(override) {
+  var newCapacity = this.policy(override || this.capacity);
+
+  if (newCapacity <= this.capacity)
+    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned a less or equal capacity to allocate.');
+
+  return newCapacity;
+};
+
+/**
+ * Method used to reallocate the underlying array.
+ *
+ * @param  {number}       capacity - Target capacity.
  * @return {DynamicArray}
  */
-DynamicArray.prototype.grow = function() {
-  var capacity = this.capacity;
-
-  this.capacity = this.policy(capacity);
-
-  // Sanity check
-  if (this.capacity <= capacity)
-    throw new Error('mnemonist/dynamic-array.grow: policy returned a less or equal length to allocate.');
+DynamicArray.prototype.reallocate = function(capacity) {
+  if (capacity === this.capacity)
+    return this;
 
   var oldArray = this.array;
-  this.array = new this.ArrayClass(this.capacity);
+  this.array = new this.ArrayClass(capacity);
+
+  if (capacity < this.length)
+    this.length = capacity;
 
   for (var i = 0, l = this.length; i < l; i++)
     this.array[i] = oldArray[i];
+
+  this.capacity = capacity;
+
+  return this;
+};
+
+/**
+ * Method used to grow the array.
+ *
+ * @param  {number}       [capacity] - Optional capacity to match.
+ * @return {DynamicArray}
+ */
+DynamicArray.prototype.grow = function(capacity) {
+  var newCapacity;
+
+  if (typeof capacity === 'number') {
+
+    if (this.capacity >= capacity)
+      return this;
+
+    // We need to match the given capacity
+    newCapacity = this.capacity;
+
+    while (newCapacity < capacity)
+      newCapacity = this.applyPolicy(newCapacity);
+
+    this.reallocate(newCapacity);
+
+    return this;
+  }
+
+  // We need to run the policy once
+  newCapacity = this.applyPolicy();
+  this.reallocate(newCapacity);
+
+  return this;
+};
+
+/**
+ * Method used to resize the array. Won't deallocate.
+ *
+ * @param  {number}       length - Target length.
+ * @return {DynamicArray}
+ */
+DynamicArray.prototype.resize = function(length) {
+  if (length === this.length)
+    return this;
+
+  if (length < this.length) {
+    this.length = length;
+    return this;
+  }
+
+  this.length = length;
+  this.reallocate(length);
 
   return this;
 };
@@ -144,7 +191,7 @@ DynamicArray.prototype.push = function(value) {
  * @return {number} - The popped value.
  */
 DynamicArray.prototype.pop = function() {
-  if (!this.length)
+  if (this.length === 0)
     return;
 
   return this.array[--this.length];
@@ -157,6 +204,8 @@ DynamicArray.prototype.inspect = function() {
   var proxy = this.array.slice(0, this.length);
 
   proxy.type = this.ArrayClass.name;
+  proxy.items = this.length;
+  proxy.capacity = this.capacity;
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
