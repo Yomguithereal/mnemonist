@@ -22,30 +22,47 @@ npm install --save mnemonist
 
 Full documentation for the library can be found [here](https://yomguithereal.github.io/mnemonist).
 
-* [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
-* [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
-* [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
-* [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
-* [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
-* [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
+**Classics**
+
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
-* [Fuzzy Map](https://yomguithereal.github.io/mnemonist/fuzzy-map)
-* [Fuzzy MultiMap](https://yomguithereal.github.io/mnemonist/fuzzy-multi-map)
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
-* [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
-* [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
 * [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multi-set)
 * [Queue](https://yomguithereal.github.io/mnemonist/queue)
 * [Set (helpers)](https://yomguithereal.github.io/mnemonist/set)
-* [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
+* [Trie](https://yomguithereal.github.io/mnemonist/trie)
+
+**Utility classes**
+
+* [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
+* [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
+
+**Low-level specific structures**
+
+* [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
+* [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
+* [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
+* [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
+
+**Information retrieval & Natural language processing**
+
+* [Fuzzy Map](https://yomguithereal.github.io/mnemonist/fuzzy-map)
+* [Fuzzy MultiMap](https://yomguithereal.github.io/mnemonist/fuzzy-multi-map)
+* [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
 * [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
-* [Trie](https://yomguithereal.github.io/mnemonist/trie)
+
+**Metric space**
+
+* [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)
 * [Vantage Point Tree](https://yomguithereal.github.io/mnemonist/vp-tree)
+
+**Probabilistic & succinct data structures**
+
+* [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 
 Note that this list does not include a `Graph` data structure, whose implementation is usually far too complex for the scope of this library.
 
