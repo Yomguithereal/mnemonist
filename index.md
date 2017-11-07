@@ -46,7 +46,6 @@ npm install --save mnemonist
 
 **Low-level & structures for very specific use cases**
 
-* [BitSet]({{ site.baseurl }}/bit-set)
 * [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
 * [Dynamic Arrays]({{ site.baseurl }}/dynamic-array)
 * [SparseSet]({{ site.baseurl }}/sparse-set)
@@ -67,6 +66,7 @@ npm install --save mnemonist
 
 **Probabilistic & succinct data structures**
 
+* [BitSet]({{ site.baseurl }}/bit-set)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 
 **Utility classes**
