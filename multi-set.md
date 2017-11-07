@@ -83,6 +83,8 @@ set.size
 
 Adds the item to the set. Optionally, you can provide a number which is the number of times the same item is added.
 
+Adding an item 0 times is a no-op.
+
 ```js
 var set = new MultiSet();
 
@@ -94,11 +96,23 @@ set.add('hello', 3);
 
 ### #.set
 
-Same as [#.add](#add).
+Sets the multiplicity of an item in the set.
+
+Setting the multiplicity of an item to be 0 will remove said item from the set.
+
+```js
+var set = new MultiSet();
+
+set.set('hello', 4);
+set.multiplicity('hello');
+>>> 4
+```
 
 ### #.remove
 
 Removes the item from the set once. Optionally, you can provide a number which is the number of times the same item is removed.
+
+Removing an item 0 times is a no-op.
 
 ```js
 var set = new MultiSet();
