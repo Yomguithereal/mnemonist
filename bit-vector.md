@@ -3,7 +3,7 @@ layout: page
 title: BitVector
 ---
 
-The `BitVector` is the same thing as the [`BitSet`]({{ site.baseurl }}/bit-set), except that it can grow dynamically if required.
+The `BitVector` is the same thing as the [`BitSet`]({{ site.baseurl }}/bit-set), except it can grow dynamically if required.
 
 ```js
 var BitVector = require('mnemonist/bit-set');
