@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.17.0 (provisional)
+## 0.17.0
 
 * Adding `HashedArrayTree`.
 * Adding `BitVector`.
