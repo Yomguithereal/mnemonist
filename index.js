@@ -12,6 +12,7 @@ var Heap = require('./heap.js'),
 module.exports = {
   BiMap: require('./bi-map.js'),
   BitSet: require('./bit-set.js'),
+  BitVector: require('./bit-vector.js'),
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
   StaticDisjointSet: require('./static-disjoint-set.js'),

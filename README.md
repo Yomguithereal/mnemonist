@@ -58,6 +58,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Probabilistic & succinct data structures**
 
 * [BitSet](https://yomguithereal.github.io/mnemonist/bit-set)
+* [BitVector](https://yomguithereal.github.io/mnemonist/bit-vector)
 * [Bloom Filter](https://yomguithereal.github.io/mnemonist/bloom-filter)
 
 **Utility classes**
