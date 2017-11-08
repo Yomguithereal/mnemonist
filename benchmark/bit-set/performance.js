@@ -10,6 +10,9 @@ for (var i = 0, l = bits.length; i < l; i++)
   bits.get(i);
 
 for (var i = 0, l = bits.length; i < l; i++)
+  bits.reset(i);
+
+for (var i = 0, l = bits.length; i < l; i++)
   bits.flip(i);
 console.timeEnd('Bits');
 
