@@ -21,8 +21,8 @@ var DEFAULT_GROWING_POLICY = function(capacity) {
 /**
  * Helpers.
  */
-function createByteArray(allocated) {
-  return new Uint32Array(Math.ceil(allocated / 32));
+function createByteArray(capacity) {
+  return new Uint32Array(Math.ceil(capacity / 32));
 }
 
 /**
@@ -35,13 +35,17 @@ function DynamicBitSet(initialLengthOrOptions) {
       policy = DEFAULT_GROWING_POLICY;
 
   if (typeof initialLengthOrOptions === 'object') {
-    initialLength = initialLengthOrOptions.initialLength || 0;
+    initialLength = (
+      initialLengthOrOptions.initialLength ||
+      initialLengthOrOptions.initialCapacity ||
+      0
+    );
     policy = initialLengthOrOptions.policy || policy;
   }
 
   this.size = 0;
   this.length = initialLength;
-  this.capacity = initialLength;
+  this.capacity = Math.ceil(this.length / 32) * 32;
   this.policy = policy;
   this.array = createByteArray(this.capacity);
 }
@@ -50,7 +54,7 @@ function DynamicBitSet(initialLengthOrOptions) {
  * Method used to set the given bit's value.
  *
  * @param  {number} index - Target bit index.
- * @param  {number} value - Value to set.
+ * @param  {number|boolean} value - Value to set.
  * @return {DynamicBitSet}
  */
 DynamicBitSet.prototype.set = function(index, value) {
@@ -61,18 +65,18 @@ DynamicBitSet.prototype.set = function(index, value) {
 
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex],
-      newByte;
+      oldBytes = this.array[byteIndex],
+      newBytes;
 
-  if (value === 0)
-    newByte = this.array[byteIndex] &= ~(1 << pos);
+  if (value === 0 || value === false)
+    newBytes = this.array[byteIndex] &= ~(1 << pos);
   else
-    newByte = this.array[byteIndex] |= (1 << pos);
+    newBytes = this.array[byteIndex] |= (1 << pos);
 
   // Updating size
-  if (newByte > oldByte)
+  if (newBytes > oldBytes)
     this.size++;
-  else if (newByte < oldByte)
+  else if (newBytes < oldBytes)
     this.size--;
 
   return this;
@@ -87,13 +91,13 @@ DynamicBitSet.prototype.set = function(index, value) {
 DynamicBitSet.prototype.reset = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex],
-      newByte;
+      oldBytes = this.array[byteIndex],
+      newBytes;
 
-  newByte = this.array[byteIndex] &= ~(1 << pos);
+  newBytes = this.array[byteIndex] &= ~(1 << pos);
 
   // Updating size
-  if (newByte < oldByte)
+  if (newBytes < oldBytes)
     this.size--;
 
   return this;
@@ -108,17 +112,160 @@ DynamicBitSet.prototype.reset = function(index) {
 DynamicBitSet.prototype.flip = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex];
+      oldBytes = this.array[byteIndex];
 
-  var newByte = this.array[byteIndex] ^= (1 << pos);
+  var newBytes = this.array[byteIndex] ^= (1 << pos);
 
   // Updating size
-  if (newByte > oldByte)
+  if (newBytes > oldBytes)
     this.size++;
-  else if (newByte < oldByte)
+  else if (newBytes < oldBytes)
     this.size--;
 
   return this;
+};
+
+/**
+ * Method used to apply the growing policy.
+ *
+ * @param  {number} [override] - Override capacity.
+ * @return {number}
+ */
+DynamicBitSet.prototype.applyPolicy = function(override) {
+  var newCapacity = this.policy(override || this.capacity);
+
+  if (typeof newCapacity !== 'number' || newCapacity < 0)
+    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned an invalid value (expecting a positive integer).');
+
+  if (newCapacity <= this.capacity)
+    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned a less or equal capacity to allocate.');
+
+  // TODO: we should probably check that the returned number is an integer
+
+  // Ceil to nearest 32
+  return Math.ceil(newCapacity / 32) * 32;
+};
+
+/**
+ * Method used to reallocate the underlying array.
+ *
+ * @param  {number}       capacity - Target capacity.
+ * @return {DynamicBitSet}
+ */
+DynamicBitSet.prototype.reallocate = function(capacity) {
+  var virtualCapacity = capacity;
+
+  capacity = Math.ceil(capacity / 32) * 32;
+
+  if (capacity === this.capacity)
+    return this;
+
+  var oldArray = this.array;
+  this.array = createByteArray(capacity);
+
+  if (virtualCapacity < this.length)
+    this.length = virtualCapacity;
+
+  for (var i = 0, l = oldArray.length; i < l; i++)
+    this.array[i] = oldArray[i];
+
+  this.capacity = capacity;
+
+  return this;
+};
+
+/**
+ * Method used to grow the array.
+ *
+ * @param  {number}       [capacity] - Optional capacity to match.
+ * @return {DynamicBitSet}
+ */
+DynamicBitSet.prototype.grow = function(capacity) {
+  var newCapacity;
+
+  if (typeof capacity === 'number') {
+
+    if (this.capacity >= capacity)
+      return this;
+
+    // We need to match the given capacity
+    newCapacity = this.capacity;
+
+    while (newCapacity < capacity)
+      newCapacity = this.applyPolicy(newCapacity);
+
+    this.reallocate(newCapacity);
+
+    return this;
+  }
+
+  // We need to run the policy once
+  newCapacity = this.applyPolicy();
+  this.reallocate(newCapacity);
+
+  return this;
+};
+
+/**
+ * Method used to resize the array. Won't deallocate.
+ *
+ * @param  {number}       length - Target length.
+ * @return {DynamicBitSet}
+ */
+DynamicBitSet.prototype.resize = function(length) {
+  if (length === this.length)
+    return this;
+
+  if (length < this.length) {
+    this.length = length;
+    return this;
+  }
+
+  this.length = length;
+  this.reallocate(length);
+
+  return this;
+};
+
+/**
+ * Method used to push a value in the set.
+ *
+ * @param  {number|boolean} value
+ * @return {DynamicBitSet}
+ */
+DynamicBitSet.prototype.push = function(value) {
+  if (this.capacity === this.length)
+    this.grow();
+
+  if (value === 0 || value === false)
+    return ++this.length;
+
+  this.size++;
+
+  var index = this.length++,
+      byteIndex = index >> 5,
+      pos = index & 0x0000001f;
+
+  this.array[byteIndex] |= (1 << pos);
+
+  return this.length;
+};
+
+/**
+ * Method used to pop the last value of the set.
+ *
+ * @return {number} - The popped value.
+ */
+DynamicBitSet.prototype.pop = function() {
+  if (this.length === 0)
+    return;
+
+  var index = --this.length;
+
+  var byteIndex = index >> 5,
+      pos = index & 0x0000001f;
+
+  return (this.array[byteIndex] >> pos) & 1;
 };
 
 /**

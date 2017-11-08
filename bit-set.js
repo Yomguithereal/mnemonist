@@ -47,18 +47,18 @@ BitSet.prototype.clear = function() {
 BitSet.prototype.set = function(index, value) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex],
-      newByte;
+      oldBytes = this.array[byteIndex],
+      newBytes;
 
-  if (value === 0)
-    newByte = this.array[byteIndex] &= ~(1 << pos);
+  if (value === 0 || value === false)
+    newBytes = this.array[byteIndex] &= ~(1 << pos);
   else
-    newByte = this.array[byteIndex] |= (1 << pos);
+    newBytes = this.array[byteIndex] |= (1 << pos);
 
   // Updating size
-  if (newByte > oldByte)
+  if (newBytes > oldBytes)
     this.size++;
-  else if (newByte < oldByte)
+  else if (newBytes < oldBytes)
     this.size--;
 
   return this;
@@ -73,13 +73,13 @@ BitSet.prototype.set = function(index, value) {
 BitSet.prototype.reset = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex],
-      newByte;
+      oldBytes = this.array[byteIndex],
+      newBytes;
 
-  newByte = this.array[byteIndex] &= ~(1 << pos);
+  newBytes = this.array[byteIndex] &= ~(1 << pos);
 
   // Updating size
-  if (newByte < oldByte)
+  if (newBytes < oldBytes)
     this.size--;
 
   return this;
@@ -94,14 +94,14 @@ BitSet.prototype.reset = function(index) {
 BitSet.prototype.flip = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
-      oldByte = this.array[byteIndex];
+      oldBytes = this.array[byteIndex];
 
-  var newByte = this.array[byteIndex] ^= (1 << pos);
+  var newBytes = this.array[byteIndex] ^= (1 << pos);
 
   // Updating size
-  if (newByte > oldByte)
+  if (newBytes > oldBytes)
     this.size++;
-  else if (newByte < oldByte)
+  else if (newBytes < oldBytes)
     this.size--;
 
   return this;

@@ -12,6 +12,7 @@ describe('DynamicBitSet', function() {
     var set = new DynamicBitSet(74);
 
     assert.strictEqual(set.length, 74);
+    assert.strictEqual(set.capacity, 96);
     assert.strictEqual(set.array.length, 3);
     assert.strictEqual(set.size, 0);
   });
@@ -130,5 +131,128 @@ describe('DynamicBitSet', function() {
 
     assert.strictEqual(set.get(17), undefined);
     assert.strictEqual(set.test(17), false);
+  });
+
+  it('setting an out-of-bound index should throw.', function() {
+    var set = new DynamicBitSet();
+
+    assert.throws(function() {
+      set.set(3);
+    }, /bounds/);
+  });
+
+  it('should be possible to push values.', function() {
+    var set = new DynamicBitSet();
+
+    for (var i = 0; i < 250; i++)
+      set.push(i % 2);
+
+    assert.strictEqual(set.length, 250);
+    assert.strictEqual(set.capacity, 256);
+    assert.strictEqual(set.array.length, 8);
+    assert.strictEqual(set.get(34), 0);
+    assert.strictEqual(set.get(35), 1);
+  });
+
+  it('should be possible to pop values.', function() {
+    var set = new DynamicBitSet();
+
+    set.push(1);
+    set.push(1);
+
+    assert.strictEqual(set.pop(), 1);
+    assert.strictEqual(set.length, 1);
+    assert.strictEqual(set.pop(), 1);
+    assert.strictEqual(set.length, 0);
+    assert.strictEqual(set.pop(), undefined);
+    assert.strictEqual(set.length, 0);
+
+    set.push(0);
+    set.push(1);
+
+    assert.strictEqual(set.get(1), 1);
+    assert.strictEqual(set.length, 2);
+  });
+
+  it('should be possible to reallocate.', function() {
+    var set = new DynamicBitSet();
+
+    set.push(1);
+    set.push(1);
+    set.push(1);
+
+    set.reallocate(35);
+
+    assert.strictEqual(set.capacity, 64);
+    assert.strictEqual(set.length, 3);
+
+    set.reallocate(2);
+
+    assert.strictEqual(set.capacity, 32);
+    assert.strictEqual(set.length, 2);
+  });
+
+  it('should be possible to grow the set.', function() {
+    var set = new DynamicBitSet({
+      initialCapacity: 2,
+      policy: function(capacity) {
+        return capacity + 32;
+      }
+    });
+
+    set.grow(37);
+
+    assert.strictEqual(set.capacity, 64);
+
+    set.grow(37);
+
+    assert.strictEqual(set.capacity, 64);
+
+    set.grow();
+
+    assert.strictEqual(set.capacity, 96);
+  });
+
+  it('should be possible to resize the set.', function() {
+    var set = new DynamicBitSet({initialLength: 64});
+
+    set.resize(20);
+
+    assert.strictEqual(set.capacity, 64);
+    assert.strictEqual(set.length, 20);
+
+    set.resize(87);
+
+    assert.strictEqual(set.capacity, 96);
+    assert.strictEqual(set.length, 87);
+  });
+
+  it('should throw if the policy returns an irrelevant size.', function() {
+    var set = new DynamicBitSet({
+      initialCapacity: 32,
+      policy: function(capacity) {
+        return capacity;
+      }
+    });
+
+    assert.throws(function() {
+      set.push(1);
+    }, /policy/);
+  });
+
+  it('should be possible to use a custom policy.', function() {
+    var set = new DynamicBitSet({
+      initialCapacity: 30,
+      policy: function(capacity) {
+        return capacity + 2;
+      }
+    });
+
+    set.push(1);
+    set.push(1);
+    set.push(1);
+
+    assert.strictEqual(set.length, 33);
+    assert.strictEqual(set.capacity, 64);
   });
 });
