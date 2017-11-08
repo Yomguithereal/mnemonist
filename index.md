@@ -48,10 +48,10 @@ npm install --save mnemonist
 
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
 * [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
-* [Dynamic Arrays]({{ site.baseurl }}/dynamic-array)
 * [SparseSet]({{ site.baseurl }}/sparse-set)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
+* [Vector]({{ site.baseurl }}/vector)
 
 **Information retrieval & Natural language processing**
 

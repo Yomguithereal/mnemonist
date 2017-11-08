@@ -5,8 +5,6 @@ title: HashedArrayTree
 
 The `HashedArrayTree` is an abstract class representing a JavaScript typed array, such as the `Int32Array`, but able to grow dynamically.
 
-It is a very useful structure when you don't know the size of your typed array beforehand and is quite memory-efficient (typed arrays are really lean compared to an `Array` and you'll be able to store billions of entries while such an `Array` would crash your engine).
-
 ```js
 var HashedArrayTree = require('mnemonist/hashed-array-tree');
 ```
