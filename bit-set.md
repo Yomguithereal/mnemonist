@@ -5,6 +5,8 @@ title: BitSet
 
 A `BitSet` is a fixed-size bit array implemented over a regular `Uint32Array`. It's a really memory-efficient way to store set information or series of flags.
 
+Note that if you need a `BitSet` whose size is able to grow dynamically if required, you can check this library [`BitVector`]({{ site.baseurl }}/bit-vector) instead.
+
 
 ```js
 var BitSet = require('mnemonist/bit-set');
