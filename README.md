@@ -38,10 +38,10 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 * [Hashed Array Tree](https://yomguithereal.github.io/mnemonist/hashed-array-tree)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
-* [Dynamic Arrays](https://yomguithereal.github.io/mnemonist/dynamic-array)
 * [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
+* [Vector](https://yomguithereal.github.io/mnemonist/vector)
 
 **Information retrieval & Natural language processing**
 

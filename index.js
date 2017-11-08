@@ -15,7 +15,6 @@ module.exports = {
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
   StaticDisjointSet: require('./static-disjoint-set.js'),
-  DynamicArray: require('./dynamic-array.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,
@@ -38,5 +37,6 @@ module.exports = {
   SparseSet: require('./sparse-set.js'),
   SymSpell: require('./symspell.js'),
   Trie: require('./trie.js'),
+  Vector: require('./vector.js'),
   VPTree: require('./vp-tree.js')
 };

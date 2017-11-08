@@ -1,6 +1,6 @@
 /**
- * Mnemonist DynamicBitSet
- * ========================
+ * Mnemonist BitVector
+ * ====================
  *
  * JavaScript implementation of a dynamic BitSet based upon a Uint32Array.
  *
@@ -26,11 +26,11 @@ function createByteArray(capacity) {
 }
 
 /**
- * DynamicBitSet.
+ * BitVector.
  *
  * @constructor
  */
-function DynamicBitSet(initialLengthOrOptions) {
+function BitVector(initialLengthOrOptions) {
   var initialLength = initialLengthOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY;
 
@@ -55,13 +55,13 @@ function DynamicBitSet(initialLengthOrOptions) {
  *
  * @param  {number} index - Target bit index.
  * @param  {number|boolean} value - Value to set.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.set = function(index, value) {
+BitVector.prototype.set = function(index, value) {
 
   // Out of bounds?
   if (this.length < index)
-    throw new Error('DynamicBitSet.set: index out of bounds.');
+    throw new Error('BitVector.set: index out of bounds.');
 
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
@@ -86,9 +86,9 @@ DynamicBitSet.prototype.set = function(index, value) {
 * Method used to reset the given bit's value.
 *
 * @param  {number} index - Target bit index.
-* @return {DynamicBitSet}
+* @return {BitVector}
 */
-DynamicBitSet.prototype.reset = function(index) {
+BitVector.prototype.reset = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
       oldBytes = this.array[byteIndex],
@@ -107,9 +107,9 @@ DynamicBitSet.prototype.reset = function(index) {
  * Method used to flip the value of the given bit.
  *
  * @param  {number} index - Target bit index.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.flip = function(index) {
+BitVector.prototype.flip = function(index) {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f,
       oldBytes = this.array[byteIndex];
@@ -131,7 +131,7 @@ DynamicBitSet.prototype.flip = function(index) {
  * @param  {number} [override] - Override capacity.
  * @return {number}
  */
-DynamicBitSet.prototype.applyPolicy = function(override) {
+BitVector.prototype.applyPolicy = function(override) {
   var newCapacity = this.policy(override || this.capacity);
 
   if (typeof newCapacity !== 'number' || newCapacity < 0)
@@ -150,9 +150,9 @@ DynamicBitSet.prototype.applyPolicy = function(override) {
  * Method used to reallocate the underlying array.
  *
  * @param  {number}       capacity - Target capacity.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.reallocate = function(capacity) {
+BitVector.prototype.reallocate = function(capacity) {
   var virtualCapacity = capacity;
 
   capacity = Math.ceil(capacity / 32) * 32;
@@ -178,9 +178,9 @@ DynamicBitSet.prototype.reallocate = function(capacity) {
  * Method used to grow the array.
  *
  * @param  {number}       [capacity] - Optional capacity to match.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.grow = function(capacity) {
+BitVector.prototype.grow = function(capacity) {
   var newCapacity;
 
   if (typeof capacity === 'number') {
@@ -210,9 +210,9 @@ DynamicBitSet.prototype.grow = function(capacity) {
  * Method used to resize the array. Won't deallocate.
  *
  * @param  {number}       length - Target length.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.resize = function(length) {
+BitVector.prototype.resize = function(length) {
   if (length === this.length)
     return this;
 
@@ -231,9 +231,9 @@ DynamicBitSet.prototype.resize = function(length) {
  * Method used to push a value in the set.
  *
  * @param  {number|boolean} value
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.push = function(value) {
+BitVector.prototype.push = function(value) {
   if (this.capacity === this.length)
     this.grow();
 
@@ -256,7 +256,7 @@ DynamicBitSet.prototype.push = function(value) {
  *
  * @return {number} - The popped value.
  */
-DynamicBitSet.prototype.pop = function() {
+BitVector.prototype.pop = function() {
   if (this.length === 0)
     return;
 
@@ -274,7 +274,7 @@ DynamicBitSet.prototype.pop = function() {
  * @param  {number} index - Target bit index.
  * @return {number}
  */
-DynamicBitSet.prototype.get = function(index) {
+BitVector.prototype.get = function(index) {
   if (this.length < index)
     return undefined;
 
@@ -288,9 +288,9 @@ DynamicBitSet.prototype.get = function(index) {
  * Method used to test the given bit's value.
  *
  * @param  {number} index - Target bit index.
- * @return {DynamicBitSet}
+ * @return {BitVector}
  */
-DynamicBitSet.prototype.test = function(index) {
+BitVector.prototype.test = function(index) {
   if (this.length < index)
     return false;
 
@@ -304,7 +304,7 @@ DynamicBitSet.prototype.test = function(index) {
  * @param  {number} i - Ith index (cannot be > length).
  * @return {number}
  */
-DynamicBitSet.prototype.rank = function(i) {
+BitVector.prototype.rank = function(i) {
   if (this.size === 0)
     return 0;
 
@@ -335,7 +335,7 @@ DynamicBitSet.prototype.rank = function(i) {
  * @param  {number} r - Rth 1 to select (should be < length).
  * @return {number}
  */
-DynamicBitSet.prototype.select = function(r) {
+BitVector.prototype.select = function(r) {
   if (this.size === 0)
     return -1;
 
@@ -376,7 +376,7 @@ DynamicBitSet.prototype.select = function(r) {
  * @param  {object}    scope    - Optional scope.
  * @return {undefined}
  */
-DynamicBitSet.prototype.forEach = function(callback, scope) {
+BitVector.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
   var byte,
@@ -400,7 +400,7 @@ DynamicBitSet.prototype.forEach = function(callback, scope) {
  *
  * @return {Iterator}
  */
-DynamicBitSet.prototype.values = function() {
+BitVector.prototype.values = function() {
   var length = this.length,
       inner = false,
       byte,
@@ -445,7 +445,7 @@ DynamicBitSet.prototype.values = function() {
  *
  * @return {Iterator}
  */
-DynamicBitSet.prototype.entries = function() {
+BitVector.prototype.entries = function() {
   var length = this.length,
       inner = false,
       byte,
@@ -491,12 +491,12 @@ DynamicBitSet.prototype.entries = function() {
  * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  DynamicBitSet.prototype[Symbol.iterator] = DynamicBitSet.prototype.values;
+  BitVector.prototype[Symbol.iterator] = BitVector.prototype.values;
 
 /**
  * Convenience known methods.
  */
-DynamicBitSet.prototype.inspect = function() {
+BitVector.prototype.inspect = function() {
   var proxy = new Uint8Array(this.length);
 
   this.forEach(function(bit, i) {
@@ -505,18 +505,18 @@ DynamicBitSet.prototype.inspect = function() {
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
-    value: DynamicBitSet,
+    value: BitVector,
     enumerable: false
   });
 
   return proxy;
 };
 
-DynamicBitSet.prototype.toJSON = function() {
+BitVector.prototype.toJSON = function() {
   return this.array;
 };
 
 /**
  * Exporting.
  */
-module.exports = DynamicBitSet;
+module.exports = BitVector;

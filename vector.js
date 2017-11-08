@@ -1,6 +1,6 @@
 /**
- * Mnemonist DynamicArray
- * =======================
+ * Mnemonist Vector
+ * =================
  *
  * Abstract implementation of a growing array that can be used with JavaScript
  * typed arrays and other array-like structures.
@@ -16,7 +16,7 @@ var DEFAULT_GROWING_POLICY = function(currentCapacity) {
 };
 
 /**
- * DynamicArray.
+ * Vector.
  *
  * @constructor
  * @param {function}      ArrayClass             - An array constructor.
@@ -25,7 +25,7 @@ var DEFAULT_GROWING_POLICY = function(currentCapacity) {
  * @param {number}        initialLength            - Initial length.
  * @param {function}      policy                   - Allocation policy.
  */
-function DynamicArray(ArrayClass, initialCapacityOrOptions) {
+function Vector(ArrayClass, initialCapacityOrOptions) {
   if (arguments.length < 1)
     throw new Error('mnemonist/dynamic-array: expecting at least a byte array constructor.');
 
@@ -51,13 +51,13 @@ function DynamicArray(ArrayClass, initialCapacityOrOptions) {
  *
  * @param  {number} index - Index to edit.
  * @param  {any}    value - Value.
- * @return {DynamicArray}
+ * @return {Vector}
  */
-DynamicArray.prototype.set = function(index, value) {
+Vector.prototype.set = function(index, value) {
 
   // Out of bounds?
   if (this.length < index)
-    throw new Error('DynamicArray(' + this.ArrayClass.name + ').set: index out of bounds.');
+    throw new Error('Vector(' + this.ArrayClass.name + ').set: index out of bounds.');
 
   // Updating value
   this.array[index] = value;
@@ -71,7 +71,7 @@ DynamicArray.prototype.set = function(index, value) {
  * @param  {number} index - Index to retrieve.
  * @return {any}
  */
-DynamicArray.prototype.get = function(index) {
+Vector.prototype.get = function(index) {
   if (this.length < index)
     return undefined;
 
@@ -84,7 +84,7 @@ DynamicArray.prototype.get = function(index) {
  * @param  {number} [override] - Override capacity.
  * @return {number}
  */
-DynamicArray.prototype.applyPolicy = function(override) {
+Vector.prototype.applyPolicy = function(override) {
   var newCapacity = this.policy(override || this.capacity);
 
   if (typeof newCapacity !== 'number' || newCapacity < 0)
@@ -101,9 +101,9 @@ DynamicArray.prototype.applyPolicy = function(override) {
  * Method used to reallocate the underlying array.
  *
  * @param  {number}       capacity - Target capacity.
- * @return {DynamicArray}
+ * @return {Vector}
  */
-DynamicArray.prototype.reallocate = function(capacity) {
+Vector.prototype.reallocate = function(capacity) {
   if (capacity === this.capacity)
     return this;
 
@@ -125,9 +125,9 @@ DynamicArray.prototype.reallocate = function(capacity) {
  * Method used to grow the array.
  *
  * @param  {number}       [capacity] - Optional capacity to match.
- * @return {DynamicArray}
+ * @return {Vector}
  */
-DynamicArray.prototype.grow = function(capacity) {
+Vector.prototype.grow = function(capacity) {
   var newCapacity;
 
   if (typeof capacity === 'number') {
@@ -157,9 +157,9 @@ DynamicArray.prototype.grow = function(capacity) {
  * Method used to resize the array. Won't deallocate.
  *
  * @param  {number}       length - Target length.
- * @return {DynamicArray}
+ * @return {Vector}
  */
-DynamicArray.prototype.resize = function(length) {
+Vector.prototype.resize = function(length) {
   if (length === this.length)
     return this;
 
@@ -180,7 +180,7 @@ DynamicArray.prototype.resize = function(length) {
  * @param  {any}    value - Value to push.
  * @return {number}       - Length of the array.
  */
-DynamicArray.prototype.push = function(value) {
+Vector.prototype.push = function(value) {
   if (this.capacity === this.length)
     this.grow();
 
@@ -194,7 +194,7 @@ DynamicArray.prototype.push = function(value) {
  *
  * @return {number} - The popped value.
  */
-DynamicArray.prototype.pop = function() {
+Vector.prototype.pop = function() {
   if (this.length === 0)
     return;
 
@@ -204,7 +204,7 @@ DynamicArray.prototype.pop = function() {
 /**
  * Convenience known methods.
  */
-DynamicArray.prototype.inspect = function() {
+Vector.prototype.inspect = function() {
   var proxy = this.array.slice(0, this.length);
 
   proxy.type = this.ArrayClass.name;
@@ -213,7 +213,7 @@ DynamicArray.prototype.inspect = function() {
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
-    value: DynamicArray,
+    value: Vector,
     enumerable: false
   });
 
@@ -225,25 +225,25 @@ DynamicArray.prototype.inspect = function() {
  */
 function subClass(ArrayClass) {
   var SubClass = function(initialCapacityOrOptions) {
-    DynamicArray.call(this, ArrayClass, initialCapacityOrOptions);
+    Vector.call(this, ArrayClass, initialCapacityOrOptions);
   };
 
-  for (var k in DynamicArray.prototype) {
-    if (DynamicArray.prototype.hasOwnProperty(k))
-      SubClass.prototype[k] = DynamicArray.prototype[k];
+  for (var k in Vector.prototype) {
+    if (Vector.prototype.hasOwnProperty(k))
+      SubClass.prototype[k] = Vector.prototype[k];
   }
 
   return SubClass;
 }
 
-DynamicArray.DynamicInt8Array = subClass(Int8Array);
-DynamicArray.DynamicUint8Array = subClass(Uint8Array);
-DynamicArray.DynamicUint8ClampedArray = subClass(Uint8ClampedArray);
-DynamicArray.DynamicInt16Array = subClass(Int16Array);
-DynamicArray.DynamicUint16Array = subClass(Uint16Array);
-DynamicArray.DynamicInt32Array = subClass(Int32Array);
-DynamicArray.DynamicUint32Array = subClass(Uint32Array);
-DynamicArray.DynamicFloat32Array = subClass(Float32Array);
-DynamicArray.DynamicFloat64Array = subClass(Float64Array);
+Vector.Int8Vector = subClass(Int8Array);
+Vector.Uint8Vector = subClass(Uint8Array);
+Vector.Uint8Vector = subClass(Uint8ClampedArray);
+Vector.Int16Vector = subClass(Int16Array);
+Vector.Uint16Vector = subClass(Uint16Array);
+Vector.Int32Vector = subClass(Int32Array);
+Vector.Uint32Vector = subClass(Uint32Array);
+Vector.Float32Vector = subClass(Float32Array);
+Vector.Float64Vector = subClass(Float64Array);
 
-module.exports = DynamicArray;
+module.exports = Vector;
