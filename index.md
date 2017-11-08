@@ -68,6 +68,7 @@ npm install --save mnemonist
 **Probabilistic & succinct data structures**
 
 * [BitSet]({{ site.baseurl }}/bit-set)
+* [BitVector]({{ site.baseurl }}/bit-vector)
 * [Bloom Filter]({{ site.baseurl }}/bloom-filter)
 
 **Utility classes**

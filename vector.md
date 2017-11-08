@@ -47,8 +47,8 @@ var vector = new Vector.Float64Vector(initialCapacity);
 
 ## Members
 
-* [#.capacity](#capacity)
 * [#.array](#array)
+* [#.capacity](#capacity)
 * [#.length](#length)
 
 ## Methods
@@ -65,20 +65,6 @@ var vector = new Vector.Float64Vector(initialCapacity);
 *Read*
 
 * [#.get](#get)
-
-### #.capacity
-
-Real length of the underlying array, i.e. the maximum number of items the array can hold before needing to resize. Not to be confused with [#.length](#length).
-
-```js
-var vector = new Vector(Uint8Array, 10);
-
-vector.push(1);
-vector.push(2);
-
-vector.capacity
->>> 10
-```
 
 ### #.array
 
@@ -109,9 +95,23 @@ vector.array
 >>> [1, 2, 3, 4, 5, 0] // The underlying array has grown!
 ```
 
+### #.capacity
+
+Real length of the underlying array, i.e. the maximum number of items the array can hold before needing to resize. Not to be confused with [#.length](#length).
+
+```js
+var vector = new Vector(Uint8Array, 10);
+
+vector.push(1);
+vector.push(2);
+
+vector.capacity
+>>> 10
+```
+
 ### #.length
 
-Current length of the array, that is to say the last set index plus one.
+Current length of the vector, that is to say the last set index plus one.
 
 ```js
 var vector = new Vector(Uint8Array, 10);
@@ -125,7 +125,7 @@ vector.length
 
 ### #.grow
 
-Applies the growing policy once and reallocates the underlying vector.
+Applies the growing policy once and reallocates the underlying array.
 
 If given a number, will run the growing policy until we attain a suitable capacity.
 
@@ -189,7 +189,7 @@ vector.get(1);
 
 ### #.reallocate
 
-Reallocates the underlying array and truncates the length if needed.
+Reallocates the underlying array and truncates length if needed.
 
 ```js
 var vector = new Vector(Uint8Array, 3);
@@ -204,7 +204,7 @@ vector.reallocate(5);
 
 ### #.resize
 
-Resize the array's length. Will reallocate if current capacity is insufficient.
+Resize the vector's length. Will reallocate if current capacity is insufficient.
 
 Note that it won't deallocate if the given length is inferior to the current one. You can use [#.reallocate](#reallocate) for that.
 
