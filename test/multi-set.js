@@ -264,4 +264,20 @@ describe('MultiSet', function() {
 
     assert.strictEqual(set.multiplicity('hello'), 2);
   });
+
+  it('should throw when passed non-numbers as counts.', function() {
+    var set = new MultiSet();
+
+    assert.throws(function() {
+      set.add('test', '56');
+    }, /number/);
+
+    assert.throws(function() {
+      set.set('test', '56');
+    }, /number/);
+
+    assert.throws(function() {
+      set.remove('test', '56');
+    }, /number/);
+  });
 });

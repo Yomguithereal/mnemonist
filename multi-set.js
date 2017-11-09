@@ -54,6 +54,9 @@ MultiSet.prototype.add = function(item, count) {
 
   count = count || 1;
 
+  if (typeof count !== 'number')
+    throw new Error('mnemonist/multi-set.add: given count should be a number.');
+
   this.size += count;
 
   const currentCount = this.items.get(item);
@@ -77,6 +80,9 @@ MultiSet.prototype.add = function(item, count) {
  */
 MultiSet.prototype.set = function(item, count) {
   var currentCount;
+
+  if (typeof count !== 'number')
+    throw new Error('mnemonist/multi-set.set: given count should be a number.');
 
   // Setting an item to 0 or to a negative number means deleting it from the set
   if (count <= 0) {
@@ -152,6 +158,9 @@ MultiSet.prototype.remove = function(item, count) {
     return this.add(item, -count);
 
   count = count || 1;
+
+  if (typeof count !== 'number')
+    throw new Error('mnemonist/multi-set.remove: given count should be a number.');
 
   var currentCount = this.multiplicity(item),
       newCount = Math.max(0, currentCount - count);

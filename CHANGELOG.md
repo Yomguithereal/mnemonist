@@ -3,6 +3,7 @@
 ## 0.18.O
 
 * Adding `#.keys` to `MultiSet`.
+* Fixing bug when feeding invalid values to a `MultiSet`.
 
 ## 0.17.0
 

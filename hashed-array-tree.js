@@ -27,7 +27,7 @@ function powerOfTwo(x) {
  */
 function HashedArrayTree(ArrayClass, initialCapacityOrOptions) {
   if (arguments.length < 1)
-    throw new Error('mnemonist/hashed-array)-tree: expecting at least a byte array constructor.');
+    throw new Error('mnemonist/hashed-array-tree: expecting at least a byte array constructor.');
 
   var initialCapacity = initialCapacityOrOptions || 0,
       blockSize = DEFAULT_BLOCK_SIZE,
