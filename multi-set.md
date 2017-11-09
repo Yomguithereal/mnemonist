@@ -49,6 +49,7 @@ var set = MultiSet.from([1, 2, 3]);
 *Iteration*
 
 * [#.forEach](#foreach)
+* [#.keys](#keys)
 * [#.values](#values)
 * [#.multiplicities](#multiplicities)
 * [Iterable](#iterable)
@@ -247,18 +248,38 @@ set.forEach(function(value) {
 >>> 'hello'
 ```
 
-### #.values
+### #.keys
 
-Returns an iterator over the set's values.
+Returns an iterator over the set's keys, i.e. the set's unique values.
 
 ```js
 var set = new MultiSet();
 
-set.add('hello');
+set.add('hello', 4);
+set.add('world', 5);
+
+var iterator = set.keys();
+
+iterator.next().value
+>>> 'hello'
+iterator.next().value
+>>> 'world'
+```
+
+### #.values
+
+Returns an iterator over the set's repeated values.
+
+```js
+var set = new MultiSet();
+
+set.add('hello', 2);
 set.add('world');
 
 var iterator = set.values();
 
+iterator.next().value
+>>> 'hello'
 iterator.next().value
 >>> 'hello'
 ```
