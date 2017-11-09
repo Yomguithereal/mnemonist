@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.O
+
+* Adding `#.keys` to `MultiSet`.
+
 ## 0.17.0
 
 * Adding `HashedArrayTree`.

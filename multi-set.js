@@ -241,6 +241,16 @@ MultiSet.prototype.forEach = function(callback, scope) {
 };
 
 /**
+ * Method returning an iterator over the set's keys. I.e. its unique values,
+ * in a sense.
+ *
+ * @return {Iterator}
+ */
+MultiSet.prototype.keys = function() {
+  return this.items.keys();
+};
+
+/**
  * Method returning an iterator over the set's values.
  *
  * @return {Iterator}

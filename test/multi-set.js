@@ -209,6 +209,20 @@ describe('MultiSet', function() {
     assert.strictEqual(iterator.next().done, true);
   });
 
+  it('should be possible to create an iterator over a set\'s distinct values.', function() {
+    var set = new MultiSet();
+
+    set.add('hello', 46);
+    set.add('world', 1);
+    set.add('test', 0);
+
+    var iterator = set.keys();
+
+    assert.strictEqual(iterator.next().value, 'hello');
+    assert.strictEqual(iterator.next().value, 'world');
+    assert.strictEqual(iterator.next().done, true);
+  });
+
   it('should be possible to create an iterator over a set\'s multiplicities.', function() {
     var set = new MultiSet();
 
