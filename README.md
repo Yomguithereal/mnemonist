@@ -36,6 +36,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 **Low-level & structures for very specific use cases**
 
+* [Finite Stack](https://yomguithereal.github.io/mnemonist/finite-stack)
 * [Hashed Array Tree](https://yomguithereal.github.io/mnemonist/hashed-array-tree)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
 * [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)

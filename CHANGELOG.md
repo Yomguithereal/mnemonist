@@ -2,10 +2,12 @@
 
 ## 0.18.O (provisional)
 
+* Adding `FiniteStack`.
 * Adding `#.keys` to `MultiSet`.
 * Adding `#.count` alias to `MultiSet`.
 * Adding `#.count` alias to `MultiMap`.
 * Fixing bug when feeding invalid values to a `MultiSet`.
+* Fixing `.from` static methods not taking byte arrays into account.
 * Optimizing `Stack` performance.
 
 ## 0.17.0
