@@ -17,6 +17,7 @@ var iterateOver = require('./utils/iterate.js'),
 
 // TODO: implement better selection technique for the vantage point
 // The one minimizing spread of sample using stdev is usually the accepted one
+// TODO: rationalize registers. use getArrayPointers to optimize memory
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.

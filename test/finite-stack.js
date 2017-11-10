@@ -110,6 +110,8 @@ describe('FiniteStack', function() {
     stack.push(3);
 
     assert.deepEqual(stack.toArray(), [3, 2, 1]);
+
+    assert(stack.toArray() instanceof Uint8Array);
   });
 
   it('should be possible to create a stack from an arbitrary iterable.', function() {
