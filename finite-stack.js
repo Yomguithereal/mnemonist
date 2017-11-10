@@ -98,7 +98,7 @@ FiniteStack.prototype.forEach = function(callback, scope) {
  * @return {array}
  */
 FiniteStack.prototype.toArray = function() {
-  var array = new Array(this.size),
+  var array = new this.ArrayClass(this.size),
       l = this.size - 1,
       i = this.size;
 
