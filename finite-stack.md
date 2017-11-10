@@ -3,7 +3,7 @@ layout: page
 title: Finite Stack
 ---
 
-The `FiniteStack` is a more performant implementation of the [`FiniteStack`]({{ site.baseurl }}/finite-stack) requiring a fixed capacity.
+The `FiniteStack` is a more performant implementation of the [`Stack`]({{ site.baseurl }}/stack) requiring a fixed capacity.
 
 This means, however, that you must know beforehand the maximum size your stack will have during iteration (which is often possible - when performing the DFS traversal of a balanced binary tree, for instance).
 

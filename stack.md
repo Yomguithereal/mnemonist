@@ -9,6 +9,8 @@ This just means that inserted items will get out in the reversed insertion order
 
 For more information about the Stack, you can head [here](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
 
+Note that if you know the maximum size your stack will have and if you want a more performant stack implementation, you can check the [`FiniteStack`]({{ site.baseurl }}/finite-stack).
+
 ```js
 var Stack = require('mnemonist/stack');
 ```
