@@ -41,6 +41,7 @@ var set = MultiSet.from([1, 2, 3]);
 
 *Read*
 
+* [#.count](#count)
 * [#.frequency](#frequency)
 * [#.has](#has)
 * [#.get](#get)
@@ -184,6 +185,10 @@ set.clear();
 set.size
 >>> 0
 ```
+
+### #.count
+
+Same as [#.multiplicity](#multiplicity) below.
 
 ### #.frequency
 

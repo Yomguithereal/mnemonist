@@ -45,6 +45,7 @@ var map = MultiMap.from([1, 2, 3], container);
 
 *Read*
 
+* [#.count](#count)
 * [#.has](#has)
 * [#.get](#get)
 * [#.multiplicity](#multiplicity)
@@ -132,6 +133,10 @@ map.clear();
 map.size
 >>> 0
 ```
+
+### #.count
+
+Same as [#.multiplicity](#multiplicity) below.
 
 ### #.has
 
