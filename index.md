@@ -46,6 +46,7 @@ npm install --save mnemonist
 
 **Low-level & structures for very specific use cases**
 
+* [Finite Stack]({{ site.baseurl }}/finite-stack)
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
 * [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
 * [SparseSet]({{ site.baseurl }}/sparse-set)

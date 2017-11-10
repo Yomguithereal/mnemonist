@@ -40,7 +40,7 @@ The `Stack` takes no argument.
 Alternatively, one can build a `Stack` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = Stack.from([1, 2, 3]);
+var stack = Stack.from([1, 2, 3]);
 ```
 
 ## Members
