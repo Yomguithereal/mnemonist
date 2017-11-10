@@ -46,6 +46,9 @@ Stack.prototype.push = function(item) {
  * @return {any}
  */
 Stack.prototype.pop = function() {
+  if (this.size === 0)
+    return;
+
   this.size--;
   return this.items.pop();
 };

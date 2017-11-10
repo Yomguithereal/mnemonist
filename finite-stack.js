@@ -66,6 +66,9 @@ FiniteStack.prototype.push = function(item) {
  * @return {any}
  */
 FiniteStack.prototype.pop = function() {
+  if (this.size === 0)
+    return;
+
   return this.items[--this.size];
 };
 
