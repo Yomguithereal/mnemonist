@@ -56,7 +56,7 @@ Stack.prototype.pop = function() {
  * @return {any}
  */
 Stack.prototype.peek = function() {
-  return this.items[this.items.length - 1];
+  return this.items[this.size - 1];
 };
 
 /**
@@ -79,7 +79,14 @@ Stack.prototype.forEach = function(callback, scope) {
  * @return {array}
  */
 Stack.prototype.toArray = function() {
-  return this.items.slice(0).reverse();
+  var array = new Array(this.size),
+      l = this.size - 1,
+      i = this.size;
+
+  while (i--)
+    array[i] = this.items[l - i];
+
+  return array;
 };
 
 /**

@@ -6,6 +6,7 @@
 * Adding `#.count` alias to `MultiSet`.
 * Adding `#.count` alias to `MultiMap`.
 * Fixing bug when feeding invalid values to a `MultiSet`.
+* Optimizing `Stack` performance.
 
 ## 0.17.0
 
