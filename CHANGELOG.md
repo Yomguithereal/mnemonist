@@ -1,8 +1,10 @@
 # Changelog
 
-## 0.18.O
+## 0.18.O (provisional)
 
 * Adding `#.keys` to `MultiSet`.
+* Adding `#.count` alias to `MultiSet`.
+* Adding `#.count` alias to `MultiMap`.
 * Fixing bug when feeding invalid values to a `MultiSet`.
 
 ## 0.17.0

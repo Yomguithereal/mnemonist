@@ -123,6 +123,7 @@ MultiMap.prototype.multiplicity = function(key) {
 
   return this.Container === Set ? container.size : container.length;
 };
+MultiMap.prototype.count = MultiMap.prototype.multiplicity;
 
 /**
  * Method used to iterate over each of the key/value pairs.
