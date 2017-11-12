@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.18.O (provisional)
+## 0.18.O
 
 * Adding `FiniteStack`.
 * Adding `#.keys` to `MultiSet`.
