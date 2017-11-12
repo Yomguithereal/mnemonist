@@ -41,6 +41,7 @@ var map = MultiMap.from([1, 2, 3], container);
 
 * [#.set](#set)
 * [#.delete](#delete)
+* [#.remove](#remove)
 * [#.clear](#clear)
 
 *Read*
@@ -116,6 +117,23 @@ map.get('J');
 map.delete('J');
 map.get('J');
 >>> []
+```
+
+### #.remove
+
+Removes a value from the container stored at the provided key.
+
+Note that it will remove only one such value from array-like containers.
+
+```js
+var map = new MultiMap();
+
+map.set('one', 'Hello');
+
+map.remove('one', 'Hello');
+
+map.get('one');
+>>> undefined
 ```
 
 ### #.clear
