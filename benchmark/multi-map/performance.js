@@ -1,3 +1,7 @@
+/**
+ * Tests seem to indicate that the test used to fork between Set/Array behavior
+ * within methods has a negligible performance impact.
+ */
 var MultiMap = require('../../multi-map.js');
 var randomString = require('pandemonium/random-string');
 

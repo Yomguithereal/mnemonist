@@ -3,7 +3,8 @@
  * ==============================
  */
 var assert = require('assert'),
-    MultiMap = require('../multi-map.js');
+    MultiMap = require('../multi-map.js'),
+    Vector = require('../vector.js');
 
 describe('MultiMap', function() {
 
@@ -269,5 +270,17 @@ describe('MultiMap', function() {
     assert.strictEqual(map.size, 2);
     assert.strictEqual(map.dimension, 2);
     assert.deepEqual(map.get('one'), ['hello']);
+  });
+
+  it('should work with vectors.', function() {
+    var map = new MultiMap(Vector.Uint8Vector);
+
+    map.set('one', 45);
+    map.set('two', 32);
+    map.set('one', 9);
+
+    assert.strictEqual(map.size, 3);
+    assert.strictEqual(map.dimension, 2);
+    assert.deepEqual(Array.from(map.get('one')), [45, 9]);
   });
 });

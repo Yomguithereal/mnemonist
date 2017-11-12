@@ -6,6 +6,9 @@
 * Adding `#.keys` to `MultiSet`.
 * Adding `#.count` alias to `MultiSet`.
 * Adding `#.count` alias to `MultiMap`.
+* Adding `Vector.from`.
+* Adding `#.values` to `Vector`.
+* Adding `#.entries` to `Vector`.
 * Fixing bug when feeding invalid values to a `MultiSet`.
 * Fixing `.from` static methods not taking byte arrays into account.
 * Fixing bugs related to `Stack.pop` edge cases. 

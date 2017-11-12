@@ -7,6 +7,8 @@
  *
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
+var Iterator = require('obliterator/iterator'),
+    iterate = require('./utils/iterate.js');
 
 /**
  * Defaults.
@@ -202,6 +204,63 @@ Vector.prototype.pop = function() {
 };
 
 /**
+ * Method used to create an iterator over a vector's values.
+ *
+ * @return {Iterator}
+ */
+Vector.prototype.values = function() {
+  var items = this.array,
+      l = this.length,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {
+        done: true
+      };
+
+    var value = items[i];
+    i++;
+
+    return {
+      value: value,
+      done: false
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a vector's entries.
+ *
+ * @return {Iterator}
+ */
+Vector.prototype.entries = function() {
+  var items = this.array,
+      l = this.length,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {
+        done: true
+      };
+
+    var value = items[i];
+
+    return {
+      value: [i++, value],
+      done: false
+    };
+  });
+};
+
+/**
+ * Attaching the #.values method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  Vector.prototype[Symbol.iterator] = Vector.prototype.values;
+
+/**
  * Convenience known methods.
  */
 Vector.prototype.inspect = function() {
@@ -221,6 +280,35 @@ Vector.prototype.inspect = function() {
 };
 
 /**
+ * Static @.from function taking an abitrary iterable & converting it into
+ * a vector.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @param  {function} ArrayClass - Byte array class.
+ * @param  {number}   capacity   - Desired capacity.
+ * @return {Vector}
+ */
+Vector.from = function(iterable, ArrayClass, capacity) {
+
+  if (arguments.length < 3) {
+
+    // Attempting to guess the needed capacity
+    capacity = iterate.guessLength(iterable);
+
+    if (typeof capacity !== 'number')
+      throw new Error('mnemonist/vector.from: could not guess iterable length. Please provide desired capacity as last argument.');
+  }
+
+  var vector = new Vector(ArrayClass, capacity);
+
+  iterate(iterable, function(value) {
+    vector.push(value);
+  });
+
+  return vector;
+};
+
+/**
  * Exporting.
  */
 function subClass(ArrayClass) {
@@ -232,6 +320,13 @@ function subClass(ArrayClass) {
     if (Vector.prototype.hasOwnProperty(k))
       SubClass.prototype[k] = Vector.prototype[k];
   }
+
+  SubClass.from = function(iterable, capacity) {
+    return Vector.from(iterable, ArrayClass, capacity);
+  };
+
+  if (typeof Symbol !== 'undefined')
+    SubClass.prototype[Symbol.iterator] = SubClass.prototype.values;
 
   return SubClass;
 }
