@@ -45,6 +45,21 @@ var vector = new Vector.Float32Vector(initialCapacity);
 var vector = new Vector.Float64Vector(initialCapacity);
 ```
 
+### Static #.from
+
+Alternatively, one can build a `Vector` from an arbitrary JavaScript iterable likewise:
+
+```js
+// Attempting the guess the given iterable's length/size
+var vector = Vector.from([1, 2, 3], Int8Array);
+
+// Providing the desired capacity
+var vector = Vector.from([1, 2, 3], Int8Array, 10);
+
+// Subclasses also have a static #.from
+var vector = Vector.Uint16Vector.from([1, 2, 3]);
+```
+
 ## Members
 
 * [#.array](#array)
@@ -65,6 +80,13 @@ var vector = new Vector.Float64Vector(initialCapacity);
 *Read*
 
 * [#.get](#get)
+
+*Iteration*
+
+* [#.forEach](#foreach)
+* [#.values](#values)
+* [#.entries](#entries)
+* [Iterable](#iterable)
 
 ### #.array
 
@@ -239,4 +261,57 @@ vector.push(4);
 
 vector.get(1);
 >>> 2
+```
+
+### #.forEach
+
+Iterates over the vector's items.
+
+```js
+var vector = new Vector(Array, 10);
+
+stack.push(1);
+stack.push(2);
+
+stack.forEach(function(item, index, stack) {
+  console.log(index, item);
+});
+```
+
+### #.values
+
+Returns an iterator over the vector's values.
+
+```js
+var vector = Vector.from([1, 2, 3], Uint8Array);
+
+var iterator = vector.values();
+
+iterator.next().value
+>>> 3
+```
+
+### #.entries
+
+Returns an iterator over the vector's entries.
+
+```js
+var vector = Vector.from([1, 2, 3], Uint8Array);
+
+var iterator = vector.entries();
+
+iterator.next().value
+>>> [0, 3]
+```
+
+### Iterable
+
+Alternatively, you can iterate over a vector's values using ES2015 `for...of` protocol:
+
+```js
+var vector = Vector.from([1, 2, 3], Uint8Array);
+
+for (var item of vector) {
+  console.log(item);
+}
 ```
