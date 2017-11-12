@@ -6,6 +6,7 @@
 * Adding `#.keys` to `MultiSet`.
 * Adding `#.count` alias to `MultiSet`.
 * Adding `#.count` alias to `MultiMap`.
+* Adding `#.remove` to `MultiMap`.
 * Adding `Vector.from`.
 * Adding `#.values` to `Vector`.
 * Adding `#.entries` to `Vector`.

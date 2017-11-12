@@ -11,5 +11,5 @@ var map = new MultiMap();
 
 console.time('#.set');
 for (var i = 0; i < SIZE; i++)
-  map.set(i, randomString(i % 25));
+  map.set(i % 1000, randomString(i % 25));
 console.timeEnd('#.set');

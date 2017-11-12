@@ -78,14 +78,63 @@ MultiMap.prototype.set = function(key, value) {
 MultiMap.prototype.delete = function(key) {
   var container = this.items.get(key);
 
-  if (container) {
-    this.size -= (this.Container === Set ? container.size : container.length);
-    this.dimension--;
-  }
+  if (!container)
+    return false;
 
+  this.size -= (this.Container === Set ? container.size : container.length);
+  this.dimension--;
   this.items.delete(key);
 
-  return !!container;
+  return true;
+};
+
+/**
+ * Method used to delete the remove an item in the container stored at the
+ * given key.
+ *
+ * @param  {any}     key - Key to delete.
+ * @return {boolean}
+ */
+MultiMap.prototype.remove = function(key, value) {
+  var container = this.items.get(key),
+      wasDeleted,
+      index;
+
+  if (!container)
+    return false;
+
+  if (this.Container === Set) {
+    wasDeleted = container.delete(value);
+
+    if (wasDeleted)
+      this.size--;
+
+    if (container.size === 0) {
+      this.items.delete(key);
+      this.dimension--;
+    }
+
+    return wasDeleted;
+  }
+  else {
+    index = container.indexOf(value);
+
+    if (index === -1)
+      return false;
+
+    this.size--;
+
+    if (container.length === 1) {
+      this.items.delete(key);
+      this.dimension--;
+
+      return true;
+    }
+
+    container.splice(index, 1);
+
+    return true;
+  }
 };
 
 /**

@@ -50,6 +50,56 @@ describe('MultiMap', function() {
     assert.strictEqual(map.multiplicity('two'), 1);
   });
 
+  it('should be possible to remove values.', function() {
+    var map = new MultiMap();
+
+    map.set('one', 1);
+    map.set('one', 2);
+    map.set('one', 1);
+
+    map.remove('one', 1);
+
+    assert.deepEqual(map.get('one'), [2, 1]);
+    assert.strictEqual(map.size, 2);
+    assert.strictEqual(map.dimension, 1);
+
+    map.remove('one', 1);
+
+    assert.deepEqual(map.get('one'), [2]);
+    assert.strictEqual(map.size, 1);
+    assert.strictEqual(map.dimension, 1);
+
+    map.remove('one', 1);
+
+    assert.deepEqual(map.get('one'), [2]);
+    assert.strictEqual(map.size, 1);
+    assert.strictEqual(map.dimension, 1);
+
+    map.remove('one', 2);
+
+    assert.strictEqual(map.get('one'), undefined);
+    assert.strictEqual(map.size, 0);
+    assert.strictEqual(map.dimension, 0);
+
+    map = new MultiMap(Set);
+
+    map.set('one', 1);
+    map.set('one', 2);
+    map.set('one', 1);
+
+    map.remove('one', 1);
+
+    assert.deepEqual(Array.from(map.get('one')), [2]);
+    assert.strictEqual(map.size, 1);
+    assert.strictEqual(map.dimension, 1);
+
+    map.remove('one', 2);
+
+    assert.strictEqual(map.get('one'), undefined);
+    assert.strictEqual(map.size, 0);
+    assert.strictEqual(map.dimension, 0);
+  });
+
   it('should be possible to delete keys.', function() {
     var map = new MultiMap();
 
