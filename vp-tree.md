@@ -7,7 +7,7 @@ A `VPTree` is a data structure used to index items in an arbitrary metric space 
 
 It works by choosing a point in the dataset and making it the "vantage point" of the node then splitting the remaining points into two children nodes one storing the nearest points and the other the farthest ones. It continues recursively until all points have been stored in the tree.
 
-One should know, however, that a `VPTree` has worst cases - mostly due to median ambiguity - and will often build trees that are not perfectly balanced. This is frequently the case, for instance, with datasets where everything stands close together or that are too small.
+However, one should keep in mind that a `VPTree` has worst cases - mostly due to median ambiguity - and will often build trees that are not perfectly balanced. This is frequently the case, for instance, with datasets where everything stands close together or that are too small.
 
 For more information about the `VPTree`, you can head [here](https://en.wikipedia.org/wiki/Vantage-point_tree).
 
@@ -17,17 +17,13 @@ var VPTree = require('mnemonist/vp-tree');
 
 ## Constructor
 
-The `VPTree` takes two arguments being the distance metric to use & the list of items to index (a `VPTree` does not support addition nor deletion).
-
-Note that the provided metric distance must be a [true metric](https://en.wikipedia.org/wiki/Metric_(mathematics)) else the tree will produce invalid results.
-
-```js
-var tree = new VPTree(distance, items);
-```
+Since you need to know the whole list of items to be indexed beforehand, you cannot construct the `VPTree`. Instead, you can only build one from an iterable using the static [`#.from`](#static-from) method.
 
 ### Static #.from
 
-Alternatively, one can build a `VPTree` from an arbitrary JavaScript iterable likewise:
+You need two things to be able to build a `VPTree`: a list of items to index and an arbitraty distance metric to use (the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance), for instance).
+
+Note that the provided metric distance must be a [true metric](https://en.wikipedia.org/wiki/Metric_(mathematics)) else the tree cannot work properly.
 
 ```js
 var tree = VPTree.from(['hello', 'mello'], distance);
