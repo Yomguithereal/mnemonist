@@ -3,7 +3,8 @@
  * ===========================
  */
 var assert = require('assert'),
-    iterate = require('../utils/iterate.js');
+    iterate = require('../utils/iterate.js'),
+    typed = require('../utils/typed-arrays.js');
 
 describe('utils', function() {
 
@@ -103,6 +104,26 @@ describe('utils', function() {
         assert.strictEqual(value, j + 1);
         assert.strictEqual(key, j);
         j++;
+      });
+    });
+  });
+
+  describe('typed-arrays', function() {
+
+    describe('#.getMinimalRepresentation', function() {
+
+      it('should return the correct type.', function() {
+
+        var tests = [
+          [[1, 2, 3, 4, 5], Uint8Array],
+          [[1, 2, -3, 4, 5], Int8Array],
+          [[1, 3, 4, 3.4], Float64Array]
+        ];
+
+        tests.forEach(function(test) {
+          var type = typed.getMinimalRepresentation(test[0]);
+          assert.strictEqual(type, test[1], test[0] + ' => ' + test[1].name + ' but got ' + type.name);
+        });
       });
     });
   });
