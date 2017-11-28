@@ -31,6 +31,7 @@ function FiniteStack(ArrayClass, capacity) {
 
   this.capacity = capacity;
   this.ArrayClass = ArrayClass;
+  this.items = new this.ArrayClass(this.capacity);
   this.clear();
 }
 
@@ -42,7 +43,6 @@ function FiniteStack(ArrayClass, capacity) {
 FiniteStack.prototype.clear = function() {
 
   // Properties
-  this.items = new this.ArrayClass(this.capacity);
   this.size = 0;
 };
 
