@@ -68,7 +68,8 @@
     "lodash": "^4.17.4",
     "matcha": "^0.7.0",
     "mocha": "^3.1.2",
-    "pandemonium": "^1.2.1"
+    "pandemonium": "^1.2.1",
+    "seedrandom": "^2.4.3"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",

@@ -1,5 +1,8 @@
 var StaticIntervalTree = require('../../static-interval-tree');
-var random = require('pandemonium/random');
+var createRandom = require('pandemonium/random').createRandom;
+var seedrandom = require('seedrandom');
+
+var random = createRandom(seedrandom('test'));
 
 var SIZE = 5000000;
 var MAX = 5000;
@@ -13,6 +16,8 @@ for (i = 0; i < SIZE; i++) {
 
   INTERVALS[i] = [s, e];
 }
+
+console.log('Intervals:', SIZE);
 
 console.time('StaticIntervalTree.from');
 var tree = StaticIntervalTree.from(INTERVALS);
