@@ -38,7 +38,27 @@ describe('StaticIntervalTree', function() {
   });
 
   it('should be possible to query by point.', function() {
-    // TODO
+    var tree = StaticIntervalTree.from(BASIC_INTERVALS);
+
+    var intervals = tree.intervalsContainingPoint(134);
+
+    assert.deepEqual(intervals, []);
+
+    intervals = tree.intervalsContainingPoint(13);
+
+    assert.deepEqual(intervals, [[10, 15], [3, 41]]);
+
+    intervals = tree.intervalsContainingPoint(0);
+
+    assert.deepEqual(intervals, [[0, 1]]);
+
+    intervals = tree.intervalsContainingPoint(4);
+
+    assert.deepEqual(intervals, [[3, 41]]);
+
+    intervals = tree.intervalsContainingPoint(25);
+
+    assert.deepEqual(intervals, [[20, 36], [3, 41]]);
   });
 
   it('should be possible to query by interval.', function() {

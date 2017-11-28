@@ -19,8 +19,28 @@
 var iterate = require('./utils/iterate.js'),
     typed = require('./utils/typed-arrays.js');
 
+var FiniteStack = require('./finite-stack.js');
+
+
+// TODO: pass index to getters
+
 /**
  * Helpers.
+ */
+
+/**
+ * Recursive function building the BST from the sorted list of interval
+ * indices.
+ *
+ * @param  {array}    intervals     - Array of intervals to index.
+ * @param  {function} endGetter     - Getter function for end of intervals.
+ * @param  {array}    sortedIndices - Sorted indices of the intervals.
+ * @param  {array}    tree          - BST memory.
+ * @param  {array}    augmentations - Array of node augmentations.
+ * @param  {number}   i             - BST index of current node.
+ * @param  {number}   low           - Dichotomy low index.
+ * @param  {number}   high          - Dichotomy high index.
+ * @return {number}                 - Created node augmentation value.
  */
 function buildBST(
   intervals,
@@ -91,13 +111,14 @@ function buildBST(
  * StaticIntervalTree.
  *
  * @constructor
+ * @param {array}           intervals - Array of intervals to index.
+ * @param {array<function>} getters   - Optional getters.
  */
 function StaticIntervalTree(intervals, getters) {
 
   // Properties
   this.size = intervals.length;
   this.intervals = intervals;
-  this.height = null;
 
   var startGetter = null,
       endGetter = null;
@@ -169,7 +190,89 @@ function StaticIntervalTree(intervals, getters) {
   this.height = height;
   this.tree = tree;
   this.augmentations = augmentations;
+  this.startGetter = startGetter;
+  this.endGetter = endGetter;
+
+  // Initializing DFS stack
+  this.stack = new FiniteStack(IndicesArray, this.height);
 }
+
+/**
+ * Method returning a list of intervals containing the given point.
+ *
+ * @param  {any}   point - Target point.
+ * @return {array}
+ */
+StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
+  point = this.startGetter ? this.startGetter(point) : point;
+
+  var matches = [];
+
+  var stack = this.stack;
+
+  stack.clear();
+  stack.push(0);
+
+  var l = this.tree.length;
+
+  var bstIndex,
+      intervalIndex,
+      interval,
+      maxInterval,
+      start,
+      end,
+      max,
+      left,
+      right;
+
+  while (stack.size) {
+    bstIndex = stack.pop();
+    intervalIndex = this.tree[bstIndex] - 1;
+    interval = this.intervals[intervalIndex];
+    maxInterval = this.intervals[this.augmentations[intervalIndex]];
+
+    start = this.startGetter ? this.startGetter(interval) : interval[0];
+    end = this.endGetter ? this.endGetter(interval) : interval[1];
+    max = this.endGetter ? this.endGetter(maxInterval) : maxInterval[1];
+
+    // No possible match, point is farther right than the max end value
+    if (point > max)
+      continue;
+
+    // Searching left
+    left = bstIndex * 2 + 1;
+
+    if (left < l && this.tree[left] !== 0)
+      stack.push(left);
+
+    // Checking current node
+    if (point >= start && point <= end)
+      matches.push(interval);
+
+    // If the point is to the left of the start of the current interval,
+    // then it cannot be in the right child
+    if (point < start)
+      continue;
+
+    // Searching right
+    right = bstIndex * 2 + 2;
+
+    if (right < l && this.tree[right] !== 0)
+      stack.push(right);
+  }
+
+  return matches;
+};
+
+/**
+ * Method returning a list of intervals overlapping the given interval.
+ *
+ * @param  {any}   interval - Target interval.
+ * @return {array}
+ */
+StaticIntervalTree.prototype.intervalsOverlappingInterval = function() {
+
+};
 
 /**
  * Convenience known methods.
