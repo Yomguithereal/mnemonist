@@ -61,6 +61,10 @@ npm install --save mnemonist
 * [Inverted Index]({{ site.baseurl }}/inverted-index)
 * [SymSpell]({{ site.baseurl }}/symspell)
 
+**Space & time indexation**
+
+* [StaticIntervalTree]({{ site.baseurl }}/static-interval-tree)
+
 **Metric space indexation**
 
 * [Burkhard-Keller Tree]({{ site.baseurl }}/bk-tree)
