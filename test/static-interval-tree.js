@@ -1,6 +1,3 @@
-/* eslint-disable */
-
-
 /**
  * Mnemonist StaticIntervalTree Unit Tests
  * ========================================
@@ -17,7 +14,38 @@ describe('StaticIntervalTree', function() {
     [10, 15]
   ];
 
-  var tree = new StaticIntervalTree(BASIC_INTERVALS);
+  // var DESCRIBED_INTERVALS = BASIC_INTERVALS.map(function(interval) {
+  //   return {
+  //     start: interval[0],
+  //     end: interval[1]
+  //   };
+  // });
 
+  it('should be possible to create a tree from an arbitraty iterable.', function() {
+    var tree = StaticIntervalTree.from(BASIC_INTERVALS);
 
+    assert.strictEqual(tree.size, 5);
+    assert.strictEqual(tree.height, 3);
+
+    var map = new Map();
+    map.set(20, 36);
+    map.set(29, 99);
+
+    tree = StaticIntervalTree.from(map);
+
+    assert.strictEqual(tree.size, 2);
+    assert.strictEqual(tree.height, 2);
+  });
+
+  it('should be possible to query by point.', function() {
+    // TODO
+  });
+
+  it('should be possible to query by interval.', function() {
+    // TODO
+  });
+
+  it('should be possible to use getters.', function() {
+    // TODO write & get
+  });
 });

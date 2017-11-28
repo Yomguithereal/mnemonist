@@ -1,7 +1,4 @@
-/* eslint-disable */
-
-
-/**
+/*
  * Mnemonist StaticIntervalTree
  * =============================
  *
@@ -25,7 +22,16 @@ var iterate = require('./utils/iterate.js'),
 /**
  * Helpers.
  */
-function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, low, high) {
+function buildBST(
+  intervals,
+  endGetter,
+  sortedIndices,
+  tree,
+  augmentations,
+  i,
+  low,
+  high
+) {
   var mid = (low + (high - low) / 2) | 0,
       midMinusOne = ~-mid,
       midPlusOne = -~mid;
@@ -38,8 +44,7 @@ function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, l
   var left = i * 2 + 1,
       right = i * 2 + 2;
 
-  var result,
-      leftEnd = -Infinity,
+  var leftEnd = -Infinity,
       rightEnd = -Infinity;
 
   if (low <= midMinusOne) {
@@ -92,6 +97,7 @@ function StaticIntervalTree(intervals, getters) {
   // Properties
   this.size = intervals.length;
   this.intervals = intervals;
+  this.height = null;
 
   var startGetter = null,
       endGetter = null;
@@ -114,7 +120,7 @@ function StaticIntervalTree(intervals, getters) {
     indices[i] = i;
 
   // Sorting indices array
-  // TODO: check if radix sort can outperform here
+  // TODO: check if some version of radix sort can outperform this part
   indices.sort(function(a, b) {
     a = intervals[a];
     b = intervals[b];
@@ -139,13 +145,11 @@ function StaticIntervalTree(intervals, getters) {
 
   // Building the binary tree
   var height = Math.ceil(Math.log2(length + 1)),
-      size = Math.pow(2, height) - 1;
+      treeSize = Math.pow(2, height) - 1;
 
-  var tree = new IndicesArray(size);
+  var tree = new IndicesArray(treeSize);
 
   var augmentations = new IndicesArray(length);
-
-  // TODO: store height to be able to use FiniteStack
 
   buildBST(
     intervals,
@@ -158,39 +162,28 @@ function StaticIntervalTree(intervals, getters) {
     length - 1
   );
 
-  // DEBUG
-  console.log(indices, tree, augmentations);
+  // Dropping indices
+  indices = null;
 
-  var s = [[0, 0]];
-
-  while (s.length) {
-    var r = s.pop();
-    var node = r[0];
-    var level = r[1];
-
-    if (tree[node] === 0)
-      continue;
-
-    var pointer = tree[node] - 1;
-
-    console.log((new Array(level)).fill(' ').join('') + '[' + intervals[pointer].join(', ') + '] ' + intervals[augmentations[pointer]][1]);
-
-    var left = node * 2 + 1,
-        right = node * 2 + 2;
-
-    if (right < tree.length)
-      s.push([right, level + 1]);
-
-    if (left < tree.length)
-      s.push([left, level + 1]);
-  }
+  // Storing necessary information
+  this.height = height;
+  this.tree = tree;
+  this.augmentations = augmentations;
 }
 
 /**
  * Convenience known methods.
  */
 StaticIntervalTree.prototype.inspect = function() {
-  return this;
+  var proxy = this.intervals.slice();
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(proxy, 'constructor', {
+    value: StaticIntervalTree,
+    enumerable: false
+  });
+
+  return proxy;
 };
 
 /**
@@ -200,8 +193,11 @@ StaticIntervalTree.prototype.inspect = function() {
  * @param  {Iterable} iterable - Target iterable.
  * @return {StaticIntervalTree}
  */
-StaticIntervalTree.from = function(iterable) {
+StaticIntervalTree.from = function(iterable, getters) {
+  if (iterate.isArrayLike(iterable))
+    return new StaticIntervalTree(iterable, getters);
 
+  return new StaticIntervalTree(Array.from(iterable), getters);
 };
 
 /**
