@@ -51,6 +51,10 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
 * [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
 
+**Space & time indexation**
+
+* [StaticIntervalTree](https://yomguithereal.github.io/mnemonist/static-interval-tree)
+
 **Metric space indexation**
 
 * [Burkhard-Keller Tree](https://yomguithereal.github.io/mnemonist/bk-tree)

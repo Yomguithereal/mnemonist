@@ -14,12 +14,12 @@ describe('StaticIntervalTree', function() {
     [10, 15]
   ];
 
-  // var DESCRIBED_INTERVALS = BASIC_INTERVALS.map(function(interval) {
-  //   return {
-  //     start: interval[0],
-  //     end: interval[1]
-  //   };
-  // });
+  var DESCRIBED_INTERVALS = BASIC_INTERVALS.map(function(interval) {
+    return {
+      start: interval[0],
+      end: interval[1]
+    };
+  });
 
   it('should be possible to create a tree from an arbitraty iterable.', function() {
     var tree = StaticIntervalTree.from(BASIC_INTERVALS);
@@ -62,10 +62,34 @@ describe('StaticIntervalTree', function() {
   });
 
   it('should be possible to query by interval.', function() {
-    // TODO
+    var tree = StaticIntervalTree.from(BASIC_INTERVALS);
+
+    var intervals = tree.intervalsOverlappingInterval([-34, 4]);
+
+    assert.deepEqual(intervals, [[0, 1], [3, 41]]);
+
+    intervals = tree.intervalsOverlappingInterval([-100, 100]);
+
+    assert.deepEqual(intervals, [[10, 15], [20, 36], [29, 99], [0, 1], [3, 41]]);
   });
 
   it('should be possible to use getters.', function() {
-    // TODO write & get
+    var startGetter = function(x) {
+      return x.start;
+    };
+
+    var endGetter = function(x) {
+      return x.end;
+    };
+
+    var tree = StaticIntervalTree.from(DESCRIBED_INTERVALS, [startGetter, endGetter]);
+
+    var intervals = tree.intervalsContainingPoint(0);
+
+    assert.deepEqual(intervals, [{start: 0, end: 1}]);
+
+    intervals = tree.intervalsOverlappingInterval({start: -34, end: 4});
+
+    assert.deepEqual(intervals, [{start: 0, end: 1}, {start: 3, end: 41}]);
   });
 });

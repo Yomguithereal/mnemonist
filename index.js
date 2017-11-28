@@ -26,6 +26,7 @@ module.exports = {
   MinHeap: Heap.MinHeap,
   MaxHeap: Heap.MaxHeap,
   IncrementalMap: require('./incremental-map.js'),
+  StaticIntervalTree: require('./static-interval-tree.js'),
   InvertedIndex: require('./inverted-index.js'),
   LinkedList: require('./linked-list.js'),
   MultiMap: require('./multi-map.js'),

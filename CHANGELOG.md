@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.19.0 (provisional)
+
+* Adding `StaticIntervalTree`.
+
 ## 0.18.O
 
 * Adding `FiniteStack`.

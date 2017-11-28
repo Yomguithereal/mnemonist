@@ -23,6 +23,10 @@ var FiniteStack = require('./finite-stack.js');
 
 
 // TODO: pass index to getters
+// TODO: custom comparison
+// TODO: possibility to pass offset buffer
+
+// TODO: intervals() => Symbol.iterator
 
 /**
  * Helpers.
@@ -204,8 +208,6 @@ function StaticIntervalTree(intervals, getters) {
  * @return {array}
  */
 StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
-  point = this.startGetter ? this.startGetter(point) : point;
-
   var matches = [];
 
   var stack = this.stack;
@@ -231,8 +233,6 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
     interval = this.intervals[intervalIndex];
     maxInterval = this.intervals[this.augmentations[intervalIndex]];
 
-    start = this.startGetter ? this.startGetter(interval) : interval[0];
-    end = this.endGetter ? this.endGetter(interval) : interval[1];
     max = this.endGetter ? this.endGetter(maxInterval) : maxInterval[1];
 
     // No possible match, point is farther right than the max end value
@@ -244,6 +244,9 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
 
     if (left < l && this.tree[left] !== 0)
       stack.push(left);
+
+    start = this.startGetter ? this.startGetter(interval) : interval[0];
+    end = this.endGetter ? this.endGetter(interval) : interval[1];
 
     // Checking current node
     if (point >= start && point <= end)
@@ -270,8 +273,67 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
  * @param  {any}   interval - Target interval.
  * @return {array}
  */
-StaticIntervalTree.prototype.intervalsOverlappingInterval = function() {
+StaticIntervalTree.prototype.intervalsOverlappingInterval = function(interval) {
+  var intervalStart = this.startGetter ? this.startGetter(interval) : interval[0],
+      intervalEnd = this.endGetter ? this.endGetter(interval) : interval[1];
 
+  var matches = [];
+
+  var stack = this.stack;
+
+  stack.clear();
+  stack.push(0);
+
+  var l = this.tree.length;
+
+  var bstIndex,
+      intervalIndex,
+      currentInterval,
+      maxInterval,
+      start,
+      end,
+      max,
+      left,
+      right;
+
+  while (stack.size) {
+    bstIndex = stack.pop();
+    intervalIndex = this.tree[bstIndex] - 1;
+    currentInterval = this.intervals[intervalIndex];
+    maxInterval = this.intervals[this.augmentations[intervalIndex]];
+
+    max = this.endGetter ? this.endGetter(maxInterval) : maxInterval[1];
+
+    // No possible match, start is farther right than the max end value
+    if (intervalStart > max)
+      continue;
+
+    // Searching left
+    left = bstIndex * 2 + 1;
+
+    if (left < l && this.tree[left] !== 0)
+      stack.push(left);
+
+    start = this.startGetter ? this.startGetter(currentInterval) : currentInterval[0];
+    end = this.endGetter ? this.endGetter(currentInterval) : currentInterval[1];
+
+    // Checking current node
+    if (intervalEnd >= start && intervalStart <= end)
+      matches.push(currentInterval);
+
+    // If the end is to the left of the start of the current interval,
+    // then it cannot be in the right child
+    if (intervalEnd < start)
+      continue;
+
+    // Searching right
+    right = bstIndex * 2 + 2;
+
+    if (right < l && this.tree[right] !== 0)
+      stack.push(right);
+  }
+
+  return matches;
 };
 
 /**
