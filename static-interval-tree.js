@@ -43,7 +43,7 @@ function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, l
       rightEnd = -Infinity;
 
   if (low <= midMinusOne) {
-    result = buildBST(
+    leftEnd = buildBST(
       intervals,
       endGetter,
       sortedIndices,
@@ -53,13 +53,10 @@ function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, l
       low,
       midMinusOne
     );
-
-    // tree[left] = result[0];
-    leftEnd = result[1];
   }
 
   if (midPlusOne <= high) {
-    result = buildBST(
+    rightEnd = buildBST(
       intervals,
       endGetter,
       sortedIndices,
@@ -69,9 +66,6 @@ function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, l
       midPlusOne,
       high
     );
-
-    // tree[right] = result[0];
-    rightEnd = result[1];
   }
 
   var augmentation = Math.max(end, leftEnd, rightEnd);
@@ -85,7 +79,7 @@ function buildBST(intervals, endGetter, sortedIndices, tree, augmentations, i, l
 
   augmentations[current] = augmentationPointer;
 
-  return [tree[i], augmentation];
+  return augmentation;
 }
 
 /**
@@ -149,9 +143,9 @@ function StaticIntervalTree(intervals, getters) {
 
   var tree = new IndicesArray(size);
 
-  // TODO: needs to be able to store indices from values or values
-  // TODO: we should offset pointers by one to keep 0 as null value
   var augmentations = new IndicesArray(length);
+
+  // TODO: store height to be able to use FiniteStack
 
   buildBST(
     intervals,
@@ -170,7 +164,9 @@ function StaticIntervalTree(intervals, getters) {
   var s = [[0, 0]];
 
   while (s.length) {
-    var [node, level] = s.pop();
+    var r = s.pop();
+    var node = r[0];
+    var level = r[1];
 
     if (tree[node] === 0)
       continue;
