@@ -76,7 +76,8 @@ exports.getNumberType = function(value) {
  * Function returning the minimal type able to represent the given array
  * of JavaScript numbers.
  *
- * @param  {array} array - Array to represent.
+ * @param  {array}    array  - Array to represent.
+ * @param  {function} getter - Optional getter.
  * @return {TypedArrayClass}
  */
 var TYPE_PRIORITY = {
@@ -90,7 +91,8 @@ var TYPE_PRIORITY = {
   Float64Array: 8
 };
 
-exports.getMinimalRepresentation = function(array) {
+// TODO: make this a one-shot for one value
+exports.getMinimalRepresentation = function(array, getter) {
   var maxType = null,
       maxPriority = 0,
       p,
@@ -100,7 +102,7 @@ exports.getMinimalRepresentation = function(array) {
       l;
 
   for (i = 0, l = array.length; i < l; i++) {
-    v = array[i];
+    v = getter ? getter(array[i]) : array[i];
     t = exports.getNumberType(v);
     p = TYPE_PRIORITY[t.name];
 
