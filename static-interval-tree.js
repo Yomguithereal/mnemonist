@@ -95,7 +95,6 @@ function buildBST(
 
     if (goingDeeper) {
       dataStack.push(end);
-//      console.log('datastack' + dataStack);
       if (low <= midMinusOne) {// left needs to be done, then right
         goingDeeper = true;
 
@@ -108,10 +107,6 @@ function buildBST(
 
         i = left;
         high = midMinusOne;
-//       controlStack.push(i)
-
-      // tree[left] = result[0];
-      //leftEnd = result[1];
       }
       else if (midPlusOne <= high) { // no left part just right part
         goingDeeper = true;
@@ -174,7 +169,6 @@ function buildBST(
     }
   }
 
-//  console.log(dataStack, tree);
   var augmentationPointer = current;
 
   if (augmentation === leftEnd)
@@ -183,7 +177,6 @@ function buildBST(
     augmentationPointer = augmentations[tree[right] - 1];
 
   augmentations[current] = augmentationPointer;
-//  console.log(augmentation, dataStack);
   return augmentation;
 }
 
