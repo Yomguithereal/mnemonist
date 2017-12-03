@@ -56,49 +56,125 @@ function buildBST(
   low,
   high
 ) {
-  var mid = (low + (high - low) / 2) | 0,
-      midMinusOne = ~-mid,
-      midPlusOne = -~mid;
+  var dataStack = new Array(); // augmentation stack, no more than h+1 augmentations
+  var controlStack = new Array(); // tree walking control stack, no more than h+1 booleans
+  var tempStack = new Array(); // miscellaenous variables stack, no more than h (i, low, high)
 
-  var current = sortedIndices[mid];
-  tree[i] = current + 1;
+  var mid = Infinity,
+      midMinusOne = Infinity,
+      midPlusOne = Infinity;
 
-  var end = endGetter ? endGetter(intervals[current]) : intervals[current][1];
+  var current = Infinity;
 
-  var left = i * 2 + 1,
-      right = i * 2 + 2;
+  var end = -Infinity;
+
+  var left = Infinity,
+      right = Infinity;
 
   var leftEnd = -Infinity,
       rightEnd = -Infinity;
 
-  if (low <= midMinusOne) {
-    leftEnd = buildBST(
-      intervals,
-      endGetter,
-      sortedIndices,
-      tree,
-      augmentations,
-      left,
-      low,
-      midMinusOne
-    );
+  var augmentation = -Infinity;
+
+  var goingDeeper = true,
+  leftDone = false;
+
+  while (!(controlStack.length === 0 && leftDone)) {
+
+    mid = (low + (high - low) / 2) | 0;
+    midMinusOne = ~-mid;
+    midPlusOne = -~mid;
+
+    current = sortedIndices[mid];
+    tree[i] = current + 1;
+
+    end = endGetter ? endGetter(intervals[current]) : intervals[current][1];
+
+    left = i * 2 + 1;
+    right = i * 2 + 2;
+
+    if (goingDeeper) {
+      dataStack.push(end);
+//      console.log('datastack' + dataStack);
+      if (low <= midMinusOne) {// left needs to be done, then right
+        goingDeeper = true;
+
+        leftDone = false;
+        controlStack.push(leftDone);
+
+        tempStack.push(low);
+        tempStack.push(high);
+        tempStack.push(i);
+
+        i = left;
+        high = midMinusOne;
+//       controlStack.push(i)
+
+      // tree[left] = result[0];
+      //leftEnd = result[1];
+      }
+      else if (midPlusOne <= high) { // no left part just right part
+        goingDeeper = true;
+
+        leftDone = true;
+        controlStack.push(leftDone);
+
+        tempStack.push(low);
+        tempStack.push(high);
+        tempStack.push(i);
+
+        i = right;
+        low = midPlusOne;
+      }
+      else { // search leaf, time to go up
+        goingDeeper = false;
+
+        i = tempStack.pop();
+        high = tempStack.pop();
+        low = tempStack.pop();
+      }
+    }
+    else {
+      leftDone = controlStack.pop();
+      if (leftDone) {// Follow the movement: making the post-recursion actions, and going up !
+        goingDeeper = false;
+
+        rightEnd = -Infinity;
+        leftEnd = -Infinity;
+
+        if (midPlusOne <= high) {
+          rightEnd = dataStack.pop();
+        }
+        if (low <= midMinusOne) {
+          leftEnd = dataStack.pop();
+        }
+        end = dataStack.pop();
+
+        augmentation = Math.max(end, leftEnd, rightEnd);
+        dataStack.push(augmentation);
+
+        i = tempStack.pop();
+        high = tempStack.pop();
+        low = tempStack.pop();
+
+      }
+      else { //need to do right !
+        goingDeeper = true;
+
+        leftDone = true;
+        controlStack.push(leftDone);
+
+        tempStack.push(low);
+        tempStack.push(high);
+        tempStack.push(i);
+
+        i = right;
+        low = midPlusOne;
+      }
+    }
   }
 
-  if (midPlusOne <= high) {
-    rightEnd = buildBST(
-      intervals,
-      endGetter,
-      sortedIndices,
-      tree,
-      augmentations,
-      right,
-      midPlusOne,
-      high
-    );
-  }
-
-  var augmentation = Math.max(end, leftEnd, rightEnd);
-
+//  console.log(dataStack, tree);
   var augmentationPointer = current;
 
   if (augmentation === leftEnd)
@@ -107,7 +183,7 @@ function buildBST(
     augmentationPointer = augmentations[tree[right] - 1];
 
   augmentations[current] = augmentationPointer;
-
+//  console.log(augmentation, dataStack);
   return augmentation;
 }
 
