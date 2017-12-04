@@ -74,7 +74,8 @@ function buildBST(
   var leftEnd = -Infinity,
       rightEnd = -Infinity;
 
-  var augmentation = -Infinity;
+  var augmentation = -Infinity,
+      augmentationPointer = Infinity;
 
   var goingDeeper = true,
   leftDone = false;
@@ -147,7 +148,8 @@ function buildBST(
 
         augmentation = Math.max(end, leftEnd, rightEnd);
         dataStack.push(augmentation);
-        var augmentationPointer = current;
+
+        augmentationPointer = current;
 
         if (augmentation === leftEnd)
           augmentationPointer = augmentations[tree[left] - 1];
@@ -177,7 +179,7 @@ function buildBST(
     }
   }
 
-  var augmentationPointer = current;
+  augmentationPointer = current;
 
   if (augmentation === leftEnd)
     augmentationPointer = augmentations[tree[left] - 1];
