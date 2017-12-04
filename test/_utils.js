@@ -4,7 +4,8 @@
  */
 var assert = require('assert'),
     iterate = require('../utils/iterate.js'),
-    typed = require('../utils/typed-arrays.js');
+    typed = require('../utils/typed-arrays.js'),
+    binarySearch = require('../utils/binary-search.js');
 
 describe('utils', function() {
 
@@ -124,6 +125,44 @@ describe('utils', function() {
           var type = typed.getMinimalRepresentation(test[0]);
           assert.strictEqual(type, test[1], test[0] + ' => ' + test[1].name + ' but got ' + type.name);
         });
+      });
+    });
+  });
+
+  describe('binary-search', function() {
+
+    describe('#.search/#.searchWithComparator', function() {
+
+      it('should properly return the index.', function() {
+        var array = [1, 2, 3, 4, 5];
+
+        array.forEach(function(v, i) {
+          assert.strictEqual(binarySearch.search(array, v), i);
+        });
+
+        assert.strictEqual(binarySearch.search(array, 56), -1);
+      });
+
+      it('should work with a custom comparator.', function() {
+        var array = [5, 4, 3, 2, 1];
+
+        function comparator(a, b) {
+          a = 4 - a;
+          b = 4 - b;
+
+          if (a < b)
+            return -1;
+          else if (a > b)
+            return 1;
+
+          return 0;
+        }
+
+        array.forEach(function(v, i) {
+          assert.strictEqual(binarySearch.searchWithComparator(comparator, array, v), i);
+        });
+
+        assert.strictEqual(binarySearch.searchWithComparator(comparator, array, 56), -1);
       });
     });
   });
