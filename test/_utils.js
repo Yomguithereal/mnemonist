@@ -133,7 +133,7 @@ describe('utils', function() {
 
     describe('#.search/#.searchWithComparator', function() {
 
-      it('should properly return the index.', function() {
+      it('should return the correct index.', function() {
         var array = [1, 2, 3, 4, 5];
 
         array.forEach(function(v, i) {
@@ -163,6 +163,102 @@ describe('utils', function() {
         });
 
         assert.strictEqual(binarySearch.searchWithComparator(comparator, array, 56), -1);
+      });
+    });
+
+    describe('#.lowerBound/#.lowerBoundWithComparator', function() {
+      it('should return the correct index.', function() {
+        var array = [1, 2, 3, 3, 3, 4, 4, 5, 5];
+
+        assert.strictEqual(binarySearch.lowerBound(array, 56), array.length);
+        assert.strictEqual(binarySearch.lowerBound(array, -4), 0);
+        assert.strictEqual(binarySearch.lowerBound(array, 3), 2);
+        assert.strictEqual(binarySearch.lowerBound(array, 4), 5);
+        assert.strictEqual(binarySearch.lowerBound(array, 1), 0);
+        assert.strictEqual(binarySearch.lowerBound(array, 2), 1);
+        assert.strictEqual(binarySearch.lowerBound(array, 5), 7);
+
+        assert.strictEqual(binarySearch.lowerBound([1, 2, 3, 4, 5, 5, 5, 6, 7, 9], 8), 9);
+      });
+
+      it('should work with a custom comparator.', function() {
+        var array = ['one', 'two', 'three', 'three', 'three', 'four', 'four', 'five', 'five'];
+
+        var values = {
+          one: 1,
+          two: 2,
+          three: 3,
+          four: 4,
+          five: 5
+        };
+
+        var comparator = function(a, b) {
+          a = typeof a === 'number' ? a : values[a];
+          b = typeof b === 'number' ? b : values[b];
+
+          if (a < b)
+            return -1;
+          else if (a > b)
+            return 1;
+
+          return 0;
+        };
+
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 56), array.length);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, -4), 0);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'three'), 2);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'four'), 5);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'one'), 0);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'two'), 1);
+        assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'five'), 7);
+      });
+    });
+
+    describe('#.upperBound/#.upperBoundWithComparator', function() {
+      it('should return the correct index.', function() {
+        var array = [1, 2, 3, 3, 3, 4, 4, 5, 5];
+
+        assert.strictEqual(binarySearch.upperBound(array, 56), array.length);
+        assert.strictEqual(binarySearch.upperBound(array, -4), 0);
+        assert.strictEqual(binarySearch.upperBound(array, 3), 5);
+        assert.strictEqual(binarySearch.upperBound(array, 4), 7);
+        assert.strictEqual(binarySearch.upperBound(array, 1), 1);
+        assert.strictEqual(binarySearch.upperBound(array, 2), 2);
+        assert.strictEqual(binarySearch.upperBound(array, 5), 9);
+
+        assert.strictEqual(binarySearch.lowerBound([1, 2, 3, 4, 5, 5, 5, 6, 7, 9], 8), 9);
+      });
+
+      it('should work with a custom comparator.', function() {
+        var array = ['one', 'two', 'three', 'three', 'three', 'four', 'four', 'five', 'five'];
+
+        var values = {
+          one: 1,
+          two: 2,
+          three: 3,
+          four: 4,
+          five: 5
+        };
+
+        var comparator = function(a, b) {
+          a = typeof a === 'number' ? a : values[a];
+          b = typeof b === 'number' ? b : values[b];
+
+          if (a < b)
+            return -1;
+          else if (a > b)
+            return 1;
+
+          return 0;
+        };
+
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 56), array.length);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, -4), 0);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'three'), 5);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'four'), 7);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'one'), 1);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'two'), 2);
+        assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'five'), 9);
       });
     });
   });
