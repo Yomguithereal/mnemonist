@@ -147,6 +147,14 @@ function buildBST(
 
         augmentation = Math.max(end, leftEnd, rightEnd);
         dataStack.push(augmentation);
+        var augmentationPointer = current;
+
+        if (augmentation === leftEnd)
+          augmentationPointer = augmentations[tree[left] - 1];
+        else if (augmentation === rightEnd)
+          augmentationPointer = augmentations[tree[right] - 1];
+
+        augmentations[current] = augmentationPointer;
 
         i = tempStack.pop();
         high = tempStack.pop();
