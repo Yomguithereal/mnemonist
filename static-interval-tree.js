@@ -27,6 +27,7 @@ var FiniteStack = require('./finite-stack.js');
 // TODO: possibility to pass offset buffer
 
 // TODO: intervals() => Symbol.iterator
+// TODO: dfs()
 
 /**
  * Helpers.
