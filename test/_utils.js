@@ -338,5 +338,36 @@ describe('utils', function() {
         });
       });
     });
+
+    describe('#.intersectionUnique', function() {
+      it('should properly perform the intersection of two unique arrays.', function() {
+        var tests = [
+          [[1, 2, 3], [], []],
+          [[], [1, 2, 3], []],
+          [[], [], []],
+          [[1, 2, 3], [4, 5, 6], []],
+          [[4, 5, 6], [1, 2, 3], []],
+          [[1, 2], [2, 4], [2]],
+          [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [2, 3, 4, 5]],
+          [[1, 2, 3, 4], [2, 4, 6], [2, 4]]
+        ];
+
+        tests.forEach(function(test) {
+          assert.deepEqual(merge.intersectionUnique(test[0], test[1]), test[2]);
+        });
+      });
+
+      it('should properly perform the intersection of k unique arrays.', function() {
+        var tests = [
+          [[[], [], [], []], []],
+          [[[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 7]], []],
+          [[[1, 2, 3], [3, 4, 5], [1, 3, 4], [3, 567], [-14, 3]], [3]]
+        ];
+
+        tests.forEach(function(test) {
+          assert.deepEqual(merge.intersectionUnique.apply(null, test[0]), test[1]);
+        });
+      });
+    });
   });
 });
