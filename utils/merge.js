@@ -412,7 +412,7 @@ function kWayUnionUniqueArrays(arrays) {
  * @param  {array<array>} arrays - Arrays to merge.
  * @return {array}
  */
-function kWayIntersectionUniqueArrays(arrays) {
+exports.kWayIntersectionUniqueArrays = function(arrays) {
   var max = -Infinity,
       maxStart = -Infinity,
       minEnd = Infinity,
@@ -512,7 +512,7 @@ function kWayIntersectionUniqueArrays(arrays) {
 
   return array;
   /* eslint-enable no-constant-condition, no-unreachable */
-}
+};
 
 /**
  * Variadic merging all of the given arrays.
@@ -565,7 +565,7 @@ exports.intersectionUnique = function() {
   }
   else {
     if (isArrayLike(arguments[0]))
-      return kWayIntersectionUniqueArrays(arguments);
+      return exports.kWayIntersectionUniqueArrays(arguments);
   }
 
   return null;

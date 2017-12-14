@@ -30,13 +30,13 @@ console.log(r);
 
 console.time('List intersection k-way');
 for (i = 0; i < SIZE; i++)
-  r = merge.intersectionUnique(listA, listB, listC, listD);
+  r = merge.kWayIntersectionUniqueArrays([listA, listB, listC, listD]);
 console.timeEnd('List intersection k-way');
 console.log(r);
 
 console.time('List intersection k-way naive');
 for (i = 0; i < SIZE; i++)
-  r = merge.intersectionUnique(listD, merge.intersectionUnique(listC, merge.intersectionUnique(listB, listA)));
+  r = merge.intersectionUniqueArrays(listD, merge.intersectionUniqueArrays(listC, merge.intersectionUniqueArrays(listB, listA)));
 console.timeEnd('List intersection k-way naive');
 console.log(r);
 
