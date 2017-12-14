@@ -23,9 +23,6 @@ function mergeArrays(a, b) {
   if (b.length === 0)
     return a.slice();
 
-  // Initializing target
-  var array = new a.constructor(a.length + b.length);
-
   // Finding min array
   var tmp;
 
@@ -51,6 +48,9 @@ function mergeArrays(a, b) {
       return typed.concat(b, a);
     return b.concat(a);
   }
+
+  // Initializing target
+  var array = new a.constructor(a.length + b.length);
 
   // Iterating until we overlap
   var i, l, v;
