@@ -4,10 +4,10 @@ var op = require('../../set.js'),
 
 var SIZE = 1000000;
 
-var listA = [1, 2, 3, 4, 5, 6, 100, 1001, 1002, 5004, 6000, 7000].concat((new Array(1000)).fill(0).map((_, i) => i + 100000)),
+var listA = [1, 2, 3, 4, 5, 6, 7, 100, 1001, 1002, 5004, 6000, 7000].concat((new Array(1000)).fill(0).map((_, i) => i + 100000)),
     listB = [5, 6, 7, 8, 9, 10],
-    listC = [-10, -5, 5, 6, 8, 10, 506],
-    listD = [1, 2, 3, 4, 5, 18];
+    listC = [-10, -5, 5, 6, 7, 8, 10, 506],
+    listD = [1, 2, 3, 4, 5, 7, 18];
 
 var setA = new Set(listA),
     setB = new Set(listB),
@@ -34,8 +34,14 @@ for (i = 0; i < SIZE; i++)
 console.timeEnd('List intersection k-way');
 console.log(r);
 
-console.time('Set intersection');
+console.time('List intersection k-way naive');
+for (i = 0; i < SIZE; i++)
+  r = merge.intersectionUnique(listD, merge.intersectionUnique(listC, merge.intersectionUnique(listB, listA)));
+console.timeEnd('List intersection k-way naive');
+console.log(r);
+
+console.time('Set intersection k-way');
 for (i = 0; i < SIZE; i++)
   r = op.intersection(setA, setB, setC, setD);
-console.timeEnd('Set intersection');
+console.timeEnd('Set intersection k-way');
 console.log(r);

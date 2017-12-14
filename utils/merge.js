@@ -12,7 +12,7 @@ var typed = require('./typed-arrays.js'),
     binarySearch = require('./binary-search.js'),
     FibonacciHeap = require('../fibonacci-heap.js');
 
-// TODO: update to use exponential search and provide lo to lower bounds calls
+// TODO: update to use exponential search
 
 /**
  * Merge two sorted array-like structures into one.
@@ -234,10 +234,10 @@ exports.intersectionUniqueArrays = function(a, b) {
     bHead = b[bPointer];
 
     if (aHead < bHead) {
-      aPointer = binarySearch.lowerBound(a, bHead);
+      aPointer = binarySearch.lowerBound(a, bHead, aPointer + 1);
     }
     else if (aHead > bHead) {
-      bPointer = binarySearch.lowerBound(b, aHead);
+      bPointer = binarySearch.lowerBound(b, aHead, bPointer + 1);
     }
     else {
       array.push(aHead);
@@ -483,7 +483,7 @@ function kWayIntersectionUniqueArrays(arrays) {
       v = a[pointers[p]];
 
       if (v < current) {
-        pointers[p] = binarySearch.lowerBound(a, current);
+        pointers[p] = binarySearch.lowerBound(a, current, pointers[p] + 1, limits[p]);
 
         if (pointers[p] >= limits[p])
           return array;

@@ -74,14 +74,17 @@ exports.searchWithComparator = function(comparator, array, value) {
 /**
  * Function returning the lower bound of the given value in the array.
  *
- * @param  {array} array - Haystack.
- * @param  {any}   value - Needle.
+ * @param  {array}  array - Haystack.
+ * @param  {any}    value - Needle.
+ * @param  {number} [lo] - Start index.
+ * @param  {numner} [hi] - End index.
  * @return {number}
  */
-exports.lowerBound = function(array, value) {
-  var mid = 0,
-      lo = 0,
-      hi = array.length;
+exports.lowerBound = function(array, value, lo, hi) {
+  var mid = 0;
+
+  lo = typeof lo !== 'undefined' ? lo : 0;
+  hi = typeof hi !== 'undefined' ? hi : array.length;
 
   while (lo < hi) {
     mid = (lo + hi) >>> 1;
@@ -127,14 +130,17 @@ exports.lowerBoundWithComparator = function(comparator, array, value) {
 /**
  * Function returning the upper bound of the given value in the array.
  *
- * @param  {array} array - Haystack.
- * @param  {any}   value - Needle.
+ * @param  {array}  array - Haystack.
+ * @param  {any}    value - Needle.
+ * @param  {number} [lo] - Start index.
+ * @param  {numner} [hi] - End index.
  * @return {number}
  */
-exports.upperBound = function(array, value) {
-  var mid = 0,
-      lo = 0,
-      hi = array.length;
+exports.upperBound = function(array, value, lo, hi) {
+  var mid = 0;
+
+  lo = typeof lo !== 'undefined' ? lo : 0;
+  hi = typeof hi !== 'undefined' ? hi : array.length;
 
   while (lo < hi) {
     mid = (lo + hi) >>> 1;
