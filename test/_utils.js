@@ -127,6 +127,22 @@ describe('utils', function() {
         });
       });
     });
+
+    describe('#.concat', function() {
+      it('should properly concat every given byte array.', function() {
+        var a = new Uint8Array([1, 2, 3]),
+            b = new Uint8Array([4, 5]),
+            c = new Uint8Array([5, 5, 6]);
+
+        var ab = typed.concat(a, b),
+            abc = typed.concat(a, b, c),
+            ba = typed.concat(b, a);
+
+        assert.deepEqual(Array.from(ab), [1, 2, 3, 4, 5]);
+        assert.deepEqual(Array.from(abc), [1, 2, 3, 4, 5, 5, 5, 6]);
+        assert.deepEqual(Array.from(ba), [4, 5, 1, 2, 3]);
+      });
+    });
   });
 
   describe('binary-search', function() {

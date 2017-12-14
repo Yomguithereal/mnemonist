@@ -124,3 +124,28 @@ exports.getMinimalRepresentation = function(array, getter) {
 exports.isTypedArray = function(value) {
   return typeof ArrayBuffer !== 'undefined' && ArrayBuffer.isView(value);
 };
+
+/**
+ * Function used to concat two byte arrays.
+ *
+ * @param  {...ByteArray}
+ * @return {ByteArray}
+ */
+exports.concat = function() {
+  var length = 0,
+      i,
+      o,
+      l;
+
+  for (i = 0, l = arguments.length; i < l; i++)
+    length += arguments[i].length;
+
+  var array = new (arguments[0].constructor)(length);
+
+  for (i = 0, o = 0; i < l; i++) {
+    array.set(arguments[i], o);
+    o += arguments[i].length;
+  }
+
+  return array;
+};
