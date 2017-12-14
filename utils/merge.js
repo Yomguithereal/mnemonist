@@ -141,6 +141,7 @@ function kWayMergeArrays(arrays) {
 
   var pointers = new PointerArray(arrays.length);
 
+  // TODO: benchmark vs. a binomial heap
   var heap = new FibonacciHeap(function(a, b) {
     a = arrays[a][pointers[a]];
     b = arrays[b][pointers[b]];
