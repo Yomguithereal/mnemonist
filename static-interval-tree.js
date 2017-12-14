@@ -166,6 +166,18 @@ function StaticIntervalTree(intervals, getters) {
     if (a > b)
       return 1;
 
+    // TODO: use getters
+    // TODO: this ordering has the following invariant: if query interval
+    // contains [nodeStart, max], then whole right subtree can be collected
+    // a = a[1];
+    // b = b[1];
+
+    // if (a < b)
+    //   return 1;
+
+    // if (a > b)
+    //   return -1;
+
     return 0;
   });
 

@@ -31,6 +31,8 @@ SparseMultiArray.prototype.clear = function() {
   this.dimension = 0;
 
   this.tails = {};
+
+  // TODO: could be a plain array
   this.lengths = {};
   this.pointers = [0];
   this.items = [];
