@@ -9,6 +9,7 @@
  */
 var typed = require('./typed-arrays.js'),
     isArrayLike = require('./iterate.js').isArrayLike,
+    binarySearch = require('./binary-search.js'),
     FibonacciHeap = require('../fibonacci-heap.js');
 
 /**
@@ -182,6 +183,8 @@ function unionUniqueArrays(a, b) {
   }
 
   // Filling
+  // TODO: it's possible to optimize a bit here, since the condition is only
+  // relevant the first time
   while (aPointer < aLength) {
     aHead = a[aPointer++];
 
@@ -205,7 +208,7 @@ function unionUniqueArrays(a, b) {
  * @param  {array} b - Second array.
  * @return {array}
  */
-function intersectionUniqueArrays(a, b) {
+exports.intersectionUniqueArrays = function(a, b) {
 
   // One of the arrays is empty
   if (a.length === 0 || b.length === 0)
@@ -232,18 +235,8 @@ function intersectionUniqueArrays(a, b) {
   // Initializing target
   var array = new a.constructor();
 
-  // Iterating until we overlap
-  var i, l, v;
-
-  for (i = 0, l = a.length; i < l; i++) {
-    v = a[i];
-
-    if (v >= bStart)
-      break;
-  }
-
   // Handling overlap
-  var aPointer = i,
+  var aPointer = binarySearch.lowerBound(a, bStart),
       aLength = a.length,
       bPointer = 0,
       bLength = b.length,
@@ -255,10 +248,10 @@ function intersectionUniqueArrays(a, b) {
     bHead = b[bPointer];
 
     if (aHead < bHead) {
-      aPointer++;
+      aPointer = binarySearch.lowerBound(a, bHead);
     }
     else if (aHead > bHead) {
-      bPointer++;
+      bPointer = binarySearch.lowerBound(b, aHead);
     }
     else {
       array.push(aHead);
@@ -435,6 +428,10 @@ function kWayUnionUniqueArrays(arrays) {
  */
 function kWayIntersectionUniqueArrays(arrays) {
   var max = -Infinity,
+      minValue = Infinity,
+      maxValue = -Infinity,
+      first,
+      last,
       al,
       i,
       l;
@@ -448,6 +445,15 @@ function kWayIntersectionUniqueArrays(arrays) {
 
     if (al > max)
       max = al;
+
+    first = arrays[i][0];
+    last = arrays[i][al - 1];
+
+    if (first < minValue)
+      minValue = first;
+
+    if (last > maxValue)
+      maxValue = last;
   }
 
   var array = new arrays[0].constructor();
@@ -455,6 +461,7 @@ function kWayIntersectionUniqueArrays(arrays) {
   var PointerArray = typed.getPointerArray(max);
 
   var pointers = new PointerArray(arrays.length);
+  // console.log(pointers, limits)
 
   // TODO: benchmark vs. a binomial heap
   var heap = new FibonacciHeap(function(a, b) {
@@ -481,7 +488,6 @@ function kWayIntersectionUniqueArrays(arrays) {
   var p,
       v;
 
-  // TODO: optimize when we are over the biggest value of some other list
   while (heap.size) {
     p = heap.pop();
     v = arrays[p][pointers[p]++];
@@ -557,7 +563,7 @@ exports.unionUnique = function() {
 exports.intersectionUnique = function() {
   if (arguments.length === 2) {
     if (isArrayLike(arguments[0]))
-      return intersectionUniqueArrays(arguments[0], arguments[1]);
+      return exports.intersectionUniqueArrays(arguments[0], arguments[1]);
   }
   else {
     if (isArrayLike(arguments[0]))
