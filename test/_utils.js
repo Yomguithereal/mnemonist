@@ -294,7 +294,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge(test[0], test[1]), test[2]);
+          assert.deepEqual(merge.merge(test[0], test[1]), test[2]);
         });
       });
 
@@ -305,7 +305,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.apply(null, test[0]), test[1]);
+          assert.deepEqual(merge.merge.apply(null, test[0]), test[1]);
         });
       });
     });

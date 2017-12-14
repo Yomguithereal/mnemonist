@@ -481,6 +481,7 @@ function kWayIntersectionUniqueArrays(arrays) {
   var p,
       v;
 
+  // TODO: optimize when we are over the biggest value of some other list
   while (heap.size) {
     p = heap.pop();
     v = arrays[p][pointers[p]++];
@@ -515,7 +516,7 @@ function kWayIntersectionUniqueArrays(arrays) {
  * @param  {...array}
  * @return {array}
  */
-function merge() {
+exports.merge = function() {
   if (arguments.length === 2) {
     if (isArrayLike(arguments[0]))
       return mergeArrays(arguments[0], arguments[1]);
@@ -526,7 +527,7 @@ function merge() {
   }
 
   return null;
-}
+};
 
 /**
  * Variadic function performing the union of all the given unique arrays.
@@ -534,7 +535,7 @@ function merge() {
  * @param  {...array}
  * @return {array}
  */
-function unionUnique() {
+exports.unionUnique = function() {
   if (arguments.length === 2) {
     if (isArrayLike(arguments[0]))
       return unionUniqueArrays(arguments[0], arguments[1]);
@@ -545,7 +546,7 @@ function unionUnique() {
   }
 
   return null;
-}
+};
 
 /**
  * Variadic function performing the intersection of all the given unique arrays.
@@ -553,7 +554,7 @@ function unionUnique() {
  * @param  {...array}
  * @return {array}
  */
-function intersectionUnique() {
+exports.intersectionUnique = function() {
   if (arguments.length === 2) {
     if (isArrayLike(arguments[0]))
       return intersectionUniqueArrays(arguments[0], arguments[1]);
@@ -564,12 +565,4 @@ function intersectionUnique() {
   }
 
   return null;
-}
-
-/**
- * Exporting.
- */
-merge.merge = merge;
-merge.unionUnique = unionUnique;
-merge.intersectionUnique = intersectionUnique;
-module.exports = merge;
+};
