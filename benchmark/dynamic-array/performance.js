@@ -1,4 +1,4 @@
-var DynamicArray = require('../../dynamic-array.js');
+var Vector = require('../../vector.js');
 var HashedArrayTree = require('../../hashed-array-tree.js');
 
 var SIZE = 50000000,
@@ -14,7 +14,7 @@ for (var i = 0; i < SIZE; i++)
 console.timeEnd('Standard JavaScript Array (holding uint8) #push');
 
 console.time('DynamicUint8Array #push');
-var dynamicArray = new DynamicArray(ARRAY_TYPE);
+var dynamicArray = new Vector(ARRAY_TYPE);
 
 for (var i = 0; i < SIZE; i++)
   dynamicArray.push(i % MAX_VALUE);

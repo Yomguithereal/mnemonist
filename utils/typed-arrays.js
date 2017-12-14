@@ -114,3 +114,13 @@ exports.getMinimalRepresentation = function(array, getter) {
 
   return maxType;
 };
+
+/**
+ * Function returning whether the given value is a typed array.
+ *
+ * @param  {any} value - Value to test.
+ * @return {boolean}
+ */
+exports.isTypedArray = function(value) {
+  return typeof ArrayBuffer !== 'undefined' && ArrayBuffer.isView(value);
+};

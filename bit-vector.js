@@ -159,17 +159,26 @@ BitVector.prototype.reallocate = function(capacity) {
 
   capacity = Math.ceil(capacity / 32) * 32;
 
+  if (virtualCapacity < this.length)
+    this.length = virtualCapacity;
+
   if (capacity === this.capacity)
     return this;
 
   var oldArray = this.array;
-  this.array = createByteArray(capacity);
 
-  if (virtualCapacity < this.length)
-    this.length = virtualCapacity;
+  var storageLength = capacity / 32;
 
-  for (var i = 0, l = oldArray.length; i < l; i++)
-    this.array[i] = oldArray[i];
+  if (storageLength === this.array.length)
+    return this;
+
+  if (storageLength > this.array.length) {
+    this.array = new Uint32Array(storageLength);
+    this.array.set(oldArray, 0);
+  }
+  else {
+    this.array = oldArray.slice(0, storageLength);
+  }
 
   this.capacity = capacity;
 

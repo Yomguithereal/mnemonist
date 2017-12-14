@@ -4,6 +4,7 @@
  *
  * Harmonized iteration over mixed targets.
  */
+var isTypedArray = require('./typed-arrays.js').isTypedArray;
 
 /**
  * Function used to iterate in a similar way over JavaScript iterables,
@@ -80,10 +81,7 @@ iterate.guessLength = function(target) {
  * @return {boolean}
  */
 iterate.isArrayLike = function(target) {
-  return (
-    Array.isArray(target) ||
-    (typeof ArrayBuffer !== 'undefined' && ArrayBuffer.isView(target))
-  );
+  return Array.isArray(target) || isTypedArray(target);
 };
 
 /**

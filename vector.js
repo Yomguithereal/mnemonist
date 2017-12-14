@@ -8,7 +8,8 @@
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js'),
+    typed = require('./utils/typed-arrays.js');
 
 /**
  * Defaults.
@@ -110,13 +111,24 @@ Vector.prototype.reallocate = function(capacity) {
     return this;
 
   var oldArray = this.array;
-  this.array = new this.ArrayClass(capacity);
 
   if (capacity < this.length)
     this.length = capacity;
 
-  for (var i = 0, l = this.length; i < l; i++)
-    this.array[i] = oldArray[i];
+  if (capacity > this.capacity) {
+    this.array = new this.ArrayClass(capacity);
+
+    if (typed.isTypedArray(this.array)) {
+      this.array.set(oldArray, 0);
+    }
+    else {
+      for (var i = 0, l = this.length; i < l; i++)
+        this.array[i] = oldArray[i];
+    }
+  }
+  else {
+    this.array = oldArray.slice(0, capacity);
+  }
 
   this.capacity = capacity;
 

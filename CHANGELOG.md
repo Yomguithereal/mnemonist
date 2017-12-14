@@ -3,6 +3,7 @@
 ## 0.19.0 (provisional)
 
 * Adding `StaticIntervalTree`.
+* Improving `Vector` & `BitVector` reallocation performance.
 
 ## 0.18.O
 
