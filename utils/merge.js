@@ -1,3 +1,4 @@
+/* eslint no-constant-condition: 0 */
 /**
  * Mnemonist Merge Helpers
  * ========================
@@ -466,18 +467,16 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
   var counter = 0,
       current,
       p = 0,
-      m = l - 1,
       a,
       v;
 
-  /* eslint-disable no-constant-condition, no-unreachable */
   while (true) {
     a = arrays[p];
 
     if (counter === 0) {
       counter++;
       current = a[pointers[p]++];
-      p = p === m ? 0 : p + 1;
+      p = (p + 1) % l;
     }
     else {
       v = a[pointers[p]];
@@ -486,14 +485,14 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
         pointers[p] = binarySearch.lowerBound(a, current, pointers[p] + 1, limits[p]);
 
         if (pointers[p] >= limits[p])
-          return array;
+          break;
       }
       else if (v > current) {
         counter = 1;
         current = v;
         pointers[p]++;
 
-        p = p === m ? 0 : p + 1;
+        p = (p + 1) % l;
         continue;
       }
 
@@ -505,13 +504,12 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
         array.push(current);
       }
       else {
-        p = p === m ? 0 : p + 1;
+        p = (p + 1) % l;
       }
     }
   }
 
   return array;
-  /* eslint-enable no-constant-condition, no-unreachable */
 };
 
 /**
