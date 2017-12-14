@@ -4,6 +4,8 @@
  * =======================
  *
  * Straightforward implementation of the third version of MurmurHash.
+ *
+ * Note: this piece of code belong to haschisch.
  */
 
 /**

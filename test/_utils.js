@@ -281,29 +281,61 @@ describe('utils', function() {
   });
 
   describe('merge', function() {
-    it('should properly merge two arrays.', function() {
-      var tests = [
-        [[1, 2, 3], [], [1, 2, 3]],
-        [[], [1, 2, 3], [1, 2, 3]],
-        [[], [], []],
-        [[1, 2, 3], [4, 5, 6], [1, 2, 3, 4, 5, 6]],
-        [[4, 5, 6], [1, 2, 3], [1, 2, 3, 4, 5, 6]],
-        [[1, 2, 2, 3], [2, 3, 3, 4], [1, 2, 2, 2, 3, 3, 3, 4]]
-      ];
 
-      tests.forEach(function(test) {
-        assert.deepEqual(merge(test[0], test[1]), test[2]);
+    describe('#.merge', function() {
+      it('should properly merge two arrays.', function() {
+        var tests = [
+          [[1, 2, 3], [], [1, 2, 3]],
+          [[], [1, 2, 3], [1, 2, 3]],
+          [[], [], []],
+          [[1, 2, 3], [4, 5, 6], [1, 2, 3, 4, 5, 6]],
+          [[4, 5, 6], [1, 2, 3], [1, 2, 3, 4, 5, 6]],
+          [[1, 2, 2, 3], [2, 3, 3, 4], [1, 2, 2, 2, 3, 3, 3, 4]]
+        ];
+
+        tests.forEach(function(test) {
+          assert.deepEqual(merge(test[0], test[1]), test[2]);
+        });
+      });
+
+      it('should properly merge k arrays.', function() {
+        var tests = [
+          [[[], [], [], []], []],
+          [[[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 7]], [1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7]]
+        ];
+
+        tests.forEach(function(test) {
+          assert.deepEqual(merge.apply(null, test[0]), test[1]);
+        });
       });
     });
 
-    it('should properly merge k arrays.', function() {
-      var tests = [
-        [[[], [], [], []], []],
-        [[[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 7]], [1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7]]
-      ];
+    describe('#.unionUnique', function() {
+      it('should properly perform the union of two unique arrays.', function() {
+        var tests = [
+          [[1, 2, 3], [], [1, 2, 3]],
+          [[], [1, 2, 3], [1, 2, 3]],
+          [[], [], []],
+          [[1, 2, 3], [4, 5, 6], [1, 2, 3, 4, 5, 6]],
+          [[4, 5, 6], [1, 2, 3], [1, 2, 3, 4, 5, 6]],
+          [[1, 2], [2, 4], [1, 2, 4]],
+          [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]]
+        ];
 
-      tests.forEach(function(test) {
-        assert.deepEqual(merge.apply(null, test[0]), test[1]);
+        tests.forEach(function(test) {
+          assert.deepEqual(merge.unionUnique(test[0], test[1]), test[2]);
+        });
+      });
+
+      it('should properly perform the union of k unique arrays.', function() {
+        var tests = [
+          [[[], [], [], []], []],
+          [[[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 7]], [1, 2, 3, 4, 5, 6, 7]]
+        ];
+
+        tests.forEach(function(test) {
+          assert.deepEqual(merge.unionUnique.apply(null, test[0]), test[1]);
+        });
       });
     });
   });
