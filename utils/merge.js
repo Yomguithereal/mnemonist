@@ -13,6 +13,6 @@
  * @param  {array}    b          - Second array.
  * @return {array}
  */
-function mergeArrays(a, b) {
+// function mergeArrays(a, b) {
 
-}
+// }
