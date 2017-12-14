@@ -12,6 +12,8 @@ var typed = require('./typed-arrays.js'),
     binarySearch = require('./binary-search.js'),
     FibonacciHeap = require('../fibonacci-heap.js');
 
+// TODO: update to use exponential search and provide lo to lower bounds calls
+
 /**
  * Merge two sorted array-like structures into one.
  *
@@ -37,20 +39,13 @@ function mergeArrays(a, b) {
   }
 
   // If array have non overlapping ranges, we can just concatenate them
-  var aStart = a[0],
-      aEnd = a[a.length - 1],
-      bStart = b[0],
-      bEnd = b[b.length - 1];
+  var aEnd = a[a.length - 1],
+      bStart = b[0];
 
   if (aEnd <= bStart) {
     if (typed.isTypedArray(a))
       return typed.concat(a, b);
     return a.concat(b);
-  }
-  else if (bEnd <= aStart) {
-    if (typed.isTypedArray(a))
-      return typed.concat(b, a);
-    return b.concat(a);
   }
 
   // Initializing target
@@ -124,20 +119,13 @@ function unionUniqueArrays(a, b) {
   }
 
   // If array have non overlapping ranges, we can just concatenate them
-  var aStart = a[0],
-      aEnd = a[a.length - 1],
-      bStart = b[0],
-      bEnd = b[b.length - 1];
+  var aEnd = a[a.length - 1],
+      bStart = b[0];
 
   if (aEnd < bStart) {
     if (typed.isTypedArray(a))
       return typed.concat(a, b);
     return a.concat(b);
-  }
-  else if (bEnd < aStart) {
-    if (typed.isTypedArray(a))
-      return typed.concat(b, a);
-    return b.concat(a);
   }
 
   // Initializing target
@@ -224,12 +212,10 @@ exports.intersectionUniqueArrays = function(a, b) {
   }
 
   // If array have non overlapping ranges, there is no intersection
-  var aStart = a[0],
-      aEnd = a[a.length - 1],
-      bStart = b[0],
-      bEnd = b[b.length - 1];
+  var aEnd = a[a.length - 1],
+      bStart = b[0];
 
-  if (aEnd < bStart || bEnd < aStart)
+  if (aEnd < bStart)
     return new a.constructor(0);
 
   // Initializing target
@@ -261,7 +247,7 @@ exports.intersectionUniqueArrays = function(a, b) {
   }
 
   return array;
-}
+};
 
 /**
  * Merge k sorted array-like structures into one.
@@ -428,8 +414,8 @@ function kWayUnionUniqueArrays(arrays) {
  */
 function kWayIntersectionUniqueArrays(arrays) {
   var max = -Infinity,
-      minValue = Infinity,
-      maxValue = -Infinity,
+      maxStart = -Infinity,
+      minEnd = Infinity,
       first,
       last,
       al,
@@ -449,71 +435,83 @@ function kWayIntersectionUniqueArrays(arrays) {
     first = arrays[i][0];
     last = arrays[i][al - 1];
 
-    if (first < minValue)
-      minValue = first;
+    if (first > maxStart)
+      maxStart = first;
 
-    if (last > maxValue)
-      maxValue = last;
+    if (last < minEnd)
+      minEnd = last;
   }
+
+  // Full overlap is impossible
+  if (maxStart > minEnd)
+    return new arrays[0].constructor();
 
   var array = new arrays[0].constructor();
 
-  var PointerArray = typed.getPointerArray(max);
+  if (maxStart === minEnd) {
+    array.push(maxStart);
+    return array;
+  }
 
-  var pointers = new PointerArray(arrays.length);
-  // console.log(pointers, limits)
+  var PointerArray = typed.getPointerArray(max + 1);
 
-  // TODO: benchmark vs. a binomial heap
-  var heap = new FibonacciHeap(function(a, b) {
-    a = arrays[a][pointers[a]];
-    b = arrays[b][pointers[b]];
+  var pointers = new PointerArray(arrays.length),
+      limits = new PointerArray(arrays.length);
 
-    if (a < b)
-      return -1;
-
-    if (a > b)
-      return 1;
-
-    return 0;
-  });
-
-  for (i = 0; i < l; i++)
-    heap.push(i);
-
-  i = 0;
+  for (i = 0; i < l; i++) {
+    pointers[i] = binarySearch.lowerBound(arrays[i], maxStart);
+    limits[i] = binarySearch.upperBound(arrays[i], minEnd);
+  }
 
   var counter = 0,
-      buffer;
-
-  var p,
+      current,
+      p = 0,
+      m = l - 1,
+      a,
       v;
 
-  while (heap.size) {
-    p = heap.pop();
-    v = arrays[p][pointers[p]++];
+  /* eslint-disable no-constant-condition, no-unreachable */
+  while (true) {
+    a = arrays[p];
 
     if (counter === 0) {
-      buffer = v;
       counter++;
+      current = a[pointers[p]++];
+      p = p === m ? 0 : p + 1;
     }
-    else if (buffer === v) {
+    else {
+      v = a[pointers[p]];
+
+      if (v < current) {
+        pointers[p] = binarySearch.lowerBound(a, current);
+
+        if (pointers[p] >= limits[p])
+          return array;
+      }
+      else if (v > current) {
+        counter = 1;
+        current = v;
+        pointers[p]++;
+
+        p = p === m ? 0 : p + 1;
+        continue;
+      }
+
       counter++;
+      pointers[p]++;
 
       if (counter === l) {
         counter = 0;
-        array.push(v);
+        array.push(current);
+      }
+      else {
+        p = p === m ? 0 : p + 1;
       }
     }
-    else {
-      counter = 1;
-      buffer = v;
-    }
-
-    if (pointers[p] < arrays[p].length)
-      heap.push(p);
   }
 
   return array;
+  /* eslint-enable no-constant-condition, no-unreachable */
 }
 
 /**

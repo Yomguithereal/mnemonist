@@ -28,14 +28,14 @@ for (i = 0; i < SIZE; i++)
 console.timeEnd('Set intersection');
 console.log(r);
 
-// console.time('List intersection k-way');
-// for (i = 0; i < SIZE; i++)
-//   r = merge.intersectionUnique(listA, listB, listC, listD);
-// console.timeEnd('List intersection k-way');
-// console.log(r);
+console.time('List intersection k-way');
+for (i = 0; i < SIZE; i++)
+  r = merge.intersectionUnique(listA, listB, listC, listD);
+console.timeEnd('List intersection k-way');
+console.log(r);
 
-// console.time('Set intersection');
-// for (i = 0; i < SIZE; i++)
-//   r = op.intersection(setA, setB, setC, setD);
-// console.timeEnd('Set intersection');
-// console.log(r);
+console.time('Set intersection');
+for (i = 0; i < SIZE; i++)
+  r = op.intersection(setA, setB, setC, setD);
+console.timeEnd('Set intersection');
+console.log(r);
