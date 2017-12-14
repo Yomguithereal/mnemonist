@@ -126,7 +126,7 @@ exports.isTypedArray = function(value) {
 };
 
 /**
- * Function used to concat two byte arrays.
+ * Function used to concat byte arrays.
  *
  * @param  {...ByteArray}
  * @return {ByteArray}

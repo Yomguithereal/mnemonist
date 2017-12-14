@@ -5,7 +5,8 @@
 var assert = require('assert'),
     iterate = require('../utils/iterate.js'),
     typed = require('../utils/typed-arrays.js'),
-    binarySearch = require('../utils/binary-search.js');
+    binarySearch = require('../utils/binary-search.js'),
+    merge = require('../utils/merge.js');
 
 describe('utils', function() {
 
@@ -275,6 +276,34 @@ describe('utils', function() {
         assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'one'), 1);
         assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'two'), 2);
         assert.strictEqual(binarySearch.upperBoundWithComparator(comparator, array, 'five'), 9);
+      });
+    });
+  });
+
+  describe('merge', function() {
+    it('should properly merge two arrays.', function() {
+      var tests = [
+        [[1, 2, 3], [], [1, 2, 3]],
+        [[], [1, 2, 3], [1, 2, 3]],
+        [[], [], []],
+        [[1, 2, 3], [4, 5, 6], [1, 2, 3, 4, 5, 6]],
+        [[4, 5, 6], [1, 2, 3], [1, 2, 3, 4, 5, 6]],
+        [[1, 2, 2, 3], [2, 3, 3, 4], [1, 2, 2, 2, 3, 3, 3, 4]]
+      ];
+
+      tests.forEach(function(test) {
+        assert.deepEqual(merge(test[0], test[1]), test[2]);
+      });
+    });
+
+    it('should properly merge k arrays.', function() {
+      var tests = [
+        [[[], [], [], []], []],
+        [[[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 7]], [1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7]]
+      ];
+
+      tests.forEach(function(test) {
+        assert.deepEqual(merge.apply(null, test[0]), test[1]);
       });
     });
   });
