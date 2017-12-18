@@ -14,6 +14,8 @@ var typed = require('./typed-arrays.js'),
     FibonacciHeap = require('../fibonacci-heap.js');
 
 // TODO: update to use exponential search
+// TODO: when not knowing final length => should use plain arrays rather than
+// same type as input
 
 /**
  * Merge two sorted array-like structures into one.
@@ -428,7 +430,7 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
 
     // If one of the arrays is empty, so is the intersection
     if (al === 0)
-      return new arrays[0].constructor(0);
+      return [];
 
     if (al > max)
       max = al;
@@ -445,10 +447,11 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
 
   // Full overlap is impossible
   if (maxStart > minEnd)
-    return new arrays[0].constructor();
+    return [];
 
-  var array = new arrays[0].constructor();
+  var array = [];
 
+  // Only one value
   if (maxStart === minEnd) {
     array.push(maxStart);
     return array;
@@ -470,7 +473,7 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
       a,
       v;
 
-  while (true) {
+  while (pointers[p] < limits[p]) {
     a = arrays[p];
 
     if (counter === 0) {
