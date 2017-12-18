@@ -65,6 +65,8 @@ MultiArray.prototype.clear = function() {
     this.items = new this.Container(capacity);
   }
   else {
+
+    // TODO: create PointerVector?
     this.tails = new Array();
     this.lengths = new Array();
     this.pointers = new Array();
@@ -83,7 +85,8 @@ MultiArray.prototype.clear = function() {
  * @return {MultiArray}
  */
 MultiArray.prototype.set = function(index, item) {
-  var pointer = this.pointers.length;
+  var pointer = this.pointers.length,
+      i;
 
   if (this.hasFixedCapacity) {
 
@@ -91,6 +94,7 @@ MultiArray.prototype.set = function(index, item) {
       throw new Error('mnemonist/multi-array: attempting to allocate further than capacity.');
 
     // This linked list does not exist yet. Let's create it
+    // TODO: what if index is way over the top?
     if (index >= this.dimension) {
       this.dimension++;
       this.pointers.push(0);
@@ -111,10 +115,17 @@ MultiArray.prototype.set = function(index, item) {
 
     // This linked list does not exist yet. Let's create it
     if (index >= this.dimension) {
-      this.dimension++;
+
+      // We may be required to allocate
+      for (i = this.dimension; i <= index; i++) {
+        this.tails[i] = 0;
+        this.lengths[i] = 0;
+      }
+
+      this.dimension = index + 1;
       this.pointers.push(0);
-      this.lengths.push(1);
-      this.tails.push(pointer);
+      this.lengths[index] = 1;
+      this.tails[index] = pointer;
     }
 
     // Appending to the list
@@ -189,7 +200,6 @@ MultiArray.prototype.has = function(index) {
 // #.values
 // #.keys
 // @.from
-// Static version
 
 /**
  * Convenience known methods.

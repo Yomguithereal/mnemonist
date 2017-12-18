@@ -54,4 +54,17 @@ describe('MultiArray', function() {
 
     assert(array.get(1).constructor, Uint8Array);
   });
+
+  it('should be possible to insert in random order.', function() {
+    var array = new MultiArray();
+
+    array.set(34, 3);
+    array.set(2, 4);
+    array.set(2, 5);
+
+    assert.strictEqual(array.size, 3);
+    assert.strictEqual(array.dimension, 35);
+    assert.deepEqual(array.get(2), [4, 5]);
+    assert.deepEqual(array.get(34), [3]);
+  });
 });
