@@ -110,8 +110,7 @@ var index = InvertedIndex.from(list, tokenizers);
 
 *Read*
 
-* [#.query, #.andQuery](#query-andquery)
-* [#.orQuery](#orQuery)
+* [#.get](#get)
 
 *Iteration*
 
@@ -170,7 +169,7 @@ index.size
 >>> 0
 ```
 
-### #.query, #.andQuery
+### #.get
 
 Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
 
@@ -189,29 +188,6 @@ index.query('mouse');
 index.query('cat mouse');
 >>> [
   'The cat eats the mouse.'
-]
-```
-
-### #.orQuery
-
-Tokenize the query using the relevant function, then retrieves the union of documents containing the resulting tokens.
-
-```js
-var index = new InvertedIndex(words);
-
-index.add('The cat eats the mouse.');
-index.add('The mouse eats cheese.');
-
-index.orQuery('mouse');
->>> [
-  'The cat eats the mouse.',
-  'The mouse eats cheese.'
-]
-
-index.orQuery('cat mouse');
->>> [
-  'The cat eats the mouse.',
-  'The mouse eats cheese.'
 ]
 ```
 
