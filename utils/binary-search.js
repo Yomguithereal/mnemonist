@@ -13,11 +13,15 @@
  * @param  {any}   value - Needle.
  * @return {number}
  */
-exports.search = function(array, value) {
-  var mid = 0,
-      lo = 0,
-      hi = ~-array.length,
-      current;
+exports.search = function(array, value, lo, hi) {
+  var mid = 0;
+
+  lo = typeof lo !== 'undefined' ? lo : 0;
+  hi = typeof hi !== 'undefined' ? hi : array.length;
+
+  hi--;
+
+  var current;
 
   while (lo <= hi) {
     mid = (lo + hi) >>> 1;

@@ -470,13 +470,15 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
   var counter = 0,
       current,
       p = 0,
+      h,
       a,
       v;
-
+// console.log()
   while (pointers[p] < limits[p]) {
     a = arrays[p];
 
     if (counter === 0) {
+      // console.log('Init:', a[pointers[p]], 'p:', p);
       counter++;
       current = a[pointers[p]++];
       p = (p + 1) % l;
@@ -485,12 +487,15 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
       v = a[pointers[p]];
 
       if (v < current) {
-        pointers[p] = binarySearch.lowerBound(a, current, pointers[p] + 1, limits[p]);
+        h = binarySearch.search(a, current, pointers[p] + 1, limits[p]);
 
-        if (pointers[p] >= limits[p])
+        if (h === -1)
           break;
+
+        pointers[p] = h;
       }
       else if (v > current) {
+        // console.log('New:', v);
         counter = 1;
         current = v;
         pointers[p]++;
@@ -501,7 +506,7 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
 
       counter++;
       pointers[p]++;
-
+// console.log(counter, current, 'p:', p)
       if (counter === l) {
         counter = 0;
         array.push(current);
