@@ -256,13 +256,11 @@ InvertedIndex.prototype.tokens = function() {
 if (typeof Symbol !== 'undefined')
   InvertedIndex.prototype[Symbol.iterator] = InvertedIndex.prototype.documents;
 
-// TODO: fuzzy inverted index
-
 /**
  * Convenience known methods.
  */
 InvertedIndex.prototype.inspect = function() {
-  var array = this.documents.slice();
+  var array = this.items.slice();
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(array, 'constructor', {
