@@ -41,6 +41,17 @@ describe('MultiArray', function() {
     assert.strictEqual(array.has(1), true);
     assert.strictEqual(array.has(2), true);
   });
-});
 
-// TODO: push, iterators, static containers
+  it('should be possible to use static containers.', function() {
+    var array = new MultiArray(Uint8Array, 6);
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert(array.get(1).constructor, Uint8Array);
+  });
+});
