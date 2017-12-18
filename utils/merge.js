@@ -228,7 +228,7 @@ exports.intersectionUniqueArrays = function(a, b) {
   var aPointer = binarySearch.lowerBound(a, bStart),
       aLength = a.length,
       bPointer = 0,
-      bLength = b.length,
+      bLength = binarySearch.upperBound(b, aEnd),
       aHead,
       bHead;
 
@@ -449,72 +449,57 @@ exports.kWayIntersectionUniqueArrays = function(arrays) {
   if (maxStart > minEnd)
     return [];
 
-  var array = [];
-
   // Only one value
-  if (maxStart === minEnd) {
-    array.push(maxStart);
-    return array;
-  }
+  if (maxStart === minEnd)
+    return [maxStart];
 
-  var PointerArray = typed.getPointerArray(max + 1);
+  // NOTE: trying to outsmart I(D,I(C,I(A,B))) is pointless unfortunately...
+  // NOTE: I tried to be very clever about bounds but it does not seem
+  // to improve the performance of the algorithm.
+  var a, b,
+      array = arrays[0],
+      aPointer,
+      bPointer,
+      aLimit,
+      bLimit,
+      aHead,
+      bHead,
+      start = maxStart;
 
-  var pointers = new PointerArray(arrays.length),
-      limits = new PointerArray(arrays.length);
+  for (i = 1; i < l; i++) {
+    a = array;
+    b = arrays[i];
 
-  for (i = 0; i < l; i++) {
-    pointers[i] = binarySearch.lowerBound(arrays[i], maxStart);
-    limits[i] = binarySearch.upperBound(arrays[i], minEnd);
-  }
+    // Change that to `[]` and observe some perf drops on V8...
+    array = new Array();
 
-  var counter = 0,
-      current,
-      p = 0,
-      h,
-      a,
-      v;
-// console.log()
-  while (pointers[p] < limits[p]) {
-    a = arrays[p];
+    aPointer = 0;
+    bPointer = binarySearch.lowerBound(b, start);
 
-    if (counter === 0) {
-      // console.log('Init:', a[pointers[p]], 'p:', p);
-      counter++;
-      current = a[pointers[p]++];
-      p = (p + 1) % l;
-    }
-    else {
-      v = a[pointers[p]];
+    aLimit = a.length;
+    bLimit = b.length;
 
-      if (v < current) {
-        h = binarySearch.search(a, current, pointers[p] + 1, limits[p]);
+    while (aPointer < aLimit && bPointer < bLimit) {
+      aHead = a[aPointer];
+      bHead = b[bPointer];
 
-        if (h === -1)
-          break;
-
-        pointers[p] = h;
+      if (aHead < bHead) {
+        aPointer = binarySearch.lowerBound(a, bHead, aPointer + 1);
       }
-      else if (v > current) {
-        // console.log('New:', v);
-        counter = 1;
-        current = v;
-        pointers[p]++;
-
-        p = (p + 1) % l;
-        continue;
-      }
-
-      counter++;
-      pointers[p]++;
-// console.log(counter, current, 'p:', p)
-      if (counter === l) {
-        counter = 0;
-        array.push(current);
+      else if (aHead > bHead) {
+        bPointer = binarySearch.lowerBound(b, aHead, bPointer + 1);
       }
       else {
-        p = (p + 1) % l;
+        array.push(aHead);
+        aPointer++;
+        bPointer++;
       }
     }
+
+    if (array.length === 0)
+      return array;
+
+    start = array[0];
   }
 
   return array;
