@@ -4,6 +4,7 @@
 
 * Adding `StaticIntervalTree`.
 * Improving `Vector` & `BitVector` reallocation performance.
+* Improving `InvertedIndex` performance.
 
 ## 0.18.O
 

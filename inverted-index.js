@@ -6,7 +6,7 @@
  */
 var Iterator = require('obliterator/iterator'),
     iterate = require('./utils/iterate.js'),
-    helpers = require('./set.js');
+    helpers = require('./utils/merge.js');
 
 function identity(x) {
   return x;
@@ -78,19 +78,26 @@ InvertedIndex.prototype.add = function(doc) {
     throw new Error('mnemonist/InvertedIndex.add: tokenizer function should return an array of tokens.');
 
   // Indexing
-  var token,
+  var done = new Set(),
+      token,
       container;
 
   for (var i = 0, l = tokens.length; i < l; i++) {
     token = tokens[i];
+
+    if (done.has(token))
+      continue;
+
+    done.add(token);
+
     container = this.mapping.get(token);
 
     if (!container) {
-      container = new Set();
+      container = [];
       this.mapping.set(token, container);
     }
 
-    container.add(key);
+    container.push(key);
   }
 
   this.dimension = this.mapping.size;
@@ -104,7 +111,7 @@ InvertedIndex.prototype.add = function(doc) {
  * @param  {any} query - Query
  * @return {Set}       - Intersection of documents matching the query.
  */
-InvertedIndex.prototype.query = function(query) {
+InvertedIndex.prototype.get = function(query) {
 
   // Early termination
   if (!this.size)
@@ -119,87 +126,31 @@ InvertedIndex.prototype.query = function(query) {
   if (!tokens.length)
     return [];
 
-  var matchingSet = new Set(),
-      token,
-      set,
+  var results = this.mapping.get(tokens[0]),
+      c,
       i,
       l;
 
-  for (i = 0, l = tokens.length; i < l; i++) {
-    token = tokens[i];
-    set = this.mapping.get(token);
-
-    // Empty intersection
-    if (!set || !set.size)
-      return new Set();
-
-    if (!matchingSet.size)
-      helpers.add(matchingSet, set);
-    else
-      helpers.intersect(matchingSet, set);
-  }
-
-  var results = new Array(matchingSet.size),
-      iterator = matchingSet.values(),
-      step;
-
-  i = 0;
-
-  while ((step = iterator.next(), !step.done))
-    results[i++] = this.items[step.value];
-
-  return results;
-};
-InvertedIndex.prototype.andQuery = InvertedIndex.prototype.query;
-
-/**
- * Method used to query the index in an OR fashion.
- *
- * @param  {any} query - Query
- * @return {Set}       - Union of documents matching the query.
- */
-InvertedIndex.prototype.orQuery = function(query) {
-
-  // Early termination
-  if (!this.size)
+  if (typeof results === 'undefined')
     return [];
 
-  // First we need to tokenize the query
-  var tokens = this.queryTokenizer(query);
+  if (tokens.length > 1) {
+    for (i = 1, l = tokens.length; i < l; i++) {
+      c = this.mapping.get(tokens[i]);
 
-  if (!Array.isArray(tokens))
-    throw new Error('mnemonist/InvertedIndex.orQuery: tokenizer function should return an array of tokens.');
+      if (typeof c === 'undefined')
+        continue;
 
-  if (!tokens.length)
-    return [];
-
-  var matchingSet = new Set(),
-      token,
-      set,
-      i,
-      l;
-
-  for (i = 0, l = tokens.length; i < l; i++) {
-    token = tokens[i];
-    set = this.mapping.get(token);
-
-    // Empty set
-    if (!set || !set.size)
-      continue;
-
-    helpers.add(matchingSet, set);
+      results = helpers.intersectionUniqueArrays(results, c);
+    }
   }
 
-  var results = new Array(matchingSet.size),
-      iterator = matchingSet.values(),
-      step;
+  var docs = new Array(results.length);
 
-  i = 0;
+  for (i = 0, l = docs.length; i < l; i++)
+    docs[i] = this.items[results[i]];
 
-  while ((step = iterator.next(), !step.done))
-    results[i++] = this.items[step.value];
-
-  return results;
+  return docs;
 };
 
 /**

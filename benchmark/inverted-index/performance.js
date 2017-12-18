@@ -46,6 +46,12 @@ console.log('Docs', index.size);
 
 console.time('Query');
 for (i = 0; i < QUERIES; i++)
-  r = index.query('eye');
+  r = index.get('eye');
 console.timeEnd('Query');
+console.log(r);
+
+console.time('Query Complex');
+for (i = 0; i < QUERIES; i++)
+  r = index.get('eye ear');
+console.timeEnd('Query Complex');
 console.log(r);
