@@ -5,7 +5,7 @@
  * JavaScript implementation of an inverted index.
  */
 var Iterator = require('obliterator/iterator'),
-    iterateOver = require('./utils/iterate.js'),
+    iterate = require('./utils/iterate.js'),
     helpers = require('./set.js');
 
 function identity(x) {
@@ -284,7 +284,7 @@ InvertedIndex.prototype.inspect = function() {
 InvertedIndex.from = function(iterable, descriptor) {
   var index = new InvertedIndex(descriptor);
 
-  iterateOver(iterable, function(doc) {
+  iterate(iterable, function(doc) {
     index.add(doc);
   });
 

@@ -12,7 +12,7 @@
  * [Reference]:
  * https://en.wikipedia.org/wiki/Vantage-point_tree
  */
-var iterateOver = require('./utils/iterate.js'),
+var iterate = require('./utils/iterate.js'),
     Heap = require('./heap.js');
 
 // TODO: implement better selection technique for the vantage point
@@ -157,7 +157,7 @@ function VPTree(distance, items) {
       self = this,
       i = 0;
 
-  iterateOver(items, function(value) {
+  iterate(items, function(value) {
     self.items.push(value);
     indexes.push(i++);
   });

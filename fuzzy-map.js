@@ -6,7 +6,7 @@
  * read/write operations. This can often result in multiple keys accessing
  * the same resource (example: a map with lowercased keys).
  */
-var iterateOver = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js');
 
 var identity = function(x) {
   return x;
@@ -166,7 +166,7 @@ FuzzyMap.prototype.inspect = function() {
 FuzzyMap.from = function(iterable, descriptor, useSet) {
   var map = new FuzzyMap(descriptor);
 
-  iterateOver(iterable, function(value, key) {
+  iterate(iterable, function(value, key) {
     if (useSet)
       map.set(key, value);
     else

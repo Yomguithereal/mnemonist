@@ -19,7 +19,7 @@ This is a basic Todo list of things when adding a new structure:
  *
  * Docs...
  */
-var iterateOver = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js');
 
 /**
  * Structure.

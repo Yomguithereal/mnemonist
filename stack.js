@@ -6,7 +6,7 @@
  * correctly optimized for this kind of work.
  */
 var Iterator = require('obliterator/iterator'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 /**
  * Stack
@@ -183,7 +183,7 @@ Stack.prototype.inspect = function() {
 Stack.from = function(iterable) {
   var stack = new Stack();
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     stack.push(value);
   });
 

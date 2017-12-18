@@ -14,7 +14,7 @@
  * [Author]:
  * Wolf Garbe
  */
-var iterateOver = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js');
 
 /**
  * Constants.
@@ -531,7 +531,7 @@ SymSpell.prototype.inspect = function() {
 SymSpell.from = function(iterable, options) {
   var index = new SymSpell(options);
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     index.add(value);
   });
 

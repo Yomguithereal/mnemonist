@@ -6,7 +6,7 @@
  * Fibonacci heap implementation.
  */
 var comparators = require('./utils/comparators.js'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -96,12 +96,12 @@ FibonacciHeap.prototype.peek = function() {
 };
 
 /**
- * Function used to iterate in the linked list.
+ * Function used to consume the given linked list.
  *
  * @param {Node} head - Head node.
  * @param {array}
  */
-function iterate(head) {
+function consumeLinkedList(head) {
   var nodes = [],
       node = head,
       flag = false;
@@ -173,7 +173,7 @@ function link(heap, y, x) {
  */
 function consolidate(heap) {
   var A = new Array(heap.size),
-      nodes = iterate(heap.root),
+      nodes = consumeLinkedList(heap.root),
       i, l, x, y, d, t;
 
   for (i = 0, l = nodes.length; i < l; i++) {
@@ -215,7 +215,7 @@ FibonacciHeap.prototype.pop = function() {
   var z = this.min;
 
   if (z.child) {
-    var nodes = iterate(z.child),
+    var nodes = consumeLinkedList(z.child),
         node,
         i,
         l;
@@ -292,7 +292,7 @@ MaxFibonacciHeap.prototype = FibonacciHeap.prototype;
 FibonacciHeap.from = function(iterable, comparator) {
   var heap = new FibonacciHeap(comparator);
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     heap.push(value);
   });
 
@@ -302,7 +302,7 @@ FibonacciHeap.from = function(iterable, comparator) {
 MaxFibonacciHeap.from = function(iterable, comparator) {
   var heap = new MaxFibonacciHeap(comparator);
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     heap.push(value);
   });
 

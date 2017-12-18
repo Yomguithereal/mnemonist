@@ -4,7 +4,7 @@
  *
  * Very simple Trie implementation.
  */
-var iterateOver = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js');
 
 /**
  * Constants.
@@ -259,7 +259,7 @@ Trie.prototype.toJSON = function() {
 Trie.from = function(iterable) {
   var trie = new Trie();
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     trie.add(value);
   });
 

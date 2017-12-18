@@ -6,7 +6,7 @@
  * of increasing integers. Very useful to map a set of hashable keys to
  * and array's indices, for instance.
  */
-var iterateOver = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js');
 
 /**
  * IncrementalMap.
@@ -137,7 +137,7 @@ IncrementalMap.prototype.inspect = function() {
 IncrementalMap.from = function(iterable, range) {
   var map = new IncrementalMap(range);
 
-  iterateOver(function(item) {
+  iterate(function(item) {
     map.add(item);
   });
 
@@ -155,7 +155,7 @@ IncrementalMap.from = function(iterable, range) {
 IncrementalMap.fromDistinct = function(iterable, range) {
   var map = new IncrementalMap(range);
 
-  iterateOver(function(item) {
+  iterate(function(item) {
     map.unsafeAdd(item);
   });
 

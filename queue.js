@@ -6,7 +6,7 @@
  * a LinkedList one in performance.
  */
 var Iterator = require('obliterator/iterator'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 /**
  * Queue
@@ -188,7 +188,7 @@ Queue.prototype.inspect = function() {
 Queue.from = function(iterable) {
   var queue = new Queue();
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     queue.enqueue(value);
   });
 

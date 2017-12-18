@@ -5,7 +5,7 @@
  * Binary heap implementation.
  */
 var comparators = require('./utils/comparators.js'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -197,7 +197,7 @@ MaxHeap.prototype = Heap.prototype;
 Heap.from = function(iterable, comparator) {
   var heap = new Heap(comparator);
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     heap.push(value);
   });
 
@@ -207,7 +207,7 @@ Heap.from = function(iterable, comparator) {
 MaxHeap.from = function(iterable, comparator) {
   var heap = new MaxHeap(comparator);
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     heap.push(value);
   });
 

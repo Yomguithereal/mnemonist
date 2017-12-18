@@ -5,7 +5,7 @@
  * JavaScript implementation of a MultiSet.
  */
 var Iterator = require('obliterator/iterator'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 // TODO: helper functions: union, intersection, sum, difference, subtract
 
@@ -335,7 +335,7 @@ MultiSet.prototype.toJSON = function() {
 MultiSet.from = function(iterable) {
   var set = new MultiSet();
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     set.add(value);
   });
 

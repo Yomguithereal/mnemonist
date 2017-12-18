@@ -6,7 +6,7 @@
  * as benchmarks proved it was the fastest thing to do.
  */
 var Iterator = require('obliterator/iterator'),
-    iterateOver = require('./utils/iterate.js');
+    iterate = require('./utils/iterate.js');
 
 /**
  * Linked List.
@@ -245,7 +245,7 @@ LinkedList.prototype.inspect = function() {
 LinkedList.from = function(iterable) {
   var list = new LinkedList();
 
-  iterateOver(iterable, function(value) {
+  iterate(iterable, function(value) {
     list.push(value);
   });
 
