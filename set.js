@@ -43,6 +43,9 @@ exports.intersection = function() {
       add,
       set;
 
+  // TODO: we can optimize by iterating each next time over the current intersection
+  // but this probably means more RAM to consume since we'll create n-1 sets rather than
+  // only the one.
   while ((step = iterator.next(), !step.done)) {
     item = step.value;
     add = true;
