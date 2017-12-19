@@ -60,7 +60,7 @@ MultiArray.prototype.clear = function() {
 
     this.tails = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.lengths = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
-    this.pointers = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
+    this.pointers = new PointerArray(capacity + 1);
 
     this.items = new this.Container(capacity);
   }
@@ -70,11 +70,10 @@ MultiArray.prototype.clear = function() {
     this.tails = new Array();
     this.lengths = new Array();
     this.pointers = new Array();
+    this.pointers.push(0);
 
     this.items = new this.Container();
   }
-
-  this.pointers.push(0);
 };
 
 /**
@@ -85,7 +84,7 @@ MultiArray.prototype.clear = function() {
  * @return {MultiArray}
  */
 MultiArray.prototype.set = function(index, item) {
-  var pointer = this.pointers.length,
+  var pointer = this.size + 1,
       i;
 
   if (this.hasFixedCapacity) {
@@ -97,14 +96,13 @@ MultiArray.prototype.set = function(index, item) {
     // TODO: what if index is way over the top?
     if (index >= this.dimension) {
       this.dimension++;
-      this.pointers.push(0);
       this.lengths.push(1);
       this.tails.push(pointer);
     }
 
     // Appending to the list
     else {
-      this.pointers.push(this.tails.array[index]);
+      this.pointers[pointer] = this.tails.array[index];
       this.lengths.array[index]++;
       this.tails.array[index] = pointer;
     }
@@ -158,7 +156,7 @@ MultiArray.prototype.get = function(index) {
   if (this.hasFixedCapacity) {
     tails = this.tails.array;
     lengths = this.lengths.array;
-    pointers = this.pointers.array;
+    pointers = this.pointers;
   }
   else {
     tails = this.tails;
