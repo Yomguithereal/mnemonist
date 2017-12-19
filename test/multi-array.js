@@ -66,5 +66,16 @@ describe('MultiArray', function() {
     assert.strictEqual(array.dimension, 35);
     assert.deepEqual(array.get(2), [4, 5]);
     assert.deepEqual(array.get(34), [3]);
+
+    array = new MultiArray(Uint8Array, 40);
+
+    array.set(34, 3);
+    array.set(2, 4);
+    array.set(2, 5);
+
+    assert.strictEqual(array.size, 3);
+    assert.strictEqual(array.dimension, 35);
+    assert.deepEqual(Array.from(array.get(2)), [4, 5]);
+    assert.deepEqual(Array.from(array.get(34)), [3]);
   });
 });

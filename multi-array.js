@@ -56,7 +56,7 @@ MultiArray.prototype.clear = function() {
       return Math.min(newCapacity, capacity);
     };
 
-    var initialCapacity = Math.max(256, capacity);
+    var initialCapacity = Math.max(8, capacity);
 
     this.tails = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.lengths = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
@@ -95,18 +95,25 @@ MultiArray.prototype.set = function(index, item) {
     // This linked list does not exist yet. Let's create it
     // TODO: what if index is way over the top?
     if (index >= this.dimension) {
-      this.dimension++;
-      this.lengths.push(1);
-      this.tails.push(pointer);
+
+      // We may be required to grow the vectors
+      this.dimension = index + 1;
+      this.tails.grow(this.dimension);
+      this.lengths.grow(this.dimension);
+
+      this.tails.length = this.dimension;
+      this.lengths.length = this.dimension;
+
+      this.lengths.array[index] = 1;
     }
 
     // Appending to the list
     else {
       this.pointers[pointer] = this.tails.array[index];
       this.lengths.array[index]++;
-      this.tails.array[index] = pointer;
     }
 
+    this.tails.array[index] = pointer;
     this.items[pointer - 1] = item;
   }
   else {
@@ -123,16 +130,15 @@ MultiArray.prototype.set = function(index, item) {
       this.dimension = index + 1;
       this.pointers.push(0);
       this.lengths[index] = 1;
-      this.tails[index] = pointer;
     }
 
     // Appending to the list
     else {
       this.pointers.push(this.tails[index]);
       this.lengths[index]++;
-      this.tails[index] = pointer;
     }
 
+    this.tails[index] = pointer;
     this.items.push(item);
   }
 
@@ -151,17 +157,15 @@ MultiArray.prototype.get = function(index) {
   if (index >= this.dimension)
     return;
 
-  var tails, lengths, pointers;
+  var tails, lengths, pointers = this.pointers;
 
   if (this.hasFixedCapacity) {
     tails = this.tails.array;
     lengths = this.lengths.array;
-    pointers = this.pointers;
   }
   else {
     tails = this.tails;
     lengths = this.lengths;
-    pointers = this.pointers;
   }
 
   var pointer = tails[index],
