@@ -3,7 +3,8 @@
  * ================================
  */
 var assert = require('assert'),
-    MultiArray = require('../multi-array.js');
+    MultiArray = require('../multi-array.js'),
+    consume = require('obliterator/consume');
 
 describe('MultiArray', function() {
 
@@ -149,5 +150,52 @@ describe('MultiArray', function() {
     assert.strictEqual(array.dimension, 35);
     assert.deepEqual(Array.from(array.get(2)), [4, 5]);
     assert.deepEqual(Array.from(array.get(34)), [3]);
+  });
+
+  it('should be possible to iterate over containers.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.deepEqual(consume(array.containers()), [
+      [1, 2, 3],
+      [4, 5],
+      [6]
+    ]);
+  });
+
+  it('should be possible to iterate over associations.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.deepEqual(consume(array.associations()), [
+      [0, [1, 2, 3]],
+      [1, [4, 5]],
+      [2, [6]]
+    ]);
+  });
+
+  it('should be possible to iterate over values.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    // assert.deepEqual(consume(array.values()), [1, 2, 3, 4, 5, 6]);
   });
 });

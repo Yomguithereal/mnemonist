@@ -12,9 +12,15 @@
  * This structure should be particularly suited to indices that will need to
  * merge arrays anyway when queried and that are quite heavily hit (such as
  * an inverted index or a quad tree).
+ *
+ * Note: the implementation does not require to keep track of head pointers
+ * but this comes with some advantages such as not needing to offset pointers
+ * by 1 and being able to perform in-order iteration. This remains quite lean
+ * in memory and does not hinder performance whatsoever.
  */
 var typed = require('./utils/typed-arrays.js'),
-    Vector = require('./vector.js');
+    Vector = require('./vector.js'),
+    Iterator = require('obliterator/iterator');
 
 /**
  * MultiArray.
@@ -43,6 +49,9 @@ MultiArray.prototype.clear = function() {
   this.size = 0;
   this.dimension = 0;
 
+  // NOTE: #.tails & #.lengths have a length equal to the dimension of the
+  // array, while #.pointers has a length equal to its size.
+
   // Storage
   if (this.hasFixedCapacity) {
     var capacity = this.capacity;
@@ -58,6 +67,7 @@ MultiArray.prototype.clear = function() {
 
     var initialCapacity = Math.max(8, capacity);
 
+    // this.heads = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.tails = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.lengths = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.pointers = new PointerArray(capacity + 1);
@@ -67,6 +77,7 @@ MultiArray.prototype.clear = function() {
   else {
 
     // TODO: create PointerVector?
+    // this.heads = new Array();
     this.tails = new Array();
     this.lengths = new Array();
     this.pointers = new Array();
@@ -100,6 +111,7 @@ MultiArray.prototype.set = function(index, item) {
       this.tails.grow(this.dimension);
       this.lengths.grow(this.dimension);
 
+      // TODO: should use #.resize here
       this.tails.length = this.dimension;
       this.lengths.length = this.dimension;
 
@@ -239,10 +251,101 @@ MultiArray.prototype.multiplicity = function(index) {
 };
 MultiArray.prototype.count = MultiArray.prototype.multiplicity;
 
+/**
+ * Method used to iterate over the structure's containers.
+ *
+ * @return {Iterator}
+ */
+MultiArray.prototype.containers = function() {
+  var self = this,
+      l = this.dimension,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {done: true};
+
+    return {value: self.get(i++)};
+  });
+};
+
+/**
+ * Method used to iterate over the structure's associations.
+ *
+ * @return {Iterator}
+ */
+MultiArray.prototype.associations = function() {
+  var self = this,
+      l = this.dimension,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {done: true};
+
+    var data = {value: [i, self.get(i)]};
+
+    i++;
+
+    return data;
+  });
+};
+
+/**
+ * Method used to iterate over the structure's values.
+ *
+ * @param  {number}   [index] - Optionally, iterate over the values of a single
+ *                              container at index.
+ * @return {Iterator}
+ */
+MultiArray.prototype.values = function() {
+  if (this.size === 0)
+    return Iterator.empty();
+
+  var inContainer = false,
+      pointer,
+      i = 0,
+      l = this.dimension,
+      v;
+
+  var pointers = this.pointers,
+      items = this.items,
+      tails = this.hasFixedCapacity ? this.tails.array : this.tails;
+
+  var iterator = new Iterator(function next() {
+    if (!inContainer) {
+
+      if (i >= l)
+        return {done: true};
+
+      pointer = tails[i];
+      i++;
+
+      if (pointer === 0)
+        return next();
+
+      inContainer = true;
+    }
+
+    if (pointer === 0) {
+      inContainer = false;
+      return next();
+    }
+
+    v = items[~-pointer];
+    pointer = pointers[pointer];
+
+    return {
+      done: false,
+      value: v
+    };
+  });
+
+  return iterator;
+};
+
 // #.iterate on a given sublist
 // #.entries
-// #.containers
-// #.associations
 // #.values
 // #.keys
 // @.from
