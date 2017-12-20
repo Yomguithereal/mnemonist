@@ -219,4 +219,16 @@ describe('Vector', function() {
     for (var item of vector)
       assert.strictEqual(item, ++i);
   });
+
+  it('should be possible to create a pointer vector.', function() {
+    var vector = new Vector.PointerVector();
+
+    assert(vector.array instanceof Uint8Array);
+
+    for (var i = 0; i < 500; i++)
+      vector.push(i);
+
+    assert.strictEqual(vector.length, 500);
+    assert(vector.array instanceof Uint16Array);
+  });
 });

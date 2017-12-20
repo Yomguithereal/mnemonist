@@ -18,6 +18,12 @@ var DEFAULT_GROWING_POLICY = function(currentCapacity) {
   return Math.max(1, Math.ceil(currentCapacity * 1.5));
 };
 
+var pointerArrayFactory = function(capacity) {
+  var PointerArray = typed.getPointerArray(capacity);
+
+  return new PointerArray(capacity);
+};
+
 /**
  * Vector.
  *
@@ -34,14 +40,17 @@ function Vector(ArrayClass, initialCapacityOrOptions) {
 
   var initialCapacity = initialCapacityOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY,
-      initialLength = 0;
+      initialLength = 0,
+      factory = false;
 
   if (typeof initialCapacityOrOptions === 'object') {
     initialCapacity = initialCapacityOrOptions.initialCapacity || 0;
     initialLength = initialCapacityOrOptions.initialLength || 0;
     policy = initialCapacityOrOptions.policy || policy;
+    factory = initialCapacityOrOptions.factory === true;
   }
 
+  this.factory = factory ? ArrayClass : null;
   this.ArrayClass = ArrayClass;
   this.length = initialLength;
   this.capacity = Math.max(initialLength, initialCapacity);
@@ -116,7 +125,10 @@ Vector.prototype.reallocate = function(capacity) {
     this.length = capacity;
 
   if (capacity > this.capacity) {
-    this.array = new this.ArrayClass(capacity);
+    if (this.factory === null)
+      this.array = new this.ArrayClass(capacity);
+    else
+      this.array = this.factory(capacity);
 
     if (typed.isTypedArray(this.array)) {
       this.array.set(oldArray, 0);
@@ -278,7 +290,7 @@ if (typeof Symbol !== 'undefined')
 Vector.prototype.inspect = function() {
   var proxy = this.array.slice(0, this.length);
 
-  proxy.type = this.ArrayClass.name;
+  proxy.type = this.array.constructor.name;
   proxy.items = this.length;
   proxy.capacity = this.capacity;
 
@@ -352,5 +364,6 @@ Vector.Int32Vector = subClass(Int32Array);
 Vector.Uint32Vector = subClass(Uint32Array);
 Vector.Float32Vector = subClass(Float32Array);
 Vector.Float64Vector = subClass(Float64Array);
+Vector.PointerVector = subClass(pointerArrayFactory);
 
 module.exports = Vector;

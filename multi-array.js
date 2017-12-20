@@ -49,7 +49,7 @@ MultiArray.prototype.clear = function() {
   this.size = 0;
   this.dimension = 0;
 
-  // NOTE: #.tails & #.lengths have a length equal to the dimension of the
+  // NOTE: #.heads, #.tails & #.lengths have a length equal to the dimension of the
   // array, while #.pointers has a length equal to its size.
 
   // Storage
