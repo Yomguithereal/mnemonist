@@ -93,7 +93,6 @@ MultiArray.prototype.set = function(index, item) {
       throw new Error('mnemonist/multi-array: attempting to allocate further than capacity.');
 
     // This linked list does not exist yet. Let's create it
-    // TODO: what if index is way over the top?
     if (index >= this.dimension) {
 
       // We may be required to grow the vectors
@@ -142,6 +141,40 @@ MultiArray.prototype.set = function(index, item) {
     this.items.push(item);
   }
 
+  this.size++;
+
+  return this;
+};
+
+/**
+ * Method used to push a new container holding the given value.
+ * Note: it might be useful to make this function able to take an iterable
+ * or variadic someday. For the time being it's just a convenience for
+ * implementing compact multi maps and such.
+ *
+ * @param  {any} item  - Item to add.
+ * @return {MultiArray}
+ */
+MultiArray.prototype.push = function(item) {
+  var pointer = this.size + 1,
+      index = this.dimension;
+
+  if (this.hasFixedCapacity) {
+
+    if (index >= this.capacity || this.size === this.capacity)
+      throw new Error('mnemonist/multi-array: attempting to allocate further than capacity.');
+
+    this.items[pointer - 1] = item;
+  }
+  else {
+    this.items.push(item);
+    this.pointers.push(0);
+  }
+
+  this.lengths.push(1);
+  this.tails.push(pointer);
+
+  this.dimension++;
   this.size++;
 
   return this;
@@ -212,7 +245,15 @@ MultiArray.prototype.inspect = function() {
       l;
 
   for (i = 0, l = this.dimension; i < l; i++)
-    proxy[i] = this.get(i);
+    proxy[i] = Array.from(this.get(i));
+
+  if (this.hasFixedCapacity) {
+    proxy.type = this.Container.name;
+    proxy.capacity = this.capacity;
+  }
+
+  proxy.size = this.size;
+  proxy.dimension = this.dimension;
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {

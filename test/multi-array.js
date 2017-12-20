@@ -7,7 +7,7 @@ var assert = require('assert'),
 
 describe('MultiArray', function() {
 
-  it('should be possible to add items ot a multi array.', function() {
+  it('should be possible to add items to a multi array.', function() {
     var array = new MultiArray();
 
     array.set(0, 1);
@@ -19,6 +19,56 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 6);
     assert.strictEqual(array.dimension, 3);
+  });
+
+  it('should be possible to push containers to a multi array.', function() {
+    var array = new MultiArray();
+
+    array.push(1);
+    array.push(2);
+    array.push(3);
+
+    assert.strictEqual(array.size, 3);
+    assert.strictEqual(array.dimension, 3);
+    assert.deepEqual(array.get(0), [1]);
+    assert.deepEqual(array.get(1), [2]);
+    assert.deepEqual(array.get(2), [3]);
+
+    array.set(0, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.strictEqual(array.size, 6);
+    assert.strictEqual(array.dimension, 3);
+    assert.deepEqual(array.get(0), [1, 4]);
+    assert.deepEqual(array.get(1), [2, 5]);
+    assert.deepEqual(array.get(2), [3, 6]);
+
+    array = new MultiArray(Uint8Array, 6);
+
+    array.push(1);
+    array.push(2);
+    array.push(3);
+
+    assert.strictEqual(array.size, 3);
+    assert.strictEqual(array.dimension, 3);
+    assert.deepEqual(array.get(0), [1]);
+    assert.deepEqual(array.get(1), [2]);
+    assert.deepEqual(array.get(2), [3]);
+
+    array.set(0, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.strictEqual(array.size, 6);
+    assert.strictEqual(array.dimension, 3);
+    assert.deepEqual(array.get(0), [1, 4]);
+    assert.deepEqual(array.get(1), [2, 5]);
+    assert.deepEqual(array.get(2), [3, 6]);
+
+    assert.throws(function() {
+      array.push(45);
+    }, /capacity/);
   });
 
   it('should be possible to get subarrays.', function() {
