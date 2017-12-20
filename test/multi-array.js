@@ -92,6 +92,28 @@ describe('MultiArray', function() {
     assert.strictEqual(array.has(2), true);
   });
 
+  it('should be possible to test the existence of a container.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 4);
+    array.set(0, 5);
+
+    assert.strictEqual(array.has(0), true);
+    assert.strictEqual(array.has(3), false);
+    assert.strictEqual(array.has(1), false);
+  });
+
+  it('should be possible to count subarrays.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 4);
+    array.set(0, 5);
+
+    assert.strictEqual(array.count(0), 2);
+    assert.strictEqual(array.count(3), 0);
+    assert.strictEqual(array.count(1), 0);
+  });
+
   it('should be possible to use static containers.', function() {
     var array = new MultiArray(Uint8Array, 6);
 

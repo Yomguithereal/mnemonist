@@ -225,10 +225,21 @@ MultiArray.prototype.has = function(index) {
   return index < this.dimension;
 };
 
-// TODO: throw on exceeded capacity
+/**
+ * Method used to get the size of the container stored at given index.
+ *
+ * @param  {number} index - Index of the container.
+ * @return {number}
+ */
+MultiArray.prototype.multiplicity = function(index) {
+  if (index >= this.dimension)
+    return 0;
+
+  return this.lengths[index];
+};
+MultiArray.prototype.count = MultiArray.prototype.multiplicity;
+
 // #.iterate on a given sublist
-// #.push?
-// #.count
 // #.entries
 // #.containers
 // #.associations
