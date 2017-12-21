@@ -131,15 +131,15 @@ InvertedIndex.prototype.get = function(query) {
       i,
       l;
 
-  if (typeof results === 'undefined')
+  if (typeof results === 'undefined' || results.length === 0)
     return [];
 
   if (tokens.length > 1) {
     for (i = 1, l = tokens.length; i < l; i++) {
       c = this.mapping.get(tokens[i]);
 
-      if (typeof c === 'undefined')
-        continue;
+      if (typeof c === 'undefined' || c.length === 0)
+        return [];
 
       results = helpers.intersectionUniqueArrays(results, c);
     }
