@@ -109,9 +109,8 @@ MultiArray.prototype.set = function(index, item) {
       this.tails.grow(this.dimension);
       this.lengths.grow(this.dimension);
 
-      // TODO: should use #.resize here
-      this.tails.length = this.dimension;
-      this.lengths.length = this.dimension;
+      this.tails.resize(this.dimension);
+      this.lengths.resize(this.dimension);
 
       this.lengths.array[index] = 1;
     }
@@ -135,9 +134,8 @@ MultiArray.prototype.set = function(index, item) {
       this.tails.grow(this.dimension);
       this.lengths.grow(this.dimension);
 
-      // TODO: should use #.resize here
-      this.tails.length = this.dimension;
-      this.lengths.length = this.dimension;
+      this.tails.resize(this.dimension);
+      this.lengths.resize(this.dimension);
 
       this.pointers.push(0);
       this.lengths.array[index] = 1;
