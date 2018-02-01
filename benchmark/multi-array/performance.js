@@ -85,8 +85,6 @@ for (i = 0; i < SIZE; i++) {
 }
 console.timeEnd('StaticMultiArray get');
 
-
-
 console.log();
 
 var j, m, s, o;
