@@ -282,24 +282,70 @@ MultiArray.prototype.associations = function() {
 };
 
 /**
- * Method used to iterate over the structure's values.
+ * Method used to iterate over the structure's values in the global insertion
+ * order.
  *
  * @param  {number}   [index] - Optionally, iterate over the values of a single
  *                              container at index.
  * @return {Iterator}
  */
 MultiArray.prototype.values = function(index) {
+  var items = this.items,
+      length,
+      i = 0;
+
+  if (typeof index === 'number') {
+    if (index >= this.dimension)
+      return Iterator.empty();
+
+    length = this.lengths.array[index];
+    items = this.items;
+
+    var pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array;
+
+    if (length === 0)
+      return Iterator.empty();
+
+    var pointer = this.tails.array[index],
+        v;
+
+    return new Iterator(function() {
+      if (i === length)
+        return {done: true};
+
+      i++;
+      v = items[pointer];
+      pointer = pointers[pointer];
+
+      return {done: false, value: v};
+    });
+  }
+
+  length = this.size;
+
+  return new Iterator(function() {
+    if (i >= length)
+      return {done: true};
+
+    return {done: false, value: items[i++]};
+  });
+};
+
+/**
+ * Method used to iterate over the structure's entries.
+ *
+ * @return {Iterator}
+ */
+MultiArray.prototype.entries = function() {
   if (this.size === 0)
     return Iterator.empty();
-
-  var singleContainer = typeof index === 'number' && index >= 0;
 
   var inContainer = false,
       pointer,
       length,
-      i = singleContainer ? index : 0,
+      i = 0,
       j = 0,
-      l = singleContainer ? index + 1 : this.dimension,
+      l = this.dimension,
       v;
 
   var pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array,
@@ -307,9 +353,6 @@ MultiArray.prototype.values = function(index) {
       tails = this.tails.array,
       lengths = this.lengths.array;
 
-  // TODO: if no container, we should just iterate over the values in inserted order?
-  // TODO: this is suitable for entries
-  // TODO: optimize for single container
   var iterator = new Iterator(function next() {
     if (!inContainer) {
 
@@ -333,24 +376,37 @@ MultiArray.prototype.values = function(index) {
     }
 
     v = items[pointer];
+
+    // TODO: guard for out-of-bounds
     pointer = pointers[pointer];
 
     j++;
 
     return {
       done: false,
-      value: v
+      value: [i - 1, v]
     };
   });
 
   return iterator;
 };
 
-// #.iterate on a given sublist
-// #.entries
-// #.values
-// #.keys
-// @.from
+/**
+ * Method used to iterate over the structure's keys.
+ *
+ * @return {Iterator}
+ */
+MultiArray.prototype.keys = function() {
+  var i = 0,
+      l = this.dimension;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {done: true};
+
+    return {done: false, value: i++};
+  });
+};
 
 /**
  * Convenience known methods.
@@ -379,6 +435,8 @@ MultiArray.prototype.inspect = function() {
 
   return proxy;
 };
+
+// TODO: .from
 
 /**
  * Exporting.

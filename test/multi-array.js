@@ -196,8 +196,43 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    // console.log(consume(array.values()));
+    assert.deepEqual(consume(array.values()), [1, 2, 3, 4, 5, 6]);
+    assert.deepEqual(consume(array.values(0)), [3, 2, 1]);
+    assert.deepEqual(consume(array.values(1)), [5, 4]);
+    assert.deepEqual(consume(array.values(2)), [6]);
+    assert.deepEqual(consume(array.values(3)), []);
+  });
 
-    // assert.deepEqual(consume(array.values()), [1, 2, 3, 4, 5, 6]);
+  it('should be possible to iterate over entries.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.deepEqual(consume(array.entries()), [
+        [0, 3],
+        [0, 2],
+        [0, 1],
+        [1, 5],
+        [1, 4],
+        [2, 6]
+    ]);
+  });
+
+  it('should be possible to iterate over keys.', function() {
+    var array = new MultiArray();
+
+    array.set(0, 1);
+    array.set(0, 2);
+    array.set(0, 3);
+    array.set(1, 4);
+    array.set(1, 5);
+    array.set(2, 6);
+
+    assert.deepEqual(consume(array.keys()), [0, 1, 2]);
   });
 });
