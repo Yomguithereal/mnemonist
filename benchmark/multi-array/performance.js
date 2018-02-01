@@ -5,6 +5,10 @@ var createRandom = require('pandemonium/random').createRandom;
 var DIMENSION = 50000;
 var SIZE = 1000000;
 
+console.log('Dimension:', DIMENSION);
+console.log('Size:', SIZE);
+console.log();
+
 var array = [];
 var multiArray = new MultiArray();
 var staticMultiArray = new MultiArray(Uint8Array, SIZE);

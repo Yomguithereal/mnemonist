@@ -22,6 +22,8 @@ var typed = require('./utils/typed-arrays.js'),
     Vector = require('./vector.js'),
     Iterator = require('obliterator/iterator');
 
+var PointerVector = Vector.PointerVector;
+
 /**
  * MultiArray.
  *
@@ -49,8 +51,8 @@ MultiArray.prototype.clear = function() {
   this.size = 0;
   this.dimension = 0;
 
-  // NOTE: #.heads, #.tails & #.lengths have a length equal to the dimension of the
-  // array, while #.pointers has a length equal to its size.
+  // NOTE: #.heads, #.tails & #.lengths have a length equal to the dimension of
+  // the array, while #.pointers has a length equal to its size.
 
   // Storage
   if (this.hasFixedCapacity) {
@@ -67,7 +69,6 @@ MultiArray.prototype.clear = function() {
 
     var initialCapacity = Math.max(8, capacity);
 
-    // this.heads = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.tails = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.lengths = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.pointers = new PointerArray(capacity + 1);
@@ -76,11 +77,9 @@ MultiArray.prototype.clear = function() {
   }
   else {
 
-    // TODO: create PointerVector?
-    // this.heads = new Array();
-    this.tails = new Array();
-    this.lengths = new Array();
-    this.pointers = new Array();
+    this.tails = new PointerVector();
+    this.lengths = new PointerVector();
+    this.pointers = new PointerVector();
     this.pointers.push(0);
 
     this.items = new this.Container();
@@ -95,8 +94,7 @@ MultiArray.prototype.clear = function() {
  * @return {MultiArray}
  */
 MultiArray.prototype.set = function(index, item) {
-  var pointer = this.size + 1,
-      i;
+  var pointer = this.size + 1;
 
   if (this.hasFixedCapacity) {
 
@@ -132,24 +130,26 @@ MultiArray.prototype.set = function(index, item) {
     // This linked list does not exist yet. Let's create it
     if (index >= this.dimension) {
 
-      // We may be required to allocate
-      for (i = this.dimension; i <= index; i++) {
-        this.tails[i] = 0;
-        this.lengths[i] = 0;
-      }
-
+      // We may be required to grow the vectors
       this.dimension = index + 1;
+      this.tails.grow(this.dimension);
+      this.lengths.grow(this.dimension);
+
+      // TODO: should use #.resize here
+      this.tails.length = this.dimension;
+      this.lengths.length = this.dimension;
+
       this.pointers.push(0);
-      this.lengths[index] = 1;
+      this.lengths.array[index] = 1;
     }
 
     // Appending to the list
     else {
-      this.pointers.push(this.tails[index]);
-      this.lengths[index]++;
+      this.pointers.push(this.tails.array[index]);
+      this.lengths.array[index]++;
     }
 
-    this.tails[index] = pointer;
+    this.tails.array[index] = pointer;
     this.items.push(item);
   }
 
@@ -202,16 +202,9 @@ MultiArray.prototype.get = function(index) {
   if (index >= this.dimension)
     return;
 
-  var tails, lengths, pointers = this.pointers;
-
-  if (this.hasFixedCapacity) {
-    tails = this.tails.array;
-    lengths = this.lengths.array;
-  }
-  else {
-    tails = this.tails;
-    lengths = this.lengths;
-  }
+  var tails = this.tails.array,
+      lengths = this.lengths.array,
+      pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array;
 
   var pointer = tails[index],
       length = lengths[index],
@@ -247,7 +240,7 @@ MultiArray.prototype.multiplicity = function(index) {
   if (index >= this.dimension)
     return 0;
 
-  return this.lengths[index];
+  return this.lengths.array[index];
 };
 MultiArray.prototype.count = MultiArray.prototype.multiplicity;
 
