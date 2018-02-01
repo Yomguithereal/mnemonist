@@ -59,6 +59,15 @@ console.timeEnd('Array get');
 
 random = createRandom(seedrandom('bench'));
 
+console.time('Array get slice');
+for (i = 0; i < SIZE; i++) {
+  c = random(0, DIMENSION);
+  r = array[c].slice();
+}
+console.timeEnd('Array get slice');
+
+random = createRandom(seedrandom('bench'));
+
 console.time('MultiArray get');
 for (i = 0; i < SIZE; i++) {
   c = random(0, DIMENSION);
