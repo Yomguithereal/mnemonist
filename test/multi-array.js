@@ -196,6 +196,8 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
+    // console.log(consume(array.values()));
+
     // assert.deepEqual(consume(array.values()), [1, 2, 3, 4, 5, 6]);
   });
 });

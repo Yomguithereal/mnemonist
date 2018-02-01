@@ -58,7 +58,7 @@ MultiArray.prototype.clear = function() {
   if (this.hasFixedCapacity) {
     var capacity = this.capacity;
 
-    var PointerArray = typed.getPointerArray(capacity + 1);
+    var PointerArray = typed.getPointerArray(capacity);
 
     var policy = function(currentCapacity) {
       var newCapacity = Math.max(1, Math.ceil(currentCapacity * 1.5));
@@ -71,7 +71,7 @@ MultiArray.prototype.clear = function() {
 
     this.tails = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
     this.lengths = new Vector(PointerArray, {policy: policy, initialCapacity: initialCapacity});
-    this.pointers = new PointerArray(capacity + 1);
+    this.pointers = new PointerArray(capacity);
 
     this.items = new this.Container(capacity);
   }
@@ -80,7 +80,6 @@ MultiArray.prototype.clear = function() {
     this.tails = new PointerVector();
     this.lengths = new PointerVector();
     this.pointers = new PointerVector();
-    this.pointers.push(0);
 
     this.items = new this.Container();
   }
@@ -94,7 +93,7 @@ MultiArray.prototype.clear = function() {
  * @return {MultiArray}
  */
 MultiArray.prototype.set = function(index, item) {
-  var pointer = this.size + 1;
+  var pointer = this.size;
 
   // TODO: this can be factorized!
 
@@ -124,7 +123,7 @@ MultiArray.prototype.set = function(index, item) {
     }
 
     this.tails.array[index] = pointer;
-    this.items[pointer - 1] = item;
+    this.items[pointer] = item;
   }
   else {
 
@@ -168,7 +167,7 @@ MultiArray.prototype.set = function(index, item) {
  * @return {MultiArray}
  */
 MultiArray.prototype.push = function(item) {
-  var pointer = this.size + 1,
+  var pointer = this.size,
       index = this.dimension;
 
   if (this.hasFixedCapacity) {
@@ -176,7 +175,7 @@ MultiArray.prototype.push = function(item) {
     if (index >= this.capacity || this.size === this.capacity)
       throw new Error('mnemonist/multi-array: attempting to allocate further than capacity.');
 
-    this.items[pointer - 1] = item;
+    this.items[pointer] = item;
   }
   else {
     this.items.push(item);
@@ -210,8 +209,8 @@ MultiArray.prototype.get = function(index) {
 
   var array = new this.Container(length);
 
-  while (pointer !== 0) {
-    array[--i] = this.items[~-pointer];
+  while (i !== 0) {
+    array[--i] = this.items[pointer];
     pointer = pointers[pointer];
   }
 
@@ -289,42 +288,54 @@ MultiArray.prototype.associations = function() {
  *                              container at index.
  * @return {Iterator}
  */
-MultiArray.prototype.values = function() {
+MultiArray.prototype.values = function(index) {
   if (this.size === 0)
     return Iterator.empty();
 
+  var singleContainer = typeof index === 'number' && index >= 0;
+
   var inContainer = false,
       pointer,
-      i = 0,
-      l = this.dimension,
+      length,
+      i = singleContainer ? index : 0,
+      j = 0,
+      l = singleContainer ? index + 1 : this.dimension,
       v;
 
-  var pointers = this.pointers,
+  var pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array,
       items = this.items,
-      tails = this.hasFixedCapacity ? this.tails.array : this.tails;
+      tails = this.tails.array,
+      lengths = this.lengths.array;
 
+  // TODO: if no container, we should just iterate over the values in inserted order?
+  // TODO: this is suitable for entries
+  // TODO: optimize for single container
   var iterator = new Iterator(function next() {
     if (!inContainer) {
 
       if (i >= l)
         return {done: true};
 
+      length = lengths[i];
       pointer = tails[i];
       i++;
 
-      if (pointer === 0)
+      if (length === 0)
         return next();
 
+      j = 0;
       inContainer = true;
     }
 
-    if (pointer === 0) {
+    if (j === length) {
       inContainer = false;
       return next();
     }
 
-    v = items[~-pointer];
+    v = items[pointer];
     pointer = pointers[pointer];
+
+    j++;
 
     return {
       done: false,

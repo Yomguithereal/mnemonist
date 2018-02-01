@@ -47,9 +47,10 @@ for (i = 0; i < SIZE; i++) {
 }
 console.timeEnd('StaticMultiArray build');
 
+console.log();
+
 random = createRandom(seedrandom('bench'));
 
-console.log();
 console.time('Array get');
 for (i = 0; i < SIZE; i++) {
   c = random(0, DIMENSION);
@@ -83,3 +84,33 @@ for (i = 0; i < SIZE; i++) {
   r = staticMultiArray.get(c);
 }
 console.timeEnd('StaticMultiArray get');
+
+
+
+console.log();
+
+var j, m, s, o;
+
+random = createRandom(seedrandom('bench'));
+
+console.time('Array iter');
+for (i = 0; i < SIZE; i++) {
+  c = random(0, DIMENSION);
+  r = array[c];
+
+  for (j = 0, m = r.length; j < m; j++)
+    o = r[j];
+}
+console.timeEnd('Array iter');
+
+random = createRandom(seedrandom('bench'));
+
+console.time('MultiArray iter');
+for (i = 0; i < SIZE; i++) {
+  c = random(0, DIMENSION);
+  r = multiArray.values(c);
+
+  while ((s = r.next(), s.done !== true))
+    o = s.value;
+}
+console.timeEnd('MultiArray iter');
