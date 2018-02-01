@@ -96,6 +96,8 @@ MultiArray.prototype.clear = function() {
 MultiArray.prototype.set = function(index, item) {
   var pointer = this.size + 1;
 
+  // TODO: this can be factorized!
+
   if (this.hasFixedCapacity) {
 
     if (index >= this.capacity || this.size === this.capacity)
@@ -200,12 +202,10 @@ MultiArray.prototype.get = function(index) {
   if (index >= this.dimension)
     return;
 
-  var tails = this.tails.array,
-      lengths = this.lengths.array,
-      pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array;
+  var pointers = this.hasFixedCapacity ? this.pointers : this.pointers.array;
 
-  var pointer = tails[index],
-      length = lengths[index],
+  var pointer = this.tails.array[index],
+      length = this.lengths.array[index],
       i = length;
 
   var array = new this.Container(length);
