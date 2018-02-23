@@ -17,7 +17,11 @@ function iterate(target, callback) {
   var iterator, k, i, l, s;
 
   // The target is an array
-  if (iterate.isArrayLike(target) || typeof target === 'string') {
+  if (
+    iterate.isArrayLike(target) ||
+    typeof target === 'string' ||
+    target.toString() === '[object Arguments]'
+  ) {
     for (i = 0, l = target.length; i < l; i++)
       callback(target[i], i);
     return;

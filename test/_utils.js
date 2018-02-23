@@ -23,6 +23,20 @@ describe('utils', function() {
       });
     });
 
+    it('should properly iterate over an arguments object.', function() {
+      function test() {
+        var i = 0;
+
+        iterate(arguments, function(value, key) {
+          assert.strictEqual(i, key);
+          assert.strictEqual(value, i + 1);
+          i++;
+        });
+      }
+
+      test(1, 2, 3);
+    });
+
     it('should properly iterate over a string.', function() {
       var string = 'abc',
           map = ['a', 'b', 'c'],
