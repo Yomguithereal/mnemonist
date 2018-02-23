@@ -45,6 +45,14 @@ Alternatively, one can build a `Stack` from an arbitrary JavaScript iterable lik
 var stack = Stack.from([1, 2, 3]);
 ```
 
+### Static #.of
+
+You can also build a `Stack` from an arbitrary set of arguments:
+
+```js
+var stack = Stack.of(1, 2, 3);
+```
+
 ## Members
 
 * [#.size](#size)
