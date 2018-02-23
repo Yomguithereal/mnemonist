@@ -88,6 +88,12 @@ describe('Stack', function() {
     assert.deepEqual(stack.toArray(), [3, 2, 1]);
   });
 
+  it('should be possible to create a stack from arbitrary arguments.', function() {
+    var stack = Stack.of(1, 2, 3);
+
+    assert.deepEqual(stack.toArray(), [3, 2, 1]);
+  });
+
   it('should be possible to create a values iterator.', function() {
     var stack = Stack.from([1, 2, 3]);
 

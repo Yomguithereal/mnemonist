@@ -191,6 +191,17 @@ Stack.from = function(iterable) {
 };
 
 /**
+ * Static @.of function taking an abitrary number of arguments & converting it
+ * into a stack.
+ *
+ * @param  {...any} args
+ * @return {Stack}
+ */
+Stack.of = function() {
+  return Stack.from(arguments);
+};
+
+/**
  * Exporting.
  */
 module.exports = Stack;

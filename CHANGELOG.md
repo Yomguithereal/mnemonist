@@ -4,6 +4,7 @@
 
 * Adding `StaticIntervalTree`.
 * Adding `PointerVector`.
+* Adding `Stack.of`.
 * Improving `Vector` & `BitVector` reallocation performance.
 * Improving `InvertedIndex` performance.
 
