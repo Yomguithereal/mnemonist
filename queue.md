@@ -43,6 +43,14 @@ Alternatively, one can build a `Queue` from an arbitrary JavaScript iterable lik
 var list = Queue.from([1, 2, 3]);
 ```
 
+### Static #.of
+
+You can also build a `Queue` from an arbitrary set of arguments:
+
+```js
+var queue = Queue.of(1, 2, 3);
+```
+
 ## Members
 
 * [#.size](#size)
