@@ -88,6 +88,12 @@ describe('Queue', function() {
     assert.deepEqual(queue.toArray(), [1, 2, 3]);
   });
 
+  it('should be possible to create a queue from arbitrary arguments.', function() {
+    var queue = Queue.of(1, 2, 3);
+
+    assert.deepEqual(queue.toArray(), [1, 2, 3]);
+  });
+
   it('should be possible to create a values iterator.', function() {
     var queue = Queue.from([1, 2, 3]);
 

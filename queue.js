@@ -196,6 +196,17 @@ Queue.from = function(iterable) {
 };
 
 /**
+ * Static @.of function taking an abitrary number of arguments & converting it
+ * into a queue.
+ *
+ * @param  {...any} args
+ * @return {Queue}
+ */
+Queue.of = function() {
+  return Queue.from(arguments);
+};
+
+/**
  * Exporting.
  */
 module.exports = Queue;

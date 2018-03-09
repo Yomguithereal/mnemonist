@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.19.0 (provisional)
+## 0.19.0
 
 * Adding `StaticIntervalTree`.
 * Adding `PointerVector`.
+* Adding `Queue.of`.
 * Adding `Stack.of`.
 * Improving `Vector` & `BitVector` reallocation performance.
 * Improving `InvertedIndex` performance.
