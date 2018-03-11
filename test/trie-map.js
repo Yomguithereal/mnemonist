@@ -160,19 +160,23 @@ describe('TrieMap', function() {
     assert.deepEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
   });
 
-  // it('should be possible to get the longest matching prefix.', function() {
-  //   var trie = new TrieMap();
+  it('should be possible to get the longest matching prefix.', function() {
+    var trie = new TrieMap();
 
-  //   trie.add('roman');
-  //   trie.add('romanesque');
-  //   trie.add('romanesques');
-  //   trie.add('greek');
+    trie.set('roman', 1);
+    trie.set('romanesque', 2);
+    trie.set('romanesques', 3);
+    trie.set('greek', 4);
 
-  //   assert.strictEqual(trie.longestPrefix('romano'), 'roman');
-  //   assert.strictEqual(trie.longestPrefix('romanesquet'), 'romanesque');
-  //   assert.strictEqual(trie.longestPrefix(''), '');
-  //   assert.strictEqual(trie.longestPrefix('greeks'), 'greek');
-  // });
+    assert.deepEqual(trie.longestPrefix('romano'), ['roman', 1]);
+    assert.deepEqual(trie.longestPrefix('romanesquet'), ['romanesque', 2]);
+    assert.strictEqual(trie.longestPrefix(''), null);
+    assert.strictEqual(trie.longestPrefix('gloria'), null);
+    assert.deepEqual(trie.longestPrefix('greeks'), ['greek', 4]);
+
+    trie.set('', 5);
+    assert.deepEqual(trie.longestPrefix('gloria'), ['', 5]);
+  });
 
   // it('should work with custom tokens.', function() {
   //   var trie = new TrieMap();

@@ -213,30 +213,33 @@ TrieMap.prototype.find = function(prefix) {
  * @param  {string|array} sequence - Sequence to query.
  * @return {array}
  */
-TrieMap.prototype.longestPrefix = function(item) {
-  var string = typeof item === 'string';
+TrieMap.prototype.longestPrefix = function(sequence) {
+  var node = this.root,
+      longest = 0,
+      hasValue = SENTINEL in node,
+      value = node[SENTINEL],
+      token,
+      i,
+      l;
 
-  if (string)
-    item = item.split('');
+  for (i = 0, l = sequence.length; i < l; i++) {
+    token = sequence[i];
+    node = node[token];
 
-  if (!item || !item.length)
-    return string ? '' : [];
-
-  var prefix = [],
-      node = this.root,
-      token;
-
-  for (var i = 0, l = item.length; i < l; i++) {
-    token = item[i];
-
-    if (!node.hasOwnProperty(token))
+    if (typeof node === 'undefined')
       break;
 
-    prefix.push(token);
-    node = node[token];
+    if (SENTINEL in node) {
+      hasValue = true;
+      longest = i + 1;
+      value = node[SENTINEL];
+    }
   }
 
-  return string ? prefix.join('') : prefix;
+  if (!hasValue)
+    return null;
+
+  return [sequence.slice(0, longest), value];
 };
 
 /**
@@ -246,9 +249,9 @@ TrieMap.prototype.longestPrefix = function(item) {
  * @param  {number}       [min=0]  - Minimum length for the retrieved prefix.
  * @return {array}
  */
-TrieMap.prototype.shortestPrefix = function(sequence, min) {
-  min = min || 0;
-};
+// TrieMap.prototype.shortestPrefix = function(sequence, min) {
+//   min = min || 0;
+// };
 
 /**
  * Convenience known methods.
