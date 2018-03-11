@@ -1,20 +1,22 @@
 /* eslint-disable */
 /**
- * Mnemonist Trie Unit Tests
+ * Mnemonist TrieMap Unit Tests
  * ==========================
  */
 var assert = require('assert'),
-    Trie = require('../trie.js');
+    TrieMap = require('../trie-map.js');
+
+var SENTINEL = TrieMap.SENTINEL;
 
 var inspect = require('util').inspect;
 
 if (inspect.defaultOptions)
   inspect.defaultOptions.depth = null;
 
-describe('Trie', function() {
+describe('TrieMap', function() {
 
-  it('should be possible to add items into a Trie.', function() {
-    var trie = new Trie();
+  it('should be possible to add items into a TrieMap.', function() {
+    var trie = new TrieMap();
 
     trie.add('rat');
     trie.add('rate');
@@ -27,16 +29,16 @@ describe('Trie', function() {
         a: {
           t: {
             e: {
-              '\uE000': true
+              [SENTINEL]: true
             },
-            '\uE000': true
+            [SENTINEL]: true
           }
         }
       },
       t: {
         a: {
           r: {
-            '\uE000': true
+            [SENTINEL]: true
           }
         }
       }
@@ -44,7 +46,7 @@ describe('Trie', function() {
   });
 
   it('adding the same item several times should not increase size.', function() {
-    var trie = new Trie();
+    var trie = new TrieMap();
 
     trie.add('rat');
     trie.add('rate');
@@ -54,7 +56,7 @@ describe('Trie', function() {
   });
 
   it('should be possible to delete items.', function() {
-    var trie = new Trie();
+    var trie = new TrieMap();
 
     trie.add('rat');
     trie.add('rate');
@@ -72,7 +74,7 @@ describe('Trie', function() {
         a: {
           t: {
             e: {
-              '\uE000': true
+              [SENTINEL]: true
             }
           }
         }
@@ -80,7 +82,7 @@ describe('Trie', function() {
       t: {
         a: {
           r: {
-            '\uE000': true
+            [SENTINEL]: true
           }
         }
       }
@@ -94,7 +96,7 @@ describe('Trie', function() {
       t: {
         a: {
           r: {
-            '\uE000': true
+            [SENTINEL]: true
           }
         }
       }
@@ -107,8 +109,8 @@ describe('Trie', function() {
     assert.deepEqual(trie.root, {});
   });
 
-  it('should be possible to check the existence of an item in the Trie.', function() {
-    var trie = new Trie();
+  it('should be possible to check the existence of an item in the TrieMap.', function() {
+    var trie = new TrieMap();
 
     trie.add('romanesque');
 
@@ -119,7 +121,7 @@ describe('Trie', function() {
   });
 
   it('should be possible to retrieve items matching the given prefix.', function() {
-    var trie = new Trie();
+    var trie = new TrieMap();
 
     trie.add('roman');
     trie.add('romanesque');
@@ -135,7 +137,7 @@ describe('Trie', function() {
   });
 
   it('should be possible to get the longest matching prefix.', function() {
-    var trie = new Trie();
+    var trie = new TrieMap();
 
     trie.add('roman');
     trie.add('romanesque');
@@ -149,7 +151,7 @@ describe('Trie', function() {
   });
 
   it('should work with custom tokens.', function() {
-    var trie = new Trie();
+    var trie = new TrieMap();
 
     trie.add(['the', 'cat', 'eats', 'the', 'mouse']);
     trie.add(['the', 'mouse', 'eats', 'cheese']);
@@ -162,7 +164,7 @@ describe('Trie', function() {
           eats: {
             the: {
               mouse: {
-                '\uE000': true
+                [SENTINEL]: true
               }
             }
           }
@@ -170,14 +172,14 @@ describe('Trie', function() {
         mouse: {
           eats: {
             cheese: {
-              '\uE000': true
+              [SENTINEL]: true
             }
           }
         }
       },
       hello: {
         world: {
-          '\uE000': true
+          [SENTINEL]: true
         }
       }
     });
@@ -204,7 +206,7 @@ describe('Trie', function() {
       'romanesque'
     ];
 
-    var trie = Trie.from(words);
+    var trie = TrieMap.from(words);
 
     assert.strictEqual(trie.size, 2);
     assert.deepEqual(trie.get('ro'), ['roman', 'romanesque']);

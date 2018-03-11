@@ -1,22 +1,26 @@
 /**
- * Mnemonist Trie
- * ===============
+ * Mnemonist TrieMap
+ * ==================
  *
- * Very simple Trie implementation.
+ * Very simple TrieMap implementation.
  */
 var iterate = require('./utils/iterate.js');
 
 /**
  * Constants.
  */
-var SENTINEL = '\uE000';
+
+// The sentinel is a symbol or fallbacks to char(0).
+var SENTINEL = typeof Symbol !== 'undefined' ?
+  Symbol('sentinel') :
+  String.fromCharCode(0);
 
 /**
- * Trie.
+ * TrieMap.
  *
  * @constructor
  */
-function Trie() {
+function TrieMap() {
   this.clear();
   this.end = SENTINEL;
 }
@@ -26,7 +30,7 @@ function Trie() {
  *
  * @return {undefined}
  */
-Trie.prototype.clear = function() {
+TrieMap.prototype.clear = function() {
 
   // Properties
   this.root = {};
@@ -37,9 +41,9 @@ Trie.prototype.clear = function() {
  * Method used to add an item to the trie.
  *
  * @param  {string|array} item - Item to add.
- * @return {Trie}
+ * @return {TrieMap}
  */
-Trie.prototype.add = function(item) {
+TrieMap.prototype.add = function(item) {
   if (typeof item === 'string')
     item = item.split('');
 
@@ -74,7 +78,7 @@ Trie.prototype.add = function(item) {
  * @param  {string|array} item - Item to delete.
  * @return {boolean}
  */
-Trie.prototype.delete = function(item) {
+TrieMap.prototype.delete = function(item) {
   if (typeof item === 'string')
     item = item.split('');
 
@@ -121,12 +125,12 @@ Trie.prototype.delete = function(item) {
 };
 
 /**
- * Method used to assert whether the given item is in the Trie.
+ * Method used to assert whether the given item is in the TrieMap.
  *
  * @param  {string|array} item - Item to check.
  * @return {boolean}
  */
-Trie.prototype.has = function(item) {
+TrieMap.prototype.has = function(item) {
   if (typeof item === 'string')
     item = item.split('');
 
@@ -154,7 +158,7 @@ Trie.prototype.has = function(item) {
  * @param  {string|array} prefix - Prefix to query.
  * @return {array<string|array>}
  */
-Trie.prototype.get = function(prefix) {
+TrieMap.prototype.get = function(prefix) {
   var string = typeof prefix === 'string',
       item = prefix,
       matches = [];
@@ -202,7 +206,7 @@ Trie.prototype.get = function(prefix) {
  * @param  {string|array} item - Item to query.
  * @return {string|array}
  */
-Trie.prototype.longestPrefix = function(item) {
+TrieMap.prototype.longestPrefix = function(item) {
   var string = typeof item === 'string';
 
   if (string)
@@ -231,21 +235,21 @@ Trie.prototype.longestPrefix = function(item) {
 /**
  * Convenience known methods.
  */
-Trie.prototype.inspect = function() {
+TrieMap.prototype.inspect = function() {
   var proxy = {
     size: this.size
   };
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
-    value: Trie,
+    value: TrieMap,
     enumerable: false
   });
 
   return proxy;
 };
 
-Trie.prototype.toJSON = function() {
+TrieMap.prototype.toJSON = function() {
   return this.root;
 };
 
@@ -256,8 +260,8 @@ Trie.prototype.toJSON = function() {
  * @param  {Iterable} iterable   - Target iterable.
  * @return {Heap}
  */
-Trie.from = function(iterable) {
-  var trie = new Trie();
+TrieMap.from = function(iterable) {
+  var trie = new TrieMap();
 
   iterate(iterable, function(value) {
     trie.add(value);
@@ -266,4 +270,8 @@ Trie.from = function(iterable) {
   return trie;
 };
 
-module.exports = Trie;
+/**
+ * Exporting.
+ */
+TrieMap.SENTINEL = SENTINEL;
+module.exports = TrieMap;
