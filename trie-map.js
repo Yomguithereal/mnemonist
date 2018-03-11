@@ -9,11 +9,7 @@ var iterate = require('./utils/iterate.js');
 /**
  * Constants.
  */
-
-// The sentinel is a symbol or fallbacks to char(0).
-var SENTINEL = typeof Symbol !== 'undefined' ?
-  Symbol('sentinel') :
-  String.fromCharCode(0);
+var SENTINEL = String.fromCharCode(0);
 
 /**
  * TrieMap.
@@ -34,7 +30,6 @@ TrieMap.prototype.clear = function() {
   // Properties
   this.root = {};
   this.size = 0;
-  this.depth = 0;
 };
 
 /**
@@ -57,9 +52,6 @@ TrieMap.prototype.set = function(sequence, value) {
   // Do we need to increase size?
   if (!(SENTINEL in node))
     this.size++;
-
-  if (sequence.length > this.depth)
-    this.depth = sequence.length;
 
   node[SENTINEL] = value;
 
@@ -95,56 +87,58 @@ TrieMap.prototype.get = function(sequence) {
 };
 
 /**
- * Method used to delete an item from the trie.
+ * Method used to delete a sequence from the trie.
  *
- * @param  {string|array} item - Item to delete.
+ * @param  {string|array} sequence - Sequence to delete.
  * @return {boolean}
  */
-TrieMap.prototype.delete = function(item) {
-  if (typeof item === 'string')
-    item = item.split('');
-
-  if (!item || !item.length)
-    return false;
-
+TrieMap.prototype.delete = function(sequence) {
   var node = this.root,
-      prefix = [],
+      toPrune = null,
+      tokenToPrune = null,
+      parent,
       token,
       i,
       l;
 
-  for (i = 0, l = item.length; i < l; i++) {
-    token = item[i];
+  for (i = 0, l = sequence.length; i < l; i++) {
+    token = sequence[i];
+    parent = node;
+    node = node[token];
 
-    if (!node.hasOwnProperty(token))
+    // Prefix does not exist
+    if (typeof node === 'undefined')
       return false;
 
-    node = node[token];
-    prefix.push([token, node]);
+    // Keeping track of a potential branch to prune
+    if (toPrune !== null) {
+      if (Object.keys(node).length > 1) {
+        toPrune = null;
+        tokenToPrune = null;
+      }
+    }
+    else {
+      if (Object.keys(node).length < 2) {
+        toPrune = parent;
+        tokenToPrune = token;
+      }
+    }
   }
 
-  if (!node[SENTINEL])
+  if (!(SENTINEL in node))
     return false;
 
   this.size--;
 
-  delete node[SENTINEL];
-
-  if (Object.keys(node).length >= 1)
-    return true;
-
-  for (i = prefix.length - 1; i >= 1; i--) {
-    if (Object.keys(prefix[i][1]).length < 2)
-      delete prefix[i - 1][1][prefix[i][0]];
-    else
-      break;
-  }
-
-  if (Object.keys(this.root[prefix[0][0]]).length < 2)
-    delete this.root[prefix[0][0]];
+  if (toPrune)
+    delete toPrune[tokenToPrune];
+  else
+    delete node[SENTINEL];
 
   return true;
 };
+
+// TODO: add #.prune?
 
 /**
  * Method used to assert whether the given item is in the TrieMap.

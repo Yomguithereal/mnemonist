@@ -23,7 +23,6 @@ describe('TrieMap', function() {
     trie.set('tar', 3);
 
     assert.strictEqual(trie.size, 3);
-    assert.strictEqual(trie.depth, 4);
 
     assert.strictEqual(trie.get('rat'), 1);
     assert.strictEqual(trie.get('rate'), 2);
@@ -61,7 +60,7 @@ describe('TrieMap', function() {
     trie.set('rat', 3);
 
     assert.strictEqual(trie.size, 2);
-    // TODO: get
+    assert.strictEqual(trie.get('rat'), 3);
   });
 
   it('should be possible to set the null sequence.', function() {
@@ -69,70 +68,70 @@ describe('TrieMap', function() {
 
     trie.set('', 45);
     assert.strictEqual(trie.size, 1);
-    assert.strictEqual(trie.depth, 0);
     assert.strictEqual(trie.get(''), 45);
 
     trie = new TrieMap();
 
     trie.set([], 45);
     assert.strictEqual(trie.size, 1);
-    assert.strictEqual(trie.depth, 0);
     assert.strictEqual(trie.get(''), 45);
   });
 
-  // it('should be possible to delete items.', function() {
-  //   var trie = new TrieMap();
+  it('should be possible to delete items.', function() {
+    var trie = new TrieMap();
 
-  //   trie.add('rat');
-  //   trie.add('rate');
-  //   trie.add('tar');
+    trie.set('rat', 1);
+    trie.set('rate', 2);
+    trie.set('tar', 3);
 
-  //   assert.strictEqual(trie.delete(''), false);
-  //   assert.strictEqual(trie.delete('hello'), false);
+    assert.strictEqual(trie.delete(''), false);
+    assert.strictEqual(trie.delete('hello'), false);
 
-  //   assert.strictEqual(trie.delete('rat'), true);
+    assert.strictEqual(trie.delete('rat'), true);
+    assert.strictEqual(trie.get('rat'), undefined);
+    assert.strictEqual(trie.get('rate'), 2);
 
-  //   assert.strictEqual(trie.size, 2);
+    assert.strictEqual(trie.size, 2);
 
-  //   assert.deepEqual(trie.root, {
-  //     r: {
-  //       a: {
-  //         t: {
-  //           e: {
-  //             [SENTINEL]: true
-  //           }
-  //         }
-  //       }
-  //     },
-  //     t: {
-  //       a: {
-  //         r: {
-  //           [SENTINEL]: true
-  //         }
-  //       }
-  //     }
-  //   });
+    assert.deepEqual(trie.root, {
+      r: {
+        a: {
+          t: {
+            e: {
+              [SENTINEL]: 2
+            }
+          }
+        }
+      },
+      t: {
+        a: {
+          r: {
+            [SENTINEL]: 3
+          }
+        }
+      }
+    });
 
-  //   assert.strictEqual(trie.delete('rate'), true);
+    assert.strictEqual(trie.delete('rate'), true);
 
-  //   assert.strictEqual(trie.size, 1);
+    assert.strictEqual(trie.size, 1);
 
-  //   assert.deepEqual(trie.root, {
-  //     t: {
-  //       a: {
-  //         r: {
-  //           [SENTINEL]: true
-  //         }
-  //       }
-  //     }
-  //   });
+    assert.deepEqual(trie.root, {
+      t: {
+        a: {
+          r: {
+            [SENTINEL]: 3
+          }
+        }
+      }
+    });
 
-  //   assert.strictEqual(trie.delete('tar'), true);
+    assert.strictEqual(trie.delete('tar'), true);
 
-  //   assert.strictEqual(trie.size, 0);
+    assert.strictEqual(trie.size, 0);
 
-  //   assert.deepEqual(trie.root, {});
-  // });
+    assert.deepEqual(trie.root, {});
+  });
 
   // it('should be possible to check the existence of an item in the TrieMap.', function() {
   //   var trie = new TrieMap();
