@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.20.0 (provisional)
+
+* Adding `TrieMap`.
+
 ## 0.19.0
 
 * Adding `StaticIntervalTree`.
