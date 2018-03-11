@@ -101,7 +101,7 @@ FuzzyMap.prototype.get = function(key) {
 /**
  * Method used to test the existence of an item in the map.
  *
- * @param  {any} key - Key to use.
+ * @param  {any} key - Key to check.
  * @return {boolean}
  */
 FuzzyMap.prototype.has = function(key) {

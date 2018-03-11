@@ -101,8 +101,8 @@ FuzzyMultiMap.prototype.get = function(key) {
 /**
  * Method used to test the existence of an item in the map.
  *
- * @param  {any} key - Key to use.
- * @return {any}
+ * @param  {any} key - Key to check.
+ * @return {boolean}
  */
 FuzzyMultiMap.prototype.has = function(key) {
   key = this.readHashFunction(key);
