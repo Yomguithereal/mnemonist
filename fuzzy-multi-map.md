@@ -47,6 +47,8 @@ universities.get('university of carolina');
 
 The `FuzzyMultiMap` either takes a single argument being a hash function that will process both inserted items or keys & the queries; or a tuple containing two hash functions, one for the inserted items or keys and the second one for the queries.
 
+As with the [MultiMap]({{ site.baseurl }}/multi-map), the `FuzzyMultiMap` can also take a container as second argument.
+
 *Example with one hash function*
 
 ```js
@@ -64,7 +66,7 @@ map.get(queryTitle);
 
 ```js
 // Let's create an index using two different hash functions:
-var map = new FuzzyMultiMap(
+var map = new FuzzyMultiMap([
   
   // Hash function for inserted items:
   function(movie) {
@@ -75,11 +77,19 @@ var map = new FuzzyMultiMap(
   function(query) {
     return query.toLowerCase();
   }
-);
+]);
 
 // Then you'll probably use #.add to insert items
 map.add(movie);
 map.get(queryTitle);
+```
+
+*Example with Set containers*
+
+```js
+var map = new FuzzyMultiMap(function(value) {
+  return value.toUpperCase(); 
+}, Set);
 ```
 
 **Warning!**: the index will not consider any falsy key processed by its hash functions.
@@ -101,7 +111,7 @@ Alternatively, one can build a `FuzzyMultiMap` from an arbitrary JavaScript iter
 
 ```js
 var map = FuzzyMultiMap.from(list, hashFunction [, useSet=false]);
-var map = FuzzyMultiMap.from(list, hashFunctions [, useSet=false]);
+var map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
 ```
 
 ## Members

@@ -33,7 +33,7 @@ console.log(object[query.toLowerCase()]);
 That's it, you have understood the `FuzzyMap`. It's just some sugar over a JavaScript `Map` that will transform the given keys using a custom function to perform this kind of operations easily.
 
 ```js
-var map = new FuzzyMap(
+var map = new FuzzyMap([
   
   // Hash function on add
   function(movie) {
@@ -44,7 +44,7 @@ var map = new FuzzyMap(
   function(query) {
     return query.toLowerCase();
   }
-);
+]);
 
 // FuzzyMaping several movies
 map.add({name: 'Great movie', year: 1999});
