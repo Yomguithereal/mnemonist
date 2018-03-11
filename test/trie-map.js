@@ -133,32 +133,32 @@ describe('TrieMap', function() {
     assert.deepEqual(trie.root, {});
   });
 
-  // it('should be possible to check the existence of an item in the TrieMap.', function() {
-  //   var trie = new TrieMap();
+  it('should be possible to check the existence of a sequence in the TrieMap.', function() {
+    var trie = new TrieMap();
 
-  //   trie.add('romanesque');
+    trie.set('romanesque', 1);
 
-  //   assert.strictEqual(trie.has('romanesque'), true);
-  //   assert.strictEqual(trie.has('roman'), false);
-  //   assert.strictEqual(trie.has([]), false);
-  //   assert.strictEqual(trie.has(''), false);
-  // });
+    assert.strictEqual(trie.has('romanesque'), true);
+    assert.strictEqual(trie.has('roman'), false);
+    assert.strictEqual(trie.has([]), false);
+    assert.strictEqual(trie.has(''), false);
+  });
 
-  // it('should be possible to retrieve items matching the given prefix.', function() {
-  //   var trie = new TrieMap();
+  it('should be possible to retrieve items matching the given prefix.', function() {
+    var trie = new TrieMap();
 
-  //   trie.add('roman');
-  //   trie.add('romanesque');
-  //   trie.add('romanesques');
-  //   trie.add('greek');
+    trie.set('roman', 1);
+    trie.set('romanesque', 2);
+    trie.set('romanesques', 3);
+    trie.set('greek', 4);
 
-  //   assert.deepEqual(trie.get('roman'), ['roman', 'romanesque', 'romanesques']);
-  //   assert.deepEqual(trie.get('rom'), ['roman', 'romanesque', 'romanesques']);
-  //   assert.deepEqual(trie.get('romanesque'), ['romanesque', 'romanesques']);
-  //   assert.deepEqual(trie.get('gr'), ['greek']);
-  //   assert.deepEqual(trie.get('hello'), []);
-  //   assert.deepEqual(trie.get(''), []);
-  // });
+    assert.deepEqual(trie.find('roman'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+    assert.deepEqual(trie.find('rom'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+    assert.deepEqual(trie.find('romanesque'), [['romanesque', 2], ['romanesques', 3]]);
+    assert.deepEqual(trie.find('gr'), [['greek', 4]]);
+    assert.deepEqual(trie.find('hello'), []);
+    assert.deepEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+  });
 
   // it('should be possible to get the longest matching prefix.', function() {
   //   var trie = new TrieMap();

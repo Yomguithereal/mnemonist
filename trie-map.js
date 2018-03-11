@@ -141,28 +141,21 @@ TrieMap.prototype.delete = function(sequence) {
 // TODO: add #.prune?
 
 /**
- * Method used to assert whether the given item is in the TrieMap.
+ * Method used to assert whether the given sequence exists in the TrieMap.
  *
- * @param  {string|array} item - Item to check.
+ * @param  {string|array} sequence - Sequence to check.
  * @return {boolean}
  */
-TrieMap.prototype.has = function(item) {
-  if (typeof item === 'string')
-    item = item.split('');
-
-  if (!item || !item.length)
-    return false;
-
+TrieMap.prototype.has = function(sequence) {
   var node = this.root,
       token;
 
-  for (var i = 0, l = item.length; i < l; i++) {
-    token = item[i];
-
-    if (!node.hasOwnProperty(token))
-      return false;
-
+  for (var i = 0, l = sequence.length; i < l; i++) {
+    token = sequence[i];
     node = node[token];
+
+    if (typeof node === 'undefined')
+      return false;
   }
 
   return SENTINEL in node;
@@ -172,56 +165,53 @@ TrieMap.prototype.has = function(item) {
  * Method used to retrieve every item in the trie with the given prefix.
  *
  * @param  {string|array} prefix - Prefix to query.
- * @return {array<string|array>}
+ * @return {array}
  */
-// Rename
-// TrieMap.prototype.get = function(prefix) {
-//   var string = typeof prefix === 'string',
-//       item = prefix,
-//       matches = [];
+TrieMap.prototype.find = function(prefix) {
+  var isString = typeof prefix === 'string';
 
-//   if (!item || !item.length)
-//     return matches;
+  var node = this.root,
+      matches = [],
+      token,
+      i,
+      l;
 
-//   var node = this.root,
-//       token;
+  for (i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
+    node = node[token];
 
-//   for (var i = 0, l = item.length; i < l; i++) {
-//     token = item[i];
-//     node = node[token];
+    if (typeof node === 'undefined')
+      return matches;
+  }
 
-//     if (!node)
-//       return matches;
-//   }
+  // Performing DFS from prefix
+  var stack = [node, prefix],
+      k;
 
-//   var stack = [node, string ? '' : []],
-//       tokens,
-//       k;
+  while (stack.length) {
+    prefix = stack.pop();
+    node = stack.pop();
 
-//   while (stack.length) {
-//     tokens = stack.pop();
-//     node = stack.pop();
+    if (SENTINEL in node)
+      matches.push([prefix, node[SENTINEL]]);
 
-//     if (node[SENTINEL])
-//       matches.push(string ? prefix + tokens : prefix.concat(tokens));
+    for (k in node) {
+      if (k === SENTINEL)
+        continue;
 
-//     for (k in node) {
-//       if (k === SENTINEL)
-//         continue;
+      stack.push(node[k]);
+      stack.push(isString ? prefix + k : prefix.concat(k));
+    }
+  }
 
-//       stack.push(node[k]);
-//       stack.push(string ? tokens + k : tokens.concat(k));
-//     }
-//   }
-
-//   return matches;
-// };
+  return matches;
+};
 
 /**
- * Method used to get the longest matching prefix for the given item.
+ * Method used to get the longest matching prefix for the given sequence.
  *
- * @param  {string|array} item - Item to query.
- * @return {string|array}
+ * @param  {string|array} sequence - Sequence to query.
+ * @return {array}
  */
 TrieMap.prototype.longestPrefix = function(item) {
   var string = typeof item === 'string';
@@ -247,6 +237,17 @@ TrieMap.prototype.longestPrefix = function(item) {
   }
 
   return string ? prefix.join('') : prefix;
+};
+
+/**
+ * Method used to get the shortest matching prefix for the given sequence.
+ *
+ * @param  {string|array} sequence - Sequence to query.
+ * @param  {number}       [min=0]  - Minimum length for the retrieved prefix.
+ * @return {array}
+ */
+TrieMap.prototype.shortestPrefix = function(sequence, min) {
+  min = min || 0;
 };
 
 /**
