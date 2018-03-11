@@ -2,7 +2,13 @@
  * Mnemonist TrieMap
  * ==================
  *
- * Very simple TrieMap implementation.
+ * JavaScript TrieMap implementation based upon plain objects. As such this
+ * structure is more a convenience building upon the trie's advantages than
+ * a real performant alternative to already existing structures.
+ *
+ * Note that the Trie is based upon the TrieMap since the underlying machine
+ * is the very same. The Trie just does not let you set values and only
+ * considers the existence of the given prefixes.
  */
 var iterate = require('./utils/iterate.js');
 
@@ -33,18 +39,18 @@ TrieMap.prototype.clear = function() {
 };
 
 /**
- * Method used to set the value of the given sequence in the trie.
+ * Method used to set the value of the given prefix in the trie.
  *
- * @param  {string|array} sequence - Sequence to follow.
- * @param  {any}          value    - Value for the sequence.
+ * @param  {string|array} prefix - Sequence to follow.
+ * @param  {any}          value  - Value for the prefix.
  * @return {TrieMap}
  */
-TrieMap.prototype.set = function(sequence, value) {
+TrieMap.prototype.set = function(prefix, value) {
   var node = this.root,
       token;
 
-  for (var i = 0, l = sequence.length; i < l; i++) {
-    token = sequence[i];
+  for (var i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
 
     node = node[token] || (node[token] = {});
   }
@@ -59,20 +65,20 @@ TrieMap.prototype.set = function(sequence, value) {
 };
 
 /**
- * Method used to return the value sitting at the end of the given sequence or
+ * Method used to return the value sitting at the end of the given prefix or
  * undefined if none exist.
  *
- * @param  {string|array} sequence - Sequence to follow.
+ * @param  {string|array} prefix - Sequence to follow.
  * @return {any|undefined}
  */
-TrieMap.prototype.get = function(sequence) {
+TrieMap.prototype.get = function(prefix) {
   var node = this.root,
       token,
       i,
       l;
 
-  for (i = 0, l = sequence.length; i < l; i++) {
-    token = sequence[i];
+  for (i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
     node = node[token];
 
     // Prefix does not exist
@@ -87,12 +93,12 @@ TrieMap.prototype.get = function(sequence) {
 };
 
 /**
- * Method used to delete a sequence from the trie.
+ * Method used to delete a prefix from the trie.
  *
- * @param  {string|array} sequence - Sequence to delete.
+ * @param  {string|array} prefix - Sequence to delete.
  * @return {boolean}
  */
-TrieMap.prototype.delete = function(sequence) {
+TrieMap.prototype.delete = function(prefix) {
   var node = this.root,
       toPrune = null,
       tokenToPrune = null,
@@ -101,8 +107,8 @@ TrieMap.prototype.delete = function(sequence) {
       i,
       l;
 
-  for (i = 0, l = sequence.length; i < l; i++) {
-    token = sequence[i];
+  for (i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
     parent = node;
     node = node[token];
 
@@ -141,17 +147,17 @@ TrieMap.prototype.delete = function(sequence) {
 // TODO: add #.prune?
 
 /**
- * Method used to assert whether the given sequence exists in the TrieMap.
+ * Method used to assert whether the given prefix exists in the TrieMap.
  *
- * @param  {string|array} sequence - Sequence to check.
+ * @param  {string|array} prefix - Prefix to check.
  * @return {boolean}
  */
-TrieMap.prototype.has = function(sequence) {
+TrieMap.prototype.has = function(prefix) {
   var node = this.root,
       token;
 
-  for (var i = 0, l = sequence.length; i < l; i++) {
-    token = sequence[i];
+  for (var i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
     node = node[token];
 
     if (typeof node === 'undefined')
@@ -208,12 +214,12 @@ TrieMap.prototype.find = function(prefix) {
 };
 
 /**
- * Method used to get the longest matching prefix for the given sequence.
+ * Method used to get the longest matching prefix for the given prefix.
  *
- * @param  {string|array} sequence - Sequence to query.
+ * @param  {string|array} prefix - Prefix to query.
  * @return {array}
  */
-TrieMap.prototype.longestPrefix = function(sequence) {
+TrieMap.prototype.longestPrefix = function(prefix) {
   var node = this.root,
       longest = 0,
       hasValue = SENTINEL in node,
@@ -222,8 +228,8 @@ TrieMap.prototype.longestPrefix = function(sequence) {
       i,
       l;
 
-  for (i = 0, l = sequence.length; i < l; i++) {
-    token = sequence[i];
+  for (i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
     node = node[token];
 
     if (typeof node === 'undefined')
@@ -239,18 +245,51 @@ TrieMap.prototype.longestPrefix = function(sequence) {
   if (!hasValue)
     return null;
 
-  return [sequence.slice(0, longest), value];
+  return [prefix.slice(0, longest), value];
 };
 
 /**
- * Method used to get the shortest matching prefix for the given sequence.
+ * Method used to get the shortest matching prefix for the given prefix.
  *
- * @param  {string|array} sequence - Sequence to query.
+ * @param  {string|array} prefix - Sequence to query.
  * @param  {number}       [min=0]  - Minimum length for the retrieved prefix.
  * @return {array}
  */
-// TrieMap.prototype.shortestPrefix = function(sequence, min) {
+// TrieMap.prototype.shortestPrefix = function(prefix, min) {
 //   min = min || 0;
+// };
+
+// TODO: used for clustering -> should rather give an iterator with a min prefix length
+
+/**
+ * Method returning an iterator over the trie's values.
+ *
+ * @param  {string|array} [prefix] - Optional starting prefix.
+ * @return {Iterator}
+ */
+// TrieMap.prototype.values = function(prefix) {
+
+// };
+
+/**
+ * Method returning an iterator over the trie's prefixes.
+ *
+ * @param  {string|array} [prefix] - Optional starting prefix.
+ * @return {Iterator}
+ */
+// TrieMap.prototype.prefixes = function(prefix) {
+
+// };
+// TrieMap.prototype.keys = TrieMap.prototype.prefixes;
+
+/**
+ * Method returning an iterator over the trie's entries.
+ *
+ * @param  {string|array} [prefix] - Optional starting prefix.
+ * @return {Iterator}
+ */
+// TrieMap.prototype.entries = function(prefix) {
+
 // };
 
 /**
