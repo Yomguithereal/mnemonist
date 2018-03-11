@@ -22,7 +22,6 @@ var SENTINEL = typeof Symbol !== 'undefined' ?
  */
 function TrieMap() {
   this.clear();
-  this.end = SENTINEL;
 }
 
 /**
@@ -35,41 +34,64 @@ TrieMap.prototype.clear = function() {
   // Properties
   this.root = {};
   this.size = 0;
+  this.depth = 0;
 };
 
 /**
- * Method used to add an item to the trie.
+ * Method used to set the value of the given sequence in the trie.
  *
- * @param  {string|array} item - Item to add.
+ * @param  {string|array} sequence - Sequence to follow.
+ * @param  {any}          value    - Value for the sequence.
  * @return {TrieMap}
  */
-TrieMap.prototype.add = function(item) {
-  if (typeof item === 'string')
-    item = item.split('');
-
-  if (!item || !item.length)
-    return this;
-
+TrieMap.prototype.set = function(sequence, value) {
   var node = this.root,
       token;
 
-  for (var i = 0, l = item.length; i < l; i++) {
-    token = item[i];
+  for (var i = 0, l = sequence.length; i < l; i++) {
+    token = sequence[i];
 
-    if (!node.hasOwnProperty(token))
-      node[token] = {};
-
-    node = node[token];
+    node = node[token] || (node[token] = {});
   }
 
-  // The item already exists in the trie, we don't need to increase size
-  if (node[this.end])
-    return this;
+  // Do we need to increase size?
+  if (!(SENTINEL in node))
+    this.size++;
 
-  node[this.end] = true;
+  if (sequence.length > this.depth)
+    this.depth = sequence.length;
 
-  this.size++;
+  node[SENTINEL] = value;
+
   return this;
+};
+
+/**
+ * Method used to return the value sitting at the end of the given sequence or
+ * undefined if none exist.
+ *
+ * @param  {string|array} sequence - Sequence to follow.
+ * @return {any|undefined}
+ */
+TrieMap.prototype.get = function(sequence) {
+  var node = this.root,
+      token,
+      i,
+      l;
+
+  for (i = 0, l = sequence.length; i < l; i++) {
+    token = sequence[i];
+    node = node[token];
+
+    // Prefix does not exist
+    if (typeof node === 'undefined')
+      return;
+  }
+
+  if (!(SENTINEL in node))
+    return;
+
+  return node[SENTINEL];
 };
 
 /**
@@ -101,12 +123,12 @@ TrieMap.prototype.delete = function(item) {
     prefix.push([token, node]);
   }
 
-  if (!node[this.end])
+  if (!node[SENTINEL])
     return false;
 
   this.size--;
 
-  delete node[this.end];
+  delete node[SENTINEL];
 
   if (Object.keys(node).length >= 1)
     return true;
@@ -149,7 +171,7 @@ TrieMap.prototype.has = function(item) {
     node = node[token];
   }
 
-  return this.end in node;
+  return SENTINEL in node;
 };
 
 /**
@@ -158,47 +180,48 @@ TrieMap.prototype.has = function(item) {
  * @param  {string|array} prefix - Prefix to query.
  * @return {array<string|array>}
  */
-TrieMap.prototype.get = function(prefix) {
-  var string = typeof prefix === 'string',
-      item = prefix,
-      matches = [];
+// Rename
+// TrieMap.prototype.get = function(prefix) {
+//   var string = typeof prefix === 'string',
+//       item = prefix,
+//       matches = [];
 
-  if (!item || !item.length)
-    return matches;
+//   if (!item || !item.length)
+//     return matches;
 
-  var node = this.root,
-      token;
+//   var node = this.root,
+//       token;
 
-  for (var i = 0, l = item.length; i < l; i++) {
-    token = item[i];
-    node = node[token];
+//   for (var i = 0, l = item.length; i < l; i++) {
+//     token = item[i];
+//     node = node[token];
 
-    if (!node)
-      return matches;
-  }
+//     if (!node)
+//       return matches;
+//   }
 
-  var stack = [node, string ? '' : []],
-      tokens,
-      k;
+//   var stack = [node, string ? '' : []],
+//       tokens,
+//       k;
 
-  while (stack.length) {
-    tokens = stack.pop();
-    node = stack.pop();
+//   while (stack.length) {
+//     tokens = stack.pop();
+//     node = stack.pop();
 
-    if (node[this.end])
-      matches.push(string ? prefix + tokens : prefix.concat(tokens));
+//     if (node[SENTINEL])
+//       matches.push(string ? prefix + tokens : prefix.concat(tokens));
 
-    for (k in node) {
-      if (k === this.end)
-        continue;
+//     for (k in node) {
+//       if (k === SENTINEL)
+//         continue;
 
-      stack.push(node[k]);
-      stack.push(string ? tokens + k : tokens.concat(k));
-    }
-  }
+//       stack.push(node[k]);
+//       stack.push(string ? tokens + k : tokens.concat(k));
+//     }
+//   }
 
-  return matches;
-};
+//   return matches;
+// };
 
 /**
  * Method used to get the longest matching prefix for the given item.
