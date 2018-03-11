@@ -4,7 +4,8 @@
  * ==========================
  */
 var assert = require('assert'),
-    TrieMap = require('../trie-map.js');
+    TrieMap = require('../trie-map.js'),
+    consume = require('obliterator/consume');
 
 var SENTINEL = TrieMap.SENTINEL;
 
@@ -160,83 +161,147 @@ describe('TrieMap', function() {
     assert.deepEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
   });
 
-  it('should be possible to get the longest matching prefix.', function() {
-    var trie = new TrieMap();
-
-    trie.set('roman', 1);
-    trie.set('romanesque', 2);
-    trie.set('romanesques', 3);
-    trie.set('greek', 4);
-
-    assert.deepEqual(trie.longestPrefix('romano'), ['roman', 1]);
-    assert.deepEqual(trie.longestPrefix('romanesquet'), ['romanesque', 2]);
-    assert.strictEqual(trie.longestPrefix(''), null);
-    assert.strictEqual(trie.longestPrefix('gloria'), null);
-    assert.deepEqual(trie.longestPrefix('greeks'), ['greek', 4]);
-
-    trie.set('', 5);
-    assert.deepEqual(trie.longestPrefix('gloria'), ['', 5]);
-  });
-
-  // it('should work with custom tokens.', function() {
+  // it('should be possible to get the best matching prefix.', function() {
   //   var trie = new TrieMap();
 
-  //   trie.add(['the', 'cat', 'eats', 'the', 'mouse']);
-  //   trie.add(['the', 'mouse', 'eats', 'cheese']);
-  //   trie.add(['hello', 'world']);
+  //   trie.set('roman', 1);
+  //   trie.set('romanesque', 2);
+  //   trie.set('romanesques', 3);
+  //   trie.set('greek', 4);
 
-  //   assert.strictEqual(trie.size, 3);
-  //   assert.deepEqual(trie.root, {
-  //     the: {
-  //       cat: {
-  //         eats: {
-  //           the: {
-  //             mouse: {
-  //               [SENTINEL]: true
-  //             }
-  //           }
-  //         }
-  //       },
-  //       mouse: {
-  //         eats: {
-  //           cheese: {
-  //             [SENTINEL]: true
-  //           }
-  //         }
-  //       }
-  //     },
-  //     hello: {
-  //       world: {
-  //         [SENTINEL]: true
-  //       }
-  //     }
-  //   });
+  //   assert.deepEqual(trie.bestPrefix('romano'), ['roman', 1]);
+  //   assert.deepEqual(trie.bestPrefix('romanesquet'), ['romanesque', 2]);
+  //   assert.strictEqual(trie.bestPrefix(''), null);
+  //   assert.strictEqual(trie.bestPrefix('gloria'), null);
+  //   assert.deepEqual(trie.bestPrefix('greeks'), ['greek', 4]);
 
-  //   assert.strictEqual(trie.has(['the', 'mouse', 'eats', 'cheese']), true);
-  //   assert.strictEqual(trie.has(['the', 'mouse', 'eats']), false);
-
-  //   assert.strictEqual(trie.delete(['hello']), false);
-  //   assert.strictEqual(trie.delete(['hello', 'world']), true);
-
-  //   assert.strictEqual(trie.size, 2);
-
-  //   assert.deepEqual(trie.get(['the']), [
-  //     ['the', 'mouse', 'eats', 'cheese'],
-  //     ['the', 'cat', 'eats', 'the', 'mouse']
-  //   ]);
-
-  //   assert.deepEqual(trie.longestPrefix(['the', 'cat', 'eats', 'cheese']), ['the', 'cat', 'eats']);
+  //   trie.set('', 5);
+  //   assert.deepEqual(trie.bestPrefix('gloria'), ['', 5]);
   // });
 
-  // it('should be possible to create a trie from an arbitrary iterable.', function() {
-  //   var words = [
-  //     'roman',
-  //     'romanesque'
-  //   ];
+  // it('should be possible to get the shortest matching prefix.', function() {
+  //   var trie = new TrieMap(Array);
 
-  //   var trie = TrieMap.from(words);
+  //   trie.set(['Glisham', 'John', 'Mary'], 1);
+  //   trie.set(['Glisham', 'John', 2]);
+  //   trie.set(['Glisham', 'John', 'Henriet', 'Jr.'], 3);
 
-  //   assert.strictEqual(trie.size, 2);
-  //   assert.deepEqual(trie.get('ro'), ['roman', 'romanesque']);
+  //   var result = trie.shortestPrefix(['Glisham']);
+
+  //   console.log(result);
   // });
+
+  it('should work with custom tokens.', function() {
+    var trie = new TrieMap(Array);
+
+    trie.set(['the', 'cat', 'eats', 'the', 'mouse'], 1);
+    trie.set(['the', 'mouse', 'eats', 'cheese'], 2);
+    trie.set(['hello', 'world'], 3);
+
+    assert.strictEqual(trie.size, 3);
+    assert.deepEqual(trie.root, {
+      the: {
+        cat: {
+          eats: {
+            the: {
+              mouse: {
+                [SENTINEL]: 1
+              }
+            }
+          }
+        },
+        mouse: {
+          eats: {
+            cheese: {
+              [SENTINEL]: 2
+            }
+          }
+        }
+      },
+      hello: {
+        world: {
+          [SENTINEL]: 3
+        }
+      }
+    });
+
+    assert.strictEqual(trie.has(['the', 'mouse', 'eats', 'cheese']), true);
+    assert.strictEqual(trie.has(['the', 'mouse', 'eats']), false);
+
+    assert.strictEqual(trie.delete(['hello']), false);
+    assert.strictEqual(trie.delete(['hello', 'world']), true);
+
+    assert.strictEqual(trie.size, 2);
+
+    assert.deepEqual(trie.find(['the']), [
+      [['the', 'mouse', 'eats', 'cheese'], 2],
+      [['the', 'cat', 'eats', 'the', 'mouse'], 1]
+    ]);
+  });
+
+  it('should be possible to iterate over the trie\'s values.', function() {
+    var trie = new TrieMap();
+
+    trie.set('rat', 1);
+    trie.set('rate', 2);
+
+    var values = consume(trie.values());
+
+    assert.deepEqual(values, [1, 2]);
+
+    trie.set('rater', 3);
+    trie.set('rates', 4);
+
+    values = consume(trie.values('rate'));
+
+    assert.deepEqual(values, [2, 4, 3]);
+  });
+
+  it('should be possible to iterate over the trie\'s prefixes.', function() {
+    var trie = new TrieMap();
+
+    trie.set('rat', 1);
+    trie.set('rate', 2);
+
+    var prefixes = consume(trie.prefixes());
+
+    assert.deepEqual(prefixes, ['rat', 'rate']);
+
+    trie.set('rater', 3);
+    trie.set('rates', 4);
+
+    prefixes = consume(trie.keys('rate'));
+
+    assert.deepEqual(prefixes, ['rate', 'rates', 'rater']);
+  });
+
+  it('should be possible to iterate over the trie\'s entries.', function() {
+    var trie = new TrieMap();
+
+    trie.set('rat', 1);
+    trie.set('rate', 2);
+
+    var entries = consume(trie.entries());
+
+    assert.deepEqual(entries, [['rat', 1], ['rate', 2]]);
+
+    trie.set('rater', 3);
+    trie.set('rates', 4);
+
+    entries = consume(trie.entries('rate'));
+
+    assert.deepEqual(entries, [['rate', 2], ['rates', 4], ['rater', 3]]);
+  });
+
+  it('should be possible to create a trie from an arbitrary iterable.', function() {
+    var words = {
+      roman: 1,
+      romanesque: 2
+    };
+
+    var trie = TrieMap.from(words);
+
+    assert.strictEqual(trie.size, 2);
+    assert.deepEqual(trie.get('roman'), 1);
+  });
 });

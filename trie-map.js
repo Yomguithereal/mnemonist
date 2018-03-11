@@ -10,7 +10,8 @@
  * is the very same. The Trie just does not let you set values and only
  * considers the existence of the given prefixes.
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterate.js'),
+    Iterator = require('obliterator/iterator');
 
 /**
  * Constants.
@@ -22,7 +23,8 @@ var SENTINEL = String.fromCharCode(0);
  *
  * @constructor
  */
-function TrieMap() {
+function TrieMap(Token) {
+  this.mode = Token === Array ? 'array' : 'string';
   this.clear();
 }
 
@@ -191,12 +193,13 @@ TrieMap.prototype.find = function(prefix) {
   }
 
   // Performing DFS from prefix
-  var stack = [node, prefix],
+  var nodeStack = [node],
+      prefixStack = [prefix],
       k;
 
-  while (stack.length) {
-    prefix = stack.pop();
-    node = stack.pop();
+  while (nodeStack.length) {
+    prefix = prefixStack.pop();
+    node = nodeStack.pop();
 
     if (SENTINEL in node)
       matches.push([prefix, node[SENTINEL]]);
@@ -205,61 +208,16 @@ TrieMap.prototype.find = function(prefix) {
       if (k === SENTINEL)
         continue;
 
-      stack.push(node[k]);
-      stack.push(isString ? prefix + k : prefix.concat(k));
+      nodeStack.push(node[k]);
+      prefixStack.push(isString ? prefix + k : prefix.concat(k));
     }
   }
 
   return matches;
 };
 
-/**
- * Method used to get the longest matching prefix for the given prefix.
- *
- * @param  {string|array} prefix - Prefix to query.
- * @return {array}
- */
-TrieMap.prototype.longestPrefix = function(prefix) {
-  var node = this.root,
-      longest = 0,
-      hasValue = SENTINEL in node,
-      value = node[SENTINEL],
-      token,
-      i,
-      l;
-
-  for (i = 0, l = prefix.length; i < l; i++) {
-    token = prefix[i];
-    node = node[token];
-
-    if (typeof node === 'undefined')
-      break;
-
-    if (SENTINEL in node) {
-      hasValue = true;
-      longest = i + 1;
-      value = node[SENTINEL];
-    }
-  }
-
-  if (!hasValue)
-    return null;
-
-  return [prefix.slice(0, longest), value];
-};
-
-/**
- * Method used to get the shortest matching prefix for the given prefix.
- *
- * @param  {string|array} prefix - Sequence to query.
- * @param  {number}       [min=0]  - Minimum length for the retrieved prefix.
- * @return {array}
- */
-// TrieMap.prototype.shortestPrefix = function(prefix, min) {
-//   min = min || 0;
-// };
-
 // TODO: used for clustering -> should rather give an iterator with a min prefix length
+// TODO: DFS iterator
 
 /**
  * Method returning an iterator over the trie's values.
@@ -267,9 +225,51 @@ TrieMap.prototype.longestPrefix = function(prefix) {
  * @param  {string|array} [prefix] - Optional starting prefix.
  * @return {Iterator}
  */
-// TrieMap.prototype.values = function(prefix) {
+TrieMap.prototype.values = function(prefix) {
+  var node = this.root,
+      nodeStack = [],
+      token,
+      i,
+      l;
 
-// };
+  // Resolving initial prefix
+  if (prefix) {
+    for (i = 0, l = prefix.length; i < l; i++) {
+      token = prefix[i];
+      node = node[token];
+
+      // If the prefix does not exist, we return an empty iterator
+      if (typeof node === 'undefined')
+        return Iterator.empty();
+    }
+  }
+
+  nodeStack.push(node);
+
+  return new Iterator(function() {
+    var currentNode,
+        hasValue = false,
+        k;
+
+    while (nodeStack.length) {
+      currentNode = nodeStack.pop();
+
+      hasValue = SENTINEL in currentNode;
+
+      for (k in currentNode) {
+        if (k === SENTINEL)
+          continue;
+
+        nodeStack.push(currentNode[k]);
+      }
+
+      if (hasValue)
+        return {done: false, value: currentNode[SENTINEL]};
+    }
+
+    return {done: true};
+  });
+};
 
 /**
  * Method returning an iterator over the trie's prefixes.
@@ -277,10 +277,62 @@ TrieMap.prototype.longestPrefix = function(prefix) {
  * @param  {string|array} [prefix] - Optional starting prefix.
  * @return {Iterator}
  */
-// TrieMap.prototype.prefixes = function(prefix) {
+TrieMap.prototype.prefixes = function(prefix) {
+  var node = this.root,
+      nodeStack = [],
+      prefixStack = [],
+      token,
+      i,
+      l;
 
-// };
-// TrieMap.prototype.keys = TrieMap.prototype.prefixes;
+  var isString = this.mode === 'string';
+
+  // Resolving initial prefix
+  if (prefix) {
+    for (i = 0, l = prefix.length; i < l; i++) {
+      token = prefix[i];
+      node = node[token];
+
+      // If the prefix does not exist, we return an empty iterator
+      if (typeof node === 'undefined')
+        return Iterator.empty();
+    }
+  }
+  else {
+    prefix = isString ? '' : [];
+  }
+
+  nodeStack.push(node);
+  prefixStack.push(prefix);
+
+  return new Iterator(function() {
+    var currentNode,
+        currentPrefix,
+        hasValue = false,
+        k;
+
+    while (nodeStack.length) {
+      currentNode = nodeStack.pop();
+      currentPrefix = prefixStack.pop();
+
+      hasValue = SENTINEL in currentNode;
+
+      for (k in currentNode) {
+        if (k === SENTINEL)
+          continue;
+
+        nodeStack.push(currentNode[k]);
+        prefixStack.push(isString ? currentPrefix + k : currentPrefix.concat(k));
+      }
+
+      if (hasValue)
+        return {done: false, value: currentPrefix};
+    }
+
+    return {done: true};
+  });
+};
+TrieMap.prototype.keys = TrieMap.prototype.prefixes;
 
 /**
  * Method returning an iterator over the trie's entries.
@@ -288,17 +340,74 @@ TrieMap.prototype.longestPrefix = function(prefix) {
  * @param  {string|array} [prefix] - Optional starting prefix.
  * @return {Iterator}
  */
-// TrieMap.prototype.entries = function(prefix) {
+TrieMap.prototype.entries = function(prefix) {
+  var node = this.root,
+      nodeStack = [],
+      prefixStack = [],
+      token,
+      i,
+      l;
 
-// };
+  var isString = this.mode === 'string';
+
+  // Resolving initial prefix
+  if (prefix) {
+    for (i = 0, l = prefix.length; i < l; i++) {
+      token = prefix[i];
+      node = node[token];
+
+      // If the prefix does not exist, we return an empty iterator
+      if (typeof node === 'undefined')
+        return Iterator.empty();
+    }
+  }
+  else {
+    prefix = isString ? '' : [];
+  }
+
+  nodeStack.push(node);
+  prefixStack.push(prefix);
+
+  return new Iterator(function() {
+    var currentNode,
+        currentPrefix,
+        hasValue = false,
+        k;
+
+    while (nodeStack.length) {
+      currentNode = nodeStack.pop();
+      currentPrefix = prefixStack.pop();
+
+      hasValue = SENTINEL in currentNode;
+
+      for (k in currentNode) {
+        if (k === SENTINEL)
+          continue;
+
+        nodeStack.push(currentNode[k]);
+        prefixStack.push(isString ? currentPrefix + k : currentPrefix.concat(k));
+      }
+
+      if (hasValue)
+        return {done: false, value: [currentPrefix, currentNode[SENTINEL]]};
+    }
+
+    return {done: true};
+  });
+};
 
 /**
  * Convenience known methods.
  */
 TrieMap.prototype.inspect = function() {
-  var proxy = {
-    size: this.size
-  };
+  var proxy = new Array(this.size);
+
+  var iterator = this.entries(),
+      step,
+      i = 0;
+
+  while ((step = iterator.next(), !step.done))
+    proxy[i++] = step.value;
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
@@ -323,8 +432,8 @@ TrieMap.prototype.toJSON = function() {
 TrieMap.from = function(iterable) {
   var trie = new TrieMap();
 
-  iterate(iterable, function(value) {
-    trie.add(value);
+  iterate(iterable, function(value, key) {
+    trie.set(key, value);
   });
 
   return trie;
