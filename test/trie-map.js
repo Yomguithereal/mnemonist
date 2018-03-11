@@ -161,36 +161,6 @@ describe('TrieMap', function() {
     assert.deepEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
   });
 
-  // it('should be possible to get the best matching prefix.', function() {
-  //   var trie = new TrieMap();
-
-  //   trie.set('roman', 1);
-  //   trie.set('romanesque', 2);
-  //   trie.set('romanesques', 3);
-  //   trie.set('greek', 4);
-
-  //   assert.deepEqual(trie.bestPrefix('romano'), ['roman', 1]);
-  //   assert.deepEqual(trie.bestPrefix('romanesquet'), ['romanesque', 2]);
-  //   assert.strictEqual(trie.bestPrefix(''), null);
-  //   assert.strictEqual(trie.bestPrefix('gloria'), null);
-  //   assert.deepEqual(trie.bestPrefix('greeks'), ['greek', 4]);
-
-  //   trie.set('', 5);
-  //   assert.deepEqual(trie.bestPrefix('gloria'), ['', 5]);
-  // });
-
-  // it('should be possible to get the shortest matching prefix.', function() {
-  //   var trie = new TrieMap(Array);
-
-  //   trie.set(['Glisham', 'John', 'Mary'], 1);
-  //   trie.set(['Glisham', 'John', 2]);
-  //   trie.set(['Glisham', 'John', 'Henriet', 'Jr.'], 3);
-
-  //   var result = trie.shortestPrefix(['Glisham']);
-
-  //   console.log(result);
-  // });
-
   it('should work with custom tokens.', function() {
     var trie = new TrieMap(Array);
 
