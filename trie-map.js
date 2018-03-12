@@ -43,7 +43,7 @@ TrieMap.prototype.clear = function() {
 /**
  * Method used to set the value of the given prefix in the trie.
  *
- * @param  {string|array} prefix - Sequence to follow.
+ * @param  {string|array} prefix - Prefix to follow.
  * @param  {any}          value  - Value for the prefix.
  * @return {TrieMap}
  */
@@ -70,7 +70,7 @@ TrieMap.prototype.set = function(prefix, value) {
  * Method used to return the value sitting at the end of the given prefix or
  * undefined if none exist.
  *
- * @param  {string|array} prefix - Sequence to follow.
+ * @param  {string|array} prefix - Prefix to follow.
  * @return {any|undefined}
  */
 TrieMap.prototype.get = function(prefix) {
@@ -97,7 +97,7 @@ TrieMap.prototype.get = function(prefix) {
 /**
  * Method used to delete a prefix from the trie.
  *
- * @param  {string|array} prefix - Sequence to delete.
+ * @param  {string|array} prefix - Prefix to delete.
  * @return {boolean}
  */
 TrieMap.prototype.delete = function(prefix) {
@@ -215,9 +215,6 @@ TrieMap.prototype.find = function(prefix) {
 
   return matches;
 };
-
-// TODO: used for clustering -> should rather give an iterator with a min prefix length
-// TODO: DFS iterator
 
 /**
  * Method returning an iterator over the trie's values.
@@ -397,6 +394,12 @@ TrieMap.prototype.entries = function(prefix) {
 };
 
 /**
+ * Attaching the #.entries method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  TrieMap.prototype[Symbol.iterator] = TrieMap.prototype.entries;
+
+/**
  * Convenience known methods.
  */
 TrieMap.prototype.inspect = function() {
@@ -427,7 +430,7 @@ TrieMap.prototype.toJSON = function() {
  * a trie.
  *
  * @param  {Iterable} iterable   - Target iterable.
- * @return {Heap}
+ * @return {TrieMap}
  */
 TrieMap.from = function(iterable) {
   var trie = new TrieMap();

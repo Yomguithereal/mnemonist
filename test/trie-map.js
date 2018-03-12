@@ -71,11 +71,11 @@ describe('TrieMap', function() {
     assert.strictEqual(trie.size, 1);
     assert.strictEqual(trie.get(''), 45);
 
-    trie = new TrieMap();
+    trie = new TrieMap(Array);
 
     trie.set([], 45);
     assert.strictEqual(trie.size, 1);
-    assert.strictEqual(trie.get(''), 45);
+    assert.strictEqual(trie.get([]), 45);
   });
 
   it('should be possible to delete items.', function() {
@@ -261,6 +261,23 @@ describe('TrieMap', function() {
     entries = consume(trie.entries('rate'));
 
     assert.deepEqual(entries, [['rate', 2], ['rates', 4], ['rater', 3]]);
+  });
+
+  it('should be possible to iterate over the trie\'s entries using for...of.', function() {
+    var trie = new TrieMap();
+
+    trie.set('rat', 1);
+    trie.set('rate', 2);
+
+    var tests = [
+      ['rat', 1],
+      ['rate', 2]
+    ];
+
+    var i = 0;
+
+    for (var entry of trie)
+      assert.deepEqual(entry, tests[i++]);
   });
 
   it('should be possible to create a trie from an arbitrary iterable.', function() {
