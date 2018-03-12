@@ -3,7 +3,7 @@ layout: page
 title: Trie
 ---
 
-The trie - pronounced like in *re•trie•val* - is a actually a tree very useful for performing prefix queries efficiently.
+The trie - pronounced like in *re•trie•val* - is a kind tree very useful to work with prefixes.
 
 For more information about the Trie, you can head [here](https://en.wikipedia.org/wiki/Trie).
 
@@ -43,12 +43,20 @@ A trie, on the contrary, is able to answer this kind of query more efficiently:
 var trie = Trie.from(words);
 
 // Now let's query our trie
-var wordsWithMatchingPrefix = trie.get(query);
+var wordsWithMatchingPrefix = trie.find(query);
 ```
 
 ## Constructor
 
-The `Trie` takes no argument.
+The `Trie` optionally takes as single argument the type of sequence you are going to feed it.
+
+```
+// For a trie containing string prefixes
+var trie = new Trie();
+
+// For a trie containing arbitrary sequences fed as arrays
+var trie = new Trie(Array);
+```
 
 ### Static #.from
 
@@ -73,8 +81,13 @@ var list = Trie.from(['roman', 'romanesque']);
 *Read*
 
 * [#.has](#has)
-* [#.get](#get)
-* [#.longestPrefix](#longestprefix)
+* [#.find](#find)
+
+*Iteration*
+
+* [#.keys](#keys)
+* [#.prefixes](#prefixes)
+* [Iterable](#iterable)
 
 ### #.size
 
@@ -90,7 +103,7 @@ trie.size
 
 Adds an item in to the Trie. If the item is a string, it will be split into characters. Else, you can provide an array of custom tokens.
 
-`O(n)`, n being the size of the inserted string.
+`O(m)`, m being the size of the inserted string.
 
 ```js
 var trie = new Trie();
@@ -107,7 +120,7 @@ trie.add(['I', 'am', 'very', 'happy']);
 
 Deletes an item from the Trie. Returns `true` if the item was deleted & `false` if the item was not in the Trie.
 
-`O(n)`, n being the size of the deleted string.
+`O(m)`, m being the size of the deleted string.
 
 ```js
 var trie = new Trie();
@@ -139,7 +152,7 @@ trie.size
 
 Returns whether the given item exists in the trie.
 
-`O(n)`, n being the size of the searched string.
+`O(m)`, m being the size of the searched string.
 
 ```js
 var trie = new Trie();
@@ -152,11 +165,11 @@ trie.has('world');
 >>> false
 ```
 
-### #.get
+### #.find
 
 Returns an array of every items found in the trie with the given prefix.
 
-`O(m)`, m being the size of the query.
+`O(m + n)`, m being the size of the query, n being the cumulated size of the matched prefixes.
 
 ```js
 var trie = new Trie();
@@ -164,27 +177,41 @@ trie.add('roman');
 trie.add('romanesque');
 trie.add('greek');
 
-trie.get('rom');
+trie.find('rom');
 >>> ['roman', 'romanesque']
 
-trie.get('gr');
+trie.find('gr');
 >>> ['greek']
 
-trie.get('hel');
+trie.find('hel');
 >>> []
 ```
 
-### #.longestPrefix
+### #.keys
 
-Returns the longest matching prefix in the trie for the given item.
+Alias of [#.prefixes](#prefixes).
 
-`O(m)`, m being the size of the query.
+### #.prefixes
+
+Returns an iterator over the stack's prefixes (note that the order on which the trie will iterate over its prefixes is arbitrary).
 
 ```js
-var trie = new Trie();
-trie.add('roman');
+var trie = Trie.from(['roman', 'romanesque']);
 
-trie.longestPrefix('romanesque');
+var iterator = trie.prefixes();
+
+iterator.next().value
 >>> 'roman'
 ```
 
+### Iterable
+
+Alternatively, you can iterate over a trie's prefixes using ES2015 `for...of` protocol:
+
+```js
+var trie = Trie.from(['roman', 'romanesque']);
+
+for (var prefix of trie) {
+  console.log(prefix);
+}
+```
