@@ -39,7 +39,7 @@ module.exports = {
   Set: require('./set.js'),
   SparseSet: require('./sparse-set.js'),
   SymSpell: require('./symspell.js'),
-  Trie: require('./trie.js'),
+  TrieMap: require('./trie-map.js'),
   Vector: require('./vector.js'),
   VPTree: require('./vp-tree.js')
 };
