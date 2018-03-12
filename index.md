@@ -43,6 +43,7 @@ npm install --save mnemonist
 * [Set (helpers)]({{ site.baseurl }}/set)
 * [Stack]({{ site.baseurl }}/stack)
 * [Trie]({{ site.baseurl }}/trie)
+* [TrieMap]({{ site.baseurl }}/trie-map)
 
 **Low-level & structures for very specific use cases**
 

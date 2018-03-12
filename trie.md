@@ -91,7 +91,7 @@ var list = Trie.from(['roman', 'romanesque']);
 
 ### #.size
 
-Number of items in the trie.
+Number of prefixes in the trie.
 
 ```js
 var trie = new Trie();
@@ -101,7 +101,7 @@ trie.size
 
 ### #.add
 
-Adds an item in to the Trie. If the item is a string, it will be split into characters. Else, you can provide an array of custom tokens.
+Adds a prefix into the Trie. If the prefix is a string, it will be split into characters. Else, you can provide an array of custom tokens.
 
 `O(m)`, m being the size of the inserted string.
 
@@ -118,7 +118,7 @@ trie.add(['I', 'am', 'very', 'happy']);
 
 ### #.delete
 
-Deletes an item from the Trie. Returns `true` if the item was deleted & `false` if the item was not in the Trie.
+Deletes a prefix from the Trie. Returns `true` if the prefix was deleted & `false` if the prefix was not in the Trie.
 
 `O(m)`, m being the size of the deleted string.
 
@@ -135,7 +135,7 @@ trie.delete('world');
 
 ### #.clear
 
-Completely clears the trie of its items.
+Completely clears the trie.
 
 ```js
 var trie = new Trie();
@@ -150,7 +150,7 @@ trie.size
 
 ### #.has
 
-Returns whether the given item exists in the trie.
+Returns whether the given prefix exists in the trie.
 
 `O(m)`, m being the size of the searched string.
 
@@ -167,7 +167,7 @@ trie.has('world');
 
 ### #.find
 
-Returns an array of every items found in the trie with the given prefix.
+Returns an array of every prefixes found in the trie with the given prefix.
 
 `O(m + n)`, m being the size of the query, n being the cumulated size of the matched prefixes.
 
@@ -193,7 +193,7 @@ Alias of [#.prefixes](#prefixes).
 
 ### #.prefixes
 
-Returns an iterator over the stack's prefixes (note that the order on which the trie will iterate over its prefixes is arbitrary).
+Returns an iterator over the trie's prefixes (note that the order on which the trie will iterate over its prefixes is arbitrary).
 
 ```js
 var trie = Trie.from(['roman', 'romanesque']);
