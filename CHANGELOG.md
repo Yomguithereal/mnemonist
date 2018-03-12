@@ -3,6 +3,7 @@
 ## 0.20.0 (provisional)
 
 * Adding `TrieMap`.
+* Reworking the `Trie` considerably.
 
 ## 0.19.0
 

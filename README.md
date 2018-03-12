@@ -33,6 +33,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Set (helpers)](https://yomguithereal.github.io/mnemonist/set)
 * [Stack](https://yomguithereal.github.io/mnemonist/stack)
 * [Trie](https://yomguithereal.github.io/mnemonist/trie)
+* [TrieMap](https://yomguithereal.github.io/mnemonist/trie-map)
 
 **Low-level & structures for very specific use cases**
 
