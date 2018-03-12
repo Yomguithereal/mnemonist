@@ -143,7 +143,7 @@ Retrieves an array of intervals overlapping with the given interval.
 ```js
 var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
-tree.intervalsContainingPoint([5, 24]);
+tree.intervalsOverlappingInterval([5, 24]);
 >>> [[20, 34]]
 ```
 
