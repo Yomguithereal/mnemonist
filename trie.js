@@ -95,12 +95,11 @@ Trie.prototype.find = function(prefix) {
     prefix = prefixStack.pop();
     node = nodeStack.pop();
 
-    if (SENTINEL in node)
-      matches.push(prefix);
-
     for (k in node) {
-      if (k === SENTINEL)
+      if (k === SENTINEL) {
+        matches.push(prefix);
         continue;
+      }
 
       nodeStack.push(node[k]);
       prefixStack.push(isString ? prefix + k : prefix.concat(k));

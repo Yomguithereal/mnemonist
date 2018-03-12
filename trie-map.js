@@ -201,12 +201,11 @@ TrieMap.prototype.find = function(prefix) {
     prefix = prefixStack.pop();
     node = nodeStack.pop();
 
-    if (SENTINEL in node)
-      matches.push([prefix, node[SENTINEL]]);
-
     for (k in node) {
-      if (k === SENTINEL)
+      if (k === SENTINEL) {
+        matches.push([prefix, node[SENTINEL]]);
         continue;
+      }
 
       nodeStack.push(node[k]);
       prefixStack.push(isString ? prefix + k : prefix.concat(k));
@@ -251,11 +250,11 @@ TrieMap.prototype.values = function(prefix) {
     while (nodeStack.length) {
       currentNode = nodeStack.pop();
 
-      hasValue = SENTINEL in currentNode;
-
       for (k in currentNode) {
-        if (k === SENTINEL)
+        if (k === SENTINEL) {
+          hasValue = true;
           continue;
+        }
 
         nodeStack.push(currentNode[k]);
       }
@@ -312,11 +311,11 @@ TrieMap.prototype.prefixes = function(prefix) {
       currentNode = nodeStack.pop();
       currentPrefix = prefixStack.pop();
 
-      hasValue = SENTINEL in currentNode;
-
       for (k in currentNode) {
-        if (k === SENTINEL)
+        if (k === SENTINEL) {
+          hasValue = true;
           continue;
+        }
 
         nodeStack.push(currentNode[k]);
         prefixStack.push(isString ? currentPrefix + k : currentPrefix.concat(k));
@@ -375,11 +374,11 @@ TrieMap.prototype.entries = function(prefix) {
       currentNode = nodeStack.pop();
       currentPrefix = prefixStack.pop();
 
-      hasValue = SENTINEL in currentNode;
-
       for (k in currentNode) {
-        if (k === SENTINEL)
+        if (k === SENTINEL) {
+          hasValue = true;
           continue;
+        }
 
         nodeStack.push(currentNode[k]);
         prefixStack.push(isString ? currentPrefix + k : currentPrefix.concat(k));
