@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.20.0 (provisional)
+## 0.20.0
 
 * Adding `TrieMap`.
 * Reworking the `Trie` considerably.
