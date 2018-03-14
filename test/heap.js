@@ -104,6 +104,16 @@ describe('Heap', function() {
     assert.deepEqual(maxHeap.peek(), {value: 34});
   });
 
+  it('should be possible to convert the heap to an array.', function() {
+    var heap = Heap.from([23, 1, 34, 5]);
+
+    assert.deepEqual(heap.toArray(), [1, 5, 23, 34]);
+
+    heap = MaxHeap.from([23, 1, 34, 5]);
+
+    assert.deepEqual(heap.toArray(), [34, 23, 5, 1]);
+  });
+
   it('should be possible to create a heap from an iterable.', function() {
     var set = new Set([45, 56, 23]);
 

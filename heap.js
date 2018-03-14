@@ -150,15 +150,31 @@ Heap.prototype.pop = function() {
 };
 
 /**
+ * Method used to convert the heap to an array. Note that it basically clone
+ * the heap and consumes it completely. This is hardly performant.
+ *
+ * @return {array}
+ */
+Heap.prototype.toArray = function() {
+  var array = new Array(this.size);
+
+  var clone = new Heap(this.comparator);
+  clone.items = this.items.slice();
+  clone.size = this.size;
+
+  var i = 0;
+
+  while (clone.size)
+    array[i++] = clone.pop();
+
+  return array;
+};
+
+/**
  * Convenience known methods.
  */
 Heap.prototype.inspect = function() {
-  var proxy = {
-    size: this.size
-  };
-
-  if (this.items.length)
-    proxy.top = this.items[0];
+  var proxy = this.toArray();
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {

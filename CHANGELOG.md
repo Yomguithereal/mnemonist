@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.21.0 (provisional)
+
+* Addin `#.toArray` to `Heap`.
+
 ## 0.20.0
 
 * Adding `TrieMap`.
