@@ -37,6 +37,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 **Low-level & structures for very specific use cases**
 
+* [Circular Buffer](https://yomguithereal.github.io/mnemonist/circular-buffer)
 * [Finite Stack](https://yomguithereal.github.io/mnemonist/finite-stack)
 * [Hashed Array Tree](https://yomguithereal.github.io/mnemonist/hashed-array-tree)
 * [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
