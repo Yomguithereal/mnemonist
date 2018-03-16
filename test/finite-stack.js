@@ -1,7 +1,7 @@
 /* eslint no-new: 0 */
 /**
  * Mnemonist FiniteStack Unit Tests
- * =======================================
+ * =================================
  */
 var assert = require('assert'),
     FiniteStack = require('../finite-stack.js');

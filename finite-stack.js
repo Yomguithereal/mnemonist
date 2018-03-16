@@ -183,6 +183,7 @@ FiniteStack.prototype.toJSON = function() {
 FiniteStack.prototype.inspect = function() {
   var array = this.toArray();
 
+  array.type = this.ArrayClass.name;
   array.capacity = this.capacity;
 
   // Trick so that node displays the name of the constructor
@@ -203,6 +204,7 @@ FiniteStack.prototype.inspect = function() {
  * @param  {number}   capacity   - Desired capacity.
  * @return {FiniteStack}
  */
+// TODO: can optimize if iterable is array-like
 FiniteStack.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {

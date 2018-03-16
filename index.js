@@ -15,6 +15,7 @@ module.exports = {
   BitVector: require('./bit-vector.js'),
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
+  CircularBuffer: require('./circular-buffer.js'),
   StaticDisjointSet: require('./static-disjoint-set.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,

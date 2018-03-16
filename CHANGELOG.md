@@ -2,7 +2,8 @@
 
 ## 0.21.0 (provisional)
 
-* Addin `#.toArray` to `Heap`.
+* Adding `CircularBuffer`.
+* Adding `#.toArray` to `Heap`.
 
 ## 0.20.0
 
