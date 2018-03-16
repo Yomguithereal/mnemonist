@@ -47,6 +47,7 @@ npm install --save mnemonist
 
 **Low-level & structures for very specific use cases**
 
+* [Circular Buffer]({{ site.baseurl }}/circular-buffer)
 * [Finite Stack]({{ site.baseurl }}/finite-stack)
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
 * [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
