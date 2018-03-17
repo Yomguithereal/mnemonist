@@ -23,6 +23,10 @@ function BitSet(length) {
   // Properties
   this.length = length;
   this.clear();
+
+  // Methods
+
+  // Statics
 }
 
 /**

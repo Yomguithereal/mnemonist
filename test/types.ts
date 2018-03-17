@@ -5,6 +5,7 @@
 import {
   BiMap,
   InverseMap,
+  BitSet,
   Stack,
   Trie,
   TrieMap
@@ -13,11 +14,17 @@ import {
 /**
  * BiMap.
  */
-var bimap = new BiMap<string, number>();
+let bimap = new BiMap<string, number>();
 bimap.set('one', 1);
-var inversemap: InverseMap<number, string> = bimap.inverse;
+let inversemap: InverseMap<number, string> = bimap.inverse;
 
 inversemap.get(1);
+
+/**
+ * BitSet.
+ */
+let bitset = new BitSet(4);
+bitset.set(3);
 
 /**
  * Stack.
