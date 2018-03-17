@@ -7,6 +7,7 @@ import {
   InverseMap,
   BitSet,
   BitVector,
+  BKTree,
   Stack,
   Trie,
   TrieMap
@@ -32,6 +33,12 @@ bitset.set(3);
  */
 let bitvector = new BitVector({initialCapacity: 34});
 bitvector.set(3);
+
+/**
+ * BKTree.
+ */
+let bktree: BKTree<string> = BKTree.from(['one', 'two'], (a, b) => 4.0);
+bktree.search(2, 'three');
 
 /**
  * Stack.
