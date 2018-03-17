@@ -2,6 +2,8 @@
  * Mnemonist CircularBuffer Typings
  * =================================
  */
+import {IArrayLikeConstructor} from './utils/types';
+
 export default class CircularBuffer<T> implements Iterable<T> {
 
   // Members
@@ -9,7 +11,7 @@ export default class CircularBuffer<T> implements Iterable<T> {
   size: number;
 
   // Constructor
-  constructor(ArrayClass: any, capacity: number);
+  constructor(ArrayClass: IArrayLikeConstructor, capacity: number);
 
   // Methods
   clear(): void;
@@ -27,5 +29,5 @@ export default class CircularBuffer<T> implements Iterable<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}, ArrayClass: any, capacity?: number): CircularBuffer<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string] : I}, ArrayClass: IArrayLikeConstructor, capacity?: number): CircularBuffer<I>;
 }

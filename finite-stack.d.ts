@@ -2,6 +2,8 @@
  * Mnemonist FiniteStack Typings
  * ==============================
  */
+import {IArrayLikeConstructor} from './utils/types';
+
 export default class FiniteStack<T> implements Iterable<T> {
 
   // Members
@@ -9,7 +11,7 @@ export default class FiniteStack<T> implements Iterable<T> {
   size: number;
 
   // Constructor
-  constructor(ArrayClass: any, capacity: number);
+  constructor(ArrayClass: IArrayLikeConstructor, capacity: number);
 
   // Methods
   clear(): void;
@@ -28,7 +30,7 @@ export default class FiniteStack<T> implements Iterable<T> {
   // Statics
   static from<I>(
     iterable: Iterable<I> | {[key: string] : I},
-    ArrayClass: any,
+    ArrayClass: IArrayLikeConstructor,
     capacity?: number
   ): FiniteStack<I>;
 }

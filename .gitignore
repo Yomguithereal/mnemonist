@@ -4,4 +4,3 @@ build
 *.lock
 .DS_Store
 TODO.md
-test/types.js
