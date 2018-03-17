@@ -9,6 +9,7 @@ import {
   BitVector,
   BKTree,
   BloomFilter,
+  CircularBuffer,
   Stack,
   Trie,
   TrieMap
@@ -44,8 +45,14 @@ bktree.search(2, 'three');
 /**
  * BloomFilter.
  */
-var bloomfilter: BloomFilter = new BloomFilter(45);
+let bloomfilter: BloomFilter = new BloomFilter(45);
 bloomfilter.add('hello');
+
+/**
+ * CircularBuffer.
+ */
+let circularbuffer: CircularBuffer<string> = new CircularBuffer(Array, 4);
+circularbuffer.push('test');
 
 /**
  * Stack.
@@ -82,5 +89,5 @@ let trieMapMatches: Array<[string, number]> = trieMap.find('rom');
 trieMap = TrieMap.from(new Map([['roman', 45]]));
 trieMap = TrieMap.from({roman: 45});
 
-let arrayTrieMap = new TrieMap<Array<string>, number>(Array);
+let arrayTrieMap = new TrieMap<string[], number>(Array);
 arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
