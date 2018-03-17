@@ -10,6 +10,7 @@ import {
   BKTree,
   BloomFilter,
   CircularBuffer,
+  MultiSet,
   Stack,
   Trie,
   TrieMap
@@ -53,6 +54,14 @@ bloomfilter.add('hello');
  */
 let circularbuffer: CircularBuffer<string> = new CircularBuffer(Array, 4);
 circularbuffer.push('test');
+
+/**
+ * MultiSet.
+ */
+let multiset: MultiSet<number> = new MultiSet();
+multiset.add(45);
+multiset = MultiSet.from([1, 2, 3]);
+multiset = MultiSet.from({'one': 1});
 
 /**
  * Stack.
