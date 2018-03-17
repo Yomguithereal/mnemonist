@@ -2,6 +2,7 @@
 
 ## 0.21.0 (provisional)
 
+* Adding typings.
 * Adding `CircularBuffer`.
 * Adding `#.toArray` to `Heap`.
 

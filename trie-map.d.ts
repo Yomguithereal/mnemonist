@@ -1,6 +1,6 @@
 /**
  * Mnemonist TrieMap Typings
- * ========================
+ * ==========================
  */
 export default class TrieMap<K, V> implements Iterable<[K, V]> {
 
@@ -9,7 +9,7 @@ export default class TrieMap<K, V> implements Iterable<[K, V]> {
 
     // Constructor
     constructor(Token?: new () => K);
-  
+
     // Methods
     clear(): void;
     set(prefix: K, value: V): this;
@@ -23,8 +23,8 @@ export default class TrieMap<K, V> implements Iterable<[K, V]> {
     entries(): Iterator<[K, V]>;
     [Symbol.iterator](): Iterator<[K, V]>;
     inspect(): any;
-  
+
     // Statics
     static from<I, J>(iterable: Iterable<[I, J]> | {[key: string]: J}): TrieMap<I, J>;
   }
-  
+

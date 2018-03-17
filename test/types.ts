@@ -4,10 +4,13 @@
  */
 import {
   Stack,
+  Trie,
   TrieMap
 } from '../index';
 
-// Stack
+/**
+ * Stack.
+ */
 let stack = new Stack<number>();
 
 stack.push(45);
@@ -21,11 +24,21 @@ stack = Stack.from({0: 1});
 
 let iterator: Iterator<number> = stack.values();
 
-// TrieMap
+/**
+ * Trie.
+ */
+let trie = new Trie<string>();
+trie.add('roman');
+
+let trieMatches: Array<string> = trie.find('rom');
+
+/**
+ * TrieMap.
+ */
 let trieMap = new TrieMap<string, number>();
 trieMap.set('roman', 45);
 
-let matches: Array<[string, number]> = trieMap.find('rom');
+let trieMapMatches: Array<[string, number]> = trieMap.find('rom');
 
 trieMap = TrieMap.from(new Map([['roman', 45]]));
 trieMap = TrieMap.from({roman: 45});
