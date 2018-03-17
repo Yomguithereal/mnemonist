@@ -40,7 +40,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Circular Buffer](https://yomguithereal.github.io/mnemonist/circular-buffer)
 * [Finite Stack](https://yomguithereal.github.io/mnemonist/finite-stack)
 * [Hashed Array Tree](https://yomguithereal.github.io/mnemonist/hashed-array-tree)
-* [StaticDisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
+* [Static DisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
 * [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
 * [Generalized Suffix Array](https://yomguithereal.github.io/mnemonist/generalized-suffix-array)
@@ -55,7 +55,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 **Space & time indexation**
 
-* [StaticIntervalTree](https://yomguithereal.github.io/mnemonist/static-interval-tree)
+* [Static IntervalTree](https://yomguithereal.github.io/mnemonist/static-interval-tree)
 
 **Metric space indexation**
 
