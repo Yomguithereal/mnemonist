@@ -6,6 +6,7 @@ import {
   BiMap,
   InverseMap,
   BitSet,
+  BitVector,
   Stack,
   Trie,
   TrieMap
@@ -25,6 +26,12 @@ inversemap.get(1);
  */
 let bitset = new BitSet(4);
 bitset.set(3);
+
+/**
+ * BitVector.
+ */
+let bitvector = new BitVector({initialCapacity: 34});
+bitvector.set(3);
 
 /**
  * Stack.
