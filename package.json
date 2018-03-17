@@ -4,7 +4,7 @@
   "description": "Curated collection of data structures for the JavaScript language.",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test/[!types]",
-    "prepublish": "npm run lint && npm test",
+    "prepublish": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
     "test:types": "tsc --lib es2015,dom ./test/types.ts"
   },
