@@ -8,6 +8,7 @@ import {
   BitSet,
   BitVector,
   BKTree,
+  BloomFilter,
   Stack,
   Trie,
   TrieMap
@@ -39,6 +40,12 @@ bitvector.set(3);
  */
 let bktree: BKTree<string> = BKTree.from(['one', 'two'], (a, b) => 4.0);
 bktree.search(2, 'three');
+
+/**
+ * BloomFilter.
+ */
+var bloomfilter: BloomFilter = new BloomFilter(45);
+bloomfilter.add('hello');
 
 /**
  * Stack.

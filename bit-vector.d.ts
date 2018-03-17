@@ -2,7 +2,7 @@
  * Mnemonist BitVector Typings
  * ============================
  */
-declare class BitVectorOptions {
+type BitVectorOptions = {
   initialLength?: number;
   initialCapacity?: number;
   policy?: (capacity: number) => number;
