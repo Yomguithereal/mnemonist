@@ -29,8 +29,8 @@ declare module mnemonist {
     inspect(): any;
 
     // Statics
-    static from<D>(iterable: any): Stack<D>;
-    static of<D>(...items: Array<D>): Stack<D>;
+    static from<I>(iterable: Iterable<I>): Stack<I>;
+    static of<I>(...items: Array<I>): Stack<I>;
   }
 }
 
