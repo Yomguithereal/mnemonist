@@ -12,7 +12,7 @@ export default class Stack<T> implements Iterable<T> {
   push(item: T): number;
   pop(): T | undefined;
   peek(): T | undefined;
-  forEach(callback: (item: T, index: number, stack: Stack<T>) => void, scope?: any): void;
+  forEach(callback: (item: T, index: number, stack: this) => void, scope?: any): void;
   toArray(): Array<T>;
   values(): Iterator<T>;
   entries(): Iterator<[number, T]>;

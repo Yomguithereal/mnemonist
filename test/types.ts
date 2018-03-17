@@ -3,10 +3,21 @@
  * ========================
  */
 import {
+  BiMap,
+  InverseMap,
   Stack,
   Trie,
   TrieMap
 } from '../index';
+
+/**
+ * BiMap.
+ */
+var bimap = new BiMap<string, number>();
+bimap.set('one', 1);
+var inversemap: InverseMap<number, string> = bimap.inverse;
+
+inversemap.get(1);
 
 /**
  * Stack.
