@@ -50,7 +50,7 @@ npm install --save mnemonist
 * [Circular Buffer]({{ site.baseurl }}/circular-buffer)
 * [Finite Stack]({{ site.baseurl }}/finite-stack)
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
-* [StaticDisjointSet]({{ site.baseurl }}/static-disjoint-set)
+* [Static DisjointSet]({{ site.baseurl }}/static-disjoint-set)
 * [SparseSet]({{ site.baseurl }}/sparse-set)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
 * [Generalized Suffix Array]({{ site.baseurl }}/generalized-suffix-array)
@@ -65,7 +65,7 @@ npm install --save mnemonist
 
 **Space & time indexation**
 
-* [StaticIntervalTree]({{ site.baseurl }}/static-interval-tree)
+* [Static IntervalTree]({{ site.baseurl }}/static-interval-tree)
 
 **Metric space indexation**
 
