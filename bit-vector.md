@@ -122,6 +122,8 @@ Removes the last value from the vector and returns it.
 
 Note that this method won't deallocate memory. You can use [#.reallocate](#reallocate) for that.
 
+`O(1)`
+
 ```js
 var vector = new BitVector();
 
@@ -136,6 +138,8 @@ vector.pop();
 
 Push a bit into the vector.
 
+`O(1) amortized`
+
 ```js
 var vector = new BitVector();
 
@@ -146,6 +150,8 @@ vector.push(false);
 ### #.set
 
 Sets the bit at the given index. Optionally you can indicate the bit's value (`0`, `1`, `true` or `false`).
+
+`O(1)`
 
 ```js
 var vector = new BitVector(4);
@@ -177,6 +183,8 @@ vector.reallocate(23);
 ### #.reset
 
 Resets the bit at the given index, meaning setting it to `0`.
+
+`O(1)`
 
 ```js
 var vector = new BitVector(4);
@@ -214,6 +222,8 @@ vector.capacity;
 
 Toggles the bit at the given index.
 
+`O(1)`
+
 ```js
 var vector = new BitVector(4);
 
@@ -244,6 +254,8 @@ vector.size
 
 Returns the bit at the given index.
 
+`O(1)`
+
 ```js
 var vector = new BitVector(4);
 
@@ -259,6 +271,8 @@ vector.get(3);
 ### #.rank
 
 Returns the number of bits set to 1 up to (but not including) the provided index.
+
+`O(i)`, i being the provided index.
 
 ```js
 var vector = new BitVector(4);
@@ -276,6 +290,8 @@ vector.rank(3);
 
 Returns the index of the nth bit set to 1 in the vector.
 
+`O(n)`
+
 ```js
 var vector = new BitVector(4);
 
@@ -291,6 +307,8 @@ vector.select(2);
 ### #.test
 
 Test the bit at the given index, returning a boolean.
+
+`O(1)`
 
 ```js
 var vector = new BitVector(4);

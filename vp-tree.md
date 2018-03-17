@@ -29,6 +29,8 @@ Note that the provided metric distance must be a [true metric](https://en.wikipe
 var tree = VPTree.from(['hello', 'mello'], distance);
 ```
 
+The tree is built in `O(n log n)` time.
+
 ## Members
 
 * [#.size](#size)
@@ -55,6 +57,8 @@ tree.size
 
 Returns the k nearest neighbors of the given query. Note that the resulting array will be ordered with by ascending distance.
 
+`O(log n + m)`, m being the number of matches.
+
 ```js
 var words = [
   'book',
@@ -79,6 +83,8 @@ tree.nearestNeighbors(2, 'look');
 ### #.neighbors
 
 Return all the neighbors of the given query for the given radius. Note that the resulting array will not be ordered.
+
+`O(log n + m)`, m being the number of matches.
 
 ```js
 var words = [

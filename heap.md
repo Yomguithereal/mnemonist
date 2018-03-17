@@ -81,6 +81,8 @@ Alternatively, one can build a `Heap` from an arbitrary JavaScript iterable like
 var heap = Heap.from([1, 2, 3], comparator);
 ```
 
+The construction is done in `O(n)`.
+
 ## Members
 
 * [#.size](#size)
@@ -141,8 +143,6 @@ heap.size
 ### #.clear
 
 Completely clears the heap.
-
-`O(1)`
 
 ```js
 var heap = new Heap();

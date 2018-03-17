@@ -89,6 +89,8 @@ set.size;
 
 Sets the bit at the given index. Optionally you can indicate (`0` or `1` obviously, or a boolean value).
 
+`O(1)`
+
 ```js
 var set = new BitSet(4);
 
@@ -105,6 +107,8 @@ set.test(3);
 
 Resets the bit at the given index, meaning setting it to `0`.
 
+`O(1)`
+
 ```js
 var set = new BitSet(4);
 
@@ -117,6 +121,8 @@ set.test(3);
 ### #.flip
 
 Toggles the bit at the given index.
+
+`O(1)`
 
 ```js
 var set = new BitSet(4);
@@ -148,6 +154,8 @@ set.size
 
 Returns the bit at the given index.
 
+`O(1)`
+
 ```js
 var set = new BitSet(4);
 
@@ -163,6 +171,8 @@ set.get(3);
 ### #.rank
 
 Returns the number of bits set to 1 up to (but not including) the provided index.
+
+`O(i)`, i being the provided index.
 
 ```js
 var set = new BitSet(4);
@@ -180,6 +190,8 @@ set.rank(3);
 
 Returns the index of the nth bit set to 1 in the set.
 
+`O(n)`
+
 ```js
 var set = new BitSet(4);
 
@@ -195,6 +207,8 @@ set.select(2);
 ### #.test
 
 Test the bit at the given index, returning a boolean.
+
+`O(1)`
 
 ```js
 var set = new BitSet(4);

@@ -98,6 +98,8 @@ filter.hashFunctions
 
 Add the given item to the filter.
 
+`O(k)`, k being the number of hash functions.
+
 ```js
 var filter = new BloomFilter(5);
 filter.add('hello');
@@ -119,6 +121,8 @@ filter.size
 ### #.test
 
 Will return `false` if the item is not present in the filter and `true` if the item may or may not be in the filter.
+
+`O(k)`, k being the number of hash functions.
 
 ```js
 var filter = new BloomFilter(5);

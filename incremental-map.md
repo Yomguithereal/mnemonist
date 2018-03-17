@@ -76,6 +76,8 @@ map.size
 
 Maps a key to a range's integer.
 
+`O(1)`
+
 ```js
 var map = new IncrementalMap();
 
@@ -102,6 +104,8 @@ map.size;
 
 Retrieves the desired key's mapped integer in the map's range.
 
+`O(1)`
+
 ```js
 var map = new IncrementalMap();
 
@@ -114,6 +118,8 @@ map.get('hello');
 ### #.has
 
 Returns whether the desired key is mapped to a range integer.
+
+`O(1)`
 
 ```js
 var map = new IncrementalMap();

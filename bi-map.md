@@ -86,6 +86,8 @@ map.size
 
 Creates a relation in the bimap between key and value.
 
+`O(1) amortized`
+
 ```js
 var map = new BiMap();
 
@@ -93,6 +95,8 @@ map.set(key, item);
 ```
 
 ### #.delete
+
+`O(1) amortized`
 
 Removes the relation associated with the given key.
 
@@ -126,6 +130,8 @@ map.size
 
 Returns whether the map has the given key.
 
+`O(1) amortized`
+
 ```js
 var map = new BiMap();
 
@@ -138,6 +144,8 @@ map.has('one');
 ### #.get
 
 Returns the value stored at the given key.
+
+`O(1) amortized`
 
 ```js
 var map = new BiMap();

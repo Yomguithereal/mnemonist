@@ -149,6 +149,8 @@ index.dimension
 
 Tokenize the given document using the relevant function and adds it to the index.
 
+`O(t)`, t being the number of tokens.
+
 ```js
 var index = new InvertedIndex(words);
 
@@ -173,19 +175,21 @@ index.size
 
 Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
 
+`O(t)`, m being the number of tokens.
+
 ```js
 var index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-index.query('mouse');
+index.get('mouse');
 >>> [
   'The cat eats the mouse.',
   'The mouse eats cheese.'
 ]
 
-index.query('cat mouse');
+index.get('cat mouse');
 >>> [
   'The cat eats the mouse.'
 ]

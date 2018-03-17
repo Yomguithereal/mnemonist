@@ -101,7 +101,7 @@ queue.enqueue(1);
 
 Retrieve & remove the next item of the queue.
 
-`O(1)`
+`O(1) amortized`
 
 ```js
 var queue = new Queue();
@@ -114,8 +114,6 @@ queue.dequeue();
 ### #.clear
 
 Completely clears the queue.
-
-`O(1)`
 
 ```js
 var queue = new Queue();

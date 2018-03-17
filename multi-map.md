@@ -95,6 +95,8 @@ map.size
 
 Adds an item to the multimap using the provided key.
 
+`O(1)`
+
 ```js
 var map = new MultiMap();
 
@@ -104,6 +106,8 @@ map.set(key, value);
 ### #.delete
 
 Removes every items stored using the provided key.
+
+`O(1)`
 
 ```js
 var map = new MultiMap();
@@ -124,6 +128,10 @@ map.get('J');
 Removes a value from the container stored at the provided key.
 
 Note that it will remove only one such value from array-like containers.
+
+`O(1)` for Set containers.
+
+`O(n)` for Array containers.
 
 ```js
 var map = new MultiMap();
@@ -160,6 +168,8 @@ Same as [#.multiplicity](#multiplicity) below.
 
 Returns whether the map holds a container at the given key.
 
+`O(1)`
+
 ```js
 var map = new MultiMap();
 
@@ -172,6 +182,8 @@ map.has('john');
 ### #.multiplicity
 
 Returns the number of times the given key is set in the map. Or more simply said, the size of the hypothetical container stored for the given key.
+
+`O(1)`
 
 ```js
 var map = new MultiMap();
@@ -187,6 +199,8 @@ map.multiplicity('hello');
 ### #.get
 
 Returns the container at the given key or `undefined`.
+
+`O(1)`
 
 ```js
 var map = new MultiMap();

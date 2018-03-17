@@ -91,6 +91,8 @@ var tree = StaticIntervalTree.from(figures, [
 ]);
 ```
 
+The tree is built in `O(n log n)` time.
+
 ## Members
 
 * [#.height](#height)

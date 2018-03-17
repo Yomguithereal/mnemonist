@@ -109,8 +109,6 @@ heap.size
 
 Completely clears the heap.
 
-`O(1)`
-
 ```js
 var heap = new FibonacciHeap();
 

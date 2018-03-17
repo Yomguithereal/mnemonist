@@ -106,6 +106,8 @@ array.capacity;
 
 Sets the value at the given index.
 
+`O(1)`
+
 ```js
 var array = new HashedArrayTree(Uint8Array, 2);
 
@@ -118,6 +120,8 @@ array.get(1);
 ### #.pop
 
 Removes & returns the last value of the array.
+
+`O(1)`
 
 ```js
 var array = new HashedArrayTree(Uint8Array);
@@ -135,6 +139,8 @@ array.length
 ### #.push
 
 Pushes a new value in the array.
+
+`O(1) amortized`
 
 ```js
 var array = new HashedArrayTree(Uint8Array);
@@ -177,6 +183,8 @@ array.capacity;
 ### #.get
 
 Retrieves the value stored at the given index.
+
+`O(1)`
 
 ```js
 var array = new HashedArrayTree(Uint8Array);

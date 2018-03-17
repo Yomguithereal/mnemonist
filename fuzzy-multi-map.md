@@ -153,6 +153,8 @@ map.size
 
 Computes the item's key by hashing the given item using the relevant function then adds the item to the map using the key.
 
+`O(1)`
+
 ```js
 var map = new FuzzyMultiMap();
 
@@ -166,6 +168,8 @@ map.set(movie, movie);
 ### #.set
 
 Adds an item to the map using the provided key that will be processed by the relevant hash function.
+
+`O(1)`
 
 ```js
 var map = new FuzzyMultiMap();
@@ -191,6 +195,8 @@ map.size
 
 Hash the given key using the relevant function then returns the set of items stored by this key.
 
+`O(1)`
+
 ```js
 var map = new FuzzyMultiMap(function(string) {
   return string.toLowerCase();
@@ -208,6 +214,8 @@ map.get('john');
 ### #.has
 
 Test whether the provided key, processed by the relevant hash function, would return a container.
+
+`O(1)`
 
 ```js
 var map = new FuzzyMultiMap(function(string) {

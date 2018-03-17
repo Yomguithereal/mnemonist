@@ -91,6 +91,8 @@ Adding an item 0 times is a no-op.
 
 Adding an item a negative number of times will remove items.
 
+`O(1)`
+
 ```js
 var set = new MultiSet();
 
@@ -105,6 +107,8 @@ set.add('hello', 3);
 Sets the multiplicity of an item in the set.
 
 Setting the multiplicity of an item to be 0 or a negative number will remove said item from the set.
+
+`O(1)`
 
 ```js
 var set = new MultiSet();
@@ -121,6 +125,8 @@ Removes the item from the set once. Optionally, you can provide a number which i
 Removing an item 0 times is a no-op.
 
 Removing an item a negative number of times will add items.
+
+`O(1)`
 
 ```js
 var set = new MultiSet();
@@ -140,6 +146,8 @@ set.multiplicity('hello');
 
 Removes all the occurrences of the given item from the set.
 
+`O(1)`
+
 ```js
 var set = new MultiSet();
 
@@ -154,6 +162,8 @@ set.multiplicity('hello');
 ### #.edit
 
 Edit an item to become another one. If the item does not exist in the set, this will do nothing. If target item already exist in the set, multiplicities will be merged.
+
+`O(1)`
 
 ```js
 var set = new MultiSet();
@@ -194,6 +204,8 @@ Same as [#.multiplicity](#multiplicity) below.
 
 Returns the frequency of the given item in the set.
 
+`O(1)`
+
 ```js
 var set = new MultiSet();
 
@@ -208,6 +220,8 @@ set.frequency('apple');
 ### #.has
 
 Returns whether the given item is found in the set.
+
+`O(1)`
 
 ```js
 var set = new MultiSet();
@@ -227,6 +241,8 @@ Same as [#.multiplicity](#multiplicity) below.
 ### #.multiplicity
 
 Returns the number of times the given item is found in the set.
+
+`O(1)`
 
 ```js
 var set = new MultiSet();

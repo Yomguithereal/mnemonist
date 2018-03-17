@@ -72,6 +72,8 @@ set.size;
 
 Adds a number to the set.
 
+`O(1)`
+
 ```js
 var set = new SparseSet(4);
 
@@ -83,6 +85,8 @@ set.has(2);
 ### #.delete
 
 Deletes the given number from the set.
+
+`O(1)`
 
 ```js
 var set = new SparseSet(4);
@@ -111,6 +115,8 @@ set.size
 ### #.has
 
 Returns whether the given number exists in the set.
+
+`O(1)`
 
 ```js
 var set = new SparseSet(4);
