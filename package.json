@@ -3,7 +3,7 @@
   "version": "0.20.0-beta1",
   "description": "Curated collection of data structures for the JavaScript language.",
   "scripts": {
-    "lint": "eslint ./*.js ./utils ./test",
+    "lint": "eslint ./*.js ./utils ./test/[!types]",
     "prepublish": "npm run lint && npm test",
     "test": "mocha",
     "test:types": "tsc --lib es2015,dom ./test/types.ts"
