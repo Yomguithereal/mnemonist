@@ -10,6 +10,7 @@
   },
   "files": [
     "utils",
+    "*.d.ts",
     "*.js"
   ],
   "repository": {
