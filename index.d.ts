@@ -5,3 +5,4 @@
  * Gathering the library's typings.
  */
 export {default as Stack} from './stack';
+export {default as TrieMap} from './trie-map';

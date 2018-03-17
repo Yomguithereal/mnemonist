@@ -22,6 +22,6 @@ export default class Stack<T> implements Iterable<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I>): Stack<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string] : I}): Stack<I>;
   static of<I>(...items: Array<I>): Stack<I>;
 }
