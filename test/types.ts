@@ -3,13 +3,13 @@
  * ========================
  */
 import {
-  BiMap,
-  InverseMap,
+  BiMap, InverseMap,
   BitSet,
   BitVector,
   BKTree,
   BloomFilter,
   CircularBuffer,
+  FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
   MultiSet,
   Stack,
   Trie,
@@ -54,6 +54,13 @@ bloomfilter.add('hello');
  */
 let circularbuffer: CircularBuffer<string> = new CircularBuffer(Array, 4);
 circularbuffer.push('test');
+
+/**
+ * FibonacciHeap.
+ */
+let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
+fibonacciHeap.push('hello');
+fibonacciHeap.pop();
 
 /**
  * MultiSet.

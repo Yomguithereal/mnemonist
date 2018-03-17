@@ -10,6 +10,7 @@ export {default as BitVector} from './bit-vector';
 export {default as BKTree} from './bk-tree';
 export {default as BloomFilter} from './bloom-filter';
 export {default as CircularBuffer} from './circular-buffer';
+export {default as FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap} from './fibonacci-heap';
 export {default as MultiSet} from './multi-set';
 export {default as Stack} from './stack';
 export {default as Trie} from './trie';
