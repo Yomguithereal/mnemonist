@@ -10,6 +10,7 @@ import {
   BloomFilter,
   CircularBuffer,
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
+  FiniteStack,
   MultiSet,
   Stack,
   Trie,
@@ -61,6 +62,13 @@ circularbuffer.push('test');
 let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+
+/**
+ * FiniteStack.
+ */
+let finiteStack: FiniteStack<number> = new FiniteStack(Uint8Array, 4);
+finiteStack.push(4);
+finiteStack.pop();
 
 /**
  * MultiSet.
