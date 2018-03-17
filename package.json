@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm run lint && npm test",
-    "test": "mocha"
+    "test": "mocha",
+    "test:types": "tsc --lib es2015,dom ./test/types.ts"
   },
   "files": [
     "utils",
@@ -70,7 +71,8 @@
     "matcha": "^0.7.0",
     "mocha": "^3.1.2",
     "pandemonium": "^1.2.1",
-    "seedrandom": "^2.4.3"
+    "seedrandom": "^2.4.3",
+    "typescript": "^2.7.2"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
