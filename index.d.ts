@@ -16,6 +16,7 @@ export {default as FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap} from './fi
 export {default as FiniteStack} from './finite-stack';
 export {default as FuzzyMap} from './fuzzy-map';
 export {default as FuzzyMultiMap} from './fuzzy-multi-map';
+export {default as HashedArrayTree} from './hashed-array-tree';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as Queue} from './queue';

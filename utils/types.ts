@@ -9,6 +9,8 @@ export interface IArrayLike {
   slice(from, to?): IArrayLike;
 }
 
+export type ArrayLike = IArrayLike | ArrayBuffer;
+
 export interface IArrayLikeConstructor {
-  new(...args): IArrayLike | ArrayBuffer;
+  new(...args): ArrayLike;
 }

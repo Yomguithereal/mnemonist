@@ -13,6 +13,7 @@ import {
   FiniteStack,
   FuzzyMap,
   FuzzyMultiMap,
+  HashedArrayTree,
   MultiSet,
   MultiMap,
   Queue,
@@ -91,6 +92,12 @@ let fuzzymultimap: FuzzyMultiMap<{title: string}, number> = new FuzzyMultiMap(o 
 fuzzymultimap.set({title: 'Hello'}, 45);
 let fuzzymultimapadd: FuzzyMultiMap<number, {title: string; n: number}> = new FuzzyMultiMap(o => o.n);
 fuzzymultimapadd.add({title: 'Hello', n: 45});
+
+/**
+ * HashedArrayTree.
+ */
+let hashedArrayTree: HashedArrayTree<number> = new HashedArrayTree(Int8Array, 34);
+hashedArrayTree.set(3, 4);
 
 /**
  * MultiSet.
