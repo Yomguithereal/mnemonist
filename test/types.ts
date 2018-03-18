@@ -26,6 +26,7 @@ import {
   Stack,
   StaticDisjointSet,
   StaticIntervalTree,
+  SuffixArray, GeneralizedSuffixArray,
   Trie,
   TrieMap,
   VPTree
@@ -206,6 +207,12 @@ disjointSet.union(3, 5);
  */
 type Interval = [number, number];
 let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1] as Interval, [3, 4] as Interval]);
+
+/**
+ * SuffixArray.
+ */
+let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
+let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
 
 /**
  * Trie.
