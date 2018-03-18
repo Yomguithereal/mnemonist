@@ -22,6 +22,7 @@ import {
   MultiMap,
   Queue,
   set,
+  SparseSet,
   Stack,
   Trie,
   TrieMap,
@@ -169,6 +170,12 @@ let queueIterator: Iterator<number> = queue.values();
 let setA = new Set([1, 2, 3]);
 let setB = new Set([3, 4, 5]);
 let unionOfSets = set.union(setA, setB);
+
+/**
+ * SparseSet.
+ */
+let sparseSet: SparseSet = new SparseSet(45);
+sparseSet.add(3);
 
 /**
  * Stack.

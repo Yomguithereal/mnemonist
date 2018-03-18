@@ -1,6 +1,6 @@
 /**
- * Mnemonist Linked List Typings
- * ==============================
+ * Mnemonist LinkedList Typings
+ * =============================
  */
 export default class LinkedList<T> implements Iterable<T> {
 
