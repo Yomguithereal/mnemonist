@@ -4,6 +4,8 @@
  *
  * Gathering the library's typings.
  */
+import * as set from './set';
+
 export {default as BiMap, InverseMap} from './bi-map';
 export {default as BitSet} from './bit-set';
 export {default as BitVector} from './bit-vector';
@@ -17,6 +19,7 @@ export {default as FuzzyMultiMap} from './fuzzy-multi-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as Queue} from './queue';
+export {set};
 export {default as Stack} from './stack';
 export {default as Trie} from './trie';
 export {default as TrieMap} from './trie-map';

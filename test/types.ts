@@ -16,6 +16,7 @@ import {
   MultiSet,
   MultiMap,
   Queue,
+  set,
   Stack,
   Trie,
   TrieMap
@@ -120,6 +121,13 @@ queue = Queue.from([1, 2, 3]);
 queue = Queue.from({0: 1});
 
 let queueIterator: Iterator<number> = queue.values();
+
+/**
+ * set.
+ */
+let setA = new Set([1, 2, 3]);
+let setB = new Set([3, 4, 5]);
+let unionOfSets = set.union(setA, setB);
 
 /**
  * Stack.
