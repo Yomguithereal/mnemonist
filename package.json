@@ -66,11 +66,11 @@
   "devDependencies": {
     "@yomguithereal/eslint-config": "^4.0.0",
     "damerau-levenshtein": "^1.0.3",
-    "eslint": "^4.1.1",
+    "eslint": "^4.19.0",
     "leven": "^2.0.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "matcha": "^0.7.0",
-    "mocha": "^3.1.2",
+    "mocha": "^5.0.4",
     "pandemonium": "^1.2.1",
     "seedrandom": "^2.4.3",
     "typescript": "^2.7.2"
