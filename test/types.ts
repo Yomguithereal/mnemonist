@@ -12,6 +12,7 @@ import {
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
   FiniteStack,
   MultiSet,
+  MultiMap,
   Stack,
   Trie,
   TrieMap
@@ -77,6 +78,13 @@ let multiset: MultiSet<number> = new MultiSet();
 multiset.add(45);
 multiset = MultiSet.from([1, 2, 3]);
 multiset = MultiSet.from({'one': 1});
+
+/**
+ * MultiMap.
+ */
+let multimap: MultiMap<number, string> = new MultiMap(Set);
+multimap.set(45, 'test');
+let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
 
 /**
  * Stack.
