@@ -20,6 +20,7 @@ export {default as HashedArrayTree} from './hashed-array-tree';
 export {default as Heap, MinHeap, MaxHeap} from './heap';
 export {default as IncrementalMap} from './incremental-map';
 export {default as InvertedIndex} from './inverted-index';
+export {default as LinkedList} from './linked-list';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as Queue} from './queue';

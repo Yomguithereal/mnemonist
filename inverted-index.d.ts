@@ -26,5 +26,8 @@ export default class InvertedIndex<D> implements Iterable<D> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): InvertedIndex<I>;
+  static from<I>(
+    iterable: Iterable<I> | {[key: string] : I},
+    tokenizer?: Tokenizer | TokenizersTuple
+  ): InvertedIndex<I>;
 }

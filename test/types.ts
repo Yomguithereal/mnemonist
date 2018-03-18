@@ -17,6 +17,7 @@ import {
   Heap, MaxHeap,
   IncrementalMap,
   InvertedIndex,
+  LinkedList,
   MultiSet,
   MultiMap,
   Queue,
@@ -123,6 +124,13 @@ incrementalMap.add('hello');
  */
 let invertedIndex: InvertedIndex<number> = new InvertedIndex(n => ['one', 'two']);
 invertedIndex.add(45);
+
+/**
+ * LinkedList.
+ */
+let linkedlist: LinkedList<boolean> = new LinkedList();
+linkedlist.push(true);
+let linkedlistItem: boolean = linkedlist.shift();
 
 /**
  * MultiSet.
