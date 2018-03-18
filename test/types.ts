@@ -19,7 +19,8 @@ import {
   set,
   Stack,
   Trie,
-  TrieMap
+  TrieMap,
+  VPTree
 } from '../index';
 
 /**
@@ -166,3 +167,8 @@ trieMap = TrieMap.from({roman: 45});
 
 let arrayTrieMap = new TrieMap<string[], number>(Array);
 arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
+
+/**
+ * VPTree.
+ */
+let vptree: VPTree<string> = VPTree.from(['hello'], (a: string, b: string) => 1);
