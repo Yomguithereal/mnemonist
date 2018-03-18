@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.21.0 (provisional)
+## 0.21.0
 
-* Adding typings.
+* Library is now fully typed.
 * Adding `CircularBuffer`.
 * Adding `#.toArray` to `Heap`.
 

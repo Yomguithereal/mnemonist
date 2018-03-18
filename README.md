@@ -11,6 +11,7 @@ It strives at being:
 * As performant as possible for a high-level language.
 * Completely modular (don't need to import the whole library just to use a simple heap).
 * Simple & straightforward to use and consistent with JavaScript standard objects' API.
+* Completely typed and comfortably usable with Typescript.
 
 ## Installation
 
