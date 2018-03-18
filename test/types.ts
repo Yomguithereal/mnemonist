@@ -24,6 +24,7 @@ import {
   set,
   SparseSet,
   Stack,
+  StaticDisjointSet,
   Trie,
   TrieMap,
   VPTree
@@ -192,6 +193,12 @@ stack = Stack.from([1, 2, 3]);
 stack = Stack.from({0: 1});
 
 let stackIterator: Iterator<number> = stack.values();
+
+/**
+ * StaticDisjointSet.
+ */
+let disjointSet: StaticDisjointSet = new StaticDisjointSet(45);
+disjointSet.union(3, 5);
 
 /**
  * Trie.

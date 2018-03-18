@@ -27,6 +27,7 @@ export {default as Queue} from './queue';
 export {set};
 export {default as SparseSet} from './sparse-set';
 export {default as Stack} from './stack';
+export {default as StaticDisjointSet} from './static-disjoint-set';
 export {default as Trie} from './trie';
 export {default as TrieMap} from './trie-map';
 export {default as VPTree} from './vp-tree';
