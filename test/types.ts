@@ -27,6 +27,7 @@ import {
   StaticDisjointSet,
   StaticIntervalTree,
   SuffixArray, GeneralizedSuffixArray,
+  SymSpell,
   Trie,
   TrieMap,
   VPTree
@@ -213,6 +214,12 @@ let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1]
  */
 let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
 let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
+
+/**
+ * SymSpell.
+ */
+let symspell = SymSpell.from(['one', 'two'], {verbosity: 2});
+let symspellMatches: Array<any> = symspell.search('three');
 
 /**
  * Trie.
