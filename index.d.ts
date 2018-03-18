@@ -16,6 +16,7 @@ export {default as FuzzyMap} from './fuzzy-map';
 export {default as FuzzyMultiMap} from './fuzzy-multi-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
+export {default as Queue} from './queue';
 export {default as Stack} from './stack';
 export {default as Trie} from './trie';
 export {default as TrieMap} from './trie-map';

@@ -15,6 +15,7 @@ import {
   FuzzyMultiMap,
   MultiSet,
   MultiMap,
+  Queue,
   Stack,
   Trie,
   TrieMap
@@ -105,12 +106,28 @@ multimap.set(45, 'test');
 let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
 
 /**
+ * Queue.
+ */
+let queue = new Queue<number>();
+
+queue.enqueue(45);
+let queueitem: number = queue.dequeue();
+
+queue.enqueue(45);
+queue.enqueue(34);
+
+queue = Queue.from([1, 2, 3]);
+queue = Queue.from({0: 1});
+
+let queueIterator: Iterator<number> = queue.values();
+
+/**
  * Stack.
  */
 let stack = new Stack<number>();
 
 stack.push(45);
-let item: number = stack.pop();
+let stackitem: number = stack.pop();
 
 stack.push(45);
 stack.push(34);
@@ -118,7 +135,7 @@ stack.push(34);
 stack = Stack.from([1, 2, 3]);
 stack = Stack.from({0: 1});
 
-let iterator: Iterator<number> = stack.values();
+let stackIterator: Iterator<number> = stack.values();
 
 /**
  * Trie.
