@@ -17,7 +17,7 @@ export default class CircularBuffer<T> implements Iterable<T> {
   clear(): void;
   push(item: T): number;
   pop(): T | undefined;
-  unshift(): T | undefined;
+  shift(): T | undefined;
   peekFirst(): T | undefined;
   peekLast(): T | undefined;
   get(index: number): T | undefined;

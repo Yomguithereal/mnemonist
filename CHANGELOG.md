@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.21.1 (provisional)
+
+* Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
+
 ## 0.21.0
 
 * Library is now fully typed.

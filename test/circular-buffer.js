@@ -99,16 +99,16 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.peekLast(), 4);
   });
 
-  it('should be possible to unshift the buffer.', function() {
+  it('should be possible to shift the buffer.', function() {
     var buffer = new CircularBuffer(Uint8Array, 3);
 
     buffer.push(1);
     buffer.push(2);
     buffer.push(3);
 
-    assert.strictEqual(buffer.unshift(), 1);
-    assert.strictEqual(buffer.unshift(), 2);
-    assert.strictEqual(buffer.unshift(), 3);
+    assert.strictEqual(buffer.shift(), 1);
+    assert.strictEqual(buffer.shift(), 2);
+    assert.strictEqual(buffer.shift(), 3);
 
     assert.strictEqual(buffer.size, 0);
 
@@ -117,7 +117,7 @@ describe('CircularBuffer', function() {
 
     assert.strictEqual(buffer.size, 2);
     assert.strictEqual(buffer.pop(), 5);
-    assert.strictEqual(buffer.unshift(), 4);
+    assert.strictEqual(buffer.shift(), 4);
   });
 
   it('should be consistent over time.', function() {
@@ -134,8 +134,8 @@ describe('CircularBuffer', function() {
 
     assert.deepEqual(buffer.toArray(), [1, 3, 4]);
 
-    buffer.unshift();
-    buffer.unshift();
+    buffer.shift();
+    buffer.shift();
 
     assert.deepEqual(buffer.toArray(), [4]);
 
@@ -148,7 +148,7 @@ describe('CircularBuffer', function() {
 
     assert.deepEqual(buffer.toArray(), [5, 6]);
 
-    buffer.unshift();
+    buffer.shift();
 
     assert.deepEqual(buffer.toArray(), [6]);
   });

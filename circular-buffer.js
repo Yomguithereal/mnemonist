@@ -68,11 +68,11 @@ CircularBuffer.prototype.pop = function() {
 };
 
 /**
- * Method used to unshift the buffer.
+ * Method used to shift the buffer.
  *
- * @return {any} - Returns the unshifted item.
+ * @return {any} - Returns the shifted item.
  */
-CircularBuffer.prototype.unshift = function() {
+CircularBuffer.prototype.shift = function() {
   if (this.size === 0)
     return;
 
