@@ -12,6 +12,7 @@ import {
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
   FiniteStack,
   FuzzyMap,
+  FuzzyMultiMap,
   MultiSet,
   MultiMap,
   Stack,
@@ -77,6 +78,16 @@ finiteStack.pop();
  */
 let fuzzymap: FuzzyMap<{title: string}, number> = new FuzzyMap(o => o.title);
 fuzzymap.set({title: 'Hello'}, 45);
+let fuzzymapadd: FuzzyMap<number, {title: string; n: number}> = new FuzzyMap(o => o.n);
+fuzzymapadd.add({title: 'Hello', n: 45});
+
+/**
+ * FuzzyMultiMap.
+ */
+let fuzzymultimap: FuzzyMultiMap<{title: string}, number> = new FuzzyMultiMap(o => o.title);
+fuzzymultimap.set({title: 'Hello'}, 45);
+let fuzzymultimapadd: FuzzyMultiMap<number, {title: string; n: number}> = new FuzzyMultiMap(o => o.n);
+fuzzymultimapadd.add({title: 'Hello', n: 45});
 
 /**
  * MultiSet.

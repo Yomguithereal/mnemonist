@@ -2,7 +2,7 @@
  * Mnemonist FuzzyMap Typings
  * ==========================
  */
-type HashFunction<K> = (key: K) => any;
+type HashFunction<K> = (key: any) => K;
 type HashFunctionsTuple<K> = [HashFunction<K>, HashFunction<K>];
 
 export default class FuzzyMap<K, V> implements Iterable<V> {
@@ -16,10 +16,10 @@ export default class FuzzyMap<K, V> implements Iterable<V> {
 
   // Methods
   clear(): void;
-  add(key: K): this;
+  add(key: V): this;
   set(key: K, value: V): this;
-  get(key: K): V | undefined;
-  has(key: K): boolean;
+  get(key: any): V | undefined;
+  has(key: any): boolean;
   forEach(callback: (value: V, key: V) => void, scope?: this): void;
   values(): Iterator<V>;
   [Symbol.iterator](): Iterator<V>;
