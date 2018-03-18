@@ -18,6 +18,7 @@ export {default as FuzzyMap} from './fuzzy-map';
 export {default as FuzzyMultiMap} from './fuzzy-multi-map';
 export {default as HashedArrayTree} from './hashed-array-tree';
 export {default as Heap, MinHeap, MaxHeap} from './heap';
+export {default as IncrementalMap} from './incremental-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as Queue} from './queue';

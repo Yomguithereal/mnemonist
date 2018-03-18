@@ -1,6 +1,6 @@
 /**
  * Mnemonist Heap Typings
- * ================================
+ * =======================
  */
 type HeapComparator<T> = (a: T, b: T) => number;
 

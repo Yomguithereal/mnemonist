@@ -8,6 +8,8 @@
  */
 var iterate = require('./utils/iterate.js');
 
+// TODO: maybe reverse iterators, since value is key etc.
+
 /**
  * IncrementalMap.
  *

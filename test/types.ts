@@ -15,6 +15,7 @@ import {
   FuzzyMultiMap,
   HashedArrayTree,
   Heap, MaxHeap,
+  IncrementalMap,
   MultiSet,
   MultiMap,
   Queue,
@@ -109,6 +110,12 @@ heap.pop();
 
 let maxHeap: MaxHeap<number> = new Heap();
 maxHeap.push(45);
+
+/**
+ * IncrementalMap.
+ */
+let incrementalMap: IncrementalMap<string> = new IncrementalMap({step: 2});
+incrementalMap.add('hello');
 
 /**
  * MultiSet.
