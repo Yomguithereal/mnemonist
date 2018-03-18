@@ -12,6 +12,7 @@ export {default as BloomFilter} from './bloom-filter';
 export {default as CircularBuffer} from './circular-buffer';
 export {default as FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap} from './fibonacci-heap';
 export {default as FiniteStack} from './finite-stack';
+export {default as FuzzyMap} from './fuzzy-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as Stack} from './stack';

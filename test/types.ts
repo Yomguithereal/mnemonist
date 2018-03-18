@@ -11,6 +11,7 @@ import {
   CircularBuffer,
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
   FiniteStack,
+  FuzzyMap,
   MultiSet,
   MultiMap,
   Stack,
@@ -70,6 +71,12 @@ fibonacciHeap.pop();
 let finiteStack: FiniteStack<number> = new FiniteStack(Uint8Array, 4);
 finiteStack.push(4);
 finiteStack.pop();
+
+/**
+ * FuzzyMap.
+ */
+let fuzzymap: FuzzyMap<{title: string}, number> = new FuzzyMap(o => o.title);
+fuzzymap.set({title: 'Hello'}, 45);
 
 /**
  * MultiSet.
