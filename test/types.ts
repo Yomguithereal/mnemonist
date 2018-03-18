@@ -14,6 +14,7 @@ import {
   FuzzyMap,
   FuzzyMultiMap,
   HashedArrayTree,
+  Heap, MaxHeap,
   MultiSet,
   MultiMap,
   Queue,
@@ -98,6 +99,16 @@ fuzzymultimapadd.add({title: 'Hello', n: 45});
  */
 let hashedArrayTree: HashedArrayTree<number> = new HashedArrayTree(Int8Array, 34);
 hashedArrayTree.set(3, 4);
+
+/**
+ * Heap.
+ */
+let heap: Heap<string> = new Heap((a: string, b: string) => +a - +b);
+heap.push('hello');
+heap.pop();
+
+let maxHeap: MaxHeap<number> = new Heap();
+maxHeap.push(45);
 
 /**
  * MultiSet.

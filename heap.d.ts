@@ -1,65 +1,62 @@
 /**
- * Mnemonist FibonacciHeap Typings
+ * Mnemonist Heap Typings
  * ================================
  */
-type FibonacciHeapComparator<T> = (a: T, b: T) => number;
+type HeapComparator<T> = (a: T, b: T) => number;
 
-export default class FibonacciHeap<T> {
+export default class Heap<T> {
 
   // Members
   size: number;
 
   // Constructor
-  constructor(comparator?: FibonacciHeapComparator<T>);
+  constructor(comparator?: HeapComparator<T>);
 
   // Methods
   clear(): void;
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  toArray(): Array<T>;
   inspect(): any;
 
   // Statics
   static from<I>(
     iterable: Iterable<I> | {[key: string] : I},
-    comparator?: FibonacciHeapComparator<I>
-  ): FibonacciHeap<I>;
+    comparator?: HeapComparator<I>
+  ): Heap<I>;
 }
 
-export class MinFibonacciHeap<T> {
+export class MinHeap<T> {
 
   // Members
   size: number;
 
   // Constructor
-  constructor(comparator?: FibonacciHeapComparator<T>);
+  constructor(comparator?: HeapComparator<T>);
 
   // Methods
   clear(): void;
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  toArray(): Array<T>;
   inspect(): any;
-
-  // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): FibonacciHeap<I>;
 }
 
-export class MaxFibonacciHeap<T> {
+export class MaxHeap<T> {
 
   // Members
   size: number;
 
   // Constructor
-  constructor(comparator?: FibonacciHeapComparator<T>);
+  constructor(comparator?: HeapComparator<T>);
 
   // Methods
   clear(): void;
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  toArray(): Array<T>;
   inspect(): any;
-
-  // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): FibonacciHeap<I>;
 }
