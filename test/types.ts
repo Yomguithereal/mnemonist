@@ -25,6 +25,7 @@ import {
   SparseSet,
   Stack,
   StaticDisjointSet,
+  StaticIntervalTree,
   Trie,
   TrieMap,
   VPTree
@@ -199,6 +200,12 @@ let stackIterator: Iterator<number> = stack.values();
  */
 let disjointSet: StaticDisjointSet = new StaticDisjointSet(45);
 disjointSet.union(3, 5);
+
+/**
+ * StaticIntervalTree.
+ */
+type Interval = [number, number];
+let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1] as Interval, [3, 4] as Interval]);
 
 /**
  * Trie.
