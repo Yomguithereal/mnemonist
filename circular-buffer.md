@@ -47,7 +47,7 @@ var buffer = CircularBuffer.from([1, 2, 3], Int8Array, 10);
 
 * [#.push](#push)
 * [#.pop](#pop)
-* [#.unshift](#unshift)
+* [#.shift](#shift)
 * [#.clear](#clear)
 
 *Read*
@@ -112,7 +112,7 @@ buffer.pop();
 >>> 2
 ```
 
-### #.unshift
+### #.shift
 
 Retrieve & remove the first item of the buffer.
 
@@ -123,7 +123,7 @@ var buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
-buffer.unshift();
+buffer.shift();
 >>> 1
 ```
 
