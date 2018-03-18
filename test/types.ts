@@ -16,6 +16,7 @@ import {
   HashedArrayTree,
   Heap, MaxHeap,
   IncrementalMap,
+  InvertedIndex,
   MultiSet,
   MultiMap,
   Queue,
@@ -116,6 +117,12 @@ maxHeap.push(45);
  */
 let incrementalMap: IncrementalMap<string> = new IncrementalMap({step: 2});
 incrementalMap.add('hello');
+
+/**
+ * InvertedIndex.
+ */
+let invertedIndex: InvertedIndex<number> = new InvertedIndex(n => ['one', 'two']);
+invertedIndex.add(45);
 
 /**
  * MultiSet.
