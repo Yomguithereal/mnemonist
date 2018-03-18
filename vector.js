@@ -357,7 +357,7 @@ function subClass(ArrayClass) {
 
 Vector.Int8Vector = subClass(Int8Array);
 Vector.Uint8Vector = subClass(Uint8Array);
-Vector.Uint8Vector = subClass(Uint8ClampedArray);
+Vector.Uint8ClampedVector = subClass(Uint8ClampedArray);
 Vector.Int16Vector = subClass(Int16Array);
 Vector.Uint16Vector = subClass(Uint16Array);
 Vector.Int32Vector = subClass(Int32Array);

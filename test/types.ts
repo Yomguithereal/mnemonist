@@ -30,6 +30,7 @@ import {
   SymSpell,
   Trie,
   TrieMap,
+  Vector, Uint16Vector,
   VPTree
 } from '../index';
 
@@ -242,6 +243,15 @@ trieMap = TrieMap.from({roman: 45});
 
 let arrayTrieMap = new TrieMap<string[], number>(Array);
 arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
+
+/**
+ * Vector.
+ */
+let vector = new Vector(Uint32Array, 10);
+vector.set(45, 2);
+
+let uint16vector = Uint16Vector.from([1, 2, 3]);
+uint16vector.pop();
 
 /**
  * VPTree.
