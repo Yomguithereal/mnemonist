@@ -16,7 +16,7 @@ var isTypedArray = require('./typed-arrays.js').isTypedArray;
 function iterate(target, callback) {
   var iterator, k, i, l, s;
 
-  // The target is an array
+  // The target is an array or a string or function arguments
   if (
     iterate.isArrayLike(target) ||
     typeof target === 'string' ||
