@@ -53,6 +53,7 @@ FuzzyMultiMap.prototype.clear = function() {
 
   // Properties
   this.size = 0;
+  this.dimension = 0;
 };
 
 /**
@@ -66,6 +67,7 @@ FuzzyMultiMap.prototype.add = function(item) {
 
   this.items.set(key, item);
   this.size = this.items.size;
+  this.dimension = this.items.dimension;
 
   return this;
 };
@@ -82,6 +84,7 @@ FuzzyMultiMap.prototype.set = function(key, item) {
 
   this.items.set(key, item);
   this.size = this.items.size;
+  this.dimension = this.items.dimension;
 
   return this;
 };

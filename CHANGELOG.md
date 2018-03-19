@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.21.1 (provisional)
+## 0.22.0
 
+* Adding `#.dimension` to `FuzzyMultiMap`.
 * Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
 
 ## 0.21.0

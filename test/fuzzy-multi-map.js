@@ -33,6 +33,7 @@ describe('FuzzyMultiMap', function() {
     map.add({title: 'World'});
 
     assert.strictEqual(map.size, 3);
+    assert.strictEqual(map.dimension, 2);
   });
 
   it('should be possible to set values.', function() {
@@ -45,6 +46,7 @@ describe('FuzzyMultiMap', function() {
     map.set('World', {title: 'World'});
 
     assert.strictEqual(map.size, 3);
+    assert.strictEqual(map.dimension, 2);
   });
 
   it('should be possible to clear the map.', function() {

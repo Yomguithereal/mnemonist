@@ -9,6 +9,7 @@ type FuzzyMultiMapContainer = ArrayConstructor | SetConstructor;
 export default class FuzzyMultiMap<K, V> implements Iterable<V> {
 
   // Members
+  dimension: number;
   size: number;
 
   // Constructor
