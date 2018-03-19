@@ -70,18 +70,18 @@ SparseSet.prototype.add = function(member) {
  * Method used to remove a member from the set.
  *
  * @param  {number} member - Member to delete.
- * @return {SparseSet}
+ * @return {boolean}
  */
 SparseSet.prototype.delete = function(member) {
   if (!this.has(member))
-    return;
+    return false;
 
   var index = this.dense[this.size - 1];
   this.dense[this.sparse[member]] = index;
   this.sparse[index] = this.sparse[member];
   this.size--;
 
-  return this;
+  return true;
 };
 
 /**

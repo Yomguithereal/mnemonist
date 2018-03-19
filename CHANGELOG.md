@@ -4,6 +4,7 @@
 
 * Adding `#.dimension` to `FuzzyMultiMap`.
 * Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
+* Fixing `SparseSet`, `#.delete` return consistency.
 
 ## 0.21.0
 
