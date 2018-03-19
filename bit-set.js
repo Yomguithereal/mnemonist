@@ -350,7 +350,7 @@ BitSet.prototype.inspect = function() {
 };
 
 BitSet.prototype.toJSON = function() {
-  return this.array;
+  return Array.from(this.array);
 };
 
 /**

@@ -255,4 +255,13 @@ describe('BitVector', function() {
     assert.strictEqual(vector.length, 33);
     assert.strictEqual(vector.capacity, 64);
   });
+
+  it('should be possible to export to JSON.', function() {
+    var set = new BitVector({initialCapacity: 64, initialLength: 10});
+    set.set(2);
+    set.set(8);
+    set.set(9);
+
+    assert.deepEqual(set.toJSON(), [772]);
+  });
 });

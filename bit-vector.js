@@ -524,7 +524,7 @@ BitVector.prototype.inspect = function() {
 };
 
 BitVector.prototype.toJSON = function() {
-  return this.array;
+  return Array.from(this.array.slice(0, (this.length >> 5) + 1));
 };
 
 /**

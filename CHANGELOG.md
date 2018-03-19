@@ -2,9 +2,10 @@
 
 ## 0.22.0
 
-* Adding `#.dimension` to `FuzzyMultiMap`.
+* Adding `FuzzyMultiMap.dimension`.
+* Improving `BitSet` and `BitVector` `#.toJSON`.
 * Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
-* Fixing `SparseSet`, `#.delete` return consistency.
+* Fixing `SparseSet.delete` return consistency.
 
 ## 0.21.0
 

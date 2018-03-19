@@ -124,4 +124,13 @@ describe('BitSet', function() {
     assert.deepEqual(obliterator.consume(set.values()), array);
     assert.deepEqual(obliterator.consume(set.entries()), indexedArray);
   });
+
+  it('should be possible to export to JSON.', function() {
+    var set = new BitSet(10);
+    set.set(2);
+    set.set(8);
+    set.set(9);
+
+    assert.deepEqual(set.toJSON(), [772]);
+  });
 });

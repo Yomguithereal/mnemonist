@@ -38,5 +38,5 @@ export default class BitVector implements Iterable<number> {
   entries(): Iterator<[number, number]>;
   [Symbol.iterator](): Iterator<number>;
   inspect(): any;
-  toJSON(): Uint32Array;
+  toJSON(): Array<number>;
 }
