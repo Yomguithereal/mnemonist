@@ -116,6 +116,7 @@ var map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
 
 ## Members
 
+* [#.dimension](#dimension)
 * [#.size](#size)
 
 ## Methods
@@ -136,6 +137,21 @@ var map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
 * [#.forEach](#foreach)
 * [#.values](#values)
 * [Iterable](#iterable)
+
+### #.dimension
+
+Number of item containers stored in the map.
+
+```js
+var map = new FuzzyMultiMap();
+map.set('hello', 3);
+map.set('hello', 4);
+
+map.size
+>>> 2
+map.dimension
+>>> 1
+```
 
 ### #.size
 
