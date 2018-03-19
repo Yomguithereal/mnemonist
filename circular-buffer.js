@@ -283,7 +283,6 @@ CircularBuffer.prototype.inspect = function() {
  * @param  {number}   capacity   - Desired capacity.
  * @return {FiniteStack}
  */
-// TODO: can optimize if iterable is array-like
 CircularBuffer.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {
@@ -294,6 +293,17 @@ CircularBuffer.from = function(iterable, ArrayClass, capacity) {
   }
 
   var buffer = new CircularBuffer(ArrayClass, capacity);
+
+  if (iterate.isArrayLike(iterable)) {
+    var i, l;
+
+    for (i = 0, l = iterable.length; i < l; i++)
+      buffer.items[i] = iterable[i];
+
+    buffer.size = l;
+
+    return buffer;
+  }
 
   iterate(iterable, function(value) {
     buffer.push(value);

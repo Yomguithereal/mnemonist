@@ -4,6 +4,7 @@
 
 * Adding `FuzzyMultiMap.dimension`.
 * Improving `BitSet` and `BitVector` `#.toJSON`.
+* Improving `FiniteStack.from` & `CircularBuffer.from` performance when handling arrays.
 * Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
 * Fixing `SparseSet.delete` return consistency.
 

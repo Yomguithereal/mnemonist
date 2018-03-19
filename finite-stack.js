@@ -204,7 +204,6 @@ FiniteStack.prototype.inspect = function() {
  * @param  {number}   capacity   - Desired capacity.
  * @return {FiniteStack}
  */
-// TODO: can optimize if iterable is array-like
 FiniteStack.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {
@@ -215,6 +214,17 @@ FiniteStack.from = function(iterable, ArrayClass, capacity) {
   }
 
   var stack = new FiniteStack(ArrayClass, capacity);
+
+  if (iterate.isArrayLike(iterable)) {
+    var i, l;
+
+    for (i = 0, l = iterable.length; i < l; i++)
+      stack.items[i] = iterable[i];
+
+    stack.size = l;
+
+    return stack;
+  }
 
   iterate(iterable, function(value) {
     stack.push(value);
