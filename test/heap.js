@@ -55,6 +55,38 @@ describe('Heap', function() {
     assert.strictEqual(heap.size, 0);
   });
 
+  it('should be possible to replace an item in the heap.', function() {
+
+    var heap = new Heap();
+
+    assert.throws(function() {
+      heap.replace(3);
+    }, /replace/);
+
+    heap.push(3);
+    var popped = heap.replace(56);
+
+    assert.strictEqual(heap.size, 1);
+    assert.strictEqual(popped, 3);
+    assert.strictEqual(heap.peek(), 56);
+  });
+
+  it('should be possible to pushpop the heap.', function() {
+    var heap = new Heap();
+
+    assert.strictEqual(heap.pushpop(3), 3);
+    assert.strictEqual(heap.size, 0);
+
+    heap.push(4);
+    heap.push(5);
+
+    var popped = heap.pushpop(6);
+
+    assert.strictEqual(heap.size, 2);
+    assert.strictEqual(popped, 4);
+    assert.deepEqual(heap.toArray(), [5, 6]);
+  });
+
   it('should be possible to create a max heap.', function() {
     var heap = new MaxHeap();
 

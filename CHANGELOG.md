@@ -3,6 +3,8 @@
 ## 0.22.0 (provisonal)
 
 * Adding `FuzzyMultiMap.dimension`.
+* Adding `#.replace` to `Heap`.
+* Adding `#.pushpop` to `Heap`.
 * Improving `BitSet` and `BitVector` `#.toJSON`.
 * Improving `FiniteStack.from` & `CircularBuffer.from` performance when handling arrays.
 * Refactoring `Heap` inner logic.

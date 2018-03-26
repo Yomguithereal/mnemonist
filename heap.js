@@ -110,6 +110,48 @@ function pop(compare, heap) {
 }
 
 /**
+ * Function used to pop the heap then push a new value into it, thus "replacing"
+ * it.
+ *
+ * @param  {function} compare - Comparison function.
+ * @param  {array}    heap    - Array storing the heap's data.
+ * @param  {any}      item    - The item to push.
+ * @return {any}
+ */
+function replace(compare, heap, item) {
+  if (heap.length === 0)
+    throw new Error('mnemonist/heap.replace: cannot pop an empty heap.');
+
+  var popped = heap[0];
+  heap[0] = item;
+  siftUp(compare, heap, 0);
+
+  return popped;
+}
+
+/**
+ * Function used to push an item in the heap then pop the heap and return the
+ * popped value.
+ *
+ * @param  {function} compare - Comparison function.
+ * @param  {array}    heap    - Array storing the heap's data.
+ * @param  {any}      item    - The item to push.
+ * @return {any}
+ */
+function pushpop(compare, heap, item) {
+  var tmp;
+
+  if (heap.length !== 0 && compare(heap[0], item) < 0) {
+    tmp = heap[0];
+    heap[0] = item;
+    item = tmp;
+    siftUp(compare, heap, 0);
+  }
+
+  return item;
+}
+
+/**
  * Binary Minimum Heap.
  *
  * @constructor
@@ -164,6 +206,27 @@ Heap.prototype.pop = function() {
     this.size--;
 
   return pop(this.comparator, this.items);
+};
+
+/**
+ * Method used to pop the heap, then push an item and return the popped
+ * item.
+ *
+ * @param  {any} item - Item to push into the heap.
+ * @return {any}
+ */
+Heap.prototype.replace = function(item) {
+  return replace(this.comparator, this.items, item);
+};
+
+/**
+ * Method used to push the heap, the pop it and return the pooped item.
+ *
+ * @param  {any} item - Item to push into the heap.
+ * @return {any}
+ */
+Heap.prototype.pushpop = function(item) {
+  return pushpop(this.comparator, this.items, item);
 };
 
 /**
@@ -251,6 +314,10 @@ MaxHeap.from = function(iterable, comparator) {
  */
 Heap.push = push;
 Heap.pop = pop;
+Heap.replace = replace;
+Heap.pushpop = pushpop;
+
 Heap.MinHeap = Heap;
 Heap.MaxHeap = MaxHeap;
+
 module.exports = Heap;
