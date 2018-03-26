@@ -5,7 +5,7 @@
  * JavaScript implementation of an inverted index.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js'),
+    iterate = require('./utils/iterables.js').iterate,
     helpers = require('./utils/merge.js');
 
 function identity(x) {

@@ -16,7 +16,7 @@
  *
  * For more information: https://en.wikipedia.org/wiki/Interval_tree
  */
-var iterate = require('./utils/iterate.js'),
+var iterables = require('./utils/iterables.js'),
     typed = require('./utils/typed-arrays.js');
 
 var FiniteStack = require('./finite-stack.js');
@@ -372,7 +372,7 @@ StaticIntervalTree.prototype.inspect = function() {
  * @return {StaticIntervalTree}
  */
 StaticIntervalTree.from = function(iterable, getters) {
-  if (iterate.isArrayLike(iterable))
+  if (iterables.isArrayLike(iterable))
     return new StaticIntervalTree(iterable, getters);
 
   return new StaticIntervalTree(Array.from(iterable), getters);

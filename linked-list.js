@@ -6,7 +6,7 @@
  * as benchmarks proved it was the fastest thing to do.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Linked List.

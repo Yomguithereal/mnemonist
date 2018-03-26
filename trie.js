@@ -10,7 +10,7 @@
  * is the very same. The Trie just does not let you set values and only
  * considers the existence of the given prefixes.
  */
-var iterate = require('./utils/iterate.js'),
+var iterate = require('./utils/iterables.js').iterate,
     TrieMap = require('./trie-map.js');
 
 /**

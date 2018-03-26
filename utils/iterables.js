@@ -1,10 +1,21 @@
 /**
- * Mnemonist Iterate Function
- * ===========================
+ * Mnemonist Iterable Function
+ * ============================
  *
- * Harmonized iteration over mixed targets.
+ * Harmonized iteration helpers over mixed iterable targets.
  */
 var isTypedArray = require('./typed-arrays.js').isTypedArray;
+
+/**
+ * Function used to determine whether the given object supports array-like
+ * random access.
+ *
+ * @param  {any} target - Target object.
+ * @return {boolean}
+ */
+function isArrayLike(target) {
+  return Array.isArray(target) || isTypedArray(target);
+}
 
 /**
  * Function used to iterate in a similar way over JavaScript iterables,
@@ -18,7 +29,7 @@ function iterate(target, callback) {
 
   // The target is an array or a string or function arguments
   if (
-    iterate.isArrayLike(target) ||
+    isArrayLike(target) ||
     typeof target === 'string' ||
     target.toString() === '[object Arguments]'
   ) {
@@ -98,21 +109,9 @@ function toArray(target) {
 }
 
 /**
- * Function used to determine whether the given object supports array-like
- * random access.
- *
- * @param  {any} target - Target object.
- * @return {boolean}
- */
-function isArrayLike(target) {
-  return Array.isArray(target) || isTypedArray(target);
-}
-
-/**
  * Exporting.
  */
-iterate.guessLength = guessLength;
-iterate.toArray = toArray;
-iterate.isArrayLike = isArrayLike;
-
-module.exports = iterate;
+exports.isArrayLike = isArrayLike;
+exports.iterate = iterate;
+exports.guessLength = guessLength;
+exports.toArray = toArray;

@@ -5,7 +5,7 @@
  * Implementation of a MultiMap with custom container.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 /**
  * MultiMap.

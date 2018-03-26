@@ -14,7 +14,7 @@
  * [Author]:
  * Wolf Garbe
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Constants.

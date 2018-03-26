@@ -3,14 +3,16 @@
  * ===========================
  */
 var assert = require('assert'),
-    iterate = require('../utils/iterate.js'),
+    iterable = require('../utils/iterables.js'),
     typed = require('../utils/typed-arrays.js'),
     binarySearch = require('../utils/binary-search.js'),
     merge = require('../utils/merge.js');
 
+var iterate = iterable.iterate;
+
 describe('utils', function() {
 
-  describe('iterate', function() {
+  describe('iterable', function() {
 
     it('should properly iterate over an array.', function() {
       var array = [1, 2, 3],

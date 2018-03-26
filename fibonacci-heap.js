@@ -6,7 +6,7 @@
  * Fibonacci heap implementation.
  */
 var comparators = require('./utils/comparators.js'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;

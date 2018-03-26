@@ -6,7 +6,7 @@
  * of increasing integers. Very useful to map a set of hashable keys to
  * and array's indices, for instance.
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterables.js').iterate;
 
 // TODO: maybe reverse iterators, since value is key etc.
 

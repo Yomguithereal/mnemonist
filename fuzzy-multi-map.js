@@ -5,7 +5,7 @@
  * Same as the fuzzy map but relying on a MultiMap rather than a Map.
  */
 var MultiMap = require('./multi-map.js'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 var identity = function(x) {
   return x;

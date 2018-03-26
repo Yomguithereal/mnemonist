@@ -13,7 +13,7 @@
  * W. Burkhard and R. Keller. Some approaches to best-match file searching,
  * CACM, 1973
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterables.js').iterate;
 
 /**
  * BK Tree.

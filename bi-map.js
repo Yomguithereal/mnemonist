@@ -4,7 +4,7 @@
  *
  * JavaScript implementation of a BiMap.
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Inverse Map.

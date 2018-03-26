@@ -4,7 +4,7 @@
  *
  * Circular buffer implementation fit to use as a finite deque.
  */
-var iterate = require('./utils/iterate.js'),
+var iterables = require('./utils/iterables.js'),
     Iterator = require('obliterator/iterator');
 
 /**
@@ -286,7 +286,7 @@ CircularBuffer.prototype.inspect = function() {
 CircularBuffer.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {
-    capacity = iterate.guessLength(iterable);
+    capacity = iterables.guessLength(iterable);
 
     if (typeof capacity !== 'number')
       throw new Error('mnemonist/circular-buffer.from: could not guess iterable length. Please provide desired capacity as last argument.');
@@ -294,7 +294,7 @@ CircularBuffer.from = function(iterable, ArrayClass, capacity) {
 
   var buffer = new CircularBuffer(ArrayClass, capacity);
 
-  if (iterate.isArrayLike(iterable)) {
+  if (iterables.isArrayLike(iterable)) {
     var i, l;
 
     for (i = 0, l = iterable.length; i < l; i++)
@@ -305,7 +305,7 @@ CircularBuffer.from = function(iterable, ArrayClass, capacity) {
     return buffer;
   }
 
-  iterate(iterable, function(value) {
+  iterables.iterate(iterable, function(value) {
     buffer.push(value);
   });
 

@@ -5,7 +5,7 @@
  * Bloom Filter implementation relying on MurmurHash3.
  */
 var murmurhash3 = require('./utils/murmurhash3.js'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Constants.

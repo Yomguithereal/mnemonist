@@ -6,7 +6,7 @@
  * correctly optimized for this kind of work.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Stack

@@ -8,7 +8,7 @@
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js'),
+    iterables = require('./utils/iterables.js'),
     typed = require('./utils/typed-arrays.js');
 
 /**
@@ -317,7 +317,7 @@ Vector.from = function(iterable, ArrayClass, capacity) {
   if (arguments.length < 3) {
 
     // Attempting to guess the needed capacity
-    capacity = iterate.guessLength(iterable);
+    capacity = iterables.guessLength(iterable);
 
     if (typeof capacity !== 'number')
       throw new Error('mnemonist/vector.from: could not guess iterable length. Please provide desired capacity as last argument.');
@@ -325,7 +325,7 @@ Vector.from = function(iterable, ArrayClass, capacity) {
 
   var vector = new Vector(ArrayClass, capacity);
 
-  iterate(iterable, function(value) {
+  iterables.iterate(iterable, function(value) {
     vector.push(value);
   });
 

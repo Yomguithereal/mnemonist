@@ -6,7 +6,7 @@
  * read/write operations. This can often result in multiple keys accessing
  * the same resource (example: a map with lowercased keys).
  */
-var iterate = require('./utils/iterate.js');
+var iterate = require('./utils/iterables.js').iterate;
 
 var identity = function(x) {
   return x;

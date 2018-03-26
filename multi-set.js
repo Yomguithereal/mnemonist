@@ -5,7 +5,7 @@
  * JavaScript implementation of a MultiSet.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 // TODO: helper functions: union, intersection, sum, difference, subtract
 

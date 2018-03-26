@@ -12,7 +12,7 @@
  * performing, say, a DFS on a balanced binary tree).
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterables = require('./utils/iterables.js');
 
 /**
  * FiniteStack
@@ -207,7 +207,7 @@ FiniteStack.prototype.inspect = function() {
 FiniteStack.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {
-    capacity = iterate.guessLength(iterable);
+    capacity = iterables.guessLength(iterable);
 
     if (typeof capacity !== 'number')
       throw new Error('mnemonist/finite-stack.from: could not guess iterable length. Please provide desired capacity as last argument.');
@@ -215,7 +215,7 @@ FiniteStack.from = function(iterable, ArrayClass, capacity) {
 
   var stack = new FiniteStack(ArrayClass, capacity);
 
-  if (iterate.isArrayLike(iterable)) {
+  if (iterables.isArrayLike(iterable)) {
     var i, l;
 
     for (i = 0, l = iterable.length; i < l; i++)
@@ -226,7 +226,7 @@ FiniteStack.from = function(iterable, ArrayClass, capacity) {
     return stack;
   }
 
-  iterate(iterable, function(value) {
+  iterables.iterate(iterable, function(value) {
     stack.push(value);
   });
 

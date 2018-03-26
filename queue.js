@@ -6,7 +6,7 @@
  * a LinkedList one in performance.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterate.js');
+    iterate = require('./utils/iterables.js').iterate;
 
 /**
  * Queue

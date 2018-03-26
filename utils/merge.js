@@ -9,7 +9,7 @@
  * Note: maybe this piece of code belong to sortilege, along with binary-search.
  */
 var typed = require('./typed-arrays.js'),
-    isArrayLike = require('./iterate.js').isArrayLike,
+    isArrayLike = require('./iterables.js').isArrayLike,
     binarySearch = require('./binary-search.js'),
     FibonacciHeap = require('../fibonacci-heap.js');
 
