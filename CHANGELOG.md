@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.22.0 (provisonal)
+## 0.22.0
 
 * Adding `FuzzyMultiMap.dimension`.
 * Adding `#.consume` to `Heap`.
