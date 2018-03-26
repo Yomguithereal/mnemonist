@@ -95,6 +95,7 @@ The construction is done in linear time.
 * [#.pop](#pop)
 * [#.replace](#replace)
 * [#.pushpop](#pushpop)
+* [#.consume](#consume)
 * [#.clear](#clear)
 
 *Read*
@@ -196,6 +197,24 @@ heap.size
 
 heap.pop();
 >>> 2
+```
+
+### #.consume
+
+Fully consume the heap and return its items as a sorted array.
+
+```js
+var heap = new Heap();
+
+heap.push(45);
+heap.push(-3);
+heap.push(0);
+
+heap.consume();
+>>> [-3, 0, 45]
+
+heap.size
+>>> 0
 ```
 
 ### #.clear
