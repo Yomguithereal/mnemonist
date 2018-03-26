@@ -264,6 +264,16 @@ Heap.prototype.pushpop = function(item) {
 };
 
 /**
+ * Method used to consume the heap fully and return its items as a sorted array.
+ *
+ * @return {array}
+ */
+Heap.prototype.consume = function() {
+  this.size = 0;
+  return consume(this.comparator, this.items);
+};
+
+/**
  * Method used to convert the heap to an array. Note that it basically clone
  * the heap and consumes it completely. This is hardly performant.
  *

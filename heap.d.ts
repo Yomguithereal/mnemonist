@@ -20,6 +20,7 @@ export default class Heap<T> {
   replace(): T | undefined;
   pushpop(): T | undefined;
   toArray(): Array<T>;
+  consume(): Array<T>;
   inspect(): any;
 
   // Statics
@@ -45,6 +46,7 @@ export class MinHeap<T> {
   replace(): T | undefined;
   pushpop(): T | undefined;
   toArray(): Array<T>;
+  consume(): Array<T>;
   inspect(): any;
 }
 
@@ -61,6 +63,9 @@ export class MaxHeap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  replace(): T | undefined;
+  pushpop(): T | undefined;
   toArray(): Array<T>;
+  consume(): Array<T>;
   inspect(): any;
 }

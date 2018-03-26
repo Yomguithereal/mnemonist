@@ -164,4 +164,17 @@ describe('Heap', function() {
 
     assert.deepEqual(sorted, [0, 1, 3, 4, 5, 13, 56]);
   });
+
+  it('should be possible to fully consume the heap.', function() {
+    var heap = new Heap();
+
+    heap.push(45);
+    heap.push(-3);
+    heap.push(0);
+
+    var array = heap.consume();
+
+    assert.strictEqual(heap.size, 0);
+    assert.deepEqual(array, [-3, 0, 45]);
+  });
 });
