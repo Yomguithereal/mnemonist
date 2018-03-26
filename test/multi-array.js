@@ -4,7 +4,7 @@
  */
 var assert = require('assert'),
     MultiArray = require('../multi-array.js'),
-    consume = require('obliterator/consume');
+    take = require('obliterator/take');
 
 describe('MultiArray', function() {
 
@@ -162,7 +162,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(consume(array.containers()), [
+    assert.deepEqual(take(array.containers()), [
       [1, 2, 3],
       [4, 5],
       [6]
@@ -179,7 +179,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(consume(array.associations()), [
+    assert.deepEqual(take(array.associations()), [
       [0, [1, 2, 3]],
       [1, [4, 5]],
       [2, [6]]
@@ -196,11 +196,11 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(consume(array.values()), [1, 2, 3, 4, 5, 6]);
-    assert.deepEqual(consume(array.values(0)), [3, 2, 1]);
-    assert.deepEqual(consume(array.values(1)), [5, 4]);
-    assert.deepEqual(consume(array.values(2)), [6]);
-    assert.deepEqual(consume(array.values(3)), []);
+    assert.deepEqual(take(array.values()), [1, 2, 3, 4, 5, 6]);
+    assert.deepEqual(take(array.values(0)), [3, 2, 1]);
+    assert.deepEqual(take(array.values(1)), [5, 4]);
+    assert.deepEqual(take(array.values(2)), [6]);
+    assert.deepEqual(take(array.values(3)), []);
   });
 
   it('should be possible to iterate over entries.', function() {
@@ -213,7 +213,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(consume(array.entries()), [
+    assert.deepEqual(take(array.entries()), [
         [0, 3],
         [0, 2],
         [0, 1],
@@ -233,6 +233,6 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(consume(array.keys()), [0, 1, 2]);
+    assert.deepEqual(take(array.keys()), [0, 1, 2]);
   });
 });

@@ -121,8 +121,8 @@ describe('BitSet', function() {
       return [j, bit];
     });
 
-    assert.deepEqual(obliterator.consume(set.values()), array);
-    assert.deepEqual(obliterator.consume(set.entries()), indexedArray);
+    assert.deepEqual(obliterator.take(set.values()), array);
+    assert.deepEqual(obliterator.take(set.entries()), indexedArray);
   });
 
   it('should be possible to export to JSON.', function() {

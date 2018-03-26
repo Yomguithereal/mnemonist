@@ -5,7 +5,7 @@
  */
 var assert = require('assert'),
     Trie = require('../trie.js'),
-    consume = require('obliterator/consume');
+    take = require('obliterator/take');
 
 var SENTINEL = Trie.SENTINEL;
 
@@ -214,14 +214,14 @@ describe('Trie', function() {
     trie.add('rat');
     trie.add('rate');
 
-    var prefixes = consume(trie.prefixes());
+    var prefixes = take(trie.prefixes());
 
     assert.deepEqual(prefixes, ['rat', 'rate']);
 
     trie.add('rater');
     trie.add('rates');
 
-    prefixes = consume(trie.keys('rate'));
+    prefixes = take(trie.keys('rate'));
 
     assert.deepEqual(prefixes, ['rate', 'rates', 'rater']);
   });

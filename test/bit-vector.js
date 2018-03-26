@@ -122,8 +122,8 @@ describe('BitVector', function() {
       return [j, bit];
     });
 
-    assert.deepEqual(obliterator.consume(vector.values()), array);
-    assert.deepEqual(obliterator.consume(vector.entries()), indexedArray);
+    assert.deepEqual(obliterator.take(vector.values()), array);
+    assert.deepEqual(obliterator.take(vector.entries()), indexedArray);
   });
 
   it('should return undefined on out-of-bound values.', function() {

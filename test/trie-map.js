@@ -5,7 +5,7 @@
  */
 var assert = require('assert'),
     TrieMap = require('../trie-map.js'),
-    consume = require('obliterator/consume');
+    take = require('obliterator/take');
 
 var SENTINEL = TrieMap.SENTINEL;
 
@@ -215,14 +215,14 @@ describe('TrieMap', function() {
     trie.set('rat', 1);
     trie.set('rate', 2);
 
-    var values = consume(trie.values());
+    var values = take(trie.values());
 
     assert.deepEqual(values, [1, 2]);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
-    values = consume(trie.values('rate'));
+    values = take(trie.values('rate'));
 
     assert.deepEqual(values, [2, 4, 3]);
   });
@@ -233,14 +233,14 @@ describe('TrieMap', function() {
     trie.set('rat', 1);
     trie.set('rate', 2);
 
-    var prefixes = consume(trie.prefixes());
+    var prefixes = take(trie.prefixes());
 
     assert.deepEqual(prefixes, ['rat', 'rate']);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
-    prefixes = consume(trie.keys('rate'));
+    prefixes = take(trie.keys('rate'));
 
     assert.deepEqual(prefixes, ['rate', 'rates', 'rater']);
   });
@@ -251,14 +251,14 @@ describe('TrieMap', function() {
     trie.set('rat', 1);
     trie.set('rate', 2);
 
-    var entries = consume(trie.entries());
+    var entries = take(trie.entries());
 
     assert.deepEqual(entries, [['rat', 1], ['rate', 2]]);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
-    entries = consume(trie.entries('rate'));
+    entries = take(trie.entries('rate'));
 
     assert.deepEqual(entries, [['rate', 2], ['rates', 4], ['rater', 3]]);
   });
