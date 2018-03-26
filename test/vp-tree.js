@@ -95,18 +95,18 @@ describe('VPTree', function() {
     var neighbors = tree.nearestNeighbors(2, 'look');
 
     assert.deepEqual(neighbors, [
-      {distance: 1, item: 'book'},
-      {distance: 1, item: 'lock'}
+      {distance: 1, item: 'lock'},
+      {distance: 1, item: 'book'}
     ]);
 
     neighbors = tree.nearestNeighbors(5, 'look');
 
     assert.deepEqual(neighbors, [
-      {distance: 1, item: 'book'},
       {distance: 1, item: 'lock'},
+      {distance: 1, item: 'book'},
       {distance: 2, item: 'bock'},
-      {distance: 3, item: 'mack'},
-      {distance: 3, item: 'shock'}
+      {distance: 3, item: 'shock'},
+      {distance: 3, item: 'back'}
     ]);
   });
 
@@ -135,8 +135,8 @@ describe('VPTree', function() {
     assert.strictEqual(tree.size, 15);
 
     assert.deepEqual(tree.nearestNeighbors(2, 'look'), [
-      {distance: 1, item: 'book'},
-      {distance: 1, item: 'lock'}
+      {distance: 1, item: 'lock'},
+      {distance: 1, item: 'book'}
     ]);
   });
 
@@ -150,8 +150,8 @@ describe('VPTree', function() {
     }, items);
 
     assert.deepEqual(tree.nearestNeighbors(2, {value: 'look'}), [
-      {distance: 1, item: {value: 'book'}},
-      {distance: 1, item: {value: 'lock'}}
+      {distance: 1, item: {value: 'lock'}},
+      {distance: 1, item: {value: 'book'}}
     ]);
   });
 });

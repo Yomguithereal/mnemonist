@@ -1,10 +1,11 @@
 # Changelog
 
-## 0.22.0
+## 0.22.0 (provisonal)
 
 * Adding `FuzzyMultiMap.dimension`.
 * Improving `BitSet` and `BitVector` `#.toJSON`.
 * Improving `FiniteStack.from` & `CircularBuffer.from` performance when handling arrays.
+* Refactoring `Heap` inner logic.
 * Fixing `CircularBuffer`'s `#.unshift` to `#.shift`.
 * Fixing `SparseSet.delete` return consistency.
 

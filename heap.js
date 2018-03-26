@@ -11,6 +11,105 @@ var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
 
 /**
+ * Heap helper functions.
+ */
+
+/**
+ * Function used to sift down.
+ *
+ * @param {function} compare    - Comparison function.
+ * @param {array}    heap       - Array storing the heap's data.
+ * @param {number}   startIndex - Starting index.
+ * @param {number}   i          - Index.
+ */
+function siftDown(compare, heap, startIndex, i) {
+  var item = heap[i],
+      parentIndex,
+      parent;
+
+  while (i > startIndex) {
+    parentIndex = (i - 1) >> 1;
+    parent = heap[parentIndex];
+
+    if (compare(item, parent) < 0) {
+      heap[i] = parent;
+      i = parentIndex;
+      continue;
+    }
+
+    break;
+  }
+
+  heap[i] = item;
+}
+
+/**
+ * Function used to sift up.
+ *
+ * @param {function} compare - Comparison function.
+ * @param {array}    heap    - Array storing the heap's data.
+ * @param {number}   i       - Index.
+ */
+function siftUp(compare, heap, i) {
+  var endIndex = heap.length,
+      startIndex = i,
+      item = heap[i],
+      childIndex = 2 * i + 1,
+      rightIndex;
+
+  while (childIndex < endIndex) {
+    rightIndex = childIndex + 1;
+
+    if (
+      rightIndex < endIndex &&
+      compare(heap[childIndex], heap[rightIndex]) >= 0
+    ) {
+      childIndex = rightIndex;
+    }
+
+    heap[i] = heap[childIndex];
+    i = childIndex;
+    childIndex = 2 * i + 1;
+  }
+
+  heap[i] = item;
+  siftDown(compare, heap, startIndex, i);
+}
+
+/**
+ * Function used to push an item into a heap represented by a raw array.
+ *
+ * @param {function} compare - Comparison function.
+ * @param {array}    heap    - Array storing the heap's data.
+ * @param {any}      item    - Item to push.
+ */
+function push(compare, heap, item) {
+  heap.push(item);
+  siftDown(compare, heap, 0, heap.length - 1);
+}
+
+/**
+ * Function used to pop an item from a heap represented by a raw array.
+ *
+ * @param  {function} compare - Comparison function.
+ * @param  {array}    heap    - Array storing the heap's data.
+ * @return {any}
+ */
+function pop(compare, heap) {
+  var lastItem = heap.pop();
+
+  if (heap.length !== 0) {
+    var item = heap[0];
+    heap[0] = lastItem;
+    siftUp(compare, heap, 0);
+
+    return item;
+  }
+
+  return lastItem;
+}
+
+/**
  * Binary Minimum Heap.
  *
  * @constructor
@@ -36,85 +135,13 @@ Heap.prototype.clear = function() {
 };
 
 /**
- * Function used to bubble up.
- *
- * @param {function} compare - Comparator function.
- * @param {array}    data    - Data to edit.
- * @param {number}   index   - Target index.
- */
-function bubbleUp(compare, items, index) {
-  // Item needing to be moved
-  var item = items[index],
-      parentIndex = ((index - 1) / 2) | 0;
-
-  // Iterating
-  while (index > 0 && compare(items[parentIndex], item) > 0) {
-    items[index] = items[parentIndex];
-    items[parentIndex] = item;
-    index = parentIndex;
-    parentIndex = ((index - 1) / 2) | 0;
-  }
-}
-
-/**
- * Function used to sink down.
- *
- * @param {function} compare - Comparator function.
- * @param {array}    data    - Data to edit.
- * @param {number}   index   - Target index.
- */
-function sinkDown(compare, items, index) {
-  var size = items.length,
-      item = items[index],
-      left = 2 * index + 1,
-      right = 2 * index + 2,
-      min;
-
-  if (right >= size) {
-    if (left >= size)
-      min = -1;
-    else
-      min = left;
-  }
-  else if (compare(items[left], items[right]) <= 0) {
-    min = left;
-  }
-  else {
-    min = right;
-  }
-
-  while (min >= 0 && compare(items[index], items[min]) > 0) {
-    items[index] = items[min];
-    items[min] = item;
-    index = min;
-
-    left = 2 * index + 1;
-    right = 2 * index + 2;
-
-    if (right >= size) {
-      if (left >= size)
-        min = -1;
-      else
-        min = left;
-    }
-    else if (compare(items[left], items[right]) <= 0) {
-      min = left;
-    }
-    else {
-      min = right;
-    }
-  }
-}
-
-/**
  * Method used to push an item into the heap.
  *
  * @param  {any}    item - Item to push.
  * @return {number}
  */
 Heap.prototype.push = function(item) {
-  this.items.push(item);
-  bubbleUp(this.comparator, this.items, this.size);
+  push(this.comparator, this.items, item);
   return ++this.size;
 };
 
@@ -133,20 +160,10 @@ Heap.prototype.peek = function() {
  * @return {any}
  */
 Heap.prototype.pop = function() {
-  if (!this.size)
-    return undefined;
+  if (this.size !== 0)
+    this.size--;
 
-  var item = this.items[0],
-      last = this.items.pop();
-
-  this.size--;
-
-  if (this.size) {
-    this.items[0] = last;
-    sinkDown(this.comparator, this.items, 0);
-  }
-
-  return item;
+  return pop(this.comparator, this.items);
 };
 
 /**
@@ -158,14 +175,13 @@ Heap.prototype.pop = function() {
 Heap.prototype.toArray = function() {
   var array = new Array(this.size);
 
-  var clone = new Heap(this.comparator);
-  clone.items = this.items.slice();
-  clone.size = this.size;
+  var clone = this.items.slice();
 
-  var i = 0;
+  var i = 0,
+      l = this.size;
 
-  while (clone.size)
-    array[i++] = clone.pop();
+  while (i < l)
+    array[i++] = pop(this.comparator, clone);
 
   return array;
 };
@@ -233,6 +249,8 @@ MaxHeap.from = function(iterable, comparator) {
 /**
  * Exporting.
  */
+Heap.push = push;
+Heap.pop = pop;
 Heap.MinHeap = Heap;
 Heap.MaxHeap = MaxHeap;
 module.exports = Heap;
