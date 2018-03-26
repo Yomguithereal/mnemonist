@@ -61,23 +61,13 @@ function iterate(target, callback) {
 }
 
 /**
- * Function used to consume an iterable into an array.
- *
- * @param  {any}      target - Iteration target.
- * @return {array}
- */
-// iterate.consume = function(target) {
-//   var
-// };
-
-/**
  * Function used to guess the length of the structure over which we are going
  * to iterate.
  *
  * @param  {any} target - Target object.
  * @return {number|undefined}
  */
-iterate.guessLength = function(target) {
+function guessLength(target) {
   if (typeof target.length === 'number')
     return target.length;
 
@@ -85,7 +75,27 @@ iterate.guessLength = function(target) {
     return target.size;
 
   return;
-};
+}
+
+/**
+ * Function used to convert an iterable to an array.
+ *
+ * @param  {any}   target - Iteration target.
+ * @return {array}
+ */
+function toArray(target) {
+  var l = guessLength(target);
+
+  var array = typeof l === 'number' ? new Array(l) : [];
+
+  var i = 0;
+
+  iterate(target, function(value) {
+    array[i++] = value;
+  });
+
+  return array;
+}
 
 /**
  * Function used to determine whether the given object supports array-like
@@ -94,11 +104,15 @@ iterate.guessLength = function(target) {
  * @param  {any} target - Target object.
  * @return {boolean}
  */
-iterate.isArrayLike = function(target) {
+function isArrayLike(target) {
   return Array.isArray(target) || isTypedArray(target);
-};
+}
 
 /**
  * Exporting.
  */
+iterate.guessLength = guessLength;
+iterate.toArray = toArray;
+iterate.isArrayLike = isArrayLike;
+
 module.exports = iterate;
