@@ -81,7 +81,7 @@ Alternatively, one can build a `Heap` from an arbitrary JavaScript iterable like
 var heap = Heap.from([1, 2, 3], comparator);
 ```
 
-The construction is done in `O(n)`.
+The construction is done in linear time.
 
 ## Members
 
@@ -93,11 +93,25 @@ The construction is done in `O(n)`.
 
 * [#.push](#push)
 * [#.pop](#pop)
+* [#.replace](#replace)
+* [#.pushpop](#pushpop)
 * [#.clear](#clear)
 
 *Read*
 
 * [#.peek](#peek)
+* [#.toArray](#toarray)
+
+## Helpers
+
+If you don't want to use the `Heap` class and want to rely on your own array to represent the heap's data, you can use the helpers below:
+
+* [heapify](#heapify)
+* [push](#static-push)
+* [pop](#static-pop)
+* [replace](#static-replace)
+* [pushpop](#static-pushpop)
+* [consume](#static-consume)
 
 ### #.size
 
@@ -140,6 +154,50 @@ heap.size
 >>> 2
 ```
 
+### #.replace
+
+Pop the heap, push an item then return the popped value. It will throw if the heap is empty.
+
+This is more efficient than doing `pop` then `push` and does not change the length of the underlying array.
+
+`O(log n)`
+
+```js
+var heap = new Heap();
+
+heap.push(1);
+heap.replace(2);
+>>> 1
+
+heap.size
+>>> 1
+
+heap.pop();
+>>> 2
+```
+
+### #.pushpop
+
+Push an item into the heap, then pop the heap. If the heap is empty, the heap will obviously remain empty and you will get your item back.
+
+This is more efficient than doing `push` than `pop` and does not change the length of the underlying array.
+
+`O(log n)`
+
+```js
+var heap = new Heap();
+
+heap.push(1);
+heap.pushpop(2);
+>>> 1
+
+heap.size
+>>> 1
+
+heap.pop();
+>>> 2
+```
+
 ### #.clear
 
 Completely clears the heap.
@@ -169,3 +227,137 @@ heap.push(5);
 heap.peek();
 >>> 4
 ```
+
+### #.toArray
+
+Converts the heap into an array without altering the heap's state. Note that the underlying array storing the items is cloned to perform this operation and that you can be more performant if you can consume the heap instead.
+
+This method is mostly used for debugging purposes.
+
+`O(n log n)`
+
+```js
+var heap = new Heap();
+
+heap.push(4);
+heap.push(34);
+heap.push(5);
+
+heap.toArray();
+>>> [4, 5, 34]
+```
+
+<br>
+
+---
+
+### heapify
+
+Converts the given array into a heap in linear time.
+
+`O(n)`
+
+```js
+var array = [4, 1, -5, 10];
+
+Heap.heapify(comparator, array);
+// You array has been heapified!
+```
+
+<h3 id="static-push">push</h3>
+
+Push a new item into the heap.
+
+`O(log n)`
+
+```js
+var array = [];
+
+Heap.push(comparator, array, 4);
+Heap.push(comparator, array, 3);
+Heap.push(comparator, array, 7);
+
+array[0]
+>>> 3
+```
+
+<h3 id="static-pop">pop</h3>
+
+Pop the heap.
+
+`O(log n)`
+
+```js
+var array = [];
+
+Heap.push(comparator, array, 4);
+Heap.push(comparator, array, 3);
+Heap.push(comparator, array, 7);
+
+Heap.pop(comparator, array);
+>>> 3
+```
+
+<h3 id="static-replace">replace</h3>
+
+Pop the heap, push an item then return the popped value. It will throw if the heap is empty.
+
+This is more efficient than doing `pop` then `push` and does not change the length of the underlying array.
+
+`O(log n)`
+
+```js
+var array = [];
+
+Heap.push(comparator, array, 1);
+Heap.replace(comparator, array, 2);
+>>> 1
+
+array.length
+>>> 1
+
+Heap.pop(comparator, array);
+>>> 2
+```
+
+
+<h3 id="static-pushpop">pushpop</h3>
+
+Push an item into the heap, then pop the heap. If the heap is empty, the heap will obviously remain empty and you will get your item back.
+
+This is more efficient than doing `push` than `pop` and does not change the length of the underlying array.
+
+`O(log n)`
+
+```js
+var array = [];
+
+Heap.push(comparator, array, 1);
+Heap.pushpop(comparator, array, 2);
+>>> 1
+
+array.length
+>>> 1
+
+Heap.pop(comparator, array);
+>>> 2
+```
+
+<h3 id="static-consume">consume</h3>
+
+Completely consumes the heap and returns all its items in a sorted array.
+
+`O(n log n)`
+
+```js
+var array = [4, 1, 3];
+
+Heap.heapify(comparator, array);
+Heap.consume(comparator, array);
+>>> [1, 3, 4]
+
+array.length
+>>> 0
+```
+
+
