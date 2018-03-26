@@ -61,6 +61,16 @@ function iterate(target, callback) {
 }
 
 /**
+ * Function used to consume an iterable into an array.
+ *
+ * @param  {any}      target - Iteration target.
+ * @return {array}
+ */
+// iterate.consume = function(target) {
+//   var
+// };
+
+/**
  * Function used to guess the length of the structure over which we are going
  * to iterate.
  *

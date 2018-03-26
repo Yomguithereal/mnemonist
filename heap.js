@@ -152,6 +152,40 @@ function pushpop(compare, heap, item) {
 }
 
 /**
+ * Converts and array into an abstract heap in linear time.
+ *
+ * @param {function} compare - Comparison function.
+ * @param {array}    array   - Target array.
+ */
+function heapify(compare, array) {
+  var n = array.length,
+      l = n >> 1,
+      i = l;
+
+  while (--i >= 0)
+    siftUp(compare, array, i);
+}
+
+/**
+ * Fully consumes the given heap.
+ *
+ * @param  {function} compare - Comparison function.
+ * @param  {array}    heap    - Array storing the heap's data.
+ * @return {array}
+ */
+function consume(compare, heap) {
+  var l = heap.length,
+      i = 0;
+
+  var array = new Array(heap.length);
+
+  while (i < l)
+    array[i++] = pop(compare, heap);
+
+  return array;
+}
+
+/**
  * Binary Minimum Heap.
  *
  * @constructor
@@ -236,17 +270,7 @@ Heap.prototype.pushpop = function(item) {
  * @return {array}
  */
 Heap.prototype.toArray = function() {
-  var array = new Array(this.size);
-
-  var clone = this.items.slice();
-
-  var i = 0,
-      l = this.size;
-
-  while (i < l)
-    array[i++] = pop(this.comparator, clone);
-
-  return array;
+  return consume(this.comparator, this.items.slice());
 };
 
 /**
@@ -274,7 +298,7 @@ function MaxHeap(comparator) {
   this.comparator = comparator || DEFAULT_COMPARATOR;
 
   if (typeof this.comparator !== 'function')
-    throw new Error('mnemonist/Heap.constructor: given comparator should be a function.');
+    throw new Error('mnemonist/MaxHeap.constructor: given comparator should be a function.');
 
   this.comparator = reverseComparator(this.comparator);
 }
@@ -291,6 +315,16 @@ MaxHeap.prototype = Heap.prototype;
  */
 Heap.from = function(iterable, comparator) {
   var heap = new Heap(comparator);
+
+  // // If iterable is an array, we can be clever about it
+  // if (iterate.isArrayLike(iterable)) {
+  //   var items = iterable.slice();
+
+  // }
+
+  // heapify(comparator, items);
+  //   heap.items = items;
+  //   heap.size = items.length;
 
   iterate(iterable, function(value) {
     heap.push(value);
@@ -316,6 +350,8 @@ Heap.push = push;
 Heap.pop = pop;
 Heap.replace = replace;
 Heap.pushpop = pushpop;
+Heap.heapify = heapify;
+Heap.consume = consume;
 
 Heap.MinHeap = Heap;
 Heap.MaxHeap = MaxHeap;

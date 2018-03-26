@@ -5,6 +5,7 @@
  */
 var assert = require('assert'),
     Heap = require('../heap.js'),
+    DEFAULT_COMPARATOR = require('../utils/comparators.js').DEFAULT_COMPARATOR,
     MaxHeap = Heap.MaxHeap;
 
 describe('Heap', function() {
@@ -153,5 +154,14 @@ describe('Heap', function() {
 
     assert.strictEqual(heap.size, 3);
     assert.strictEqual(heap.peek(), 23);
+  });
+
+  it('should be possible to heapify an array.', function() {
+    var array = [3, 5, 1, 56, 0, 13, 4];
+    Heap.heapify(DEFAULT_COMPARATOR, array);
+
+    var sorted = Heap.consume(DEFAULT_COMPARATOR, array);
+
+    assert.deepEqual(sorted, [0, 1, 3, 4, 5, 13, 56]);
   });
 });
