@@ -5,7 +5,7 @@
  * Binary heap implementation.
  */
 var comparators = require('./utils/comparators.js'),
-    iterate = require('./utils/iterables.js').iterate;
+    iterables = require('./utils/iterables.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -316,19 +316,17 @@ MaxHeap.prototype = Heap.prototype;
 Heap.from = function(iterable, comparator) {
   var heap = new Heap(comparator);
 
-  // // If iterable is an array, we can be clever about it
-  // if (iterate.isArrayLike(iterable)) {
-  //   var items = iterable.slice();
+  var items;
 
-  // }
+  // If iterable is an array, we can be clever about it
+  if (iterables.isArrayLike(iterable))
+    items = iterable.slice();
+  else
+    items = iterables.toArray(iterable);
 
-  // heapify(comparator, items);
-  //   heap.items = items;
-  //   heap.size = items.length;
-
-  iterate(iterable, function(value) {
-    heap.push(value);
-  });
+  heapify(heap.comparator, items);
+  heap.items = items;
+  heap.size = items.length;
 
   return heap;
 };
@@ -336,9 +334,17 @@ Heap.from = function(iterable, comparator) {
 MaxHeap.from = function(iterable, comparator) {
   var heap = new MaxHeap(comparator);
 
-  iterate(iterable, function(value) {
-    heap.push(value);
-  });
+  var items;
+
+  // If iterable is an array, we can be clever about it
+  if (iterables.isArrayLike(iterable))
+    items = iterable.slice();
+  else
+    items = iterables.toArray(iterable);
+
+  heapify(heap.comparator, items);
+  heap.items = items;
+  heap.size = items.length;
 
   return heap;
 };
@@ -346,6 +352,8 @@ MaxHeap.from = function(iterable, comparator) {
 /**
  * Exporting.
  */
+Heap.siftUp = siftUp;
+Heap.siftDown = siftDown;
 Heap.push = push;
 Heap.pop = pop;
 Heap.replace = replace;

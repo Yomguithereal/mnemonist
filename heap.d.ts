@@ -17,6 +17,8 @@ export default class Heap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  replace(): T | undefined;
+  pushpop(): T | undefined;
   toArray(): Array<T>;
   inspect(): any;
 
@@ -40,6 +42,8 @@ export class MinHeap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
+  replace(): T | undefined;
+  pushpop(): T | undefined;
   toArray(): Array<T>;
   inspect(): any;
 }
