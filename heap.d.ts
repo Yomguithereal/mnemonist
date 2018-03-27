@@ -69,3 +69,11 @@ export class MaxHeap<T> {
   consume(): Array<T>;
   inspect(): any;
 }
+
+// Static helpers
+export function push<T>(comparator: HeapComparator<T>, heap: Array<T>, item: T): void;
+export function pop<T>(comparator: HeapComparator<T>, heap: Array<T>): T;
+export function replace<T>(comparator: HeapComparator<T>, heap: Array<T>, item: T): T;
+export function pushpop<T>(comparator: HeapComparator<T>, heap: Array<T>, item: T): T;
+export function heapify<T>(comparator: HeapComparator<T>, array: Array<T>): void;
+export function consume<T>(comparator: HeapComparator<T>, heap: Array<T>): Array<T>;

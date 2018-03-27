@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.22.1 (provisonal)
+
+* Adding missing `Heap` types.
+
 ## 0.22.0
 
 * Adding `FuzzyMultiMap.dimension`.
