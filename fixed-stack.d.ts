@@ -1,10 +1,10 @@
 /**
- * Mnemonist FiniteStack Typings
- * ==============================
+ * Mnemonist FixedStack Typings
+ * =============================
  */
 import {IArrayLikeConstructor} from './utils/types';
 
-export default class FiniteStack<T> implements Iterable<T> {
+export default class FixedStack<T> implements Iterable<T> {
 
   // Members
   capacity: number;
@@ -32,5 +32,5 @@ export default class FiniteStack<T> implements Iterable<T> {
     iterable: Iterable<I> | {[key: string] : I},
     ArrayClass: IArrayLikeConstructor,
     capacity?: number
-  ): FiniteStack<I>;
+  ): FixedStack<I>;
 }

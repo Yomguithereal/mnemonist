@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.22.1 (provisonal)
+## 0.23.0 (provisonal)
 
+* Renaming `FiniteStack` to `FixedStack`.
 * Adding missing `Heap` types.
 
 ## 0.22.0

@@ -1,8 +1,8 @@
 /**
- * Mnemonist FiniteStack
- * ======================
+ * Mnemonist FixedStack
+ * =====================
  *
- * The finite stack is a stack whose capacity is defined beforehand and that
+ * The fixed stack is a stack whose capacity is defined beforehand and that
  * cannot be exceeded. This class is really useful when combined with
  * byte arrays to save up some memory and avoid memory re-allocation, hence
  * speeding up computations.
@@ -15,19 +15,19 @@ var Iterator = require('obliterator/iterator'),
     iterables = require('./utils/iterables.js');
 
 /**
- * FiniteStack
+ * FixedStack
  *
  * @constructor
  * @param {function} ArrayClass - Array class to use.
  * @param {number}   capacity   - Desired capacity.
  */
-function FiniteStack(ArrayClass, capacity) {
+function FixedStack(ArrayClass, capacity) {
 
   if (arguments.length < 2)
-    throw new Error('mnemonist/finite-stack: expecting an Array class and a capacity.');
+    throw new Error('mnemonist/fixed-stack: expecting an Array class and a capacity.');
 
   if (typeof capacity !== 'number' || capacity <= 0)
-    throw new Error('mnemonist/finite-stack: `capacity` should be a positive number.');
+    throw new Error('mnemonist/fixed-stack: `capacity` should be a positive number.');
 
   this.capacity = capacity;
   this.ArrayClass = ArrayClass;
@@ -40,7 +40,7 @@ function FiniteStack(ArrayClass, capacity) {
  *
  * @return {undefined}
  */
-FiniteStack.prototype.clear = function() {
+FixedStack.prototype.clear = function() {
 
   // Properties
   this.size = 0;
@@ -52,9 +52,9 @@ FiniteStack.prototype.clear = function() {
  * @param  {any}    item - Item to add.
  * @return {number}
  */
-FiniteStack.prototype.push = function(item) {
+FixedStack.prototype.push = function(item) {
   if (this.size === this.capacity)
-    throw new Error('mnemonist/finite-stack: stack capacity (' + this.capacity + ') exceeded!');
+    throw new Error('mnemonist/fixed-stack: stack capacity (' + this.capacity + ') exceeded!');
 
   this.items[this.size++] = item;
   return this.size;
@@ -65,7 +65,7 @@ FiniteStack.prototype.push = function(item) {
  *
  * @return {any}
  */
-FiniteStack.prototype.pop = function() {
+FixedStack.prototype.pop = function() {
   if (this.size === 0)
     return;
 
@@ -77,7 +77,7 @@ FiniteStack.prototype.pop = function() {
  *
  * @return {any}
  */
-FiniteStack.prototype.peek = function() {
+FixedStack.prototype.peek = function() {
   return this.items[this.size - 1];
 };
 
@@ -88,7 +88,7 @@ FiniteStack.prototype.peek = function() {
  * @param  {object}    scope    - Optional scope.
  * @return {undefined}
  */
-FiniteStack.prototype.forEach = function(callback, scope) {
+FixedStack.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
   for (var i = 0, l = this.items.length; i < l; i++)
@@ -100,7 +100,7 @@ FiniteStack.prototype.forEach = function(callback, scope) {
  *
  * @return {array}
  */
-FiniteStack.prototype.toArray = function() {
+FixedStack.prototype.toArray = function() {
   var array = new this.ArrayClass(this.size),
       l = this.size - 1,
       i = this.size;
@@ -116,7 +116,7 @@ FiniteStack.prototype.toArray = function() {
  *
  * @return {Iterator}
  */
-FiniteStack.prototype.values = function() {
+FixedStack.prototype.values = function() {
   var items = this.items,
       l = this.size,
       i = 0;
@@ -142,7 +142,7 @@ FiniteStack.prototype.values = function() {
  *
  * @return {Iterator}
  */
-FiniteStack.prototype.entries = function() {
+FixedStack.prototype.entries = function() {
   var items = this.items,
       l = this.size,
       i = 0;
@@ -166,21 +166,21 @@ FiniteStack.prototype.entries = function() {
  * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  FiniteStack.prototype[Symbol.iterator] = FiniteStack.prototype.values;
+  FixedStack.prototype[Symbol.iterator] = FixedStack.prototype.values;
 
 
 /**
  * Convenience known methods.
  */
-FiniteStack.prototype.toString = function() {
+FixedStack.prototype.toString = function() {
   return this.toArray().join(',');
 };
 
-FiniteStack.prototype.toJSON = function() {
+FixedStack.prototype.toJSON = function() {
   return this.toArray();
 };
 
-FiniteStack.prototype.inspect = function() {
+FixedStack.prototype.inspect = function() {
   var array = this.toArray();
 
   array.type = this.ArrayClass.name;
@@ -188,7 +188,7 @@ FiniteStack.prototype.inspect = function() {
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(array, 'constructor', {
-    value: FiniteStack,
+    value: FixedStack,
     enumerable: false
   });
 
@@ -202,18 +202,18 @@ FiniteStack.prototype.inspect = function() {
  * @param  {Iterable} iterable   - Target iterable.
  * @param  {function} ArrayClass - Array class to use.
  * @param  {number}   capacity   - Desired capacity.
- * @return {FiniteStack}
+ * @return {FixedStack}
  */
-FiniteStack.from = function(iterable, ArrayClass, capacity) {
+FixedStack.from = function(iterable, ArrayClass, capacity) {
 
   if (arguments.length < 3) {
     capacity = iterables.guessLength(iterable);
 
     if (typeof capacity !== 'number')
-      throw new Error('mnemonist/finite-stack.from: could not guess iterable length. Please provide desired capacity as last argument.');
+      throw new Error('mnemonist/fixed-stack.from: could not guess iterable length. Please provide desired capacity as last argument.');
   }
 
-  var stack = new FiniteStack(ArrayClass, capacity);
+  var stack = new FixedStack(ArrayClass, capacity);
 
   if (iterables.isArrayLike(iterable)) {
     var i, l;
@@ -236,4 +236,4 @@ FiniteStack.from = function(iterable, ArrayClass, capacity) {
 /**
  * Exporting.
  */
-module.exports = FiniteStack;
+module.exports = FixedStack;

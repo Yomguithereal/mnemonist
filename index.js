@@ -33,7 +33,7 @@ module.exports = {
   MultiMap: require('./multi-map.js'),
   MultiSet: require('./multi-set.js'),
   Queue: require('./queue.js'),
-  FiniteStack: require('./finite-stack.js'),
+  FixedStack: require('./fixed-stack.js'),
   Stack: require('./stack.js'),
   SuffixArray: SuffixArray,
   GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,

@@ -10,7 +10,7 @@ import {
   BloomFilter,
   CircularBuffer,
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
-  FiniteStack,
+  FixedStack,
   FuzzyMap,
   FuzzyMultiMap,
   HashedArrayTree,
@@ -81,11 +81,11 @@ fibonacciHeap.push('hello');
 fibonacciHeap.pop();
 
 /**
- * FiniteStack.
+ * FixedStack.
  */
-let finiteStack: FiniteStack<number> = new FiniteStack(Uint8Array, 4);
-finiteStack.push(4);
-finiteStack.pop();
+let fixedStack: FixedStack<number> = new FixedStack(Uint8Array, 4);
+fixedStack.push(4);
+fixedStack.pop();
 
 /**
  * FuzzyMap.

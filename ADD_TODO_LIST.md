@@ -9,7 +9,7 @@ This is a basic Todo list of things when adding a new structure:
 * [ ] Add a static `#.from` function
 * [ ] Add unit tests
 * [ ] Add proper types
-* [ ] Add the structure to the endpoint
+* [ ] Add the structure to the endpoint (both js & ts)
 * [ ] Add a changelog entry
 * [ ] Add keywords
 

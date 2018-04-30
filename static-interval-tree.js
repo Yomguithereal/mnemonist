@@ -19,7 +19,7 @@
 var iterables = require('./utils/iterables.js'),
     typed = require('./utils/typed-arrays.js');
 
-var FiniteStack = require('./finite-stack.js');
+var FixedStack = require('./fixed-stack.js');
 
 
 // TODO: pass index to getters
@@ -211,7 +211,7 @@ function StaticIntervalTree(intervals, getters) {
   this.endGetter = endGetter;
 
   // Initializing DFS stack
-  this.stack = new FiniteStack(IndicesArray, this.height);
+  this.stack = new FixedStack(IndicesArray, this.height);
 }
 
 /**
