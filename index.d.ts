@@ -13,6 +13,7 @@ export {default as BKTree} from './bk-tree';
 export {default as BloomFilter} from './bloom-filter';
 export {default as CircularBuffer} from './circular-buffer';
 export {default as FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap} from './fibonacci-heap';
+export {default as FixedReverseHeap} from './fixed-reverse-heap';
 export {default as FixedStack} from './fixed-stack';
 export {default as FuzzyMap} from './fuzzy-map';
 export {default as FuzzyMultiMap} from './fuzzy-multi-map';

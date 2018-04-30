@@ -20,6 +20,7 @@ module.exports = {
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,
   MaxFibonacciHeap: FibonacciHeap.MaxFibonacciHeap,
+  FixedReverseHeap: require('./fixed-reverse-heap.js'),
   FuzzyMap: require('./fuzzy-map.js'),
   FuzzyMultiMap: require('./fuzzy-multi-map.js'),
   HashedArrayTree: require('./hashed-array-tree.js'),

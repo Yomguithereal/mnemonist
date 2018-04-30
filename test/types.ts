@@ -10,6 +10,7 @@ import {
   BloomFilter,
   CircularBuffer,
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
+  FixedReverseHeap,
   FixedStack,
   FuzzyMap,
   FuzzyMultiMap,
@@ -79,6 +80,12 @@ circularbuffer.push('test');
 let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+
+/**
+ * FixedReverseHeap.
+ */
+let fixedReverseHeap: FixedReverseHeap<number> = new FixedReverseHeap(Uint16Array, 3);
+fixedReverseHeap.push(34);
 
 /**
  * FixedStack.

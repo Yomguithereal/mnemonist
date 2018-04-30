@@ -2,8 +2,9 @@
 
 ## 0.23.0 (provisonal)
 
-* Renaming `FiniteStack` to `FixedStack`.
+* Adding `FixedReverseHeap`.
 * Adding missing `Heap` types.
+* Renaming `FiniteStack` to `FixedStack`.
 
 ## 0.22.0
 

@@ -177,7 +177,7 @@ function consume(compare, heap) {
   var l = heap.length,
       i = 0;
 
-  var array = new Array(heap.length);
+  var array = new Array(l);
 
   while (i < l)
     array[i++] = pop(compare, heap);
