@@ -35,7 +35,6 @@ npm install --save mnemonist
 
 **Classics**
 
-* [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Heap]({{ site.baseurl }}/heap)
 * [Linked List]({{ site.baseurl }}/linked-list)
 * [MultiMap]({{ site.baseurl }}/multi-map)
@@ -49,6 +48,8 @@ npm install --save mnemonist
 **Low-level & structures for very specific use cases**
 
 * [Circular Buffer]({{ site.baseurl }}/circular-buffer)
+* [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
+* [Fixed Reverse Heap]({{ site.baseurl }}/fixed-reverse-heap)
 * [Fixed Stack]({{ site.baseurl }}/fixed-stack)
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
 * [Static DisjointSet]({{ site.baseurl }}/static-disjoint-set)

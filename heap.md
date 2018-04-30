@@ -3,7 +3,7 @@ layout: page
 title: Heap
 ---
 
-A `Heap` can be seen as a dynamic list keeping its items sorted at all time.
+A `Heap` is basically a priority queue.
 
 For more information about the Heap, you can head [here](https://en.wikipedia.org/wiki/Heap_(data_structure)).
 
@@ -11,12 +11,10 @@ By default, the provided `Heap` is a min heap and the `MaxHeap` is just some sug
 
 ```js
 var Heap = require('mnemonist/heap');
+
 // To access min/max heap
 var MinHeap = require('mnemonist/heap').MinHeap;
 var MaxHeap = require('mnemonist/heap').MaxHeap;
-
-// To create a heap:
-var heap = new Heap();
 ```
 
 ## Use case
