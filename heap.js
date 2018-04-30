@@ -123,10 +123,6 @@ function replace(compare, heap, item) {
     throw new Error('mnemonist/heap.replace: cannot pop an empty heap.');
 
   var popped = heap[0];
-
-  if (compare(popped, item) > 0)
-    return item;
-
   heap[0] = item;
   siftUp(compare, heap, 0);
 
@@ -246,7 +242,8 @@ function nsmallest(compare, n, iterable) {
     heapify(reverseCompare, result);
 
     for (i = n, l = iterable.length; i < l; i++)
-      replace(reverseCompare, result, iterable[i]);
+      if (reverseCompare(iterable[i], result[0]) > 0)
+        replace(reverseCompare, result, iterable[i]);
 
     // NOTE: if n is over some number, it becomes faster to consume the heap
     return result.sort(compare);
@@ -269,7 +266,8 @@ function nsmallest(compare, n, iterable) {
       if (i === n)
         heapify(reverseCompare, result);
 
-      replace(reverseCompare, result, value);
+      if (reverseCompare(value, result[0]) > 0)
+        replace(reverseCompare, result, value);
     }
 
     i++;
@@ -339,7 +337,8 @@ function nlargest(compare, n, iterable) {
     heapify(compare, result);
 
     for (i = n, l = iterable.length; i < l; i++)
-      replace(compare, result, iterable[i]);
+      if (compare(iterable[i], result[0]) > 0)
+        replace(compare, result, iterable[i]);
 
     // NOTE: if n is over some number, it becomes faster to consume the heap
     return result.sort(reverseCompare);
@@ -362,7 +361,8 @@ function nlargest(compare, n, iterable) {
       if (i === n)
         heapify(compare, result);
 
-      replace(compare, result, value);
+      if (compare(value, result[0]) > 0)
+        replace(compare, result, value);
     }
 
     i++;

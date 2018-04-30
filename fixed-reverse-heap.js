@@ -20,6 +20,40 @@ var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
  */
 
 /**
+ * Function used to sift up.
+ *
+ * @param {function} compare - Comparison function.
+ * @param {array}    heap    - Array storing the heap's data.
+ * @param {number}   size    - Heap's true size.
+ * @param {number}   i       - Index.
+ */
+function siftUp(compare, heap, size, i) {
+  var endIndex = size,
+      startIndex = i,
+      item = heap[i],
+      childIndex = 2 * i + 1,
+      rightIndex;
+
+  while (childIndex < endIndex) {
+    rightIndex = childIndex + 1;
+
+    if (
+      rightIndex < endIndex &&
+      compare(heap[childIndex], heap[rightIndex]) >= 0
+    ) {
+      childIndex = rightIndex;
+    }
+
+    heap[i] = heap[childIndex];
+    i = childIndex;
+    childIndex = 2 * i + 1;
+  }
+
+  heap[i] = item;
+  Heap.siftDown(compare, heap, startIndex, i);
+}
+
+/**
  * Fully consumes the given heap.
  *
  * @param  {function} ArrayClass - Array class to use.
@@ -42,7 +76,7 @@ function consume(ArrayClass, compare, heap, size) {
     if (i !== 0) {
       item = heap[0];
       heap[0] = lastItem;
-      Heap.siftUp(compare, heap, i);
+      siftUp(compare, heap, --size, 0);
       lastItem = item;
     }
 
@@ -112,7 +146,9 @@ FixedReverseHeap.prototype.push = function(item) {
 
   // Heap is full, we need to replace worst item
   else {
-    Heap.replace(this.comparator, this.items, item);
+
+    if (this.comparator(item, this.items[0]) > 0)
+      Heap.replace(this.comparator, this.items, item);
   }
 
   return this.size;

@@ -94,4 +94,30 @@ describe('FixedReverseHeap', function() {
     assert.strictEqual(heap.size, 2);
     assert.deepEqual(heap.consume(), [0, 234]);
   });
+
+  it('should work with a reverse comparator.', function() {
+    var comparator = function(a, b) {
+      if (a < b)
+        return 1;
+      if (a > b)
+        return -1;
+
+      return 0;
+    };
+
+    var heap = new FixedReverseHeap(Uint8Array, comparator, 3);
+
+    heap.push(45);
+    heap.push(12);
+    heap.push(46);
+    heap.push(1);
+    heap.push(90);
+    heap.push(3);
+    heap.push(234);
+    heap.push(138);
+    heap.push(0);
+
+    assert.strictEqual(heap.size, 3);
+    assert.deepEqual(heap.consume(), [234, 138, 90]);
+  });
 });
