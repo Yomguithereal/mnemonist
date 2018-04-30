@@ -13,6 +13,15 @@ var DEFAULT_COMPARATOR = function(a, b) {
   return 0;
 };
 
+var DEFAULT_REVERSE_COMPARATOR = function(a, b) {
+  if (a < b)
+    return 1;
+  if (a > b)
+    return -1;
+
+  return 0;
+};
+
 /**
  * Function used to reverse a comparator.
  */
@@ -26,4 +35,5 @@ function reverseComparator(comparator) {
  * Exporting.
  */
 exports.DEFAULT_COMPARATOR = DEFAULT_COMPARATOR;
+exports.DEFAULT_REVERSE_COMPARATOR = DEFAULT_REVERSE_COMPARATOR;
 exports.reverseComparator = reverseComparator;

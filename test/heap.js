@@ -177,4 +177,32 @@ describe('Heap', function() {
     assert.strictEqual(heap.size, 0);
     assert.deepEqual(array, [-3, 0, 45]);
   });
+
+  it('should be possible to get the n smallest items.', function() {
+    var array = [5, 2, 4, 8, 9, 1, 45, 134, -34, 4, -1, 0];
+
+    assert.deepEqual(Heap.nsmallest(1, array), [-34]);
+    assert.deepEqual(Heap.nsmallest(34, array), [-34, -1, 0, 1, 2, 4, 4, 5, 8, 9, 45, 134]);
+    assert.deepEqual(Heap.nsmallest(3, array), [-34, -1, 0]);
+
+    var set = new Set(array);
+
+    assert.deepEqual(Heap.nsmallest(1, set.values()), [-34]);
+    assert.deepEqual(Heap.nsmallest(34, set.values()), [-34, -1, 0, 1, 2, 4, 5, 8, 9, 45, 134]);
+    assert.deepEqual(Heap.nsmallest(3, set.values()), [-34, -1, 0]);
+  });
+
+  it('should be possible to get the n largest items.', function() {
+    var array = [5, 2, 4, 8, 9, 1, 45, 134, -34, 4, -1, 0];
+
+    assert.deepEqual(Heap.nlargest(1, array), [134]);
+    assert.deepEqual(Heap.nlargest(34, array), [134, 45, 9, 8, 5, 4, 4, 2, 1, 0, -1, -34]);
+    assert.deepEqual(Heap.nlargest(3, array), [134, 45, 9]);
+
+    var set = new Set(array);
+
+    assert.deepEqual(Heap.nlargest(1, set.values()), [134]);
+    assert.deepEqual(Heap.nlargest(34, set.values()), [134, 45, 9, 8, 5, 4, 2, 1, 0, -1, -34]);
+    assert.deepEqual(Heap.nlargest(3, set.values()), [134, 45, 9]);
+  });
 });

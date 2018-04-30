@@ -3,6 +3,7 @@
 ## 0.23.0 (provisonal)
 
 * Adding `FixedReverseHeap`.
+* Adding `Heap.nsmallest` & `Heap.nlargest`.
 * Adding missing `Heap` types.
 * Renaming `FiniteStack` to `FixedStack`.
 

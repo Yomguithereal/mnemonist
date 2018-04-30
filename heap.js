@@ -123,6 +123,10 @@ function replace(compare, heap, item) {
     throw new Error('mnemonist/heap.replace: cannot pop an empty heap.');
 
   var popped = heap[0];
+
+  if (compare(popped, item) > 0)
+    return item;
+
   heap[0] = item;
   siftUp(compare, heap, 0);
 
@@ -186,9 +190,196 @@ function consume(compare, heap) {
 }
 
 /**
+ * Function used to retrieve the n smallest items from the given iterable.
+ *
+ * @param {function} compare  - Comparison function.
+ * @param {number}   n        - Number of top items to retrieve.
+ * @param {any}      iterable - Arbitrary iterable.
+ * @param {array}
+ */
+function nsmallest(compare, n, iterable) {
+  if (arguments.length === 2) {
+    iterable = n;
+    n = compare;
+    compare = DEFAULT_COMPARATOR;
+  }
+
+  var reverseCompare = reverseComparator(compare);
+
+  var i, l, v;
+
+  var min = Infinity;
+
+  var result;
+
+  // If n is equal to 1, it's just a matter of find the minimum
+  if (n === 1) {
+    if (iterables.isArrayLike(iterable)) {
+      for (i = 0, l = iterable.length; i < l; i++) {
+        v = iterable[i];
+
+        if (v < min)
+          min = v;
+      }
+
+      result = new iterable.constructor(1);
+      result[0] = min;
+
+      return result;
+    }
+
+    iterables.iterate(iterable, function(value) {
+      if (value < min)
+        min = value;
+    });
+
+    return [min];
+  }
+
+  if (iterables.isArrayLike(iterable)) {
+
+    // If n > iterable length, we just clone and sort
+    if (n >= iterable.length)
+      return iterable.slice().sort(compare);
+
+    result = iterable.slice(0, n);
+    heapify(reverseCompare, result);
+
+    for (i = n, l = iterable.length; i < l; i++)
+      replace(reverseCompare, result, iterable[i]);
+
+    // NOTE: if n is over some number, it becomes faster to consume the heap
+    return result.sort(compare);
+  }
+
+  // Correct for size
+  var size = iterables.guessLength(iterable);
+
+  if (size !== null && size < n)
+    n = size;
+
+  result = new Array(n);
+  i = 0;
+
+  iterables.iterate(iterable, function(value) {
+    if (i < n) {
+      result[i] = value;
+    }
+    else {
+      if (i === n)
+        heapify(reverseCompare, result);
+
+      replace(reverseCompare, result, value);
+    }
+
+    i++;
+  });
+
+  if (result.length > i)
+    result.length = i;
+
+  // NOTE: if n is over some number, it becomes faster to consume the heap
+  return result.sort(compare);
+}
+
+/**
+ * Function used to retrieve the n largest items from the given iterable.
+ *
+ * @param {function} compare  - Comparison function.
+ * @param {number}   n        - Number of top items to retrieve.
+ * @param {any}      iterable - Arbitrary iterable.
+ * @param {array}
+ */
+function nlargest(compare, n, iterable) {
+  if (arguments.length === 2) {
+    iterable = n;
+    n = compare;
+    compare = DEFAULT_COMPARATOR;
+  }
+
+  var reverseCompare = reverseComparator(compare);
+
+  var i, l, v;
+
+  var max = -Infinity;
+
+  var result;
+
+  // If n is equal to 1, it's just a matter of find the maximum
+  if (n === 1) {
+    if (iterables.isArrayLike(iterable)) {
+      for (i = 0, l = iterable.length; i < l; i++) {
+        v = iterable[i];
+
+        if (v > max)
+          max = v;
+      }
+
+      result = new iterable.constructor(1);
+      result[0] = max;
+
+      return result;
+    }
+
+    iterables.iterate(iterable, function(value) {
+      if (value > max)
+        max = value;
+    });
+
+    return [max];
+  }
+
+  if (iterables.isArrayLike(iterable)) {
+
+    // If n > iterable length, we just clone and sort
+    if (n >= iterable.length)
+      return iterable.slice().sort(reverseCompare);
+
+    result = iterable.slice(0, n);
+    heapify(compare, result);
+
+    for (i = n, l = iterable.length; i < l; i++)
+      replace(compare, result, iterable[i]);
+
+    // NOTE: if n is over some number, it becomes faster to consume the heap
+    return result.sort(reverseCompare);
+  }
+
+  // Correct for size
+  var size = iterables.guessLength(iterable);
+
+  if (size !== null && size < n)
+    n = size;
+
+  result = new Array(n);
+  i = 0;
+
+  iterables.iterate(iterable, function(value) {
+    if (i < n) {
+      result[i] = value;
+    }
+    else {
+      if (i === n)
+        heapify(compare, result);
+
+      replace(compare, result, value);
+    }
+
+    i++;
+  });
+
+  if (result.length > i)
+    result.length = i;
+
+  // NOTE: if n is over some number, it becomes faster to consume the heap
+  return result.sort(reverseCompare);
+}
+
+/**
  * Binary Minimum Heap.
  *
  * @constructor
+ * @param {function} comparator - Comparator function to use.
  */
 function Heap(comparator) {
   this.clear();
@@ -302,6 +493,7 @@ Heap.prototype.inspect = function() {
  * Binary Maximum Heap.
  *
  * @constructor
+ * @param {function} comparator - Comparator function to use.
  */
 function MaxHeap(comparator) {
   this.clear();
@@ -370,6 +562,9 @@ Heap.replace = replace;
 Heap.pushpop = pushpop;
 Heap.heapify = heapify;
 Heap.consume = consume;
+
+Heap.nsmallest = nsmallest;
+Heap.nlargest = nlargest;
 
 Heap.MinHeap = Heap;
 Heap.MaxHeap = MaxHeap;
