@@ -20,6 +20,7 @@ export default class MultiSet<K> implements Iterable<K> {
   count(key: K): number;
   get(key: K): number;
   frequency(key: K): number;
+  top(n: number): Array<[K, number]>;
   forEach(callback: (value: K, key: K, set: this) => void, scope?: any): void;
   keys(): Iterator<K>;
   values(): Iterator<number>;

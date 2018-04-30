@@ -5,7 +5,20 @@
  * JavaScript implementation of a MultiSet.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterables.js').iterate;
+    iterate = require('./utils/iterables.js').iterate,
+    FixedReverseHeap = require('./fixed-reverse-heap.js');
+
+/**
+ * Helpers.
+ */
+var MULTISET_ITEM_COMPARATOR = function(a, b) {
+  if (a[1] > b[1])
+    return -1;
+  if (a[1] < b[1])
+    return 1;
+
+  return 0;
+};
 
 // TODO: helper functions: union, intersection, sum, difference, subtract
 
@@ -229,6 +242,27 @@ MultiSet.prototype.frequency = function(item) {
   var count = this.multiplicity(item);
 
   return count / this.size;
+};
+
+/**
+ * Method used to return the n most common items from the set.
+ *
+ * @param  {number} n - Number of items to retrieve.
+ * @return {array}
+ */
+MultiSet.prototype.top = function(n) {
+  if (typeof n !== 'number' || n <= 0)
+    throw new Error('mnemonist/multi-set.mostCommon: n must be a number > 0.');
+
+  var heap = new FixedReverseHeap(Array, MULTISET_ITEM_COMPARATOR, n);
+
+  var iterator = this.items.entries(),
+      step;
+
+  while ((step = iterator.next(), !step.done))
+    heap.push(step.value);
+
+  return heap.consume();
 };
 
 /**

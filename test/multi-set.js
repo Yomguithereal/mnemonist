@@ -280,4 +280,16 @@ describe('MultiSet', function() {
       set.remove('test', '56');
     }, /number/);
   });
+
+  it('should be possible to retrieve top items.', function() {
+    var set = MultiSet.from('This is a very interesting albeit boring string.');
+
+    var top5 = set.top(5);
+
+    assert.deepEqual(top5, [['i', 7], [' ', 7], ['r', 4], ['e', 4], ['s', 4]]);
+
+    var top = set.top(1);
+
+    assert.deepEqual(top, [['i', 7]]);
+  });
 });

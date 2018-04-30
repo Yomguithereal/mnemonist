@@ -4,6 +4,7 @@
 
 * Adding `FixedReverseHeap`.
 * Adding `Heap.nsmallest` & `Heap.nlargest`.
+* Adding `#.top` to `MultiSet`.
 * Adding missing `Heap` types.
 * Renaming `FiniteStack` to `FixedStack`.
 
