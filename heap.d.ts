@@ -77,3 +77,8 @@ export function replace<T>(comparator: HeapComparator<T>, heap: Array<T>, item: 
 export function pushpop<T>(comparator: HeapComparator<T>, heap: Array<T>, item: T): T;
 export function heapify<T>(comparator: HeapComparator<T>, array: Array<T>): void;
 export function consume<T>(comparator: HeapComparator<T>, heap: Array<T>): Array<T>;
+
+export function nsmallest<T>(n: number, comparator: HeapComparator<T>, values: Iterable<T>): Array<T>;
+export function nsmallest<T>(n: number, values: Iterable<T>): Array<T>;
+export function nlargest<T>(n: number, comparator: HeapComparator<T>, values: Iterable<T>): Array<T>;
+export function nlargest<T>(n: number, values: Iterable<T>): Array<T>;
