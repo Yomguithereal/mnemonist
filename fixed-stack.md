@@ -1,39 +1,39 @@
 ---
 layout: page
-title: Finite Stack
+title: Fixed Stack
 ---
 
-The `FiniteStack` is a more performant implementation of the [`Stack`]({{ site.baseurl }}/stack) requiring a fixed capacity.
+The `FixedStack` is a more performant implementation of the [`Stack`]({{ site.baseurl }}/stack) requiring a fixed capacity.
 
 This means, however, that you must know beforehand the maximum size your stack will have during iteration (which is often possible - when performing the DFS traversal of a balanced binary tree, for instance).
 
-What's more, the `FiniteStack` is able to rely on byte arrays and can therefore be very memory-efficient.
+What's more, the `FixedStack` is able to rely on byte arrays and can therefore be very memory-efficient.
 
 ```js
-var FiniteStack = require('mnemonist/finite-stack');
+var FixedStack = require('mnemonist/fixed-stack');
 ```
 
 ## Constructor
 
-The `FiniteStack` takes two arguments: a array class to use, and the desired capacity.
+The `FixedStack` takes two arguments: a array class to use, and the desired capacity.
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 // Using byte arrays
-var stack = new FiniteStack(Int8Array, 10);
+var stack = new FixedStack(Int8Array, 10);
 ```
 
 ### Static #.from
 
-Alternatively, one can build a `FiniteStack` from an arbitrary JavaScript iterable likewise:
+Alternatively, one can build a `FixedStack` from an arbitrary JavaScript iterable likewise:
 
 ```js
 // Attempting the guess the given iterable's length/size
-var stack = FiniteStack.from([1, 2, 3], Int8Array);
+var stack = FixedStack.from([1, 2, 3], Int8Array);
 
 // Providing the desired capacity
-var stack = FiniteStack.from([1, 2, 3], Int8Array, 10);
+var stack = FixedStack.from([1, 2, 3], Int8Array, 10);
 ```
 
 ## Members
@@ -66,7 +66,7 @@ var stack = FiniteStack.from([1, 2, 3], Int8Array, 10);
 Maximum number of items the stack is able to store.
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 stack.capacity
 >>> 10
 ```
@@ -76,7 +76,7 @@ stack.capacity
 Number of items in the stack.
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 stack.size
 >>> 0
 ```
@@ -90,7 +90,7 @@ Will throw if the stack's capacity is exceeded.
 `O(1)`
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 ```
@@ -102,7 +102,7 @@ Retrieve & remove the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.pop();
@@ -116,7 +116,7 @@ Completely clears the stack.
 `O(1)`
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.clear();
@@ -131,7 +131,7 @@ Retrieves the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.peek();
@@ -143,7 +143,7 @@ stack.peek();
 Iterates over the stack in LIFO order.
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.push(2);
@@ -160,7 +160,7 @@ Converts the stack into a LIFO JavaScript array.
 Note that the resulting array will be instantiated using the provided class.
 
 ```js
-var stack = new FiniteStack(Array, 10);
+var stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.push(2);
@@ -174,7 +174,7 @@ stack.toArray();
 Returns an iterator over the stack's values.
 
 ```js
-var stack = FiniteStack.from([1, 2, 3], Array);
+var stack = FixedStack.from([1, 2, 3], Array);
 
 var iterator = stack.values();
 
@@ -187,7 +187,7 @@ iterator.next().value
 Returns an iterator over the stack's entries.
 
 ```js
-var stack = FiniteStack.from([1, 2, 3], Array);
+var stack = FixedStack.from([1, 2, 3], Array);
 
 var iterator = stack.entries();
 
@@ -200,7 +200,7 @@ iterator.next().value
 Alternatively, you can iterate over a stack's values using ES2015 `for...of` protocol:
 
 ```js
-var stack = FiniteStack.from([1, 2, 3], Array);
+var stack = FixedStack.from([1, 2, 3], Array);
 
 for (var item of stack) {
   console.log(item);
