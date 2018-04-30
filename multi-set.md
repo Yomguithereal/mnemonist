@@ -46,6 +46,7 @@ var set = MultiSet.from([1, 2, 3]);
 * [#.has](#has)
 * [#.get](#get)
 * [#.multiplicity](#multiplicity)
+* [#.top](#top)
 
 *Iteration*
 
@@ -250,6 +251,20 @@ var set = new MultiSet();
 set.add('hello');
 set.multiplicity('hello');
 >>> 1
+```
+
+### #.top
+
+Retrieves the top k items with their assorted count in sorted order.
+
+`O(n log k)` time
+
+`O(k)` memory
+
+```js
+var set = MultiSet.from('So-many-letters-in-this-boring-string.');
+set.top(3);
+>>> [['-', 6], ['t', 4], ['n', 4]]
 ```
 
 ### #.forEach
