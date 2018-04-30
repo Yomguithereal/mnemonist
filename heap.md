@@ -112,6 +112,11 @@ If you don't want to use the `Heap` class and want to rely on your own array to 
 * [pushpop](#static-pushpop)
 * [consume](#static-consume)
 
+If you need to find the n smallest/largest elements from arbitrary iterables efficiently you can use those helpers using heaps under the hood:
+
+* [nsmallest](#nsmallest)
+* [nlargest](#nlargest)
+
 ### #.size
 
 Number of items in the heap.
@@ -156,6 +161,8 @@ heap.size
 ### #.replace
 
 Pop the heap, push an item then return the popped value. It will throw if the heap is empty.
+
+Note that the returned value may be smaller/larger than the given item so be sure to wrap its usage within reasonable conditions!
 
 This is more efficient than doing `pop` then `push` and does not change the length of the underlying array.
 
@@ -319,6 +326,8 @@ Heap.pop(comparator, array);
 
 Pop the heap, push an item then return the popped value. It will throw if the heap is empty.
 
+Note that the returned value may be smaller/larger than the given item so be sure to wrap its usage within reasonable conditions!
+
 This is more efficient than doing `pop` then `push` and does not change the length of the underlying array.
 
 `O(log n)`
@@ -377,4 +386,39 @@ array.length
 >>> 0
 ```
 
+<br>
 
+---
+
+### nsmallest
+
+Retrieves the n smallest values from the given iterables.
+
+Runs in `O(N log n)`, N being the total number of values, and n the number of smallest values you want.
+
+Takes up to `O(n)` space, n being the number of smallest values you want.
+
+```js
+Heap.nsmallest(3, [4, 2, 1, 5, 6, 8]);
+>>> [1, 2, 4]
+
+// If you need a custom comparator
+Heap.nsmallest(3, comparator, [4, 2, 1, 5, 6, 8]);
+```
+
+### nlargest
+
+Retrieves the n largest values from the given iterables.
+
+Runs in `O(N log n)`, N being the total number of values, and n the number of largest values you want.
+
+Takes up to `O(n)` space, n being the number of largest values you want.
+
+```js
+Heap.nlargest(3, [4, 2, 1, 5, 6, 8]);
+>>> [8, 6, 5]
+
+// If you need a custom comparator
+// BEWARE: must be the same as you would use with nsmallest!
+Heap.nlargest(3, comparator, [4, 2, 1, 5, 6, 8]);
+```
