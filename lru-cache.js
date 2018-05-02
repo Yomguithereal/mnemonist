@@ -63,14 +63,17 @@ LRUCache.prototype.splayOnTop = function(pointer) {
   if (this.head === pointer)
     return this;
 
+  var previous = this.backward[pointer],
+      next = this.forward[pointer];
+
   if (this.tail === pointer) {
-    this.tail = this.backward[pointer];
+    this.tail = previous;
   }
   else {
-    this.backward[this.forward[pointer]] = this.backward[pointer];
+    this.backward[next] = previous;
   }
 
-  this.forward[this.backward[pointer]] = this.forward[pointer];
+  this.forward[previous] = next;
 
   this.backward[oldHead] = pointer;
   this.head = pointer;
