@@ -40,6 +40,8 @@ function LRUCache(capacity) {
  *
  * @return {undefined}
  */
+
+// TODO: test
 LRUCache.prototype.clear = function() {
 
   // Properties
@@ -135,6 +137,10 @@ LRUCache.prototype.set = function(key, value) {
 LRUCache.prototype.has = function(key) {
   return this.items.has(key);
 };
+
+// #.delete? through free pointers stack?
+
+// TODO: better eviction test/replicate bench
 
 /**
  * Method used to get the value attached to the given key. Will move the
