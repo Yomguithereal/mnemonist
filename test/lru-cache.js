@@ -61,5 +61,3 @@ describe('LRUCache', function() {
     assert.deepEqual(Array.from(cache.entries()), [['three', 3]]);
   });
 });
-
-// TODO: test case with 1

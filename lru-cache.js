@@ -93,12 +93,7 @@ LRUCache.prototype.set = function(key, value) {
 
   if (typeof existingPointer !== 'undefined') {
     this.splayOnTop(existingPointer);
-
-    // Do we need to update the value (saving a hash lookup)
-    if (this.values[existingPointer] !== value) {
-      this.items.set(existingPointer, value);
-      this.values[existingPointer] = value;
-    }
+    this.values[existingPointer] = value;
 
     return;
   }
