@@ -8,11 +8,22 @@
  * only once at instantiation and JS objects are never created to serve as
  * pointers. This also means this implementation does not trigger too many
  * garbage collections.
+ *
+ * Note that to save up memory, a LRU Cache can be implemented using a singly
+ * linked list by storing predecessors' pointers as hashmap values.
+ * However, this means more hashmap lookups and would probably slow the whole
+ * thing down. What's more, pointers are not the things taking most space in
+ * memory.
  */
 var Iterator = require('obliterator/iterator'),
     typed = require('./utils/typed-arrays.js');
 
-// TODO: use singly linked list, hashmap points to precedent pointer instead
+// TODO: use singly linked list, hashmap points to precedent pointer instead?
+
+// TODO: possibility to type keys & values but not sure it results in better
+// perfs. just better memory in some corner cases
+
+// TODO: potential optimizations to be run in splayOnTop
 
 /**
  * LRUCache.
