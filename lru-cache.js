@@ -24,6 +24,7 @@ var Iterator = require('obliterator/iterator'),
 // perfs. just better memory in some corner cases
 
 // TODO: potential optimizations to be run in splayOnTop
+// TODO: possibiliy to drop the keys array by storing keys as head/tail pointers
 
 /**
  * LRUCache.
