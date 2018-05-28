@@ -42,9 +42,11 @@ function LRUCache(capacity) {
   this.keys = new Array(capacity);
   this.values = new Array(capacity);
 
+  // Properties
+  this.size = 0;
+  this.head = 0;
+  this.tail = 0;
   this.items = {};
-
-  this.clear();
 }
 
 /**
@@ -55,12 +57,10 @@ function LRUCache(capacity) {
 
 // TODO: test
 LRUCache.prototype.clear = function() {
-
-  // Properties
   this.size = 0;
   this.head = 0;
   this.tail = 0;
-  // this.items.clear();
+  this.items = {};
 };
 
 /**
@@ -102,7 +102,6 @@ LRUCache.prototype.splayOnTop = function(pointer) {
  * @return {undefined}
  */
 LRUCache.prototype.set = function(key, value) {
-  var pointer;
 
   // The key already exists, we just need to update the value and splay on top
   var existingPointer = this.items[key];
@@ -113,6 +112,8 @@ LRUCache.prototype.set = function(key, value) {
 
     return;
   }
+
+  var pointer;
 
   // The cache is not yet full
   if (this.size < this.capacity) {
