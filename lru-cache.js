@@ -42,7 +42,7 @@ function LRUCache(capacity) {
   this.keys = new Array(capacity);
   this.values = new Array(capacity);
 
-  this.items = new Map();
+  this.items = {};
 
   this.clear();
 }
@@ -60,7 +60,7 @@ LRUCache.prototype.clear = function() {
   this.size = 0;
   this.head = 0;
   this.tail = 0;
-  this.items.clear();
+  // this.items.clear();
 };
 
 /**
@@ -102,11 +102,10 @@ LRUCache.prototype.splayOnTop = function(pointer) {
  * @return {undefined}
  */
 LRUCache.prototype.set = function(key, value) {
-  var pointer,
-      previousPointer;
+  var pointer;
 
   // The key already exists, we just need to update the value and splay on top
-  var existingPointer = this.items.get(key);
+  var existingPointer = this.items[key];
 
   if (typeof existingPointer !== 'undefined') {
     this.splayOnTop(existingPointer);
@@ -117,30 +116,25 @@ LRUCache.prototype.set = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    pointer = this.size;
-    this.size++;
+    pointer = this.size++;
   }
 
   // Cache is full, we need to drop the last value
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
-    this.items.delete(this.keys[pointer]);
+    delete this.items[this.keys[pointer]];
   }
 
   // Storing key & value
-  this.items.set(key, pointer);
+  this.items[key] = pointer;
   this.keys[pointer] = key;
   this.values[pointer] = value;
 
   // Moving the item at the front of the list
-  if (this.size > 1) {
-    previousPointer = this.head;
-
-    this.head = pointer;
-    this.backward[previousPointer] = pointer;
-    this.forward[pointer] = previousPointer;
-  }
+  this.forward[pointer] = this.head;
+  this.backward[this.head] = pointer;
+  this.head = pointer;
 };
 
 /**
@@ -150,7 +144,7 @@ LRUCache.prototype.set = function(key, value) {
  * @return {boolean}
  */
 LRUCache.prototype.has = function(key) {
-  return this.items.has(key);
+  return key in this.items;
 };
 
 // #.delete? through free pointers stack?
@@ -165,7 +159,7 @@ LRUCache.prototype.has = function(key) {
  * @return {any}
  */
 LRUCache.prototype.get = function(key) {
-  var pointer = this.items.get(key);
+  var pointer = this.items[key];
 
   if (typeof pointer === 'undefined')
     return;
