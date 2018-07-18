@@ -10,7 +10,7 @@
  * bloated node's children when the number of children rises above a certain
  * threshold.
  */
-var DynamicArray = require('./dynamic-array.js');
+var Vector = require('./vector.js');
 
 // TODO: rename => ternary search tree
 
@@ -29,10 +29,10 @@ function SemiDynamicTrie() {
   // Properties
 
   // TODO: make it 16 bits
-  this.characters = new DynamicArray.DynamicUint8Array(256);
-  this.nextPointers = new DynamicArray.DynamicInt32Array(256);
-  this.childPointers = new DynamicArray.DynamicUint32Array(256);
-  this.maps = new DynamicArray.DynamicUint32Array(256);
+  this.characters = new Vector.Uint8Vector(256);
+  this.nextPointers = new Vector.Int32Vector(256);
+  this.childPointers = new Vector.Uint32Vector(256);
+  this.maps = new Vector.Uint32Vector(256);
 }
 
 /**

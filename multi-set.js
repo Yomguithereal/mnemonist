@@ -277,9 +277,9 @@ MultiSet.prototype.forEach = function(callback, scope) {
 
   var i;
 
-  this.items.forEach(function(multiplicty, value) {
+  this.items.forEach(function(multiplicity, value) {
 
-    for (i = 0; i < multiplicty; i++)
+    for (i = 0; i < multiplicity; i++)
       callback.call(scope, value, value);
   });
 };
@@ -304,7 +304,7 @@ MultiSet.prototype.values = function() {
       inContainer = false,
       step,
       value,
-      multiplicty,
+      multiplicity,
       i;
 
   return new Iterator(function next() {
@@ -316,11 +316,11 @@ MultiSet.prototype.values = function() {
 
       inContainer = true;
       value = step.value[0];
-      multiplicty = step.value[1];
+      multiplicity = step.value[1];
       i = 0;
     }
 
-    if (i >= multiplicty) {
+    if (i >= multiplicity) {
       inContainer = false;
       return next();
     }
@@ -374,6 +374,48 @@ MultiSet.from = function(iterable) {
   });
 
   return set;
+};
+
+/**
+ * Function returning whether the multiset A is a subset of the multiset B.
+ *
+ * @param  {MultiSet} A - First set.
+ * @param  {MultiSet} B - Second set.
+ * @return {boolean}
+ */
+MultiSet.isSubset = function(A, B) {
+  var iterator = A.multiplicities(),
+      step,
+      key,
+      mA;
+
+  // Shortcuts
+  if (A === B)
+    return true;
+
+  if (A.dimension > B.dimension)
+    return false;
+
+  while ((step = iterator.next(), !step.done)) {
+    key = step.value[0];
+    mA = step.value[1];
+
+    if (B.multiplicity(key) < mA)
+      return false;
+  }
+
+  return true;
+};
+
+/**
+ * Function returning whether the multiset A is a superset of the multiset B.
+ *
+ * @param  {MultiSet} A - First set.
+ * @param  {MultiSet} B - Second set.
+ * @return {boolean}
+ */
+MultiSet.isSuperset = function(A, B) {
+  return MultiSet.isSubset(B, A);
 };
 
 /**

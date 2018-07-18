@@ -1,5 +1,5 @@
 /**
- * Mnemonist MultiSet Kypings
+ * Mnemonist MultiSet Typings
  * ===========================
  */
 export default class MultiSet<K> implements Iterable<K> {
@@ -31,4 +31,6 @@ export default class MultiSet<K> implements Iterable<K> {
 
   // Statics
   static from<I>(iterable: Iterable<I> | {[key: string]: I}): MultiSet<I>;
+  static isSubset<T>(a: MultiSet<T>, b: MultiSet<T>): boolean;
+  static isSuperset<T>(a: MultiSet<T>, b: MultiSet<T>): boolean;
 }

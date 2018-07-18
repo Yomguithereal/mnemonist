@@ -1,6 +1,8 @@
 var fs = require('fs');
 var SemiDynamicTrie = require('../../semi-dynamic-trie');
 var randomString = require('pandemonium/random-string');
+var binarySearch = require('../../utils/binary-search').search;
+var murmur3 = require('../../utils/murmurhash3');
 
 var words = fs.readFileSync('/usr/share/dict/words', 'utf-8').split('\n');
 words.length--;
@@ -12,6 +14,187 @@ words.length--;
 // console.log(trie.has('elephant'), trie.has('efliehoefhehueohfoehfeouh'), trie.has('zxzzyzzzzzzzz'));
 
 // throw new Error('stop');
+
+function exponentialSearch(array, key) {
+  var bound = 1,
+      l = array.length;
+
+  while (bound < l && array[bound] <= key)
+    bound <<= 1;
+
+  var mid = 0;
+
+  if (bound < l) {
+    lo = bound >> 1;
+    hi = l;
+  }
+  else {
+    lo = bound >> 1;
+    hi = bound;
+  }
+
+  var current;
+
+  while (lo <= hi) {
+    mid = (lo + hi) >>> 1;
+
+    current = array[mid];
+
+    if (current > value) {
+      hi = ~-mid;
+    }
+    else if (current < value) {
+      lo = -~mid;
+    }
+    else {
+      return mid;
+    }
+  }
+
+  return -1;
+}
+
+function interpolationSearch(arrayToSearch, valueToSearch){
+  var length = arrayToSearch.length;
+  var low = 0;
+  var high = length-1;
+  var position = -1;
+  var delta = -1;
+  while(low <= high
+        && valueToSearch >= arrayToSearch[low]
+        && valueToSearch <= arrayToSearch[high]){
+    delta = (valueToSearch-arrayToSearch[low])/(arrayToSearch[high]-arrayToSearch[low]);
+    position = low + Math.floor((high-low)*delta);
+    if (arrayToSearch[position] == valueToSearch){
+      return position;
+    }
+    if (arrayToSearch[position] < valueToSearch){
+      low = position + 1;
+    } else {
+      high = position - 1;
+    }
+  }
+
+  return -1;
+}
+
+function optimized(array, value, lo, hi) {
+  var mid = 0;
+
+  lo = 0;
+  hi = array.length - 1;
+
+  var current;
+
+  while (lo <= hi) {
+    mid = (lo + hi) >>> 1;
+
+    current = array[mid];
+
+    if (current > value) {
+      hi = ~-mid;
+    }
+    else if (current < value) {
+      lo = -~mid;
+    }
+    else {
+      return mid;
+    }
+  }
+
+  return -1;
+};
+
+function better(array, key) {
+  var mid = -1;
+  var hi = array.length - 1;
+  var lo = 0;
+
+  var current;
+
+  while (lo <= hi) {
+    mid = lo + (Math.max(hi, mid) - lo) / 2;
+
+    current = array[mid];
+
+    if (key < current)
+      hi = mid - 1;
+    else if (key > current)
+      lo = mid + 1;
+    else
+      return mid
+  }
+
+  return -1;
+}
+
+function PerfectMap(strings) {
+  var hashes = new Uint32Array(strings.length);
+
+  for (var i = 0, l = strings.length; i < l; i++) {
+    hashes[i] = fnv32a(strings[i]);
+  }
+
+  hashes.sort();
+
+  this.hashes = hashes;
+  this.values = new Float64Array(strings.length);
+}
+
+PerfectMap.prototype.set = function(key, value) {
+  var index = binarySearch(this.hashes, fnv32a(key));
+  this.values[index] = value;
+}
+
+PerfectMap.prototype.get = function(key, value) {
+  var index = binarySearch(this.hashes, fnv32a(key));
+  return this.values[index];
+};
+
+var perfect = new PerfectMap(words);
+var object = {};
+var map = new Map();
+var sorted = words.slice().sort();
+
+perfect.set('hello', 36);
+console.log(perfect.get('hello'))
+
+console.time('Perfect set');
+for (var i = 0; i < words.length; i++)
+  perfect.set(words[i], Math.random());
+console.timeEnd('Perfect set');
+
+console.time('Object set');
+for (var i = 0; i < words.length; i++)
+  object[words[i]] = Math.random();
+console.timeEnd('Object set');
+
+console.time('Map set');
+for (var i = 0; i < words.length; i++)
+  map.set(words[i], Math.random());
+console.timeEnd('Map set');
+
+console.time('Perfect get');
+for (var i = 0; i < words.length; i++)
+  perfect.get(words[i]);
+console.timeEnd('Perfect get');
+
+console.time('Object get');
+for (var i = 0; i < words.length; i++)
+  object[words[i]];
+console.timeEnd('Object get');
+
+console.time('Map get');
+for (var i = 0; i < words.length; i++)
+  map.get(words[i]);
+console.timeEnd('Map get');
+
+console.time('Sorted get');
+for (var i = 0; i < words.length; i++)
+  binarySearch(sorted, words[i]);
+console.timeEnd('Sorted get');
+
+process.exit(0);
 
 function HashMap(size) {
   this.items = new Uint8Array(size);
@@ -82,11 +265,17 @@ for (var w = 0, y = words.length; w < y; w++)
   m.set(words[w], w % 255);
 console.timeEnd('InsertMap');
 
-console.time('InsertTrie');
-var t = new SemiDynamicTrie();
+console.time('InsertPerfect');
+var p = new PerfectMap();
 for (var w = 0, y = words.length; w < y; w++)
-  t.add(words[w]);
-console.timeEnd('InsertTrie');
+  m.set(words[w], w % 255);
+console.timeEnd('InsertPerfect');
+
+// console.time('InsertTrie');
+// var t = new SemiDynamicTrie();
+// for (var w = 0, y = words.length; w < y; w++)
+//   t.add(words[w]);
+// console.timeEnd('InsertTrie');
 
 var v;
 
@@ -105,10 +294,10 @@ for (var w = 0, y = words.length; w < y; w++)
   v = m.get(words[w]);
 console.timeEnd('GetMap');
 
-console.time('GetTrie');
-for (var w = 0, y = words.length; w < y; w++)
-  v = t.has(words[w]);
-console.timeEnd('GetTrie');
+// console.time('GetTrie');
+// for (var w = 0, y = words.length; w < y; w++)
+//   v = t.has(words[w]);
+// console.timeEnd('GetTrie');
 
 console.time('MissesObject');
 for (var w = 0, y = words.length; w < y; w++)
@@ -120,7 +309,7 @@ for (var w = 0, y = words.length; w < y; w++)
   v = m.get(randomString(4, 10));
 console.timeEnd('MissesMap');
 
-console.time('MissesTrie');
-for (var w = 0, y = words.length; w < y; w++)
-  v = t.has(randomString(4, 10));
-console.timeEnd('MissesTrie');
+// console.time('MissesTrie');
+// for (var w = 0, y = words.length; w < y; w++)
+//   v = t.has(randomString(4, 10));
+// console.timeEnd('MissesTrie');

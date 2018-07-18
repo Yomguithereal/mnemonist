@@ -292,4 +292,35 @@ describe('MultiSet', function() {
 
     assert.deepEqual(top, [['i', 7]]);
   });
+
+  describe('helpers', function() {
+
+    it('#.isSuperset', function() {
+      var letters = MultiSet.from(['a', 'a', 'a', 'b', 'c', 'd', 'd']);
+      var lessLetters = MultiSet.from(['a', 'a', 'b', 'c']);
+      var otherLetters = MultiSet.from(['z', 'k']);
+      var overlappingLetters = MultiSet.from(['a', 'a', 'a', 'a', 'c']);
+
+      assert.strictEqual(MultiSet.isSuperset(letters, lessLetters), true);
+      assert.strictEqual(MultiSet.isSuperset(lessLetters, letters), false);
+      assert.strictEqual(MultiSet.isSuperset(letters, otherLetters), false);
+      assert.strictEqual(MultiSet.isSuperset(otherLetters, letters), false);
+      assert.strictEqual(MultiSet.isSuperset(overlappingLetters, letters), false);
+      assert.strictEqual(MultiSet.isSuperset(letters, overlappingLetters), false);
+    });
+
+    it('#.isSubset', function() {
+      var letters = MultiSet.from(['a', 'a', 'a', 'b', 'c', 'd', 'd']);
+      var lessLetters = MultiSet.from(['a', 'a', 'b', 'c']);
+      var otherLetters = MultiSet.from(['z', 'k']);
+      var overlappingLetters = MultiSet.from(['a', 'a', 'a', 'a', 'c']);
+
+      assert.strictEqual(MultiSet.isSubset(letters, lessLetters), false);
+      assert.strictEqual(MultiSet.isSubset(lessLetters, letters), true);
+      assert.strictEqual(MultiSet.isSubset(letters, otherLetters), false);
+      assert.strictEqual(MultiSet.isSubset(otherLetters, letters), false);
+      assert.strictEqual(MultiSet.isSubset(overlappingLetters, letters), false);
+      assert.strictEqual(MultiSet.isSubset(letters, overlappingLetters), false);
+    });
+  });
 });

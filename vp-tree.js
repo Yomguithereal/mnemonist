@@ -19,6 +19,8 @@ var iterables = require('./utils/iterables.js'),
 // The one minimizing spread of sample using stdev is usually the accepted one
 // TODO: rationalize registers. use getArrayPointers to optimize memory
 
+// TODO: if sorting to get median, can split
+
 /**
  * Heap comparator used by the #.nearestNeighbors method.
  */
