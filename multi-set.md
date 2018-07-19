@@ -358,6 +358,10 @@ for (var value of set) {
 }
 ```
 
+<br>
+
+---
+
 ### isSubset
 
 Static method returning whether the first multiset is a subset of the second.
