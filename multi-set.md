@@ -56,6 +56,13 @@ var set = MultiSet.from([1, 2, 3]);
 * [#.multiplicities](#multiplicities)
 * [Iterable](#iterable)
 
+## Helpers
+
+Static methods dealing with multisets.
+
+* [isSubset](#issubset)
+* [isSuperset](#issuperset)
+
 ### #.dimension
 
 Number of distinct items in the set.
@@ -349,4 +356,28 @@ set.add('hello');
 for (var value of set) {
   console.log(value);
 }
+```
+
+### isSubset
+
+Static method returning whether the first multiset is a subset of the second.
+
+```js
+var letters = MultiSet.from('aaabbc');
+var lessLetters = MultiSet.from('aab');
+
+MultiSet.isSubset(lessLetters, letters);
+>>> true
+```
+
+### isSuperset
+
+Static method returning whether the first multiset is a superset of the second.
+
+```js
+var letters = MultiSet.from('aaabbc');
+var lessLetters = MultiSet.from('aab');
+
+MultiSet.isSuperset(letters, lessLetters);
+>>> true
 ```
