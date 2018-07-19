@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.23.0 (provisonal)
+## 0.23.0
 
 * Adding `FixedReverseHeap`.
 * Adding `Heap.nsmallest` & `Heap.nlargest`.
