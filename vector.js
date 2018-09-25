@@ -8,6 +8,7 @@
  * Note: should try and use ArrayBuffer.transfer when it will be available.
  */
 var Iterator = require('obliterator/iterator'),
+    forEach = require('obliterator/foreach'),
     iterables = require('./utils/iterables.js'),
     typed = require('./utils/typed-arrays.js');
 
@@ -325,7 +326,7 @@ Vector.from = function(iterable, ArrayClass, capacity) {
 
   var vector = new Vector(ArrayClass, capacity);
 
-  iterables.iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     vector.push(value);
   });
 

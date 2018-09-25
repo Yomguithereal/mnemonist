@@ -5,7 +5,7 @@
  * JavaScript implementation of a MultiSet.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterables.js').iterate,
+    forEach = require('obliterator/foreach'),
     FixedReverseHeap = require('./fixed-reverse-heap.js');
 
 /**
@@ -369,7 +369,7 @@ MultiSet.prototype.toJSON = function() {
 MultiSet.from = function(iterable) {
   var set = new MultiSet();
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     set.add(value);
   });
 

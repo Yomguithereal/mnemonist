@@ -4,7 +4,7 @@
  *
  * JavaScript implementation of a BiMap.
  */
-var iterate = require('./utils/iterables.js').iterate;
+var forEach = require('obliterator/foreach');
 
 /**
  * Inverse Map.
@@ -176,7 +176,7 @@ InverseMap.prototype.inspect = function() {
 BiMap.from = function(iterable) {
   var bimap = new BiMap();
 
-  iterate(iterable, function(value, key) {
+  forEach(iterable, function(value, key) {
     bimap.set(key, value);
   });
 

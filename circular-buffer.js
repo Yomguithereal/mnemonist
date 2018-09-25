@@ -305,7 +305,7 @@ CircularBuffer.from = function(iterable, ArrayClass, capacity) {
     return buffer;
   }
 
-  iterables.iterate(iterable, function(value) {
+  iterables.forEach(iterable, function(value) {
     buffer.push(value);
   });
 

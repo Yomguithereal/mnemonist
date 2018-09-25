@@ -6,7 +6,7 @@
  * of increasing integers. Very useful to map a set of hashable keys to
  * and array's indices, for instance.
  */
-var iterate = require('./utils/iterables.js').iterate;
+var forEach = require('obliterator/foreach');
 
 // TODO: maybe reverse iterators, since value is key etc.
 
@@ -139,7 +139,7 @@ IncrementalMap.prototype.inspect = function() {
 IncrementalMap.from = function(iterable, range) {
   var map = new IncrementalMap(range);
 
-  iterate(function(item) {
+  forEach(function(item) {
     map.add(item);
   });
 
@@ -157,7 +157,7 @@ IncrementalMap.from = function(iterable, range) {
 IncrementalMap.fromDistinct = function(iterable, range) {
   var map = new IncrementalMap(range);
 
-  iterate(function(item) {
+  forEach(function(item) {
     map.unsafeAdd(item);
   });
 

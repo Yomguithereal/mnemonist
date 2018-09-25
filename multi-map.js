@@ -5,7 +5,7 @@
  * Implementation of a MultiMap with custom container.
  */
 var Iterator = require('obliterator/iterator'),
-    iterate = require('./utils/iterables.js').iterate;
+    forEach = require('obliterator/foreach');
 
 /**
  * MultiMap.
@@ -379,7 +379,7 @@ MultiMap.prototype.toJSON = function() {
 MultiMap.from = function(iterable, Container) {
   var map = new MultiMap(Container);
 
-  iterate(iterable, function(value, key) {
+  forEach(iterable, function(value, key) {
     map.set(key, value);
   });
 

@@ -4,7 +4,8 @@
  *
  * Binary heap implementation.
  */
-var comparators = require('./utils/comparators.js'),
+var forEach = require('obliterator/foreach'),
+    comparators = require('./utils/comparators.js'),
     iterables = require('./utils/iterables.js');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
@@ -224,7 +225,7 @@ function nsmallest(compare, n, iterable) {
       return result;
     }
 
-    iterables.iterate(iterable, function(value) {
+    forEach(iterable, function(value) {
       if (value < min)
         min = value;
     });
@@ -258,7 +259,7 @@ function nsmallest(compare, n, iterable) {
   result = new Array(n);
   i = 0;
 
-  iterables.iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     if (i < n) {
       result[i] = value;
     }
@@ -319,7 +320,7 @@ function nlargest(compare, n, iterable) {
       return result;
     }
 
-    iterables.iterate(iterable, function(value) {
+    forEach(iterable, function(value) {
       if (value > max)
         max = value;
     });
@@ -353,7 +354,7 @@ function nlargest(compare, n, iterable) {
   result = new Array(n);
   i = 0;
 
-  iterables.iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     if (i < n) {
       result[i] = value;
     }

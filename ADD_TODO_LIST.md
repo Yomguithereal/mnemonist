@@ -20,7 +20,7 @@ This is a basic Todo list of things when adding a new structure:
  *
  * Docs...
  */
-var iterate = require('./utils/iterables.js').iterate;
+var forEach = require('obliterator/foreach');
 
 /**
  * Structure.

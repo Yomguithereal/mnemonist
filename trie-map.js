@@ -10,7 +10,7 @@
  * is the very same. The Trie just does not let you set values and only
  * considers the existence of the given prefixes.
  */
-var iterate = require('./utils/iterables.js').iterate,
+var forEach = require('obliterator/foreach'),
     Iterator = require('obliterator/iterator');
 
 /**
@@ -434,7 +434,7 @@ TrieMap.prototype.toJSON = function() {
 TrieMap.from = function(iterable) {
   var trie = new TrieMap();
 
-  iterate(iterable, function(value, key) {
+  forEach(iterable, function(value, key) {
     trie.set(key, value);
   });
 

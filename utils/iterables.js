@@ -60,6 +60,5 @@ function toArray(target) {
  * Exporting.
  */
 exports.isArrayLike = isArrayLike;
-exports.iterate = forEach;
 exports.guessLength = guessLength;
 exports.toArray = toArray;

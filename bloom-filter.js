@@ -5,7 +5,7 @@
  * Bloom Filter implementation relying on MurmurHash3.
  */
 var murmurhash3 = require('./utils/murmurhash3.js'),
-    iterate = require('./utils/iterables.js').iterate;
+    forEach = require('obliterator/foreach');
 
 /**
  * Constants.
@@ -173,7 +173,7 @@ BloomFilter.from = function(iterable, options) {
 
   var filter = new BloomFilter(options);
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     filter.add(value);
   });
 

@@ -13,7 +13,7 @@
  * W. Burkhard and R. Keller. Some approaches to best-match file searching,
  * CACM, 1973
  */
-var iterate = require('./utils/iterables.js').iterate;
+var forEach = require('obliterator/foreach');
 
 /**
  * BK Tree.
@@ -164,7 +164,7 @@ BKTree.prototype.inspect = function() {
 BKTree.from = function(iterable, distance) {
   var tree = new BKTree(distance);
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     tree.add(value);
   });
 

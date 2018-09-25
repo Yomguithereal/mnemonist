@@ -6,7 +6,7 @@
  * Fibonacci heap implementation.
  */
 var comparators = require('./utils/comparators.js'),
-    iterate = require('./utils/iterables.js').iterate;
+    forEach = require('obliterator/foreach');
 
 var DEFAULT_COMPARATOR = comparators.DEFAULT_COMPARATOR,
     reverseComparator = comparators.reverseComparator;
@@ -292,7 +292,7 @@ MaxFibonacciHeap.prototype = FibonacciHeap.prototype;
 FibonacciHeap.from = function(iterable, comparator) {
   var heap = new FibonacciHeap(comparator);
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     heap.push(value);
   });
 
@@ -302,7 +302,7 @@ FibonacciHeap.from = function(iterable, comparator) {
 MaxFibonacciHeap.from = function(iterable, comparator) {
   var heap = new MaxFibonacciHeap(comparator);
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     heap.push(value);
   });
 

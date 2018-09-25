@@ -5,7 +5,7 @@
  * Same as the fuzzy map but relying on a MultiMap rather than a Map.
  */
 var MultiMap = require('./multi-map.js'),
-    iterate = require('./utils/iterables.js').iterate;
+    forEach = require('obliterator/foreach');
 
 var identity = function(x) {
   return x;
@@ -177,7 +177,7 @@ FuzzyMultiMap.from = function(iterable, descriptor, Container, useSet) {
 
   var map = new FuzzyMultiMap(descriptor, Container);
 
-  iterate(iterable, function(value, key) {
+  forEach(iterable, function(value, key) {
     if (useSet)
       map.set(key, value);
     else

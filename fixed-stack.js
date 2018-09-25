@@ -226,7 +226,7 @@ FixedStack.from = function(iterable, ArrayClass, capacity) {
     return stack;
   }
 
-  iterables.iterate(iterable, function(value) {
+  iterables.forEach(iterable, function(value) {
     stack.push(value);
   });
 

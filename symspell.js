@@ -14,7 +14,7 @@
  * [Author]:
  * Wolf Garbe
  */
-var iterate = require('./utils/iterables.js').iterate;
+var forEach = require('obliterator/foreach');
 
 /**
  * Constants.
@@ -531,7 +531,7 @@ SymSpell.prototype.inspect = function() {
 SymSpell.from = function(iterable, options) {
   var index = new SymSpell(options);
 
-  iterate(iterable, function(value) {
+  forEach(iterable, function(value) {
     index.add(value);
   });
 
