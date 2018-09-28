@@ -9,6 +9,7 @@ import {
   BKTree,
   BloomFilter,
   CircularBuffer,
+  DefaultMap,
   FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
   FixedReverseHeap,
   FixedStack,
@@ -73,6 +74,12 @@ bloomfilter.add('hello');
  */
 let circularbuffer: CircularBuffer<string> = new CircularBuffer(Array, 4);
 circularbuffer.push('test');
+
+/**
+ * DefaultMap.
+ */
+let defaultMap: DefaultMap<string, Array<number>> = new DefaultMap(() => []);
+defaultMap.get('one').push(1);
 
 /**
  * FibonacciHeap.

@@ -4,6 +4,7 @@
 
 * Adding `#.forEachMultiplicity` to `MultiSet`.
 * Adding `#.forEachAssociation` to `MultiMap`.
+* Adding `DefaultMap`.
 
 ## 0.23.0
 

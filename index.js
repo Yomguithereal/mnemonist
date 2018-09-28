@@ -16,6 +16,7 @@ module.exports = {
   BloomFilter: require('./bloom-filter.js'),
   BKTree: require('./bk-tree.js'),
   CircularBuffer: require('./circular-buffer.js'),
+  DefaultMap: require('./default-map.js'),
   StaticDisjointSet: require('./static-disjoint-set.js'),
   FibonacciHeap: FibonacciHeap,
   MinFibonacciHeap: FibonacciHeap.MinFibonacciHeap,

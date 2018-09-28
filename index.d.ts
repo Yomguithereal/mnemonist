@@ -12,6 +12,7 @@ export {default as BitVector} from './bit-vector';
 export {default as BKTree} from './bk-tree';
 export {default as BloomFilter} from './bloom-filter';
 export {default as CircularBuffer} from './circular-buffer';
+export {default as DefaultMap} from './default-map';
 export {default as FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap} from './fibonacci-heap';
 export {default as FixedReverseHeap} from './fixed-reverse-heap';
 export {default as FixedStack} from './fixed-stack';
