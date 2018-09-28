@@ -20,6 +20,7 @@ export default class MultiMap<K, V> implements Iterable<[K, V]> {
   get(key: K): Array<V> | Set<V> | undefined;
   multiplicity(key: K): number;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
+  forEachAssociation(callback: (value: Array<V> | Set<V>, key: K, map: this) => void, scope?: any): void;
   keys(): Iterator<K>;
   values(): Iterator<V>;
   entries(): Iterator<[K, V]>;

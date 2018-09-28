@@ -171,6 +171,25 @@ describe('MultiMap', function() {
     assert.strictEqual(i, 3);
   });
 
+  it('should be possible to iterate over the map\'s associations.', function() {
+    var map = new MultiMap();
+
+    map.set('one', 'hello');
+    map.set('one', 'world');
+    map.set('two', 'hello');
+
+    var entries = [];
+
+    map.forEachAssociation(function(container, key) {
+      entries.push([key, container]);
+    });
+
+    assert.deepEqual(entries, [
+      ['one', ['hello', 'world']],
+      ['two', ['hello']]
+    ]);
+  });
+
   it('should be possible to create an iterator over the map\'s keys.', function() {
     var map = new MultiMap();
 

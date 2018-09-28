@@ -3,6 +3,7 @@
 ## 0.24.0 (provisional)
 
 * Adding `#.forEachMultiplicity` to `MultiSet`.
+* Adding `#.forEachAssociation` to `MultiMap`.
 
 ## 0.23.0
 

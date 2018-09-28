@@ -197,6 +197,19 @@ MultiMap.prototype.forEach = function(callback, scope) {
 };
 
 /**
+ * Method used to iterate over each of the associations.
+ *
+ * @param  {function}  callback - Function to call for each item.
+ * @param  {object}    scope    - Optional scope.
+ * @return {undefined}
+ */
+MultiMap.prototype.forEachAssociation = function(callback, scope) {
+  scope = arguments.length > 1 ? scope : this;
+
+  this.items.forEach(callback, scope);
+};
+
+/**
  * Method returning an iterator over the map's keys.
  *
  * @return {Iterator}
