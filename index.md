@@ -84,6 +84,7 @@ npm install --save mnemonist
 
 * [BiMap]({{ site.baseurl }}/bi-map)
 * [IncrementalMap]({{ site.baseurl }}/incremental-map)
+* [DefaultMap]({{ site.baseurl }}/default-map)
 
 ---
 
