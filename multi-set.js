@@ -252,7 +252,7 @@ MultiSet.prototype.frequency = function(item) {
  */
 MultiSet.prototype.top = function(n) {
   if (typeof n !== 'number' || n <= 0)
-    throw new Error('mnemonist/multi-set.mostCommon: n must be a number > 0.');
+    throw new Error('mnemonist/multi-set.top: n must be a number > 0.');
 
   var heap = new FixedReverseHeap(Array, MULTISET_ITEM_COMPARATOR, n);
 
