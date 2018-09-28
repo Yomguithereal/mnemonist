@@ -54,6 +54,7 @@ var map = MultiMap.from([1, 2, 3], container);
 *Iteration*
 
 * [#.forEach](#foreach)
+* [#.forEachAssociation](#foreachassociation)
 * [#.keys](#keys)
 * [#.values](#values)
 * [#.entries](#entries)
@@ -226,6 +227,24 @@ map.forEach(function(value, key) {
 });
 >>> 'john', {name: 'John', surname: 'Doe'}
 >>> 'john', {name: 'John', surname: 'Watson'}
+```
+
+### #.forEachAssociation
+
+Iterates over each of the associations of the multimap.
+
+```js
+var map = new Multimap();
+
+map.set(1, 1);
+map.set(1, 2);
+map.set(2, 1);
+
+map.forEachAssociation(function(container, key) {
+  console.log(key, container);
+});
+>>> 1, [1, 2]
+>>> 2, [1]
 ```
 
 ### #.keys

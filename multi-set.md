@@ -51,6 +51,7 @@ var set = MultiSet.from([1, 2, 3]);
 *Iteration*
 
 * [#.forEach](#foreach)
+* [#.forEachMultiplicity](#foreachmultiplicity)
 * [#.keys](#keys)
 * [#.values](#values)
 * [#.multiplicities](#multiplicities)
@@ -289,6 +290,24 @@ set.forEach(function(value) {
 });
 >>> 'hello'
 >>> 'hello'
+```
+
+### #.forEachMultiplicity
+
+Iterates over each of the multiplicities stored by the set.
+
+```js
+var set = new MultiSet();
+
+set.add('hello');
+set.add('hello');
+set.add('world');
+
+set.forEachMultiplicity(function(count, key) {
+  console.log(key, count);
+});
+>>> 'hello', 2
+>>> 'world', 1
 ```
 
 ### #.keys
