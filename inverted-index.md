@@ -175,7 +175,7 @@ index.size
 
 Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
 
-`O(t)`, m being the number of tokens.
+`O(t)`, t being the number of tokens.
 
 ```js
 var index = new InvertedIndex(words);
