@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.24.0 (provisional)
+## 0.24.0
 
 * Adding `#.forEachMultiplicity` to `MultiSet`.
 * Adding `#.forEachAssociation` to `MultiMap`.
