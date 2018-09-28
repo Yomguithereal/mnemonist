@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.24.0 (provisional)
+
+* Adding `#.forEachMultiplicity` to `MultiSet`.
+
 ## 0.23.0
 
 * Adding `FixedReverseHeap`.

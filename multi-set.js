@@ -285,6 +285,19 @@ MultiSet.prototype.forEach = function(callback, scope) {
 };
 
 /**
+ * Method used to iterate over the set's multiplicities.
+ *
+ * @param  {function}  callback - Function to call for each multiplicity.
+ * @param  {object}    scope    - Optional scope.
+ * @return {undefined}
+ */
+MultiSet.prototype.forEachMultiplicity = function(callback, scope) {
+  scope = arguments.length > 1 ? scope : this;
+
+  this.items.forEach(callback, scope);
+};
+
+/**
  * Method returning an iterator over the set's keys. I.e. its unique values,
  * in a sense.
  *

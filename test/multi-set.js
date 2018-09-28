@@ -197,6 +197,24 @@ describe('MultiSet', function() {
     assert.strictEqual(i, 3);
   });
 
+  it('should be possible to iterate over a set\'s multiplicities.', function() {
+    var set = new MultiSet();
+
+    set.add('hello', 4);
+    set.add('world', 3);
+
+    var entries = [];
+
+    set.forEachMultiplicity(function(value, key) {
+      entries.push([key, value]);
+    });
+
+    assert.deepEqual(entries, [
+      ['hello', 4],
+      ['world', 3]
+    ]);
+  });
+
   it('should be possible to create an iterator over a set\'s values.', function() {
     var set = new MultiSet();
 

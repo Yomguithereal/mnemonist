@@ -22,6 +22,7 @@ export default class MultiSet<K> implements Iterable<K> {
   frequency(key: K): number;
   top(n: number): Array<[K, number]>;
   forEach(callback: (value: K, key: K, set: this) => void, scope?: any): void;
+  forEachMultiplicity(callback: (value: number, key: K, set: this) => void, scope?: any): void;
   keys(): Iterator<K>;
   values(): Iterator<number>;
   multiplicities(): Iterator<[K, number]>;
