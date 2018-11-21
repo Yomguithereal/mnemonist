@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.25.0 (provisional)
+## 0.25.0
 
 * Adding `LRUCache`.
 * Adding `LRUMap`.
