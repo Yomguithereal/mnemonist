@@ -37,6 +37,7 @@ npm install --save mnemonist
 
 * [Heap]({{ site.baseurl }}/heap)
 * [Linked List]({{ site.baseurl }}/linked-list)
+* [LRUCache]({{ site.baseurl }}/lru-cache), [LRUMap]({{ site.baseurl }}/lru-map)
 * [MultiMap]({{ site.baseurl }}/multi-map)
 * [MultiSet]({{ site.baseurl }}/multi-set)
 * [Queue]({{ site.baseurl }}/queue)
