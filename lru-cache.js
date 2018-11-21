@@ -55,40 +55,6 @@ function LRUCache(Keys, Values, capacity) {
 }
 
 /**
- * LRUMap. Just a variant over the LRUCache class using an ES6 Map.
- *
- * @constructor
- * @param {function} Keys     - Array class for storing keys.
- * @param {function} Values   - Array class for storing values.
- * @param {number}   capacity - Desired capacity.
- */
-function LRUMap(Keys, Values, capacity) {
-  if (arguments.length < 2) {
-    capacity = Keys;
-    Keys = null;
-    Values = null;
-  }
-
-  this.capacity = capacity;
-
-  if (typeof this.capacity !== 'number' || this.capacity <= 0)
-    throw new Error('mnemonist/lru-map: capacity should be positive number.');
-
-  var PointerArray = typed.getPointerArray(capacity);
-
-  this.forward = new PointerArray(capacity);
-  this.backward = new PointerArray(capacity);
-  this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
-  this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
-
-  // Properties
-  this.size = 0;
-  this.head = 0;
-  this.tail = 0;
-  this.items = new Map();
-}
-
-/**
  * Method used to clear the structure.
  *
  * @return {undefined}
@@ -98,18 +64,6 @@ LRUCache.prototype.clear = function() {
   this.head = 0;
   this.tail = 0;
   this.items = {};
-};
-
-/**
- * Method used to clear the structure.
- *
- * @return {undefined}
- */
-LRUMap.prototype.clear = function() {
-  this.size = 0;
-  this.head = 0;
-  this.tail = 0;
-  this.items.clear();
 };
 
 /**
@@ -142,7 +96,6 @@ LRUCache.prototype.splayOnTop = function(pointer) {
 
   return this;
 };
-LRUMap.prototype.splayOnTop = LRUCache.prototype.splayOnTop;
 
 /**
  * Method used to set the value for the given key in the cache.
@@ -189,50 +142,6 @@ LRUCache.prototype.set = function(key, value) {
 };
 
 /**
- * Method used to set the value for the given key in the cache.
- *
- * @param  {any} key   - Key.
- * @param  {any} value - Value.
- * @return {undefined}
- */
-LRUMap.prototype.set = function(key, value) {
-
-  // The key already exists, we just need to update the value and splay on top
-  var existingPointer = this.items.get(key);
-
-  if (typeof existingPointer !== 'undefined') {
-    this.splayOnTop(existingPointer);
-    this.V[existingPointer] = value;
-
-    return;
-  }
-
-  var pointer;
-
-  // The cache is not yet full
-  if (this.size < this.capacity) {
-    pointer = this.size++;
-  }
-
-  // Cache is full, we need to drop the last value
-  else {
-    pointer = this.tail;
-    this.tail = this.backward[pointer];
-    this.items.delete(this.K[pointer]);
-  }
-
-  // Storing key & value
-  this.items.set(key, pointer);
-  this.K[pointer] = key;
-  this.V[pointer] = value;
-
-  // Moving the item at the front of the list
-  this.forward[pointer] = this.head;
-  this.backward[this.head] = pointer;
-  this.head = pointer;
-};
-
-/**
  * Method used to check whether the key exists in the cache.
  *
  * @param  {any} key   - Key.
@@ -240,16 +149,6 @@ LRUMap.prototype.set = function(key, value) {
  */
 LRUCache.prototype.has = function(key) {
   return key in this.items;
-};
-
-/**
- * Method used to check whether the key exists in the cache.
- *
- * @param  {any} key   - Key.
- * @return {boolean}
- */
-LRUMap.prototype.has = function(key) {
-  return this.items.has(key);
 };
 
 /**
@@ -261,24 +160,6 @@ LRUMap.prototype.has = function(key) {
  */
 LRUCache.prototype.get = function(key) {
   var pointer = this.items[key];
-
-  if (typeof pointer === 'undefined')
-    return;
-
-  this.splayOnTop(pointer);
-
-  return this.V[pointer];
-};
-
-/**
- * Method used to get the value attached to the given key. Will move the
- * related key to the front of the underlying linked list.
- *
- * @param  {any} key   - Key.
- * @return {any}
- */
-LRUMap.prototype.get = function(key) {
-  var pointer = this.items.get(key);
 
   if (typeof pointer === 'undefined')
     return;
@@ -314,8 +195,6 @@ LRUCache.prototype.forEach = function(callback, scope) {
     i++;
   }
 };
-LRUMap.prototype.forEach = LRUCache.prototype.forEach;
-
 
 /**
  * Method used to create an iterator over the cache's keys from most
@@ -348,7 +227,6 @@ LRUCache.prototype.keys = function() {
     };
   });
 };
-LRUMap.prototype.keys = LRUCache.prototype.keys;
 
 /**
  * Method used to create an iterator over the cache's values from most
@@ -381,7 +259,6 @@ LRUCache.prototype.values = function() {
     };
   });
 };
-LRUMap.prototype.values = LRUCache.prototype.values;
 
 /**
  * Method used to create an iterator over the cache's entries from most
@@ -416,15 +293,12 @@ LRUCache.prototype.entries = function() {
     };
   });
 };
-LRUMap.prototype.entries = LRUCache.prototype.entries;
 
 /**
  * Attaching the #.entries method to Symbol.iterator if possible.
  */
-if (typeof Symbol !== 'undefined') {
+if (typeof Symbol !== 'undefined')
   LRUCache.prototype[Symbol.iterator] = LRUCache.prototype.entries;
-  LRUMap.prototype[Symbol.iterator] = LRUMap.prototype.entries;
-}
 
 /**
  * Convenience known methods.
@@ -446,7 +320,6 @@ LRUCache.prototype.inspect = function() {
 
   return proxy;
 };
-LRUMap.prototype.inspect = LRUCache.prototype.inspect;
 
 /**
  * Static @.from function taking an abitrary iterable & converting it into
@@ -479,40 +352,6 @@ LRUCache.from = function(iterable, Keys, Values, capacity) {
 
   return cache;
 };
-
-/**
- * Static @.from function taking an abitrary iterable & converting it into
- * a structure.
- *
- * @param  {Iterable} iterable - Target iterable.
- * @param  {function} Keys     - Array class for storing keys.
- * @param  {function} Values   - Array class for storing values.
- * @param  {number}   capacity - Cache's capacity.
- * @return {LRUMap}
- */
-LRUMap.from = function(iterable, Keys, Values, capacity) {
-  if (arguments.length < 2) {
-    capacity = iterables.guessLength(iterable);
-
-    if (typeof capacity !== 'number')
-      throw new Error('mnemonist/lru-cache.from: could not guess iterable length. Please provide desired capacity as last argument.');
-  }
-  else if (arguments.length === 2) {
-    capacity = Keys;
-    Keys = null;
-    Values = null;
-  }
-
-  var cache = new LRUMap(Keys, Values, capacity);
-
-  forEach(iterable, function(value, key) {
-    cache.set(key, value);
-  });
-
-  return cache;
-};
-
-LRUCache.LRUMap = LRUMap;
 
 /**
  * Exporting.

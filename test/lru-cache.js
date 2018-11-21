@@ -3,7 +3,8 @@
  * ==============================
  */
 var assert = require('assert'),
-    LRUCache = require('../lru-cache.js');
+    LRUCache = require('../lru-cache.js'),
+    LRUMap = require('../lru-map.js');
 
 function makeTests(Cache, name) {
   describe(name, function() {
@@ -182,4 +183,4 @@ function makeTests(Cache, name) {
 }
 
 makeTests(LRUCache, 'LRUCache');
-makeTests(LRUCache.LRUMap, 'LRUMap');
+makeTests(LRUMap, 'LRUMap');
