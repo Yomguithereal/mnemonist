@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.25.0 (provisional)
+
+* Adding `LRUCache`.
+* Adding `LRUMap`.
+
 ## 0.24.0
 
 * Adding `#.forEachMultiplicity` to `MultiSet`.
