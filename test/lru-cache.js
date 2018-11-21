@@ -7,6 +7,12 @@ var assert = require('assert'),
 
 describe('LRUCache', function() {
 
+  it('should throw if given an invalid capacity.', function() {
+    assert.throws(function() {
+      var cache = new LRUCache({});
+    }, /capacity/);
+  });
+
   it('should be possible to create a LRU cache.', function() {
     var cache = new LRUCache(3);
 
@@ -44,6 +50,57 @@ describe('LRUCache', function() {
 
     assert.strictEqual(cache.get('three'), 3);
     assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
+
+    assert.strictEqual(Object.keys(cache.items).length, 3);
+  });
+
+  it('should be possible to clear a LRU cache.', function() {
+    var cache = new LRUCache(3);
+
+    cache.set('one', 1);
+    cache.set('two', 2);
+    cache.set('one', 3);
+
+    assert.deepEqual(Array.from(cache.entries()), [['one', 3], ['two', 2]]);
+
+    assert.strictEqual(cache.get('two'), 2);
+
+    assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 3]]);
+
+    cache.clear();
+
+    assert.strictEqual(cache.capacity, 3);
+    assert.strictEqual(cache.size, 0);
+
+    assert.strictEqual(cache.has('two'), false);
+
+    cache.set('one', 1);
+    cache.set('two', 2);
+    cache.set('three', 3);
+    cache.set('two', 6);
+    cache.set('four', 4);
+
+    assert.deepEqual(Array.from(cache.entries()), [['four', 4], ['two', 6], ['three', 3]]);
+  });
+
+  it('should be possible to create an iterator over the cache\'s keys.', function() {
+    var cache = new LRUCache(3);
+
+    cache.set('one', 1);
+    cache.set('two', 2);
+    cache.set('three', 3);
+
+    assert.deepEqual(Array.from(cache.keys()), ['three', 'two', 'one']);
+  });
+
+  it('should be possible to create an iterator over the cache\'s values.', function() {
+    var cache = new LRUCache(3);
+
+    cache.set('one', 1);
+    cache.set('two', 2);
+    cache.set('three', 3);
+
+    assert.deepEqual(Array.from(cache.values()), [3, 2, 1]);
   });
 
   it('should work with capacity = 1.', function() {
@@ -59,5 +116,11 @@ describe('LRUCache', function() {
     assert.strictEqual(cache.get('three'), 3);
 
     assert.deepEqual(Array.from(cache.entries()), [['three', 3]]);
+  });
+
+  it('should be possible to create a cache from an arbitrary iterable.', function() {
+    var cache = LRUCache.from(new Map([['one', 1], ['two', 2]]));
+
+    assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
   });
 });

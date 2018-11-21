@@ -16,15 +16,9 @@
  * memory.
  */
 var Iterator = require('obliterator/iterator'),
-    typed = require('./utils/typed-arrays.js');
-
-// TODO: use singly linked list, hashmap points to precedent pointer instead?
-
-// TODO: possibility to type keys & values but not sure it results in better
-// perfs. just better memory in some corner cases
-
-// TODO: potential optimizations to be run in splayOnTop
-// TODO: possibiliy to drop the keys array by storing keys as head/tail pointers
+    forEach = require('obliterator/foreach'),
+    typed = require('./utils/typed-arrays.js'),
+    iterables = require('./utils/iterables.js');
 
 /**
  * LRUCache.
@@ -35,12 +29,15 @@ var Iterator = require('obliterator/iterator'),
 function LRUCache(capacity) {
   this.capacity = capacity;
 
+  if (typeof this.capacity !== 'number' || this.capacity <= 0)
+    throw new Error('mnemonist/lru-cache: capacity should be positive number.');
+
   var PointerArray = typed.getPointerArray(capacity);
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
-  this.keys = new Array(capacity);
-  this.values = new Array(capacity);
+  this.K = new Array(capacity);
+  this.V = new Array(capacity);
 
   // Properties
   this.size = 0;
@@ -54,8 +51,6 @@ function LRUCache(capacity) {
  *
  * @return {undefined}
  */
-
-// TODO: test
 LRUCache.prototype.clear = function() {
   this.size = 0;
   this.head = 0;
@@ -108,7 +103,7 @@ LRUCache.prototype.set = function(key, value) {
 
   if (typeof existingPointer !== 'undefined') {
     this.splayOnTop(existingPointer);
-    this.values[existingPointer] = value;
+    this.V[existingPointer] = value;
 
     return;
   }
@@ -124,13 +119,13 @@ LRUCache.prototype.set = function(key, value) {
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
-    delete this.items[this.keys[pointer]];
+    delete this.items[this.K[pointer]];
   }
 
   // Storing key & value
   this.items[key] = pointer;
-  this.keys[pointer] = key;
-  this.values[pointer] = value;
+  this.K[pointer] = key;
+  this.V[pointer] = value;
 
   // Moving the item at the front of the list
   this.forward[pointer] = this.head;
@@ -167,10 +162,72 @@ LRUCache.prototype.get = function(key) {
 
   this.splayOnTop(pointer);
 
-  return this.values[pointer];
+  return this.V[pointer];
 };
 
-// TODO: #.keys, #.values
+/**
+ * Method used to create an iterator over the cache's keys from most
+ * recently used to least recently used.
+ *
+ * @return {Iterator}
+ */
+LRUCache.prototype.keys = function() {
+  var i = 0,
+      l = this.size;
+
+  var pointer = this.head,
+      keys = this.K,
+      forward = this.forward;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {done: true};
+
+    var key = keys[pointer];
+
+    i++;
+
+    if (i < l)
+      pointer = forward[pointer];
+
+    return {
+      done: false,
+      value: key
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over the cache's values from most
+ * recently used to least recently used.
+ *
+ * @return {Iterator}
+ */
+LRUCache.prototype.values = function() {
+  var i = 0,
+      l = this.size;
+
+  var pointer = this.head,
+      values = this.V,
+      forward = this.forward;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {done: true};
+
+    var value = values[pointer];
+
+    i++;
+
+    if (i < l)
+      pointer = forward[pointer];
+
+    return {
+      done: false,
+      value: value
+    };
+  });
+};
 
 /**
  * Method used to create an iterator over the cache's entries from most
@@ -183,8 +240,8 @@ LRUCache.prototype.entries = function() {
       l = this.size;
 
   var pointer = this.head,
-      keys = this.keys,
-      values = this.values,
+      keys = this.K,
+      values = this.V,
       forward = this.forward;
 
   return new Iterator(function() {
@@ -232,11 +289,25 @@ LRUCache.prototype.inspect = function() {
  * a structure.
  *
  * @param  {Iterable} iterable - Target iterable.
+ * @param  {number}   capacity - Cache's capacity.
  * @return {LRUCache}
  */
-// LRUCache.from = function(iterable) {
+LRUCache.from = function(iterable, capacity) {
+  if (arguments.length < 2) {
+    capacity = iterables.guessLength(iterable);
 
-// };
+    if (typeof capacity !== 'number')
+      throw new Error('mnemonist/lru-cache.from: could not guess iterable length. Please provide desired capacity as last argument.');
+  }
+
+  var cache = new LRUCache(capacity);
+
+  forEach(iterable, function(value, key) {
+    cache.set(key, value);
+  });
+
+  return cache;
+};
 
 /**
  * Exporting.
