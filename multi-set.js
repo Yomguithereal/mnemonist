@@ -368,6 +368,9 @@ if (typeof Symbol !== 'undefined')
 MultiSet.prototype.inspect = function() {
   return this.items;
 };
+
+if (typeof Symbol !== 'undefined')
+  MultiSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = MultiSet.prototype.inspect;
 MultiSet.prototype.toJSON = function() {
   return this.items;
 };

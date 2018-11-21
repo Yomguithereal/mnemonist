@@ -136,6 +136,9 @@ Trie.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  Trie.prototype[Symbol.for('nodejs.util.inspect.custom')] = Trie.prototype.inspect;
+
 Trie.prototype.toJSON = function() {
   return this.root;
 };

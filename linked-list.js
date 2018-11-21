@@ -235,6 +235,9 @@ LinkedList.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  LinkedList.prototype[Symbol.for('nodejs.util.inspect.custom')] = LinkedList.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a list.

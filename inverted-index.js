@@ -222,6 +222,9 @@ InvertedIndex.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  InvertedIndex.prototype[Symbol.for('nodejs.util.inspect.custom')] = InvertedIndex.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a InvertedIndex.

@@ -153,6 +153,9 @@ SparseSet.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  SparseSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = SparseSet.prototype.inspect;
+
 /**
  * Exporting.
  */

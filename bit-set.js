@@ -349,6 +349,9 @@ BitSet.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  BitSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = BitSet.prototype.inspect;
+
 BitSet.prototype.toJSON = function() {
   return Array.from(this.array);
 };

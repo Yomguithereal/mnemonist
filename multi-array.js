@@ -436,6 +436,9 @@ MultiArray.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  MultiArray.prototype[Symbol.for('nodejs.util.inspect.custom')] = MultiArray.prototype.inspect;
+
 // TODO: .from
 
 /**

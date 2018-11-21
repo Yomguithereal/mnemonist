@@ -308,6 +308,9 @@ VPTree.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  VPTree.prototype[Symbol.for('nodejs.util.inspect.custom')] = VPTree.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a tree.

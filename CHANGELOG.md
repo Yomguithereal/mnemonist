@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.25.1 (provisional)
+
+* Fixing custom inspect methods for node >= 10.
+
 ## 0.25.0
 
 * Adding `LRUCache`.

@@ -321,6 +321,9 @@ LRUCache.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  LRUCache.prototype[Symbol.for('nodejs.util.inspect.custom')] = LRUCache.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.

@@ -178,6 +178,9 @@ Queue.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  Queue.prototype[Symbol.for('nodejs.util.inspect.custom')] = Queue.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a queue.

@@ -377,6 +377,9 @@ if (typeof Symbol !== 'undefined')
 MultiMap.prototype.inspect = function() {
   return this.items;
 };
+
+if (typeof Symbol !== 'undefined')
+  MultiMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = MultiMap.prototype.inspect;
 MultiMap.prototype.toJSON = function() {
   return this.items;
 };

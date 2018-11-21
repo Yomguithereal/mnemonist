@@ -420,6 +420,9 @@ TrieMap.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  TrieMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = TrieMap.prototype.inspect;
+
 TrieMap.prototype.toJSON = function() {
   return this.root;
 };

@@ -150,6 +150,9 @@ BiMap.prototype.inspect = function() {
   return dummy;
 };
 
+if (typeof Symbol !== 'undefined')
+  BiMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = BiMap.prototype.inspect;
+
 InverseMap.prototype.inspect = function() {
   var dummy = {
     left: this.inverse.items,
@@ -164,6 +167,9 @@ InverseMap.prototype.inspect = function() {
 
   return dummy;
 };
+
+if (typeof Symbol !== 'undefined')
+  InverseMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = InverseMap.prototype.inspect;
 
 
 /**

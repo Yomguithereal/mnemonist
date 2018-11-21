@@ -523,6 +523,9 @@ BitVector.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  BitVector.prototype[Symbol.for('nodejs.util.inspect.custom')] = BitVector.prototype.inspect;
+
 BitVector.prototype.toJSON = function() {
   return Array.from(this.array.slice(0, (this.length >> 5) + 1));
 };

@@ -264,6 +264,9 @@ FibonacciHeap.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  FibonacciHeap.prototype[Symbol.for('nodejs.util.inspect.custom')] = FibonacciHeap.prototype.inspect;
+
 /**
  * Fibonacci Maximum Heap.
  *

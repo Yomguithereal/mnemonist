@@ -191,6 +191,9 @@ FixedReverseHeap.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  FixedReverseHeap.prototype[Symbol.for('nodejs.util.inspect.custom')] = FixedReverseHeap.prototype.inspect;
+
 /**
  * Exporting.
  */

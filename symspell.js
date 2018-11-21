@@ -521,6 +521,9 @@ SymSpell.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  SymSpell.prototype[Symbol.for('nodejs.util.inspect.custom')] = SymSpell.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.

@@ -274,6 +274,9 @@ CircularBuffer.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  CircularBuffer.prototype[Symbol.for('nodejs.util.inspect.custom')] = CircularBuffer.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a circular buffer.

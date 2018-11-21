@@ -48,6 +48,9 @@ Structure.prototype.inspect = function() {
   return this;
 };
 
+if (typeof Symbol !== 'undefined')
+  Structure.prototype[Symbol.for('nodejs.util.inspect.custom')] = Structure.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.

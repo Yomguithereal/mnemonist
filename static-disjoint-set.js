@@ -185,6 +185,9 @@ StaticDisjointSet.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  StaticDisjointSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = StaticDisjointSet.prototype.inspect;
+
 
 /**
  * Exporting.

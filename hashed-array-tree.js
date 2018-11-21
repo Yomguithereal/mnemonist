@@ -200,6 +200,9 @@ HashedArrayTree.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  HashedArrayTree.prototype[Symbol.for('nodejs.util.inspect.custom')] = HashedArrayTree.prototype.inspect;
+
 /**
  * Exporting.
  */

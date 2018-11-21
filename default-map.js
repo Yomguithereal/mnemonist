@@ -131,6 +131,9 @@ DefaultMap.prototype.inspect = function() {
   return this.items;
 };
 
+if (typeof Symbol !== 'undefined')
+  DefaultMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = DefaultMap.prototype.inspect;
+
 /**
  * Exporting.
  */

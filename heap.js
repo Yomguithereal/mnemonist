@@ -490,6 +490,9 @@ Heap.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  Heap.prototype[Symbol.for('nodejs.util.inspect.custom')] = Heap.prototype.inspect;
+
 /**
  * Binary Maximum Heap.
  *

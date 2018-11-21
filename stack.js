@@ -173,6 +173,9 @@ Stack.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  Stack.prototype[Symbol.for('nodejs.util.inspect.custom')] = Stack.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a stack.

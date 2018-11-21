@@ -157,6 +157,9 @@ FuzzyMultiMap.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  FuzzyMultiMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = FuzzyMultiMap.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.

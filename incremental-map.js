@@ -128,6 +128,9 @@ IncrementalMap.prototype.inspect = function() {
   return proxy;
 };
 
+if (typeof Symbol !== 'undefined')
+  IncrementalMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = IncrementalMap.prototype.inspect;
+
 /**
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.

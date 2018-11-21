@@ -239,6 +239,9 @@ SuffixArray.prototype.inspect = function() {
   return array;
 };
 
+if (typeof Symbol !== 'undefined')
+  SuffixArray.prototype[Symbol.for('nodejs.util.inspect.custom')] = SuffixArray.prototype.inspect;
+
 /**
  * Generalized Suffix Array.
  *
@@ -338,6 +341,9 @@ GeneralizedSuffixArray.prototype.inspect = function() {
 
   return array;
 };
+
+if (typeof Symbol !== 'undefined')
+  GeneralizedSuffixArray.prototype[Symbol.for('nodejs.util.inspect.custom')] = GeneralizedSuffixArray.prototype.inspect;
 
 /**
  * Exporting.
