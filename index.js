@@ -32,6 +32,8 @@ module.exports = {
   StaticIntervalTree: require('./static-interval-tree.js'),
   InvertedIndex: require('./inverted-index.js'),
   LinkedList: require('./linked-list.js'),
+  LRUCache: require('./lru-cache.js'),
+  LRUMap: require('./lru-map.js'),
   MultiMap: require('./multi-map.js'),
   MultiSet: require('./multi-set.js'),
   Queue: require('./queue.js'),

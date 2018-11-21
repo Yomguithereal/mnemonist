@@ -7,7 +7,6 @@
  * when a Map can outperform an object in v8.
  */
 var LRUCache = require('./lru-cache.js'),
-    Iterator = require('obliterator/iterator'),
     forEach = require('obliterator/foreach'),
     typed = require('./utils/typed-arrays.js'),
     iterables = require('./utils/iterables.js');
