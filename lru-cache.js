@@ -24,9 +24,17 @@ var Iterator = require('obliterator/iterator'),
  * LRUCache.
  *
  * @constructor
- * @param {number} capacity - Desired capacity.
+ * @param {function} Keys     - Array class for storing keys.
+ * @param {function} Values   - Array class for storing values.
+ * @param {number}   capacity - Desired capacity.
  */
-function LRUCache(capacity) {
+function LRUCache(Keys, Values, capacity) {
+  if (arguments.length < 2) {
+    capacity = Keys;
+    Keys = null;
+    Values = null;
+  }
+
   this.capacity = capacity;
 
   if (typeof this.capacity !== 'number' || this.capacity <= 0)
@@ -36,8 +44,8 @@ function LRUCache(capacity) {
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
-  this.K = new Array(capacity);
-  this.V = new Array(capacity);
+  this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
+  this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
 
   // Properties
   this.size = 0;
@@ -289,18 +297,25 @@ LRUCache.prototype.inspect = function() {
  * a structure.
  *
  * @param  {Iterable} iterable - Target iterable.
+ * @param  {function} Keys     - Array class for storing keys.
+ * @param  {function} Values   - Array class for storing values.
  * @param  {number}   capacity - Cache's capacity.
  * @return {LRUCache}
  */
-LRUCache.from = function(iterable, capacity) {
+LRUCache.from = function(iterable, Keys, Values, capacity) {
   if (arguments.length < 2) {
     capacity = iterables.guessLength(iterable);
 
     if (typeof capacity !== 'number')
       throw new Error('mnemonist/lru-cache.from: could not guess iterable length. Please provide desired capacity as last argument.');
   }
+  else if (arguments.length === 2) {
+    capacity = Keys;
+    Keys = null;
+    Values = null;
+  }
 
-  var cache = new LRUCache(capacity);
+  var cache = new LRUCache(Keys, Values, capacity);
 
   forEach(iterable, function(value, key) {
     cache.set(key, value);

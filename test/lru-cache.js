@@ -123,4 +123,24 @@ describe('LRUCache', function() {
 
     assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
   });
+
+  it('should be possible to create a specialized cache.', function() {
+    var cache = new LRUCache(Uint8Array, Float64Array, 3);
+
+    cache.set(3, 5.6);
+    cache.set(12, 6.464);
+    cache.set(23, 0.45);
+    cache.set(59, -0.464);
+
+    assert.deepEqual(Array.from(cache.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
+
+    var cacheFrom = LRUCache.from([], Uint8Array, Float64Array, 3);
+
+    cacheFrom.set(3, 5.6);
+    cacheFrom.set(12, 6.464);
+    cacheFrom.set(23, 0.45);
+    cacheFrom.set(59, -0.464);
+
+    assert.deepEqual(Array.from(cacheFrom.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
+  });
 });
