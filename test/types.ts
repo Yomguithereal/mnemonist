@@ -20,6 +20,8 @@ import {
   IncrementalMap,
   InvertedIndex,
   LinkedList,
+  LRUCache,
+  LRUMap,
   MultiSet,
   MultiMap,
   Queue,
@@ -151,6 +153,20 @@ invertedIndex.add(45);
 let linkedlist: LinkedList<boolean> = new LinkedList();
 linkedlist.push(true);
 let linkedlistItem: boolean = linkedlist.shift();
+
+/**
+ * LRUCache.
+ */
+let lrucache: LRUCache<string, number> = new LRUCache(10);
+lrucache.set('one', 34);
+let lrucacheItem: number = lrucache.get('one');
+
+/**
+ * LRUMap.
+ */
+let lrumap: LRUMap<string, number> = new LRUMap(10);
+lrumap.set('one', 34);
+let lrumapItem: number = lrumap.get('one');
 
 /**
  * MultiSet.
