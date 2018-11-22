@@ -17,6 +17,8 @@ var MinHeap = require('mnemonist/heap').MinHeap;
 var MaxHeap = require('mnemonist/heap').MaxHeap;
 ```
 
+If you now the maximum number of items you will store and need a more performant implementation, check out the [`FixedReverseHeap`]({{ site.baseurl }}/fixed-reverse-heap).
+
 ## Use case
 
 Let's say we need to schedule tasks having different priorities. A [Stack]({{ site.baseurl }}/stack) or a [Queue]({{ site.baseurl }}/queue) might not be enough since we need to be sure at all time that the most urgent tasks will come first.

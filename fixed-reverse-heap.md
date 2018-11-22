@@ -9,7 +9,7 @@ As such, it has a fixed capacity and can work with byte arrays.
 
 It is a "reverse" heap because internally, the heap will store the values you give it in reverse order so it can still replace the worst item in logarithmic time.
 
-It is therefore impossible to pop or peek this heap and you can only push new values into it and consume it when the job is done.
+It is therefore impossible to pop or peek this heap and you can only push new values and consume the heap when the job is done.
 
 ```js
 var FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
