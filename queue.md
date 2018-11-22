@@ -9,6 +9,8 @@ This just means that inserted items will get out in their insertion order.
 
 For more information about the Queue, you can head [here](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)).
 
+If you know the maximum number of items your queue will need to store, you should check the [`CircularBuffer`]({{ site.baseurl }}/circular-buffer) structure for better performance. 
+
 ```js
 var Queue = require('mnemonist/queue');
 ```
