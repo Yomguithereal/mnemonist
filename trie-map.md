@@ -13,7 +13,7 @@ var TrieMap = require('mnemonist/trie-map');
 
 The `TrieMap` optionally takes as single argument the type of sequence you are going to feed it.
 
-```
+```js
 // For a trie containing string prefixes
 var trie = new TrieMap();
 
