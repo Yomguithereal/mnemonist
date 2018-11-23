@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.26.2
+
+* Fixing `Vector` typings.
+* Fixing `BitVector` typings.
+
 ## 0.25.1
 
 * Fixing custom inspect methods for node >= 10.
