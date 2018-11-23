@@ -22,7 +22,7 @@ export default class Vector implements Iterable<number> {
 
   // Methods
   clear(): void;
-  set(index: number, value: number);
+  set(index: number, value: number): this;
   reallocate(capacity: number): this;
   grow(capacity: number): this;
   resize(length: number): this;
@@ -52,7 +52,7 @@ declare class TypedVector implements Iterable<number> {
 
   // Methods
   clear(): void;
-  set(index: number, value: number);
+  set(index: number, value: number): this;
   reallocate(capacity: number): this;
   grow(capacity: number): this;
   resize(length: number): this;
