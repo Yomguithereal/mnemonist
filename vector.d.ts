@@ -24,7 +24,7 @@ export default class Vector implements Iterable<number> {
   clear(): void;
   set(index: number, value: number): this;
   reallocate(capacity: number): this;
-  grow(capacity: number): this;
+  grow(capacity?: number): this;
   resize(length: number): this;
   push(value: number): number;
   pop(): number | undefined;
@@ -54,7 +54,7 @@ declare class TypedVector implements Iterable<number> {
   clear(): void;
   set(index: number, value: number): this;
   reallocate(capacity: number): this;
-  grow(capacity: number): this;
+  grow(capacity?: number): this;
   resize(length: number): this;
   push(value: number): number;
   pop(): number | undefined;
