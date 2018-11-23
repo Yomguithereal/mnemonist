@@ -18,8 +18,7 @@ export default class Vector implements Iterable<number> {
   size: number;
 
   // Constructor
-  constructor(ArrayClass: IArrayLikeConstructor, length: number);
-  constructor(ArrayClass: IArrayLikeConstructor, options: VectorOptions);
+  constructor(ArrayClass: IArrayLikeConstructor, length: number | VectorOptions);
 
   // Methods
   clear(): void;
@@ -49,8 +48,7 @@ declare class TypedVector implements Iterable<number> {
   size: number;
 
   // Constructor
-  constructor(length: number);
-  constructor(options: VectorOptions);
+  constructor(length: number | VectorOptions);
 
   // Methods
   clear(): void;
