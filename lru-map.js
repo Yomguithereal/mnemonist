@@ -67,16 +67,14 @@ LRUMap.prototype.clear = function() {
 LRUMap.prototype.set = function(key, value) {
 
   // The key already exists, we just need to update the value and splay on top
-  var existingPointer = this.items.get(key);
+  var pointer = this.items.get(key);
 
-  if (typeof existingPointer !== 'undefined') {
-    this.splayOnTop(existingPointer);
-    this.V[existingPointer] = value;
+  if (typeof pointer !== 'undefined') {
+    this.splayOnTop(pointer);
+    this.V[pointer] = value;
 
     return;
   }
-
-  var pointer;
 
   // The cache is not yet full
   if (this.size < this.capacity) {
