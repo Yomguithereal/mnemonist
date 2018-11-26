@@ -5,7 +5,8 @@
 var assert = require('assert'),
     typed = require('../utils/typed-arrays.js'),
     binarySearch = require('../utils/binary-search.js'),
-    merge = require('../utils/merge.js');
+    merge = require('../utils/merge.js'),
+    hashTables = require('../utils/hash-tables.js');
 
 describe('utils', function() {
 
@@ -268,6 +269,37 @@ describe('utils', function() {
         tests.forEach(function(test) {
           assert.deepEqual(merge.intersectionUnique.apply(null, test[0]), test[1]);
         });
+      });
+    });
+  });
+
+  describe('hash-tables', function() {
+
+    it('should be possible to use linear probing.', function() {
+      var fn = hashTables.linearProbing;
+
+      var h = hashTables.hashes.jenkins32bits;
+
+      var keys = new Uint32Array(8),
+          values = new Uint32Array(8);
+
+      var pairs = [
+        [4563, 1],
+        [534274, 2],
+        [36464, 3],
+        [45353, 4],
+        [82754, 5],
+        [8696007, 6],
+        [344994, 7],
+        [71654, 8]
+      ];
+
+      pairs.forEach(function(pair) {
+        fn.set(h, keys, values, pair[0], pair[1]);
+      });
+
+      pairs.forEach(function(pair) {
+        assert.strictEqual(fn.get(h, keys, values, pair[0]), pair[1]);
       });
     });
   });
