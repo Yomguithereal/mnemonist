@@ -5,7 +5,7 @@
  *
  * Miscellaneous helpers helper function dealing with hashtables.
  */
-function jenkins32bits(a) {
+function jenkinsInt32(a) {
 
   a = (a + 0x7ed55d16) + (a << 12);
   a = (a ^ 0xc761c23c) ^ (a >> 19);
@@ -17,9 +17,9 @@ function jenkins32bits(a) {
   return a;
 }
 
-function linearProbingGet(h, keys, values, key) {
+function linearProbingGet(hash, keys, values, key) {
   var n = keys.length,
-      j = h(key) & (n - 1),
+      j = hash(key) & (n - 1),
       i = j;
 
   var c;
@@ -30,7 +30,7 @@ function linearProbingGet(h, keys, values, key) {
     if (c === key)
       return values[i];
 
-    else if (c === 0 || typeof c === 'undefined')
+    else if (c === 0)
       return;
 
     // Handling wrapping around
@@ -43,9 +43,9 @@ function linearProbingGet(h, keys, values, key) {
   }
 }
 
-function linearProbingSet(h, keys, values, key, value) {
+function linearProbingHas(hash, keys, key) {
   var n = keys.length,
-      j = h(key) & (n - 1),
+      j = hash(key) & (n - 1),
       i = j;
 
   var c;
@@ -53,7 +53,33 @@ function linearProbingSet(h, keys, values, key, value) {
   while (true) {
     c = keys[i];
 
-    if (c === 0 || typeof c === 'undefined' || c === key)
+    if (c === key)
+      return true;
+
+    else if (c === 0)
+      return false;
+
+    // Handling wrapping around
+    i += 1;
+    i %= n;
+
+    // Full turn
+    if (i === j)
+      return false;
+  }
+}
+
+function linearProbingSet(hash, keys, values, key, value) {
+  var n = keys.length,
+      j = hash(key) & (n - 1),
+      i = j;
+
+  var c;
+
+  while (true) {
+    c = keys[i];
+
+    if (c === 0 || c === key)
       break;
 
     // Handling wrapping around
@@ -71,10 +97,11 @@ function linearProbingSet(h, keys, values, key, value) {
 
 module.exports = {
   hashes: {
-    jenkins32bits: jenkins32bits
+    jenkinsInt32: jenkinsInt32
   },
   linearProbing: {
     get: linearProbingGet,
+    has: linearProbingHas,
     set: linearProbingSet
   }
 };

@@ -278,7 +278,7 @@ describe('utils', function() {
     it('should be possible to use linear probing.', function() {
       var fn = hashTables.linearProbing;
 
-      var h = hashTables.hashes.jenkins32bits;
+      var h = hashTables.hashes.jenkinsInt32;
 
       var keys = new Uint32Array(8),
           values = new Uint32Array(8);
@@ -301,6 +301,17 @@ describe('utils', function() {
       pairs.forEach(function(pair) {
         assert.strictEqual(fn.get(h, keys, values, pair[0]), pair[1]);
       });
+
+      pairs.forEach(function(pair) {
+        assert.strictEqual(fn.has(h, keys, pair[0]), true);
+      });
+
+      assert.throws(function() {
+        fn.set(h, keys, values, 453, 9);
+      }, /full/);
+
+      assert.strictEqual(fn.get(h, keys, values, 485385), undefined);
+      assert.strictEqual(fn.has(h, keys, 48753), false);
     });
   });
 });
