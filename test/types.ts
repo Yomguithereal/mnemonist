@@ -17,7 +17,6 @@ import {
   FuzzyMultiMap,
   HashedArrayTree,
   Heap, MaxHeap,
-  IncrementalMap,
   InvertedIndex,
   LinkedList,
   LRUCache,
@@ -134,12 +133,6 @@ heap.pop();
 
 let maxHeap: MaxHeap<number> = new Heap();
 maxHeap.push(45);
-
-/**
- * IncrementalMap.
- */
-let incrementalMap: IncrementalMap<string> = new IncrementalMap({step: 2});
-incrementalMap.add('hello');
 
 /**
  * InvertedIndex.

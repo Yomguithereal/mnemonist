@@ -75,7 +75,6 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 * [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
 * [DefaultMap](https://yomguithereal.github.io/mnemonist/default-map)
-* [IncrementalMap](https://yomguithereal.github.io/mnemonist/incremental-map)
 
 ---
 

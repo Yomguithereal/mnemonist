@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.0 (provisonal)
+
+* Removing the `IncrementalMap`.
+
 ## 0.26.2
 
 * Fixing `Vector` typings.
