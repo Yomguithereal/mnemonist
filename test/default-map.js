@@ -89,4 +89,12 @@ describe('DefaultMap', function() {
       return e[1];
     }));
   });
+
+  it('should be possible to use typical factories.', function() {
+    var map = new DefaultMap(DefaultMap.autoIncrement());
+
+    assert.strictEqual(map.get('test'), 0);
+    assert.strictEqual(map.get('test2'), 1);
+    assert.strictEqual(map.size, 2);
+  });
 });

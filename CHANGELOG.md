@@ -2,6 +2,7 @@
 
 ## 0.27.0 (provisonal)
 
+* Adding the `DefaultMap.autoIncrement` factory.
 * Removing the `IncrementalMap`.
 
 ## 0.26.2

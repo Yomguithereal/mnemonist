@@ -22,4 +22,7 @@ export default class DefaultMap<K, V> implements Iterable<[K, V]> {
   entries(): Iterator<[K, V]>;
   [Symbol.iterator](): Iterator<[K, V]>;
   inspect(): any;
+
+  // Statics
+  static autoIncrement(): number;
 }

@@ -135,6 +135,17 @@ if (typeof Symbol !== 'undefined')
   DefaultMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = DefaultMap.prototype.inspect;
 
 /**
+ * Typical factories.
+ */
+DefaultMap.autoIncrement = function() {
+  var i = 0;
+
+  return function() {
+    return i++;
+  };
+};
+
+/**
  * Exporting.
  */
 module.exports = DefaultMap;
