@@ -83,3 +83,20 @@ var map = new DefaultMap((key, size) => `${key}-${size}`);
 ## Members & Methods
 
 The `DefaultMap` has the exact same interface as JavaScript's [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+
+## Typical factories
+
+* [autoIncrement](#autoincrement)
+
+### autoIncrement
+
+A factory that will create a new incremental key for each unseen key.
+
+```js
+var map = new DefaultMap(DefaultMap.autoIncrement());
+
+map.get('unknown-one');
+>>> 0
+map.get('unknown-two');
+>>> 1
+```
