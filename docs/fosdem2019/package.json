@@ -1,0 +1,14 @@
+{
+  "name": "mnemonist-fosdem2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "mdx-deck presentation.mdx"
+  },
+  "author": "yomguithereal <kropotkinepiotr@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "mdx-deck": "^1.8.2"
+  }
+}
