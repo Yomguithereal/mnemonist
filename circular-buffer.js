@@ -191,6 +191,13 @@ CircularBuffer.prototype.forEach = function(callback, scope) {
  */
 // TODO: optional array class as argument?
 CircularBuffer.prototype.toArray = function() {
+
+  // Optimization
+  var offset = this.start + this.size;
+
+  if (offset < this.capacity)
+    return this.items.slice(this.start, offset);
+
   var array = new this.ArrayClass(this.size),
       c = this.capacity,
       l = this.size,
