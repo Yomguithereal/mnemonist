@@ -97,6 +97,18 @@ describe('CircularBuffer', function() {
 
     assert.strictEqual(buffer.size, 1);
     assert.strictEqual(buffer.peekLast(), 4);
+
+    var buffer2 = new CircularBuffer(Array, 6);
+
+    buffer2.push(1);
+    buffer2.push(2);
+    buffer2.push(3);
+    buffer2.unshift(4);
+    buffer2.unshift(5);
+    buffer2.unshift(6);
+
+    assert.strictEqual(buffer2.pop(), 3);
+    assert.strictEqual(buffer2.size, 5);
   });
 
   it('should be possible to shift the buffer.', function() {
@@ -120,6 +132,24 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.shift(), 4);
   });
 
+  it('should be possible to unshift the buffer.', function() {
+    var buffer = new CircularBuffer(Uint8Array, 6);
+
+    buffer.push(10);
+    buffer.push(11);
+    buffer.push(12);
+
+    assert.strictEqual(buffer.unshift(13), 4);
+    assert.strictEqual(buffer.unshift(14), 5);
+    assert.strictEqual(buffer.unshift(15), 6);
+
+    assert.strictEqual(buffer.size, 6);
+    assert.strictEqual(buffer.start, 3);
+
+    assert.strictEqual(buffer.pop(), 12);
+    assert.strictEqual(buffer.shift(), 15);
+  });
+
   it('should be consistent over time.', function() {
     var buffer = new CircularBuffer(Uint8Array, 3);
 
@@ -138,9 +168,7 @@ describe('CircularBuffer', function() {
     buffer.shift();
 
     assert.deepEqual(buffer.toArray(), [4]);
-
     buffer.pop();
-
     assert.deepEqual(buffer.toArray(), []);
 
     buffer.push(5);
@@ -222,5 +250,27 @@ describe('CircularBuffer', function() {
 
     for (var item of buffer)
       assert.strictEqual(item, i++);
+  });
+
+  it('should handle tricky situations.', function() {
+    var buffer = new CircularBuffer(Uint8Array, 6);
+
+    buffer.push(1);
+    buffer.push(2);
+    buffer.push(3);
+
+    assert.strictEqual(buffer.unshift(4), 4);
+    assert.strictEqual(buffer.unshift(5), 5);
+    assert.strictEqual(buffer.unshift(6), 6);
+
+    assert.strictEqual(buffer.peekFirst(), 6);
+    assert.strictEqual(buffer.peekLast(), 3);
+    assert.strictEqual(buffer.get(1), 5);
+
+    assert.strictEqual(buffer.size, 6);
+    assert.strictEqual(buffer.start, 3);
+
+    assert.strictEqual(buffer.pop(), 3);
+    assert.strictEqual(buffer.shift(), 6);
   });
 });
