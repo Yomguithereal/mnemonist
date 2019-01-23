@@ -261,16 +261,17 @@ describe('CircularBuffer', function() {
 
     assert.strictEqual(buffer.unshift(4), 4);
     assert.strictEqual(buffer.unshift(5), 5);
-    assert.strictEqual(buffer.unshift(6), 6);
 
-    assert.strictEqual(buffer.peekFirst(), 6);
+    assert.strictEqual(buffer.peekFirst(), 5);
     assert.strictEqual(buffer.peekLast(), 3);
-    assert.strictEqual(buffer.get(1), 5);
+    assert.strictEqual(buffer.get(1), 4);
 
-    assert.strictEqual(buffer.size, 6);
-    assert.strictEqual(buffer.start, 3);
+    assert.strictEqual(buffer.size, 5);
+    assert.strictEqual(buffer.start, 4);
 
     assert.strictEqual(buffer.pop(), 3);
-    assert.strictEqual(buffer.shift(), 6);
+    assert.strictEqual(buffer.shift(), 5);
+    assert.strictEqual(buffer.unshift(5), 4);
+    assert.strictEqual(buffer.peekFirst(), 5);
   });
 });
