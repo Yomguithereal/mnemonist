@@ -56,6 +56,27 @@ CircularBuffer.prototype.push = function(item) {
 };
 
 /**
+ * Method used to prepend a value to the buffer.
+ *
+ * @param  {any}    item - Item to prepend.
+ * @return {number}      - Returns the new size of the buffer.
+ */
+CircularBuffer.prototype.unshift = function(item) {
+  if (this.size === this.capacity)
+    throw new Error('mnemonist/circular-buffer: buffer capacity (' + this.capacity + ') exceeded!');
+
+  var index = this.start - 1;
+
+  if (this.start === 0)
+    index = this.capacity - 1;
+
+  this.items[index] = item;
+  this.start = index;
+
+  return ++this.size;
+};
+
+/**
  * Method used to pop the buffer.
  *
  * @return {any} - Returns the popped item.
@@ -89,27 +110,6 @@ CircularBuffer.prototype.shift = function() {
     this.start = 0;
 
   return this.items[index];
-};
-
-/**
- * Method used to prepend a value to the buffer.
- *
- * @param  {any}    item - Item to prepend.
- * @return {number}      - Returns the new size of the buffer.
- */
-CircularBuffer.prototype.unshift = function(item) {
-  if (this.size === this.capacity)
-    throw new Error('mnemonist/circular-buffer: buffer capacity (' + this.capacity + ') exceeded!');
-
-  var index = this.start - 1;
-
-  if (this.start === 0)
-    index = this.capacity - 1;
-
-  this.items[index] = item;
-  this.start = index;
-
-  return ++this.size;
 };
 
 /**
