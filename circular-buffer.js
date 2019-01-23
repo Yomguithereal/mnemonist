@@ -64,11 +64,11 @@ CircularBuffer.prototype.pop = function() {
   if (this.size === 0)
     return;
 
-  if (this.start + this.size <= this.capacity) {
-    return this.items[--this.size];
-  }
+  const index = (this.start + this.size - 1) % this.capacity;
+
   --this.size;
-  return this.items[this.start + this.size - this.capacity];
+
+  return this.items[index];
 };
 
 /**
