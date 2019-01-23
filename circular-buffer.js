@@ -46,7 +46,7 @@ CircularBuffer.prototype.clear = function() {
  */
 CircularBuffer.prototype.push = function(item) {
   if (this.size === this.capacity)
-    throw new Error('mnemonist/circular-buffer: buffer capacity (' + this.capacity + ') exceeded!');
+    throw new Error('mnemonist/circular-buffer.push: buffer capacity (' + this.capacity + ') exceeded!');
 
   var index = (this.start + this.size) % this.capacity;
 
@@ -63,7 +63,7 @@ CircularBuffer.prototype.push = function(item) {
  */
 CircularBuffer.prototype.unshift = function(item) {
   if (this.size === this.capacity)
-    throw new Error('mnemonist/circular-buffer: buffer capacity (' + this.capacity + ') exceeded!');
+    throw new Error('mnemonist/circular-buffer.unshift: buffer capacity (' + this.capacity + ') exceeded!');
 
   var index = this.start - 1;
 

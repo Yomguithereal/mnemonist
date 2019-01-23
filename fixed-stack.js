@@ -54,7 +54,7 @@ FixedStack.prototype.clear = function() {
  */
 FixedStack.prototype.push = function(item) {
   if (this.size === this.capacity)
-    throw new Error('mnemonist/fixed-stack: stack capacity (' + this.capacity + ') exceeded!');
+    throw new Error('mnemonist/fixed-stack.push: stack capacity (' + this.capacity + ') exceeded!');
 
   this.items[this.size++] = item;
   return this.size;
