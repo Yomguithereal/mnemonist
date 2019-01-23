@@ -66,7 +66,7 @@ CircularBuffer.prototype.pop = function() {
 
   const index = (this.start + this.size - 1) % this.capacity;
 
-  --this.size;
+  this.size--;
 
   return this.items[index];
 };
@@ -102,7 +102,9 @@ CircularBuffer.prototype.unshift = function(item) {
     throw new Error('mnemonist/circular-buffer: buffer capacity (' + this.capacity + ') exceeded!');
 
   var index = this.start - 1;
-  if (this.start === 0) index = this.capacity - 1;
+
+  if (this.start === 0)
+    index = this.capacity - 1;
 
   this.items[index] = item;
   this.start = index;

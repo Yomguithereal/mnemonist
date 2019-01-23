@@ -5,6 +5,7 @@
 import {IArrayLikeConstructor} from './utils/types';
 
 export default class CircularBuffer<T> implements Iterable<T> {
+
   // Members
   capacity: number;
   size: number;
