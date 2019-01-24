@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.0 (provisional)
+
+* Adding `CircularBuffer.unshift`.
+
 ## 0.26.0
 
 * Adding the `DefaultMap.autoIncrement` factory.
@@ -76,7 +80,7 @@
 * Adding `#.entries` to `Vector`.
 * Fixing bug when feeding invalid values to a `MultiSet`.
 * Fixing `.from` static methods not taking byte arrays into account.
-* Fixing bugs related to `Stack.pop` edge cases. 
+* Fixing bugs related to `Stack.pop` edge cases.
 * Optimizing `Stack` performance.
 
 ## 0.17.0
