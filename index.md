@@ -49,6 +49,7 @@ npm install --save mnemonist
 **Low-level & structures for very specific use cases**
 
 * [Circular Buffer]({{ site.baseurl }}/circular-buffer)
+* [Fixed Deque]({{ site.baseurl }}/fixed-deque)
 * [Fibonacci Heap]({{ site.baseurl }}/fibonacci-heap)
 * [Fixed Reverse Heap]({{ site.baseurl }}/fixed-reverse-heap)
 * [Fixed Stack]({{ site.baseurl }}/fixed-stack)

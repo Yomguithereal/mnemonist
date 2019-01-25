@@ -9,6 +9,8 @@ As such, it is mainly used as a fixed capacity [`Queue`]({{ site.baseurl }}/queu
 
 For more information about the circular buffer, you can head [here](https://en.wikipedia.org/wiki/Circular_buffer).
 
+Note, that contrary to the [`FixedDeque`]({{ site.baseurl }}/fixed-deque), the `CircularBuffer` will overwrite old values when overflowing capacity.
+
 ```js
 var CircularBuffer = require('mnemonist/circular-buffer');
 ```
@@ -46,6 +48,7 @@ var buffer = CircularBuffer.from([1, 2, 3], Int8Array, 10);
 *Mutation*
 
 * [#.push](#push)
+* [#.unshift](#unshift)
 * [#.pop](#pop)
 * [#.shift](#shift)
 * [#.clear](#clear)
@@ -85,9 +88,9 @@ buffer.size
 
 ### #.push
 
-Adds an item to the buffer.
+Append an item at the end of the buffer.
 
-Will throw if the buffer's capacity is exceeded.
+Will overwrite first value when the buffer's capacity is exceeded.
 
 `O(1)`
 
@@ -95,6 +98,20 @@ Will throw if the buffer's capacity is exceeded.
 var buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
+```
+
+### #.unshift
+
+Prepend an item at the beginning of the buffer.
+
+Will overwrite the last value when the buffer's capacity is exceeded.
+
+`O(1)`
+
+```js
+var buffer = new CircularBuffer(Array, 10);
+
+buffer.unshift(1);
 ```
 
 ### #.pop
