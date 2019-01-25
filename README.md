@@ -39,6 +39,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Low-level & structures for very specific use cases**
 
 * [Circular Buffer](https://yomguithereal.github.io/mnemonist/circular-buffer)
+* [Fixed Deque](https://yomguithereal.github.io/mnemonist/fixed-deque)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Fixed Reverse Heap](https://yomguithereal.github.io/mnemonist/fixed-reverse-heap)
 * [Fixed Stack](https://yomguithereal.github.io/mnemonist/fixed-stack)

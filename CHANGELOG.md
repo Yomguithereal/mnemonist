@@ -2,6 +2,7 @@
 
 ## 0.27.0 (provisional)
 
+* Adding `FixedDeque`.
 * Adding `CircularBuffer.unshift`.
 
 ## 0.26.0
