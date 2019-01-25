@@ -11,7 +11,7 @@ function makeTests(Cache, name) {
 
     it('should throw if given an invalid capacity.', function() {
       assert.throws(function() {
-        var cache = new Cache({});
+        new Cache({});
       }, /capacity/);
     });
 

@@ -1,6 +1,6 @@
 /**
  * Mnemonist DefaultMap Unit Tests
- * ==============================
+ * ================================
  */
 var assert = require('assert'),
     DefaultMap = require('../default-map.js'),
