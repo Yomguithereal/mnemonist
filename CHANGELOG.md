@@ -4,6 +4,7 @@
 
 * Adding `FixedDeque`.
 * Adding `CircularBuffer.unshift`.
+* Changing `CircularBuffer` semantics to now overwrite values when wrapping around.
 
 ## 0.26.0
 

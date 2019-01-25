@@ -39,6 +39,50 @@ if (typeof Symbol !== 'undefined')
   Object.getOwnPropertySymbols(FixedDeque.prototype).forEach(paste);
 
 /**
+ * Method used to append a value to the buffer.
+ *
+ * @param  {any}    item - Item to append.
+ * @return {number}      - Returns the new size of the buffer.
+ */
+CircularBuffer.prototype.push = function(item) {
+  var index = (this.start + this.size) % this.capacity;
+
+  this.items[index] = item;
+
+  // Overwriting?
+  if (this.size === this.capacity) {
+
+    // If start is at the end, we wrap around the buffer
+    this.start = (index + 1) % this.capacity;
+
+    return this.size;
+  }
+
+  return ++this.size;
+};
+
+/**
+ * Method used to prepend a value to the buffer.
+ *
+ * @param  {any}    item - Item to prepend.
+ * @return {number}      - Returns the new size of the buffer.
+ */
+CircularBuffer.prototype.unshift = function(item) {
+  if (this.size === this.capacity)
+    throw new Error('mnemonist/circular-buffer.unshift: buffer capacity (' + this.capacity + ') exceeded!');
+
+  var index = this.start - 1;
+
+  if (this.start === 0)
+    index = this.capacity - 1;
+
+  this.items[index] = item;
+  this.start = index;
+
+  return ++this.size;
+};
+
+/**
  * Static @.from function taking an abitrary iterable & converting it into
  * a circular buffer.
  *

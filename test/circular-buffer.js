@@ -35,14 +35,32 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.capacity, 10);
   });
 
-  it('exceeding capacity should throw.', function() {
-    var buffer = new CircularBuffer(Array, 1);
+  it('should be possible to wrap buffer around.', function() {
+    var buffer = new CircularBuffer(Array, 3);
 
-    buffer.push('test');
+    buffer.push(1);
+    buffer.push(2);
+    buffer.push(3);
+    buffer.push(4);
 
-    assert.throws(function() {
-      buffer.push('test');
-    }, /exceed/);
+    assert.deepEqual(buffer.toArray(), [2, 3, 4]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.push(5);
+
+    assert.deepEqual(buffer.toArray(), [3, 4, 5]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.push(6);
+
+    assert.deepEqual(buffer.toArray(), [4, 5, 6]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.push(7);
+    buffer.push(8);
+
+    assert.deepEqual(buffer.toArray(), [6, 7, 8]);
+    assert.strictEqual(buffer.size, 3);
   });
 
   it('should be possible to clear the buffer.', function() {
