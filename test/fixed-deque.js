@@ -43,6 +43,10 @@ describe('FixedDeque', function() {
     assert.throws(function() {
       deque.push('test');
     }, /exceed/);
+
+    assert.throws(function() {
+      deque.unshift('test');
+    }, /exceed/);
   });
 
   it('should be possible to clear the deque.', function() {

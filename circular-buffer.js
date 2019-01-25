@@ -68,15 +68,21 @@ CircularBuffer.prototype.push = function(item) {
  * @return {number}      - Returns the new size of the buffer.
  */
 CircularBuffer.prototype.unshift = function(item) {
-  if (this.size === this.capacity)
-    throw new Error('mnemonist/circular-buffer.unshift: buffer capacity (' + this.capacity + ') exceeded!');
-
   var index = this.start - 1;
 
   if (this.start === 0)
     index = this.capacity - 1;
 
   this.items[index] = item;
+
+  // Overwriting
+  if (this.size === this.capacity) {
+
+    this.start = index;
+
+    return this.size;
+  }
+
   this.start = index;
 
   return ++this.size;

@@ -35,7 +35,7 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.capacity, 10);
   });
 
-  it('should be possible to wrap buffer around.', function() {
+  it('should be possible to wrap buffer around when pushing.', function() {
     var buffer = new CircularBuffer(Array, 3);
 
     buffer.push(1);
@@ -60,6 +60,34 @@ describe('CircularBuffer', function() {
     buffer.push(8);
 
     assert.deepEqual(buffer.toArray(), [6, 7, 8]);
+    assert.strictEqual(buffer.size, 3);
+  });
+
+  it('should be possible to wrap buffer around when unshifting.', function() {
+    var buffer = new CircularBuffer(Array, 3);
+
+    buffer.unshift(1);
+    buffer.unshift(2);
+    buffer.unshift(3);
+    buffer.unshift(4);
+
+    assert.deepEqual(buffer.toArray(), [4, 3, 2]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.unshift(5);
+
+    assert.deepEqual(buffer.toArray(), [5, 4, 3]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.unshift(6);
+
+    assert.deepEqual(buffer.toArray(), [6, 5, 4]);
+    assert.strictEqual(buffer.size, 3);
+
+    buffer.unshift(7);
+    buffer.unshift(8);
+
+    assert.deepEqual(buffer.toArray(), [8, 7, 6]);
     assert.strictEqual(buffer.size, 3);
   });
 
