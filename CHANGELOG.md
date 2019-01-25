@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.27.0 (provisional)
+## 0.27.0
 
 * Adding `FixedDeque`.
 * Adding `CircularBuffer.unshift`.
