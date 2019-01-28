@@ -42,7 +42,9 @@ CritBitTree.prototype.add = function(key) {
   }
 
   var node = this.root,
+      wentRightForAncestor = false,
       wentRight = false,
+      ancestor,
       parent;
 
   while (true) {
@@ -51,7 +53,9 @@ CritBitTree.prototype.add = function(key) {
 
       var internal = new InternalNode(critical);
 
-      if (bitstring[critical] === '0') {
+      var left = bitstring[critical] === '0';
+
+      if (left) {
         internal.left = new ExternalNode(key);
         internal.right = node;
       }
@@ -64,10 +68,38 @@ CritBitTree.prototype.add = function(key) {
         this.root = internal;
       }
       else {
-        if (wentRight)
-          parent.right = internal;
-        else
-          parent.left = internal;
+        if (critical > parent.critical) {
+          if (wentRight)
+            parent.right = internal;
+          else
+            parent.left = internal;
+        }
+        else {
+          if (!ancestor) {
+            this.root = internal;
+            if (left) {
+              internal.right = parent;
+            }
+            else {
+              internal.left = parent;
+            }
+          }
+          else {
+            if (wentRightForAncestor) {
+              ancestor.right = internal;
+            }
+            else {
+              ancestor.left = internal;
+            }
+
+            if (left) {
+              internal.right = parent;
+            }
+            else {
+              internal.left = parent;
+            }
+          }
+        }
       }
 
       return;
@@ -75,6 +107,11 @@ CritBitTree.prototype.add = function(key) {
 
     else {
       var bit = bitstring[node.critical];
+
+      if (!ancestor && parent) {
+        ancestor = parent;
+        wentRightForAncestor = wentRight;
+      }
 
       if (bit === '0') {
         if (!node.left) {
@@ -133,14 +170,14 @@ var tree = new CritBitTree();
 // tree.add(5);
 // tree.add(6);
 // tree.add(7);
-// tree.add(8);
-// tree.add(9);
+tree.add(8);
+tree.add(9);
 tree.add(10);
 tree.add(11);
 tree.add(12);
-tree.add(13);
-tree.add(14);
-tree.add(15);
+// tree.add(13);
+// tree.add(14);
+// tree.add(15);
 
 // console.log(tree);
 log(tree);
