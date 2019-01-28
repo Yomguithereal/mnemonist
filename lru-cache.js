@@ -21,6 +21,82 @@ var Iterator = require('obliterator/iterator'),
     iterables = require('./utils/iterables.js');
 
 /**
+ * BST-related functions.
+ */
+var resultBST = {
+  found: false,
+  pointer: 0,
+  leftParent: false
+};
+
+function findBST(root, keys, left, right, key) {
+
+  if (root === 0) {
+    resultBST.found = false;
+    resultBST.pointer = 0;
+
+    return resultBST;
+  }
+
+  var pointer = root - 1,
+      parent,
+      other;
+
+  while (true) {
+    other = keys[pointer];
+    parent = pointer;
+
+    if (key === other) {
+      resultBST.found = true;
+      resultBST.pointer = pointer - 1;
+
+      return resultBST;
+    }
+
+    if (key < other) {
+      pointer = left[pointer];
+
+      if (pointer === 0) {
+        resultBST.found = false;
+        resultBST.pointer = parent;
+        resultBST.leftParent = true;
+
+        return resultBST;
+      }
+
+      pointer--;
+    }
+
+    pointer = right[pointer];
+
+    if (pointer === 0) {
+      resultBST.found = false;
+      resultBST.pointer = parent;
+      resultBST.leftParent = false;
+
+      return resultBST;
+    }
+
+    pointer--;
+  }
+}
+
+function insertBST(scope, slot) {
+  if (scope.root === 0) {
+    scope.root = slot + 1;
+  }
+  else {
+    var store = resultBST.leftParent ? scope.left : scope.right;
+
+    store[resultBST.pointer] = slot + 1;
+  }
+}
+
+function deleteBST(scope, pointer) {
+
+}
+
+/**
  * LRUCache.
  *
  * @constructor
@@ -44,14 +120,16 @@ function LRUCache(Keys, Values, capacity) {
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
+  this.left = new PointerArray(capacity);
+  this.right = new PointerArray(capacity);
   this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
   this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
 
   // Properties
   this.size = 0;
+  this.root = 0;
   this.head = 0;
   this.tail = 0;
-  this.items = {};
 }
 
 /**
@@ -61,9 +139,9 @@ function LRUCache(Keys, Values, capacity) {
  */
 LRUCache.prototype.clear = function() {
   this.size = 0;
+  this.root = 0;
   this.head = 0;
   this.tail = 0;
-  this.items = {};
 };
 
 /**
@@ -107,9 +185,11 @@ LRUCache.prototype.splayOnTop = function(pointer) {
 LRUCache.prototype.set = function(key, value) {
 
   // The key already exists, we just need to update the value and splay on top
-  var pointer = this.items[key];
+  var result = findBST(this.root, this.K, this.left, this.right, key);
 
-  if (typeof pointer !== 'undefined') {
+  var pointer = result.pointer;
+
+  if (result.found) {
     this.splayOnTop(pointer);
     this.V[pointer] = value;
 
@@ -125,11 +205,11 @@ LRUCache.prototype.set = function(key, value) {
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
-    delete this.items[this.K[pointer]];
+    // delete this.items[this.K[pointer]];
   }
 
   // Storing key & value
-  this.items[key] = pointer;
+  insertBST(this, pointer);
   this.K[pointer] = key;
   this.V[pointer] = value;
 
@@ -146,7 +226,9 @@ LRUCache.prototype.set = function(key, value) {
  * @return {boolean}
  */
 LRUCache.prototype.has = function(key) {
-  return key in this.items;
+  var result = findBST(this.root, this.K, this.left, this.right, key);
+
+  return result.found;
 };
 
 /**
@@ -157,10 +239,12 @@ LRUCache.prototype.has = function(key) {
  * @return {any}
  */
 LRUCache.prototype.get = function(key) {
-  var pointer = this.items[key];
+  var result = findBST(this.root, this.K, this.left, this.right, key);
 
-  if (typeof pointer === 'undefined')
+  if (result.found === false)
     return;
+
+  var pointer = result.pointer;
 
   this.splayOnTop(pointer);
 
