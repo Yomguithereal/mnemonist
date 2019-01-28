@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.1
+
+* Fixing `CircularBuffer` and `FixedDeque` types.
+
 ## 0.27.0
 
 * Adding `FixedDeque`.
