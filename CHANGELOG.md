@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.2
+
+* Fixing usage with TypeScript.
+
 ## 0.27.1
 
 * Fixing `CircularBuffer` and `FixedDeque` types.
