@@ -1,7 +1,9 @@
-var PADDING = '0'.repeat(8);
+var asciitree = require('asciitree');
+
+var PADDING = '0'.repeat(4);
 
 function numberToBitstring(number) {
-  return (PADDING + number.toString(2)).slice(-8);
+  return (PADDING + number.toString(2)).slice(-4);
 }
 
 function findCriticalBit(a, b) {
@@ -72,19 +74,9 @@ CritBitTree.prototype.add = function(key) {
     }
 
     else {
-      var bit = bitstring[critical];
+      var bit = bitstring[node.critical];
 
       if (bit === '0') {
-        if (!node.right) {
-          node.right = new ExternalNode(key);
-          return;
-        }
-
-        wentRight = true;
-        parent = node;
-        node = node.right;
-      }
-      else {
         if (!node.left) {
           node.left = new ExternalNode(key);
           return;
@@ -94,6 +86,16 @@ CritBitTree.prototype.add = function(key) {
         parent = node;
         node = node.left;
       }
+      else {
+        if (!node.right) {
+          node.right = new ExternalNode(key);
+          return;
+        }
+
+        wentRight = true;
+        parent = node;
+        node = node.right;
+      }
     }
   }
 };
@@ -102,10 +104,43 @@ CritBitTree.prototype[Symbol.for('nodejs.util.inspect.custom')] = function() {
   return this.root;
 };
 
+function printNode(node) {
+  if (!node)
+    return '';
+
+  if (node instanceof InternalNode)
+    return '(' + node.critical + ')';
+
+  return node.key + '•' + numberToBitstring(node.key);
+}
+
+function log(tree) {
+
+  const title = printNode;
+
+  const children = node => (node instanceof ExternalNode ? null : [node.left , node.right]);
+
+  console.log(asciitree(tree.root, title, children));
+}
+
 var tree = new CritBitTree();
 
+// tree.add(0);
+// tree.add(1);
+// tree.add(2);
+// tree.add(3);
+// tree.add(4);
+// tree.add(5);
+// tree.add(6);
+// tree.add(7);
+// tree.add(8);
+// tree.add(9);
+tree.add(10);
+tree.add(11);
+tree.add(12);
+tree.add(13);
+tree.add(14);
 tree.add(15);
-tree.add(16);
-tree.add(17);
 
-console.log(tree);
+// console.log(tree);
+log(tree);
