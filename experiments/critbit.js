@@ -42,10 +42,7 @@ CritBitTree.prototype.add = function(key) {
   }
 
   var node = this.root,
-      wentRightForAncestor = false,
-      wentRight = false,
-      ancestor,
-      parent;
+      ancestors = [];
 
   while (true) {
     if (node instanceof ExternalNode) {
@@ -68,37 +65,46 @@ CritBitTree.prototype.add = function(key) {
         this.root = internal;
       }
       else {
-        if (critical > parent.critical) {
-          if (wentRight)
-            parent.right = internal;
-          else
-            parent.left = internal;
+
+        // Bubbling up
+        var best = null;
+
+        for (var i = ancestors.length - 1; i >= 0; i--) {
+          var [a] = ancestors[i];
+
+          if (a.critical > critical)
+            continue;
+
+          best = i;
+          break;
         }
-        else {
-          if (!ancestor) {
-            this.root = internal;
-            if (left) {
-              internal.right = parent;
-            }
-            else {
-              internal.left = parent;
-            }
+
+        if (best !== null) {
+          var [parent, wentRight] = ancestors[best];
+
+          if (left) {
+            internal.right = parent.left;
           }
           else {
-            if (wentRightForAncestor) {
-              ancestor.right = internal;
-            }
-            else {
-              ancestor.left = internal;
-            }
-
-            if (left) {
-              internal.right = parent;
-            }
-            else {
-              internal.left = parent;
-            }
+            internal.left = parent.right;
           }
+
+          if (wentRight) {
+            parent.right = internal;
+          }
+          else {
+            parent.left = internal;
+          }
+        }
+        else {
+          var [parent, wentRight] = ancestors[0];
+
+          this.root = internal;
+
+          if (left)
+            internal.right = parent;
+          else
+            internal.left = parent;
         }
       }
 
@@ -108,19 +114,13 @@ CritBitTree.prototype.add = function(key) {
     else {
       var bit = bitstring[node.critical];
 
-      if (!ancestor && parent) {
-        ancestor = parent;
-        wentRightForAncestor = wentRight;
-      }
-
       if (bit === '0') {
         if (!node.left) {
           node.left = new ExternalNode(key);
           return;
         }
 
-        wentRight = false;
-        parent = node;
+        ancestors.push([node, false]);
         node = node.left;
       }
       else {
@@ -129,8 +129,7 @@ CritBitTree.prototype.add = function(key) {
           return;
         }
 
-        wentRight = true;
-        parent = node;
+        ancestors.push([node, true]);
         node = node.right;
       }
     }
@@ -162,22 +161,22 @@ function log(tree) {
 
 var tree = new CritBitTree();
 
-// tree.add(0);
-// tree.add(1);
-// tree.add(2);
-// tree.add(3);
-// tree.add(4);
-// tree.add(5);
-// tree.add(6);
-// tree.add(7);
+tree.add(0);
+tree.add(1);
+tree.add(2);
+tree.add(3);
+tree.add(4);
+tree.add(5);
+tree.add(6);
+tree.add(7);
 tree.add(8);
 tree.add(9);
 tree.add(10);
 tree.add(11);
 tree.add(12);
-// tree.add(13);
-// tree.add(14);
-// tree.add(15);
+tree.add(13);
+tree.add(14);
+tree.add(15);
 
 // console.log(tree);
 log(tree);
