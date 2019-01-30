@@ -6,6 +6,13 @@ function numberToBitstring(number) {
   return (PADDING + number.toString(2)).slice(-4);
 }
 
+// DAFSA transducer etc. todo: splay get value on top if not ordered
+// todo: only compare last part of string
+// http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
+// http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
+// https://github.com/blynn/blt/blob/master/blt.c
+// https://dotat.at/prog/qp/blog-2015-10-04.html
+// TODO: tiny sparse array
 function findCriticalBit(a, b) {
   var i = 0;
 
