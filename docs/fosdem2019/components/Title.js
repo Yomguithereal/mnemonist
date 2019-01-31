@@ -1,9 +1,14 @@
 import React from 'react';
 import components from 'mdx-deck/dist/components';
 
-export default function Title({affix, children}) {
+export default function Title({affix, level = 2, children}) {
+
+  let H = components.h2;
+
+  if (level === 3)
+    H = components.h3;
 
   return (
-    <components.h2><span className="affix">{affix}</span> {children}</components.h2>
+    <H><span className="affix">{affix}</span> {children}</H>
   );
 };

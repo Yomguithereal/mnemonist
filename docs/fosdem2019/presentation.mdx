@@ -1,5 +1,6 @@
 import {Head} from 'mdx-deck';
-import MainTitle from './components/MainTitle';
+import WideLayout from './components/WideLayout';
+import MainTitle, {MainTitleBis} from './components/MainTitle';
 import Title from './components/Title';
 export theme from './theme';
 
@@ -45,3 +46,111 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
     Someone still wrong (and pedant) on the Internet.
   </small>
 </div>
+
+---
+
+### But, don't we already have fully satisfying data structures in JavaScript?
+
+* `Array` => lists of things
+* `Object` => key-value associations
+* `Map` and `Set` with ES6
+
+---
+
+### So, why would we want other data structures in JavaScript?
+
+---
+
+<MainTitleBis />
+
+<small>JavaScript devroom, FOSDEM 2019, Brussels</small>
+
+---
+
+<Title affix="1.">Convenience and bookkeeping</Title>
+
+---
+
+export default WideLayout
+
+<Title affix="1.1." level={3}>A MultiSet</Title>
+
+```js
+// How about changing this:
+var counts = {};
+
+for (var item in something) {
+  if (!(item in counts))
+    counts[item] = 0;
+
+  counts[item]++;
+}
+
+// Into this:
+var counts = new MultiSet();
+
+for (var item in something)
+  counts.add(item);
+```
+
+---
+
+export default WideLayout
+
+```js
+// And what about this:
+var counts = {};
+
+for (var item in something) {
+  if (!(item.key in counts))
+    counts[item.key] = 0;
+
+  counts[item.key] += item.value;
+
+  // But value CAN be negative
+  // and you don't want to keep items < 0
+  if (counts[item.key] < 0)
+    delete counts[item.key];
+}
+```
+
+---
+
+export default WideLayout
+
+<Title affix="1.1." level={3}>A MultiSet</Title>
+
+```js
+// Still this:
+var counts = new MultiSet();
+
+for (var item in something)
+  counts.add(item);
+```
+
+---
+
+<Title affix="1.2." level={3}>Complex structures: a Graph</Title>
+
+Sure, you can "implement" graphs using only `Array` and `Object`™.
+
+But:
+
+* Lots of bookkeeping (multi-way indexation)
+* Wouldn't it be nice to have a legible interface?
+
+---
+
+Examples taken from the [graphology](https://graphology.github.io/) library:
+
+```js
+const graph = new Graph();
+
+// Finding specific neighbors
+const neighbors = graph.outNeighbors(node);
+
+// Iterating over a node's edges
+graph.forEachEdge(node, (edge, attributes) => {
+  console.log(attributes.weight);
+});
+```

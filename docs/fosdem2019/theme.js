@@ -1,4 +1,5 @@
 import {book} from 'mdx-deck/themes';
+import darcula from 'react-syntax-highlighter/styles/prism/darcula';
 
 export default {
   ...book,
@@ -9,6 +10,14 @@ export default {
     },
     'blockquote > p': {
       fontStyle: 'italic'
+    },
+    'pre': {
+      padding: '0.5em !important',
+      lineHeight: 'normal !important'
+    },
+    'pre > code': {
+      fontSize: '0.8em',
+      lineHeight: 'normal !important'
     }
   },
   colors: {
@@ -22,5 +31,8 @@ export default {
   heading: {
     fontWeight: 900,
     fontFamily: 'Muli, sans-serif'
+  },
+  prism: {
+    style: darcula
   }
 }

@@ -27,6 +27,7 @@
 * frontière indépassable: la hashmap
 * distinguer les byte arrays pour bénéficier du typage, réduire les ops arithmétiques ou * utiliser view on array buffer
 * bitwise magic
+* consistency of the API
 
 ---
 
@@ -52,8 +53,11 @@
 4. challenges
 5. tip & tricks avec le use case à chaque fois
 6. point final du talk: relativiser le JIT etc. parce que en fait c’est applicable avec la plupart des langages (a part le malloc du pauvre qui marche pas en python, encore moins en numpy)
+7. Examples where taken from those libs
 
 ---
+
+note that all this is also applicable to node.js
 
 claim
 what a dumb claim
