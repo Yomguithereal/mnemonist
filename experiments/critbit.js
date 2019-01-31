@@ -26,6 +26,10 @@ function findCriticalBit(a, b) {
   return -1;
 }
 
+function criticalGt(a, b) {
+  return a > b;
+}
+
 function InternalNode(critical) {
   this.critical = critical;
   this.left = null;
@@ -79,7 +83,7 @@ CritBitTree.prototype.add = function(key) {
         for (var i = ancestors.length - 1; i >= 0; i--) {
           var [a] = ancestors[i];
 
-          if (a.critical > critical)
+          if (criticalGt(a.critical, critical))
             continue;
 
           best = i;
