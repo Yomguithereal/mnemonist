@@ -2,6 +2,7 @@ import {Head} from 'mdx-deck';
 import WideLayout from './components/WideLayout';
 import MainTitle, {MainTitleBis} from './components/MainTitle';
 import Title from './components/Title';
+import styled from 'styled-components';
 export theme from './theme';
 
 <Head>
@@ -29,7 +30,7 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
-## So what's a data structure?
+## What's a data structure?
 
 ---
 
@@ -53,7 +54,7 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
-### But, don't we already have fully satisfying data structures in JavaScript?
+### Don't we already have fully satisfying data structures in JavaScript?
 
 * `Array` ➡ lists of things
 * `Object` ➡ key-value associations
@@ -61,7 +62,7 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
-### So, why would we want other data structures in JavaScript?
+### Why would we want other data structures in JavaScript?
 
 ---
 
@@ -135,7 +136,7 @@ export default WideLayout
 var counts = new MultiSet();
 
 for (var item in something)
-  counts.add(item);
+  counts.add(item.value);
 ```
 
 ---
@@ -168,6 +169,12 @@ graph.forEachEdge(node, (edge, attributes) => {
 ---
 
 <Title affix="1.2.">Sometimes Arrays and Objects are not enough</Title>
+
+---
+
+<Title affix="1.2.1." level={3}>The QuadTree</Title>
+
+<img src="./img/quad.svg" />
 
 ---
 
@@ -209,3 +216,45 @@ TL,DR:<br />Benchmarking code accurately is **not** easy.
 <Title affix="3.">Implementation tips</Title>
 
 It does not mean we cannot be clever about it.
+
+---
+
+<Title affix="3.1." level={3}>Time &amp; memory performance</Title>
+
+---
+
+Basically, to develop efficient code in JavaScript, you must pretend really hard that:
+
+1. The language has static typing.
+2. That the language has no dynamically sized structures.
+
+TODO: develop
+
+---
+
+1. minimize lookups
+2. avoid creating objects & functions
+3. Pointers malloc du pauvre
+3. object vs. map
+4. cost of function cost -> using stacks to simulate recursion
+
+---
+
+<Title affix="3.2." level={3}>Respecting the ecosystem</Title>
+
+1. unshift shenaningans
+2. Iterables, forEach, inspection in node
+
+---
+
+<Title affix="5.">References</Title>
+
+Examples were taken from the following libraries:
+
+* [mnemonist](https://yomguithereal.github.io/mnemonist): <small><em>yomguithereal.github.io/mnemonist</em></small>
+* [graphology](https://graphology.github.io): <small><em>graphology.github.io</em></small>
+* [sigma.js](http://sigmajs.org): <small><em>sigmajs.org</em></small>
+
+---
+
+# Thanks!

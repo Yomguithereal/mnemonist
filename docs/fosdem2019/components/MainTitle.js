@@ -14,7 +14,7 @@ export function MainTitleBis() {
 
   return (
     <components.h2 style={{textDecoration: 'underline'}}>
-      Developing<br />data structures<br />for really any high-level interpreted language but with definitely a tight focus on JavaScript
+      Developing<br />data structures<br />for really any high-level interpreted language but definitely with a tight focus on JavaScript
     </components.h2>
   );
 };
