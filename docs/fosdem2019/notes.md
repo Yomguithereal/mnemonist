@@ -62,3 +62,8 @@ note that all this is also applicable to node.js
 claim
 what a dumb claim
 rephrase the talk: designing for high-level with definitely a focus on js
+
+unshift bad name
++immutable
+ré-hierarchize
+asm, native, wasm

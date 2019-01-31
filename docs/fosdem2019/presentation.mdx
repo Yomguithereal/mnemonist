@@ -67,13 +67,17 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
-<Title affix="1.">Convenience and bookkeeping</Title>
+<Title affix="1.">Why?</Title>
+
+---
+
+<Title affix="1.1.">Convenience and bookkeeping</Title>
 
 ---
 
 export default WideLayout
 
-<Title affix="1.1." level={3}>A MultiSet</Title>
+<Title affix="1.1.1." level={3}>A MultiSet</Title>
 
 ```js
 // How about changing this:
@@ -118,7 +122,7 @@ for (var item in something) {
 
 export default WideLayout
 
-<Title affix="1.1." level={3}>A MultiSet</Title>
+<Title affix="1.1.1." level={3}>A MultiSet</Title>
 
 ```js
 // Still this:
@@ -130,7 +134,7 @@ for (var item in something)
 
 ---
 
-<Title affix="1.2." level={3}>Complex structures: a Graph</Title>
+<Title affix="1.1.2." level={3}>Complex structures: a Graph</Title>
 
 Sure, you can "implement" graphs using only `Array` and `Object`™.
 
@@ -154,3 +158,13 @@ graph.forEachEdge(node, (edge, attributes) => {
   console.log(attributes.weight);
 });
 ```
+
+---
+
+<Title affix="1.2.">Sometimes Array and Objects are not enough</Title>
+
+---
+
+<Title affix="1.2.1." level={3}>The QuadTree</Title>
+
+<img src="./img/quadtree.svg" />
