@@ -6,7 +6,37 @@
  */
 
 /**
- * Takes a max 32bits integer and returns its population count (number of 1 of
+ * Takes a 32 bits integer and returns its MSB using SWAR strategy.
+ *
+ * @param  {number} x - Target number.
+ * @return {number}
+ */
+exports.msb32 = function(x) {
+  x |= (x >> 1);
+  x |= (x >> 2);
+  x |= (x >> 4);
+  x |= (x >> 8);
+  x |= (x >> 16);
+
+  return(x & ~(x >> 1));
+};
+
+/**
+ * Takes a byte and returns its MSB using SWAR strategy.
+ *
+ * @param  {number} x - Target number.
+ * @return {number}
+ */
+exports.msb8 = function(x) {
+  x |= (x >> 1);
+  x |= (x >> 2);
+  x |= (x >> 4);
+
+  return(x & ~(x >> 1));
+};
+
+/**
+ * Takes a 32 bits integer and returns its population count (number of 1 of
  * the binary representation).
  *
  * @param  {number} x - Target number.
