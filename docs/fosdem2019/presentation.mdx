@@ -29,6 +29,10 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
+## So what's a data structure?
+
+---
+
 > «Web development is not real development and is henceforth easier.»
 
 <div style={{textAlign: 'right'}}>
@@ -51,8 +55,8 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ### But, don't we already have fully satisfying data structures in JavaScript?
 
-* `Array` => lists of things
-* `Object` => key-value associations
+* `Array` ➡ lists of things
+* `Object` ➡ key-value associations
 * `Map` and `Set` with ES6
 
 ---
@@ -89,7 +93,9 @@ for (var item in something) {
 
   counts[item]++;
 }
+```
 
+```js
 // Into this:
 var counts = new MultiSet();
 
@@ -102,7 +108,7 @@ for (var item in something)
 export default WideLayout
 
 ```js
-// And what about this:
+// And what about this?
 var counts = {};
 
 for (var item in something) {
@@ -161,10 +167,45 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 ---
 
-<Title affix="1.2.">Sometimes Array and Objects are not enough</Title>
+<Title affix="1.2.">Sometimes Arrays and Objects are not enough</Title>
 
 ---
 
 <Title affix="1.2.1." level={3}>The QuadTree</Title>
 
 <img src="./img/quadtree.svg" />
+
+---
+
+<Title affix="1.2.2." level={3}>Processing data in the client</Title>
+
+* More and more doable
+* No need for servers, good for privacy
+* People want snappy interfaces
+* Some algorithms require data structures (Dijkstra & heaps e.g.)
+
+---
+
+<Title affix="2.">What are the challenges?</Title>
+
+---
+
+<Title affix="1." level={3}>Interpreted languages are far from the metal</Title>
+
+---
+
+<Title affix="2." level={3}>No control over memory layout &amp; garbage collection</Title>
+
+---
+
+<Title affix="3." level={3}>JIT and optimizing engines such as Gecko and V8</Title>
+
+---
+
+TL,DR:<br />Benchmarking code accurately is **not** easy.
+
+---
+
+<Title affix="3.">Implementation tips</Title>
+
+It does not mean we cannot be clever about it.

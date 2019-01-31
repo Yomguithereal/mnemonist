@@ -59,11 +59,7 @@
 
 note that all this is also applicable to node.js
 
-claim
-what a dumb claim
-rephrase the talk: designing for high-level with definitely a focus on js
-
-unshift bad name
+unshift bad name -> design issues => use well-known functions and interfaces
 +immutable
-ré-hierarchize
 asm, native, wasm
+definition
