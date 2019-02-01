@@ -223,15 +223,6 @@ It does not mean we cannot be clever about it.
 
 ---
 
-Basically, to develop efficient code in JavaScript, you must pretend really hard that:
-
-1. The language has static typing.
-2. That the language has no dynamically sized structures.
-
-TODO: develop
-
----
-
 1. minimize lookups
 2. avoid creating objects & functions
 3. Pointers malloc du pauvre
@@ -244,6 +235,45 @@ TODO: develop
 
 1. unshift shenaningans
 2. Iterables, forEach, inspection in node
+
+---
+
+<Title affix="4.">Parting words</Title>
+
+---
+
+<Title affix="4.1." level={3}>Yes, optimizing JavaScript is hard.</Title>
+
+---
+
+<Title affix="4.2." level={3}>But it does not mean we cannot do it.</Title>
+
+---
+
+<Title affix="4.3." level={3}>Most tips are applicable to every high-level languages.</Title>
+
+---
+
+<Title affix="4.4." level={3}>But JavaScript has its idiosyncrasies</Title>
+
+The `ByteArray` tips absolutely don't work in python.
+
+It's even slower if you use `numpy` arrays. (you need to go full native).
+
+---
+
+You have to make the code **statically** "interpretable".
+
+➡ no hard decision for the engine
+
+➡ aggressive and safe low-level optimization paths
+
+---
+
+Optimizing JavaScript = squinting a little and pretending reaaaaaaally hard that:
+
+1. The language has static typing.
+2. That the language is low-level.
 
 ---
 

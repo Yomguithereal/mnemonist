@@ -52,7 +52,7 @@
 3. quelques use cases
 4. challenges
 5. tip & tricks avec le use case à chaque fois
-6. point final du talk: relativiser le JIT etc. parce que en fait c’est applicable avec la plupart des langages (a part le malloc du pauvre qui marche pas en python, encore moins en numpy)
+6. point final du talk: relativiser le JIT etc. parce que en fait c’est applicable avec la plupart des langages (a part le malloc du pauvre qui marche pas en python, encore moins en numpy) => Math.min conundrum
 7. Examples where taken from those libs
 
 ---
