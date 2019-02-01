@@ -18,6 +18,9 @@ export default {
     'pre > code': {
       fontSize: '0.8em',
       lineHeight: 'normal !important'
+    },
+    '.very-small': {
+      fontSize: '0.5em'
     }
   },
   colors: {

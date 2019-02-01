@@ -129,8 +129,6 @@ for (var item in something) {
 
 export default WideLayout
 
-<Title affix="1.1.1." level={3}>A MultiSet</Title>
-
 ```js
 // Still this:
 var counts = new MultiSet();
@@ -184,12 +182,19 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 ---
 
-<Title affix="1.2.2." level={3}>Processing data in the client</Title>
+<Title affix="1.2.2." level={3}>JavaScript became more than just tacky website candy</Title>
 
-* More and more doable
-* No need for servers, good for privacy
-* People want snappy interfaces
-* Some algorithms require data structures (Dijkstra & heaps e.g.)
+* We process data on the client nowadays.
+* Node.js became a thing.
+* Some algorithms cannot be efficiently implemented without custom datastructures (Dijkstra e.g. etc.).
+
+---
+
+<Title affix="1.3.">Immutable data-structures</Title>
+
+* Not *yet* in JavaScript.
+* Not covered by this talk.
+* Check out [mori](https://github.com/swannodette/mori) and [immutable-js](https://facebook.github.io/immutable-js/).
 
 ---
 
@@ -228,10 +233,49 @@ It does not mean we cannot be clever about it.
 3. Pointers malloc du pauvre
 3. object vs. map
 4. cost of function cost -> using stacks to simulate recursion
+5. asm
 
 ---
 
 <Title affix="3.2." level={3}>Respecting the ecosystem</Title>
+
+---
+
+<Title affix="3.2.1." level={3}>Naming matters</Title>
+
+Yes `#.unshift` is a terrible name. <small className="very-small">I am still grateful we avoided smooshing arrays.</small>
+
+But consistency is always a plus.
+
+---
+
+<Title affix="3.2.1." level={3}>Implement well-known interfaces</Title>
+
+```js
+// Handling JSON serialization
+Structure.prototype.toJSON = function() {
+  return this.items;
+};
+
+JSON.stringify(structure);
+>>> ['something', 'easily', 'serializable']
+
+Structure.prototype.toString = function() {
+  return somethingUsefulForOnce;
+};
+```
+
+---
+
+<Title affix="3.2.1." level={3}>Make structure iterable</Title>
+
+```js
+queue.forEach(item => console.log(item));
+```
+
+---
+
+iterables & forEach, util.inspect, toString, toJSON
 
 1. unshift shenaningans
 2. Iterables, forEach, inspection in node
@@ -262,13 +306,18 @@ It's even slower if you use `numpy` arrays. (you need to go full native).
 
 ---
 
-You have to make the code **statically** "interpretable".
+<Title level={3}>The gist</Title>
 
-➡ no hard decision for the engine
+To be efficient your code must be **statically interpretable**.
 
-➡ aggressive and safe low-level optimization paths
+This means that:
+
+1. The engine will have **no hard decisions** to make
+2. And will safely choose the most aggressive optimization paths
 
 ---
+
+<Title level={3}>Rephrased</Title>
 
 Optimizing JavaScript = squinting a little and pretending reaaaaaaally hard that:
 
