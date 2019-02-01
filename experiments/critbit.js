@@ -1,10 +1,14 @@
 var asciitree = require('asciitree');
 var bitwise = require('../utils/bitwise');
 
-var PADDING = '0'.repeat(4);
+var PADDING = '0'.repeat(8);
 
 function numberToBitstring(number) {
-  return (PADDING + number.toString(2)).slice(-4);
+  return (PADDING + number.toString(2)).slice(-8);
+}
+
+function unmask(x) {
+  return 8 - Math.log2((~x >>> 0) & 0xff) - 1;
 }
 
 // DAFSA transducer etc. todo: splay get value on top if not ordered
@@ -42,6 +46,7 @@ function criticalGt(a, b) {
   if (a[0] < b[0])
     return false;
 
+  // TODO: issue here because of the mask?
   if (a[1] > b[1])
     return true;
 
@@ -172,9 +177,9 @@ function printNode(node) {
     return '';
 
   if (node instanceof InternalNode)
-    return '(' + node.critical[0] + ',' + ((~node.critical[1] >>> 0) & 0xff) + ')';
+    return '(' + node.critical[0] + ',' + unmask(node.critical[1]) + ')';
 
-  return node.key;
+  return node.key + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
 }
 
 function log(tree) {
@@ -213,7 +218,7 @@ tree.add('abc');
 tree.add('abd');
 tree.add('abe');
 tree.add('aba');
-tree.add('abz');
+// tree.add('abz');
 
 // console.log(tree);
 log(tree);
