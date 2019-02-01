@@ -249,7 +249,7 @@ Graph.prototype.getNodeAttribute = function(node, data) {
 ```js
 // You made only one
 Graph.prototype.getNodeAttribute = function(node, data) {
-  const data = this._nodes.has(node);
+  const data = this._nodes.get(node);
 
   if (typeof data === 'undefined')
     throw Error(...);
@@ -526,7 +526,7 @@ It's even slower if you use `numpy` arrays. (you need to go full native).
 
 To be efficient your code must be **statically interpretable**.
 
-This means that:
+If you do that:
 
 1. The engine will have **no hard decisions** to make
 2. And will safely choose the most aggressive optimization paths
@@ -535,7 +535,7 @@ This means that:
 
 <Title level={3}>Rephrased</Title>
 
-Optimizing JavaScript = squinting a little and pretending reaaaaaaally hard that:
+Optimizing JavaScript = squinting a little and **pretending** really hard that:
 
 1. The language has static typing.
 2. That the language is low-level.
