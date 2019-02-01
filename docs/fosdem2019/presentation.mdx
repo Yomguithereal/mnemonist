@@ -1,5 +1,5 @@
 import {Head} from 'mdx-deck';
-import WideLayout from './components/WideLayout';
+import WideLayout, {WideLayoutWithSmallCode} from './components/WideLayout';
 import MainTitle, {MainTitleBis} from './components/MainTitle';
 import Title from './components/Title';
 import styled from 'styled-components';
@@ -86,9 +86,9 @@ export default WideLayout
 
 ```js
 // How about changing this:
-var counts = {};
+const counts = {};
 
-for (var item in something) {
+for (const item in something) {
   if (!(item in counts))
     counts[item] = 0;
 
@@ -98,9 +98,9 @@ for (var item in something) {
 
 ```js
 // Into this:
-var counts = new MultiSet();
+const counts = new MultiSet();
 
-for (var item in something)
+for (const item in something)
   counts.add(item);
 ```
 
@@ -110,9 +110,9 @@ export default WideLayout
 
 ```js
 // And what about this?
-var counts = {};
+const counts = {};
 
-for (var item in something) {
+for (const item in something) {
   if (!(item.key in counts))
     counts[item.key] = 0;
 
@@ -131,9 +131,9 @@ export default WideLayout
 
 ```js
 // Still this:
-var counts = new MultiSet();
+const counts = new MultiSet();
 
-for (var item in something)
+for (const item in something)
   counts.add(item.value);
 ```
 
@@ -186,11 +186,11 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 * We process data on the client nowadays.
 * Node.js became a thing.
-* Some algorithms cannot be efficiently implemented without custom datastructures (Dijkstra e.g. etc.).
+* Some algorithms cannot be efficiently implemented without custom data structures (Dijkstra or Inverted Index for full text search etc.).
 
 ---
 
-<Title affix="1.3.">Immutable data-structures</Title>
+<Title affix="1.3.">Immutable data structures</Title>
 
 * Not *yet* in JavaScript.
 * Not covered by this talk.
@@ -228,12 +228,181 @@ It does not mean we cannot be clever about it.
 
 ---
 
-1. minimize lookups
-2. avoid creating objects & functions
-3. Pointers malloc du pauvre
-3. object vs. map
-4. cost of function cost -> using stacks to simulate recursion
-5. asm
+<Title affix="3.1.1." level={3}>Minimizing lookups</Title>
+
+"Hashmap" lookups are costly.
+
+```js
+// You made 2 lookups
+Graph.prototype.getNodeAttribute = function(node, data) {
+  if (!this._nodes.has(node))
+    throw Error(...);
+
+  const data = this._nodes.get(node);
+
+  return data[name];
+};
+```
+
+---
+
+```js
+// You made only one
+Graph.prototype.getNodeAttribute = function(node, data) {
+  const data = this._nodes.has(node);
+
+  if (typeof data === 'undefined')
+    throw Error(...);
+
+  return data[name];
+};
+```
+
+---
+
+<Title affix="3.1.2." level={3}>Creating objects is costly</Title>
+
+* Avoid allocating objects.
+* Avoid creating regexes.
+* Functions are even worse.
+
+```js
+// BAD!
+const test = x => /regex/.test(x);
+
+// GOOD!
+const REGEX = /regex/;
+const test = x => REGEX.test(x);
+```
+
+---
+
+export default WideLayout
+
+<Title affix="3.1.3." level={3}>Mixing types is bad</Title>
+
+```js
+// Why do you do that?
+const array = [1, 'two', 3, /four/];
+```
+---
+
+<Title affix="3.1.4." level={3}>The poor man's malloc</Title>
+
+* Bytes array are fan-ta-stic.
+* You can simulate typed allocation: `Uint8Array`, `Float32Array` etc.
+* Use this to implement your own pointer system!
+
+---
+
+<Title level={3}>A most efficient LRUCache</Title>
+
+```js
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+
+    this.forwardPointers = new Uint32Array(capacity);
+    this.backwardPointers = new Unit32Array(capacity);
+    this.keys = new Array(capacity);
+    this.values = new Array(capacity);
+
+    this.items = {};
+
+    this.size = 0;
+    this.head = 0;
+    this.tail = 0;
+  }
+}
+```
+
+---
+
+<Title affix="3.1.4." level={3}>Function calls are costly</Title>
+
+Everything is costly. Really.
+
+This means that rolling your own stack will always beat recursion.
+
+---
+
+export default WideLayout
+
+```js
+// Recursive version
+function recurse(node, key) {
+  if (key < node.value) {
+    if (node.left)
+      return recurse(node.left, key);
+
+    return false;
+  }
+  else if (key > node.value) {
+    if (node.right)
+      return recurse(node.right, key);
+
+    return false;
+  }
+
+  return true;
+}
+```
+
+---
+
+export default WideLayoutWithSmallCode
+
+```js
+// Iterative version
+function iterative(root, key) {
+  const stack = [root];
+
+  while (stack.length) {
+    const node = stack.pop();
+
+    if (key < node.value) {
+      if (node.left)
+        stack.push(node.left);
+      else
+        break;
+    }
+    else if (key > node.value) {
+      if (node.right)
+        stack.push(node.right);
+      else
+        break;
+    }
+
+    return true;
+  }
+}
+```
+
+---
+
+<Title affix="3.1.5." level={3}>Algorithmics vs. the real world</Title>
+
+A better big O is not necessary better in the real world.
+
+Dijkstra requires a Fibonacci heap, but in JavaScript, a binomial heap will often win.
+
+---
+
+<Title affix="3.1.6." level={3}>What about wasm etc. ?</Title>
+
+Lots of shiny options:
+
+1. asm.js
+2. WebAssembly
+3. Native code binding in Node.js
+
+---
+
+<Title affix="3.1.6." level={3}>What about wasm etc. ?</Title>
+
+Communication between those and JavaScript has a cost that negates the benefit.
+
+This is only viable if you have long running code or don't need the bridge between the layer and JavaScript.
 
 ---
 
@@ -267,18 +436,65 @@ Structure.prototype.toString = function() {
 
 ---
 
-<Title affix="3.2.1." level={3}>Make structure iterable</Title>
+export default WideLayout
+
+<Title affix="3.2.2." level={3}>Make structure iterables</Title>
 
 ```js
+// Implement #.forEach "iterators"
 queue.forEach(item => console.log(item));
+
+// Implement the iterator protocol
+Queue.prototype.values = function() {
+
+  return {
+    next: function() {
+      // ...
+      return {
+        done: false,
+        value: whatever
+      };
+    }
+  };
+};
 ```
 
 ---
 
-iterables & forEach, util.inspect, toString, toJSON
+export default WideLayout
 
-1. unshift shenaningans
-2. Iterables, forEach, inspection in node
+<Title affix="3.2.2." level={3}>Make structure iterables</Title>
+
+```js
+// Make objects iterable
+Queue.prototype[Symbol.iterator] = Queue.prototype.values;
+
+// Behold the future!
+for (const item of queue) {
+  console.log(item);
+}
+```
+
+---
+
+<Title affix="3.2.3." level={3}>Custom Node.js inspection</Title>
+
+```js
+// Earlier (now Symbol.for('nodejs.util.inspect.custom'))
+Queue.prototype.inspect = function() {
+  return somethingUseful;
+};
+
+console.log(queue);
+>>> Queue [1, 2, 3]
+
+// Rather than:
+>>> {
+  size: 1,
+  __items: [5, 1, 4],
+  __someVeryVeryPrivateAndUglyName: true
+}
+```
 
 ---
 

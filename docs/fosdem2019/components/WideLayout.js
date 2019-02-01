@@ -12,3 +12,16 @@ export default function WideLayout({children}) {
     </Root>
   );
 }
+
+const OtherRoot = styled.div([], {
+  width: '80%',
+  fontSize: '0.8em'
+});
+
+export function WideLayoutWithSmallCode({children}) {
+  return (
+    <OtherRoot>
+      {children}
+    </OtherRoot>
+  );
+}

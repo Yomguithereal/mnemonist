@@ -32,6 +32,7 @@ function findCriticalBit(a, b) {
     i++;
   }
 
+  // TODO: Should not be zero but a mask!
   return a.length === b.length ? null : [i, 0];
 }
 
@@ -39,6 +40,7 @@ function get(key, address) {
   return bitwise.testCriticalBit8(key.charCodeAt(address[0]), address[1]);
 }
 
+// NOTE: maybe it is possible to avoid conditions with bitwise magic
 function criticalGt(a, b) {
   if (a[0] > b[0])
     return true;
@@ -212,7 +214,7 @@ var tree = new CritBitTree();
 
 // THOSE DO NOT WORK
 // tree.add('abcdef');
-// tree.add('bcd');
+tree.add('bcd');
 tree.add('abb');
 tree.add('abc');
 tree.add('abd');
