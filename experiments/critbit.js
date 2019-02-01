@@ -1,4 +1,5 @@
 var asciitree = require('asciitree');
+var bitwise = require('../utils/bitwise');
 
 var PADDING = '0'.repeat(4);
 
@@ -13,21 +14,38 @@ function numberToBitstring(number) {
 // https://github.com/blynn/blt/blob/master/blt.c
 // https://dotat.at/prog/qp/blog-2015-10-04.html
 // TODO: tiny sparse array
+// TODO: encode direction as reverted mask | x (probably useless in JS but may avoid one condition)
 function findCriticalBit(a, b) {
   var i = 0;
 
-  while (i < 8) {
-    if (a[i] !== b[i])
-      return i;
+  var min = Math.min(a.length, b.length);
+
+  while (i < min) {
+    if (a[i] !== b[i]) {
+      return [i, bitwise.criticalBit8Mask(a.charCodeAt(i), b.charCodeAt(i))];
+    }
 
     i++;
   }
 
-  return -1;
+  return a.length === b.length ? null : [i, 0];
+}
+
+function get(key, address) {
+  return bitwise.testCriticalBit8(key.charCodeAt(address[0]), address[1]);
 }
 
 function criticalGt(a, b) {
-  return a > b;
+  if (a[0] > b[0])
+    return true;
+
+  if (a[0] < b[0])
+    return false;
+
+  if (a[1] > b[1])
+    return true;
+
+  return false;
 }
 
 function InternalNode(critical) {
@@ -45,8 +63,6 @@ function CritBitTree() {
 }
 
 CritBitTree.prototype.add = function(key) {
-  var bitstring = numberToBitstring(key);
-
   if (this.root === null) {
     this.root = new ExternalNode(key);
     return;
@@ -57,11 +73,11 @@ CritBitTree.prototype.add = function(key) {
 
   while (true) {
     if (node instanceof ExternalNode) {
-      var critical = findCriticalBit(bitstring, numberToBitstring(node.key));
+      var critical = findCriticalBit(key, node.key);
 
       var internal = new InternalNode(critical);
 
-      var left = bitstring[critical] === '0';
+      var left = get(key, critical) === 0;
 
       if (left) {
         internal.left = new ExternalNode(key);
@@ -123,9 +139,9 @@ CritBitTree.prototype.add = function(key) {
     }
 
     else {
-      var bit = bitstring[node.critical];
+      var bit = get(key, node.critical);
 
-      if (bit === '0') {
+      if (bit === 0) {
         if (!node.left) {
           node.left = new ExternalNode(key);
           return;
@@ -156,9 +172,9 @@ function printNode(node) {
     return '';
 
   if (node instanceof InternalNode)
-    return '(' + node.critical + ')';
+    return '(' + node.critical[0] + ',' + ((~node.critical[1] >>> 0) & 0xff) + ')';
 
-  return node.key + '•' + numberToBitstring(node.key);
+  return node.key;
 }
 
 function log(tree) {
@@ -172,22 +188,32 @@ function log(tree) {
 
 var tree = new CritBitTree();
 
-tree.add(0);
-tree.add(1);
-tree.add(2);
-tree.add(3);
-tree.add(4);
-tree.add(5);
-tree.add(6);
-tree.add(7);
-tree.add(8);
-tree.add(9);
-tree.add(10);
-tree.add(11);
-tree.add(12);
-tree.add(13);
-tree.add(14);
-tree.add(15);
+// tree.add(0);
+// tree.add(1);
+// tree.add(2);
+// tree.add(3);
+// tree.add(4);
+// tree.add(5);
+// tree.add(6);
+// tree.add(7);
+// tree.add(8);
+// tree.add(9);
+// tree.add(10);
+// tree.add(11);
+// tree.add(12);
+// tree.add(13);
+// tree.add(14);
+// tree.add(15);
+
+// THOSE DO NOT WORK
+// tree.add('abcdef');
+// tree.add('bcd');
+tree.add('abb');
+tree.add('abc');
+tree.add('abd');
+tree.add('abe');
+tree.add('aba');
+tree.add('abz');
 
 // console.log(tree);
 log(tree);

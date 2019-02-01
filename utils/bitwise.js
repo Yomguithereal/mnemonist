@@ -18,7 +18,7 @@ exports.msb32 = function(x) {
   x |= (x >> 8);
   x |= (x >> 16);
 
-  return(x & ~(x >> 1));
+  return (x & ~(x >> 1));
 };
 
 /**
@@ -27,12 +27,41 @@ exports.msb32 = function(x) {
  * @param  {number} x - Target number.
  * @return {number}
  */
-exports.msb8 = function(x) {
+function msb8(x) {
   x |= (x >> 1);
   x |= (x >> 2);
   x |= (x >> 4);
 
-  return(x & ~(x >> 1));
+  return (x & ~(x >> 1));
+}
+exports.msb8 = msb8;
+
+/**
+ * Takes a number and return bit at position.
+ *
+ * @param  {number} x   - Target number.
+ * @param  {number} pos - Position.
+ * @return {number}
+ */
+exports.test = function(x, pos) {
+  return (x >> pos) & 1;
+};
+
+/**
+ * Compare two bytes and return their critical bit.
+ *
+ * @param  {number} a - First byte.
+ * @param  {number} b - Second byte.
+ * @return {number}
+ */
+exports.criticalBit8 = function(a, b) {
+  return msb8(a ^ b);
+};
+exports.criticalBit8Mask = function(a, b) {
+  return (~msb8(a ^ b) >>> 0) & 0xff;
+};
+exports.testCriticalBit8 = function(x, mask) {
+  return (1 + (x | mask)) >> 8;
 };
 
 /**
