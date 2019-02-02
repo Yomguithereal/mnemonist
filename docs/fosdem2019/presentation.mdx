@@ -172,13 +172,13 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 <Title affix="1.2.1." level={3}>The QuadTree</Title>
 
-<img src="./img/quad.svg" />
+![Quad](./img/quad.svg)
 
 ---
 
 <Title affix="1.2.1." level={3}>The QuadTree</Title>
 
-<img src="./img/quadtree.svg" />
+![QuadTree](./img/quadtree.svg)
 
 ---
 
@@ -235,7 +235,7 @@ It does not mean we cannot be clever about it.
 ```js
 // You made 2 lookups
 Graph.prototype.getNodeAttribute = function(node, data) {
-  if (!this._nodes.has(node))
+  if (this._nodes.has(node))
     throw Error(...);
 
   const data = this._nodes.get(node);

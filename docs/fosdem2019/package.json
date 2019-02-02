@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf dist && mdx-deck build presentation.mdx && mkdir dist/img && cp img/* dist/img",
     "start": "mdx-deck presentation.mdx"
   },
   "author": "yomguithereal <kropotkinepiotr@gmail.com>",
