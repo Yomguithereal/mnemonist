@@ -9,6 +9,6 @@ export default function Title({affix, level = 2, children}) {
     H = components.h3;
 
   return (
-    <H><span className="affix">{affix}</span> {children}</H>
+    <H><span className="affix">•</span> {children}</H>
   );
 };

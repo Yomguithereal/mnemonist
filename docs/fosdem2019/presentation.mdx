@@ -1,6 +1,6 @@
 import {Head} from 'mdx-deck';
 import WideLayout, {WideLayoutWithSmallCode} from './components/WideLayout';
-import MainTitle, {MainTitleBis} from './components/MainTitle';
+import MainTitle from './components/MainTitle';
 import Title from './components/Title';
 import styled from 'styled-components';
 export theme from './theme';
@@ -24,7 +24,7 @@ export theme from './theme';
 
 *Guillaume Plique*
 
-alias `Yomguithereal` on both [Github](https://github.com/Yomguithereal) an [Twitter](https://twitter.com/Yomguithereal).
+alias `Yomguithereal` on both [Github](https://github.com/Yomguithereal) and [Twitter](https://twitter.com/Yomguithereal).
 
 Research engineer working for Sciences Po's [médialab](https://medialab.sciencespo.fr).
 
@@ -48,7 +48,7 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 <div style={{textAlign: 'right'}}>
   <small>
-    Someone still wrong (and pedant) on the Internet.
+    Someone also wrong (and pedant) on the Internet.
   </small>
 </div>
 
@@ -62,17 +62,7 @@ Research engineer working for Sciences Po's [médialab](https://medialab.science
 
 ---
 
-### Why would we want other data structures in JavaScript?
-
----
-
-<MainTitleBis />
-
-<small>JavaScript devroom, FOSDEM 2019, Brussels</small>
-
----
-
-<Title affix="1.">Why?</Title>
+<Title affix="1.">Why would we want other data structures in JavaScript?</Title>
 
 ---
 
@@ -102,39 +92,6 @@ const counts = new MultiSet();
 
 for (const item in something)
   counts.add(item);
-```
-
----
-
-export default WideLayout
-
-```js
-// And what about this?
-const counts = {};
-
-for (const item in something) {
-  if (!(item.key in counts))
-    counts[item.key] = 0;
-
-  counts[item.key] += item.value;
-
-  // But value CAN be negative
-  // and you don't want to keep items < 0
-  if (counts[item.key] < 0)
-    delete counts[item.key];
-}
-```
-
----
-
-export default WideLayout
-
-```js
-// Still this:
-const counts = new MultiSet();
-
-for (const item in something)
-  counts.add(item.value);
 ```
 
 ---
@@ -170,19 +127,7 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 ---
 
-<Title affix="1.2.1." level={3}>The QuadTree</Title>
-
-![Quad](./img/quad.svg)
-
----
-
-<Title affix="1.2.1." level={3}>The QuadTree</Title>
-
-![QuadTree](./img/quadtree.svg)
-
----
-
-<Title affix="1.2.2." level={3}>JavaScript became more than just tacky website candy</Title>
+<Title affix="1.2.1." level={3}>More than just tacky website candy</Title>
 
 * We process data on the client nowadays.
 * Node.js became a thing.
@@ -190,11 +135,23 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 ---
 
+<Title affix="1.2.2." level={3}>The QuadTree</Title>
+
+![Quad](./img/quad.svg)
+
+---
+
+<Title affix="1.2.2." level={3}>The QuadTree</Title>
+
+![QuadTree](./img/quadtree.svg)
+
+<!-- ---
+
 <Title affix="1.3.">Immutable data structures</Title>
 
 * Not *yet* in JavaScript.
 * Not covered by this talk.
-* Check out [mori](https://github.com/swannodette/mori) and [immutable-js](https://facebook.github.io/immutable-js/).
+* Check out [mori](https://github.com/swannodette/mori) and [immutable-js](https://facebook.github.io/immutable-js/). -->
 
 ---
 
@@ -202,25 +159,29 @@ graph.forEachEdge(node, (edge, attributes) => {
 
 ---
 
-<Title affix="1." level={3}>Interpreted languages are far from the metal</Title>
+<Title affix="2.1." level={3}>Interpreted languages are far from the metal</Title>
 
 ---
 
-<Title affix="2." level={3}>No control over memory layout &amp; garbage collection</Title>
+<Title affix="2.2." level={3}>No control over memory layout</Title>
+
+<Title affix="2.2." level={3}>No control over garbage collection</Title>
 
 ---
 
-<Title affix="3." level={3}>JIT and optimizing engines such as Gecko and V8</Title>
+<Title affix="2.3." level={3}>JIT &amp; optimizing engines such as Gecko / V8</Title>
 
 ---
 
-TL,DR:<br />Benchmarking code accurately is **not** easy.
+Benchmarking code accurately is **not** easy.
+
+---
+
+It does not mean we cannot be **clever** about it.
 
 ---
 
 <Title affix="3.">Implementation tips</Title>
-
-It does not mean we cannot be clever about it.
 
 ---
 
@@ -263,7 +224,7 @@ Graph.prototype.getNodeAttribute = function(node, data) {
 <Title affix="3.1.2." level={3}>Creating objects is costly</Title>
 
 * Avoid allocating objects.
-* Avoid creating regexes.
+* Avoid /(?:re\-)?creating/ regexes.
 * Functions are even worse.
 
 ```js
@@ -283,13 +244,15 @@ export default WideLayout
 
 ```js
 // Why do you do that?
-const array = [1, 'two', 3, /four/];
+// If you are this kind of person, can we meet?
+// I really want to understand.
+const array = [1, 'two', '3', /four/, {five: new Date()}];
 ```
 ---
 
 <Title affix="3.1.4." level={3}>The poor man's malloc</Title>
 
-* Bytes array are fan-ta-stic.
+* Bytes array are fan-ta-stic and very light in memory.
 * You can simulate typed allocation: `Uint8Array`, `Float32Array` etc.
 * Use this to implement your own pointer system!
 
@@ -305,11 +268,13 @@ head -> (a) -> (b) -> (c) -> ø
 
 ```js
 // Using object references as pointers
-function LinkedListItem(value) {
+function LinkedListNode(value) {
   this.left = null;
   this.right = null;
   this.value = value;
 }
+// Changing a pointer
+node.left = otherNode;
 ```
 
 ---
@@ -325,36 +290,62 @@ next     = [1, 2, 0]
 ```
 
 ```js
-// Using Byte Arrays
+// Using byte arrays (capacity is fixed)
 function LinkedList(capacity) {
   this.head = 0;
   this.next = new Uint16Array(capacity);
   this.values = new Array(capacity);
 }
+// Changing a pointer;
+this.next[nodeIndex] = otherNodeIndex;
 ```
 
 ---
 
-<Title level={3}>A most efficient LRUCache</Title>
+<Title level={3}>Let's build the most efficient LRU Cache!</Title>
 
-```js
-class LRUCache {
-  constructor(capacity) {
-    this.capacity = capacity;
+* An object with maximum number of keys to save up some RAM.
+* If we add a new key and we are full, we drop the **L**east **R**ecently **U**sed one.
+* Useful to implement caches & memoization.
 
-    this.forwardPointers = new Uint32Array(capacity);
-    this.backwardPointers = new Unit32Array(capacity);
-    this.keys = new Array(capacity);
-    this.values = new Array(capacity);
+---
 
-    this.items = {};
+export default WideLayout
 
-    this.size = 0;
-    this.head = 0;
-    this.tail = 0;
-  }
-}
+```txt
+A ~doubly~ linked list:
+-----------------------
+head     = 0
+tail     = 2
+next     = [1, 2, 0]
+prev     = [0, 1, 2]
+
+Same as (with pointers):
+------------------------
+head -> (a) <-> (b) <-> (c) <- tail
+
+A map to pointers & values:
+---------------------------
+items  = {a: 0, b: 1, c: 2}
+values = [a, b, c]
 ```
+
+---
+
+| name                                                           | set   | get1  | update | get2  | evict |
+|----------------------------------------------------------------|-------|-------|--------|-------|-------|
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 15314 | 69444 | 35026  | 68966 | 7949  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 6530  | 46296 | 37244  | 42017 | 5961  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5979  | 36832 | 32626  | 40900 | 5929  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 6272  | 15785 | 10923  | 16077 | 3738  |
+| [lru](https://www.npmjs.com/package/lru)                       | 3927  | 5454  | 5001   | 5366  | 2827  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3393  | 3855  | 3701   | 3899  | 2496  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3515  | 3953  | 4044   | 4102  | 2495  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 3813  | 10010 | 9246   | 10309 | 1843  |
+
+<small>
+  Bench <a href="https://github.com/dominictarr/bench-lru">here</a> - I masked libraries which are not "real" LRU.
+</small>
 
 ---
 
@@ -369,7 +360,7 @@ This means that rolling your own stack will always beat recursion.
 export default WideLayout
 
 ```js
-// Recursive version
+// Recursive version - "easy"
 function recurse(node, key) {
   if (key < node.value) {
     if (node.left)
@@ -393,13 +384,11 @@ function recurse(node, key) {
 export default WideLayoutWithSmallCode
 
 ```js
-// Iterative version
+// Iterative version - more alien but faster
 function iterative(root, key) {
   const stack = [root];
-
   while (stack.length) {
     const node = stack.pop();
-
     if (key < node.value) {
       if (node.left)
         stack.push(node.left);
@@ -412,19 +401,19 @@ function iterative(root, key) {
       else
         break;
     }
-
     return true;
   }
+  return false;
 }
 ```
 
----
+<!-- ---
 
 <Title affix="3.1.5." level={3}>Algorithmics vs. the real world</Title>
 
 A better big O is not necessary better in the real world.
 
-Dijkstra requires a Fibonacci heap, but in JavaScript, a binomial heap will often win.
+Dijkstra requires a Fibonacci heap, but in JavaScript, a binomial heap will often win. -->
 
 ---
 
@@ -444,19 +433,19 @@ Communication between those and JavaScript has a cost that negates the benefit.
 
 This is only viable if you have long running code or don't need the bridge between the layer and JavaScript.
 
----
+<!-- ---
 
-<Title affix="3.2." level={3}>Respecting the ecosystem</Title>
+<Title affix="3.2." level={3}>Respecting the ecosystem</Title> -->
 
----
+<!-- ---
 
 <Title affix="3.2.1." level={3}>Naming matters</Title>
 
-Yes `#.unshift` is a terrible name. <small className="very-small">I am still grateful we avoided smooshing arrays.</small>
+Yes `#.unshift` is a terrible name. <small className="very-small">I am still grateful we avoided <a href="https://github.com/tc39/proposal-flatMap/pull/56">smooshing</a> arrays.</small>
 
-But consistency is always a plus.
+But consistency is always a plus. -->
 
----
+<!-- ---
 
 <Title affix="3.2.1." level={3}>Implement well-known interfaces</Title>
 
@@ -472,9 +461,9 @@ JSON.stringify(structure);
 Structure.prototype.toString = function() {
   return somethingUsefulForOnce;
 };
-```
+``` -->
 
----
+<!-- ---
 
 export default WideLayout
 
@@ -497,9 +486,9 @@ Queue.prototype.values = function() {
     }
   };
 };
-```
+``` -->
 
----
+<!-- ---
 
 export default WideLayout
 
@@ -513,9 +502,9 @@ Queue.prototype[Symbol.iterator] = Queue.prototype.values;
 for (const item of queue) {
   console.log(item);
 }
-```
+``` -->
 
----
+<!-- ---
 
 <Title affix="3.2.3." level={3}>Custom Node.js inspection</Title>
 
@@ -534,7 +523,7 @@ console.log(queue);
   __items: [5, 1, 4],
   __someVeryVeryPrivateAndUglyName: true
 }
-```
+``` -->
 
 ---
 
@@ -587,6 +576,10 @@ Optimizing JavaScript = squinting a little and **pretending** really hard that:
 For now, there is no way to beat JavaScript's objects and maps when doing key-value association.
 
 *Yet...*
+
+---
+
+<Title affix="5.">So implement away!</Title>
 
 ---
 

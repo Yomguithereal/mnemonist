@@ -1,5 +1,10 @@
+import React from 'react';
 import {book} from 'mdx-deck/themes';
 import darcula from 'react-syntax-highlighter/styles/prism/darcula';
+
+function Provider({children}) {
+  return children;
+}
 
 export default {
   ...book,
@@ -37,5 +42,6 @@ export default {
   },
   prism: {
     style: darcula
-  }
+  },
+  Provider
 }
