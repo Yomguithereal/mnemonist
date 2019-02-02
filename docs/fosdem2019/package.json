@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && mdx-deck build presentation.mdx && mkdir dist/img && cp img/* dist/img",
+    "pdf": "mdx-deck pdf presentation.mdx -d ./",
     "start": "mdx-deck presentation.mdx"
   },
   "author": "yomguithereal <kropotkinepiotr@gmail.com>",
