@@ -221,11 +221,28 @@ Graph.prototype.getNodeAttribute = function(node, data) {
 
 ---
 
+export default WideLayout
+
+```
+# Result, 100k items
+--------------------
+Two lookups: 31.275ms
+One lookup:  15.762ms
+```
+
+The engine is clever. But not *that* clever. <small className="very-small">(It improves frequently, though...)</small>
+
+The «*let's code badly, the engine will clean up my mess*» approach will not work.
+
+---
+
 <Title affix="3.1.2." level={3}>Creating objects is costly</Title>
 
 * Avoid allocating objects.
 * Avoid /(?:re\-)?creating/ regexes.
-* Functions are even worse.
+* Avoid nesting functions whenever possible.
+
+---
 
 ```js
 // BAD!
@@ -234,6 +251,15 @@ const test = x => /regex/.test(x);
 // GOOD!
 const REGEX = /regex/;
 const test = x => REGEX.test(x);
+
+// BAAAAAD!
+function(array) {
+  array.forEach(subarray => {
+
+    // You just created one function per subarray!
+    subarray.forEach(x => console.log(x));
+  });
+}
 ```
 
 ---
@@ -252,9 +278,15 @@ const array = [1, 'two', '3', /four/, {five: new Date()}];
 
 <Title affix="3.1.4." level={3}>The poor man's malloc</Title>
 
-* Bytes array are fan-ta-stic and very light in memory.
-* You can simulate typed allocation: `Uint8Array`, `Float32Array` etc.
-* Use this to implement your own pointer system!
+* Byte arrays are fan-ta-stic.
+* Byte arrays are light.
+* You can simulate typed memory allocation: `Uint8Array`, `Float32Array` etc.
+
+---
+
+<Title affix="3.1.4." level={3}>Implement your own pointer system!</Title>
+
+And have your very own "C in JavaScript"™.
 
 ---
 
@@ -269,12 +301,11 @@ head -> (a) -> (b) -> (c) -> ø
 ```js
 // Using object references as pointers
 function LinkedListNode(value) {
-  this.left = null;
-  this.right = null;
+  this.next = null;
   this.value = value;
 }
 // Changing a pointer
-node.left = otherNode;
+node.next = otherNode;
 ```
 
 ---
@@ -302,7 +333,7 @@ this.next[nodeIndex] = otherNodeIndex;
 
 ---
 
-<Title level={3}>Let's build the most efficient LRU Cache!</Title>
+<Title level={3}>Let's build a most efficient LRU Cache!</Title>
 
 * An object with maximum number of keys to save up some RAM.
 * If we add a new key and we are full, we drop the **L**east **R**ecently **U**sed one.
@@ -344,14 +375,14 @@ values = [a, b, c]
 | [js-lru](https://www.npmjs.com/package/js-lru)                 | 3813  | 10010 | 9246   | 10309 | 1843  |
 
 <small>
-  Bench <a href="https://github.com/dominictarr/bench-lru">here</a> - I masked libraries which are not "real" LRU.
+  Bench <a href="https://github.com/dominictarr/bench-lru">here</a> - I masked libraries which are not LRU per se.
 </small>
 
 ---
 
 <Title affix="3.1.4." level={3}>Function calls are costly</Title>
 
-Everything is costly. Really.
+Everything is costly. Life is harsh.
 
 This means that rolling your own stack will always beat recursion.
 
@@ -384,7 +415,7 @@ function recurse(node, key) {
 export default WideLayoutWithSmallCode
 
 ```js
-// Iterative version - more alien but faster
+// Iterative version - more alien but faster, mileage may vary
 function iterative(root, key) {
   const stack = [root];
   while (stack.length) {
@@ -426,8 +457,6 @@ Lots of shiny options:
 3. Native code binding in Node.js
 
 ---
-
-<Title affix="3.1.6." level={3}>What about wasm etc. ?</Title>
 
 Communication between those and JavaScript has a cost that negates the benefit.
 
@@ -543,7 +572,7 @@ console.log(queue);
 
 ---
 
-<Title affix="4.4." level={3}>But JavaScript has its idiosyncrasies</Title>
+<Title affix="4.4." level={3}>But JavaScript has its very own kinks</Title>
 
 The `ByteArray` tips absolutely don't work in python.
 
