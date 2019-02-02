@@ -295,6 +295,46 @@ const array = [1, 'two', 3, /four/];
 
 ---
 
+export default WideLayout
+
+```txt
+A linked list (with pointers):
+------------------------------
+head -> (a) -> (b) -> (c) -> ø
+```
+
+```js
+// Using object references as pointers
+function LinkedListItem(value) {
+  this.left = null;
+  this.right = null;
+  this.value = value;
+}
+```
+
+---
+
+export default WideLayout
+
+```txt
+A linked list (rolling our own pointers):
+-----------------------------------------
+head     = 0
+values   = [a, b, c]
+next     = [1, 2, 0]
+```
+
+```js
+// Using Byte Arrays
+function LinkedList(capacity) {
+  this.head = 0;
+  this.next = new Uint16Array(capacity);
+  this.values = new Array(capacity);
+}
+```
+
+---
+
 <Title level={3}>A most efficient LRUCache</Title>
 
 ```js
