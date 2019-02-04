@@ -11,6 +11,8 @@ function unmask(x) {
   return 8 - Math.log2((~x >>> 0) & 0xff) - 1;
 }
 
+// NOTE: max number of internal nodes = n - 1 so max full size = 2n - 1
+// NOTE: deleting = compressing above node into grandparent
 // DAFSA transducer etc. todo: splay get value on top if not ordered
 // todo: only compare last part of string
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
