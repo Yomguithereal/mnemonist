@@ -69,6 +69,7 @@ function CritBitTree() {
   this.root = null;
 }
 
+// TODO: case when the item is already in the tree
 CritBitTree.prototype.add = function(key) {
   if (this.root === null) {
     this.root = new ExternalNode(key);
@@ -95,51 +96,62 @@ CritBitTree.prototype.add = function(key) {
         internal.right = new ExternalNode(key);
       }
 
-      if (this.root === node) {
-        this.root = internal;
+      // Bubbling up
+      var best = -1;
+
+      for (var i = ancestors.length - 1; i >= 0; i--) {
+        var [a] = ancestors[i];
+
+        if (criticalGt(a.critical, critical))
+          continue;
+
+        best = i;
+        break;
       }
-      else {
 
-        // Bubbling up
-        var best = null;
+      // Need to attach to root
+      if (best < 0) {
 
-        for (var i = ancestors.length - 1; i >= 0; i--) {
-          var [a] = ancestors[i];
+        this.root = internal;
 
-          if (criticalGt(a.critical, critical))
-            continue;
-
-          best = i;
-          break;
-        }
-
-        if (best !== null) {
-          var [parent, wentRight] = ancestors[best];
-
-          if (left) {
-            internal.right = parent.left;
-          }
-          else {
-            internal.left = parent.right;
-          }
-
-          if (wentRight) {
-            parent.right = internal;
-          }
-          else {
-            parent.left = internal;
-          }
-        }
-        else {
-          var [parent, wentRight] = ancestors[0];
-
-          this.root = internal;
+        // Rewire parent as child?
+        if (ancestors.length > 0) {
+          var [parent] = ancestors[0];
 
           if (left)
             internal.right = parent;
           else
             internal.left = parent;
         }
+      }
+
+      // No need for rotation
+      else if (best === ancestors.length - 1) {
+
+        var [parent, wentRight] = ancestors[best];
+
+        if (wentRight)
+          parent.right = internal;
+        else
+          parent.left = internal;
+      }
+
+      // Rotation
+      else {
+        var [parent, wentRight] = ancestors[best];
+        var [child] = ancestors[best + 1];
+
+        if (wentRight) {
+          parent.right = internal;
+        }
+        else {
+          parent.left = internal;
+        }
+
+        if (left)
+          internal.right = child;
+        else
+          internal.left = child;
       }
 
       return;
@@ -181,7 +193,7 @@ function printNode(node) {
   if (node instanceof InternalNode)
     return '(' + node.critical[0] + ',' + unmask(node.critical[1]) + ')';
 
-  return node.key + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
+  return node.key.charCodeAt(0) + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
 }
 
 function log(tree) {
@@ -214,13 +226,24 @@ var tree = new CritBitTree();
 
 // THOSE DO NOT WORK
 // tree.add('abcdef');
-tree.add('bcd');
-tree.add('abb');
-tree.add('abc');
-tree.add('abd');
-tree.add('abe');
-tree.add('aba');
+// tree.add('bcd');
+// tree.add('abb');
+// tree.add('abc');
+// tree.add('abd');
+// tree.add('abe');
+// tree.add('aba');
 // tree.add('abz');
+
+tree.add(String.fromCharCode(13));
+tree.add(String.fromCharCode(10));
+tree.add(String.fromCharCode(8));
+tree.add(String.fromCharCode(12));
+tree.add(String.fromCharCode(1));
+tree.add(String.fromCharCode(145));
+tree.add(String.fromCharCode(14));
+tree.add(String.fromCharCode(9));
+tree.add(String.fromCharCode(11));
+tree.add(String.fromCharCode(255));
 
 // console.log(tree);
 log(tree);
