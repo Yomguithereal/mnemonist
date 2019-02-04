@@ -13,14 +13,19 @@ function unmask(x) {
 
 // NOTE: max number of internal nodes = n - 1 so max full size = 2n - 1
 // NOTE: deleting = compressing above node into grandparent
-// DAFSA transducer etc. todo: splay get value on top if not ordered
+// --> parent.opposite becomes
+
+// NOTE: use negative numbers to distinguish node types in static version
+
+// DAFSA transducer etc.
 // todo: only compare last part of string
+// todo: strings of different sizes
+
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
 // https://github.com/blynn/blt/blob/master/blt.c
 // https://dotat.at/prog/qp/blog-2015-10-04.html
-// TODO: tiny sparse array
-// TODO: encode direction as reverted mask | x (probably useless in JS but may avoid one condition)
+
 function findCriticalBit(a, b) {
   var i = 0;
 
