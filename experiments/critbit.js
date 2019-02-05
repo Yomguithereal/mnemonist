@@ -16,6 +16,8 @@ function unmask(x) {
 // --> parent.opposite becomes
 
 // NOTE: use negative numbers to distinguish node types in static version
+// --> internal nodes should use positive numbers because they are used more
+// and this will save up some time
 
 // DAFSA transducer etc.
 // todo: only compare last part of string
