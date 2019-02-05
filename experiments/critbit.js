@@ -19,13 +19,13 @@ function unmask(x) {
 
 // DAFSA transducer etc.
 // todo: only compare last part of string
-// todo: strings of different sizes
 
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
 // https://github.com/blynn/blt/blob/master/blt.c
 // https://dotat.at/prog/qp/blog-2015-10-04.html
 
+// TODO: variant starting at i byte
 function findCriticalBit(a, b) {
   var i = 0;
 
@@ -39,8 +39,7 @@ function findCriticalBit(a, b) {
     i++;
   }
 
-  // TODO: Should not be zero but a mask!
-  return a.length === b.length ? null : [i, 0];
+  return a.length === b.length ? null : [i, bitwise.criticalBit8Mask(b.charCodeAt(0), 0)];
 }
 
 function get(key, address) {
@@ -200,7 +199,7 @@ function printNode(node) {
   if (node instanceof InternalNode)
     return '(' + node.critical[0] + ',' + unmask(node.critical[1]) + ')';
 
-  return node.key.charCodeAt(0) + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
+  return node.key + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
 }
 
 function log(tree) {
@@ -231,26 +230,26 @@ var tree = new CritBitTree();
 // tree.add(14);
 // tree.add(15);
 
-// THOSE DO NOT WORK
-// tree.add('abcdef');
-// tree.add('bcd');
+tree.add('abcde');
+tree.add('bcd');
 // tree.add('abb');
 // tree.add('abc');
-// tree.add('abd');
-// tree.add('abe');
-// tree.add('aba');
-// tree.add('abz');
+tree.add('abd');
+tree.add('abdg');
+tree.add('abe');
+tree.add('aba');
+tree.add('abz');
 
-tree.add(String.fromCharCode(13));
-tree.add(String.fromCharCode(10));
-tree.add(String.fromCharCode(8));
-tree.add(String.fromCharCode(12));
-tree.add(String.fromCharCode(1));
-tree.add(String.fromCharCode(145));
-tree.add(String.fromCharCode(14));
-tree.add(String.fromCharCode(9));
-tree.add(String.fromCharCode(11));
-tree.add(String.fromCharCode(255));
+// tree.add(String.fromCharCode(13));
+// tree.add(String.fromCharCode(10));
+// tree.add(String.fromCharCode(8));
+// tree.add(String.fromCharCode(12));
+// tree.add(String.fromCharCode(1));
+// tree.add(String.fromCharCode(145));
+// tree.add(String.fromCharCode(14));
+// tree.add(String.fromCharCode(9));
+// tree.add(String.fromCharCode(11));
+// tree.add(String.fromCharCode(255));
 
 // console.log(tree);
 log(tree);
