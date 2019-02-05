@@ -77,6 +77,40 @@ function CritBitTree() {
   this.root = null;
 }
 
+CritBitTree.prototype.has = function(key) {
+  if (this.root === null) {
+    return false;
+  }
+
+  var node = this.root;
+
+  while (true) {
+    if (node instanceof ExternalNode) {
+
+      return node.key === key;
+    }
+
+    else {
+      var bit = get(key, node.critical);
+
+      if (bit === 0) {
+        if (!node.left) {
+          return false;
+        }
+
+        node = node.left;
+      }
+      else {
+        if (!node.right) {
+          return false;
+        }
+
+        node = node.right;
+      }
+    }
+  }
+};
+
 // TODO: case when the item is already in the tree
 CritBitTree.prototype.add = function(key) {
   if (this.root === null) {
@@ -289,53 +323,58 @@ function log(tree) {
   console.log(asciitree(tree.root, title, children));
 }
 
-var tree = new CritBitTree();
+module.exports = CritBitTree;
 
-// tree.add(0);
-// tree.add(1);
-// tree.add(2);
-// tree.add(3);
-// tree.add(4);
-// tree.add(5);
-// tree.add(6);
-// tree.add(7);
-// tree.add(8);
-// tree.add(9);
-// tree.add(10);
-// tree.add(11);
-// tree.add(12);
-// tree.add(13);
-// tree.add(14);
-// tree.add(15);
+if (require.main === module) {
+  var tree = new CritBitTree();
 
-tree.add('abcde');
-tree.add('bcd');
-// tree.add('abb');
-// tree.add('abc');
-tree.add('abd');
-tree.add('abdg');
-tree.add('abe');
-tree.add('aba');
-tree.add('abz');
+  // tree.add(0);
+  // tree.add(1);
+  // tree.add(2);
+  // tree.add(3);
+  // tree.add(4);
+  // tree.add(5);
+  // tree.add(6);
+  // tree.add(7);
+  // tree.add(8);
+  // tree.add(9);
+  // tree.add(10);
+  // tree.add(11);
+  // tree.add(12);
+  // tree.add(13);
+  // tree.add(14);
+  // tree.add(15);
 
-// tree.delete('bcd');
-// tree.delete('abd');
-// tree.delete('abcde');
-// tree.delete('aba');
-// tree.delete('abdg');
-// tree.delete('abz');
-// tree.delete('abe');
+  tree.add('abcde');
+  tree.add('bcd');
+  // tree.add('abb');
+  // tree.add('abc');
+  tree.add('abd');
+  tree.add('abdg');
+  tree.add('abe');
+  tree.add('aba');
+  tree.add('abz');
 
-// tree.add(String.fromCharCode(13));
-// tree.add(String.fromCharCode(10));
-// tree.add(String.fromCharCode(8));
-// tree.add(String.fromCharCode(12));
-// tree.add(String.fromCharCode(1));
-// tree.add(String.fromCharCode(145));
-// tree.add(String.fromCharCode(14));
-// tree.add(String.fromCharCode(9));
-// tree.add(String.fromCharCode(11));
-// tree.add(String.fromCharCode(255));
+  // tree.delete('bcd');
+  // tree.delete('abd');
+  // tree.delete('abcde');
+  // tree.delete('aba');
+  // tree.delete('abdg');
+  // tree.delete('abz');
+  // tree.delete('abe');
 
-// console.log(tree);
-log(tree);
+  // tree.add(String.fromCharCode(13));
+  // tree.add(String.fromCharCode(10));
+  // tree.add(String.fromCharCode(8));
+  // tree.add(String.fromCharCode(12));
+  // tree.add(String.fromCharCode(1));
+  // tree.add(String.fromCharCode(145));
+  // tree.add(String.fromCharCode(14));
+  // tree.add(String.fromCharCode(9));
+  // tree.add(String.fromCharCode(11));
+  // tree.add(String.fromCharCode(255));
+
+  // console.log(tree);
+  log(tree);
+
+}

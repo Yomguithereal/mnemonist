@@ -1,5 +1,6 @@
 var fs = require('fs');
 var SemiDynamicTrie = require('../../semi-dynamic-trie');
+var CritBit = require('../../experiments/critbit');
 var randomString = require('pandemonium/random-string');
 var binarySearch = require('../../utils/binary-search').search;
 var murmur3 = require('../../utils/murmurhash3');
@@ -151,6 +152,7 @@ PerfectMap.prototype.get = function(key, value) {
   return this.values[index];
 };
 
+var critbit = new CritBit();
 var perfect = new PerfectMap(words);
 var object = {};
 var map = new Map();
@@ -174,6 +176,11 @@ for (var i = 0; i < words.length; i++)
   map.set(words[i], Math.random());
 console.timeEnd('Map set');
 
+console.time('Critbit set');
+for (var i = 0; i < words.length; i++)
+  critbit.add(words[i]);
+console.timeEnd('Critbit set');
+
 console.time('Perfect get');
 for (var i = 0; i < words.length; i++)
   perfect.get(words[i]);
@@ -188,6 +195,11 @@ console.time('Map get');
 for (var i = 0; i < words.length; i++)
   map.get(words[i]);
 console.timeEnd('Map get');
+
+console.time('Critbit get');
+for (var i = 0; i < words.length; i++)
+  critbit.has(words[i]);
+console.timeEnd('Critbit get');
 
 console.time('Sorted get');
 for (var i = 0; i < words.length; i++)
