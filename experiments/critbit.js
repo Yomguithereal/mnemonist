@@ -13,7 +13,7 @@ function unmask(x) {
 
 // NOTE: max number of internal nodes = n - 1 so max full size = 2n - 1
 // NOTE: deleting = compressing above node into grandparent
-// --> parent.opposite becomes
+// --> parent.opposite becomes granparent.path
 
 // NOTE: use negative numbers to distinguish node types in static version
 // --> internal nodes should use positive numbers because they are used more
@@ -190,6 +190,82 @@ CritBitTree.prototype.add = function(key) {
   }
 };
 
+// --> parent.opposite becomes granparent.path
+CritBitTree.prototype.delete = function(key) {
+  if (this.root === null) {
+    return;
+  }
+
+  var node = this.root,
+      parent = null,
+      wentRightForParent = false
+      grandparent = null,
+      wentRightForGranparent = false;
+
+  while (true) {
+    if (node instanceof ExternalNode) {
+
+      if (node.key === key) {
+
+        if (parent === null) {
+          this.root = null;
+        }
+
+        else if (grandparent === null) {
+          if (wentRightForParent)
+            this.root = parent.left;
+          else
+            this.root = parent.right;
+        }
+
+        else if (wentRightForGranparent) {
+          if (wentRightForParent)
+            grandparent.right = parent.left;
+          else
+            grandparent.right = parent.right;
+        }
+        else {
+          if (wentRightForParent)
+            grandparent.left = parent.left;
+          else
+            grandparent.left = parent.right;
+        }
+      }
+
+      return;
+    }
+
+    else {
+      var bit = get(key, node.critical);
+
+      if (bit === 0) {
+        if (!node.left) {
+          node.left = new ExternalNode(key);
+          return;
+        }
+
+        grandparent = parent;
+        parent = node;
+        wentRightForGranparent = wentRightForParent;
+        wentRightForParent = false;
+        node = node.left;
+      }
+      else {
+        if (!node.right) {
+          node.right = new ExternalNode(key);
+          return;
+        }
+
+        grandparent = parent;
+        parent = node;
+        wentRightForGranparent = wentRightForParent;
+        wentRightForParent = true;
+        node = node.right;
+      }
+    }
+  }
+};
+
 CritBitTree.prototype[Symbol.for('nodejs.util.inspect.custom')] = function() {
   return this.root;
 };
@@ -241,6 +317,14 @@ tree.add('abdg');
 tree.add('abe');
 tree.add('aba');
 tree.add('abz');
+
+// tree.delete('bcd');
+// tree.delete('abd');
+// tree.delete('abcde');
+// tree.delete('aba');
+// tree.delete('abdg');
+// tree.delete('abz');
+// tree.delete('abe');
 
 // tree.add(String.fromCharCode(13));
 // tree.add(String.fromCharCode(10));
