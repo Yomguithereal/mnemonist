@@ -8,6 +8,9 @@ function numberToBitstring(number) {
 }
 
 function unmask(x) {
+  if (x === 255)
+    return 0;
+
   return 8 - Math.log2((~x >>> 0) & 0xff) - 1;
 }
 
@@ -44,19 +47,39 @@ function unpackMask(x) {
 
 // TODO: variant starting at i byte
 function findCriticalBit(a, b) {
-  var i = 0;
+  var i = 0,
+      tmp;
 
-  var min = Math.min(a.length, b.length);
+  // Swapping so a is the shortest
+  if (a.length > b.length) {
+    tmp = b;
+    b = a;
+    a = tmp;
+  }
 
-  while (i < min) {
+  var l = a.length,
+      mask;
+
+  while (i < l) {
     if (a[i] !== b[i]) {
-      return packCritical(i, bitwise.criticalBit8Mask(a.charCodeAt(i), b.charCodeAt(i)));
+      mask = bitwise.criticalBit8Mask(
+        a.charCodeAt(i),
+        b.charCodeAt(i)
+      );
+
+      return (i << 8) | mask;
     }
 
     i++;
   }
 
-  return a.length === b.length ? null : packCritical(i, bitwise.criticalBit8Mask(b.charCodeAt(0), 0));
+  // Strings are identical
+  if (a.length === b.length)
+    return -1;
+
+  mask = bitwise.criticalBit8Mask(b.charCodeAt(i + 1), 0);
+
+  return (i << 8) | mask;
 }
 
 function get(key, critical) {
