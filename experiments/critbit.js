@@ -22,10 +22,25 @@ function unmask(x) {
 // DAFSA transducer etc.
 // todo: only compare last part of string
 
-// http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
+// NOTE: packing critical bit (left number must be the largest one)
+// (0b1010 << 4) | 0b1001 => 0b10101001
+// https://stackoverflow.com/questions/29177035/working-with-binary-in-python-splitting-numbers
+
 // http://benlynn.blogspot.com/2013/11/crit-bit-tree-micro-optimizations_3.html
 // https://github.com/blynn/blt/blob/master/blt.c
 // https://dotat.at/prog/qp/blog-2015-10-04.html
+
+function packCritical(byte, mask) {
+  return (byte << 8) | mask;
+}
+
+function unpackByte(x) {
+  return x >> 8;
+}
+
+function unpackMask(x) {
+  return x & 0xff;
+}
 
 // TODO: variant starting at i byte
 function findCriticalBit(a, b) {
@@ -35,36 +50,36 @@ function findCriticalBit(a, b) {
 
   while (i < min) {
     if (a[i] !== b[i]) {
-      return [i, bitwise.criticalBit8Mask(a.charCodeAt(i), b.charCodeAt(i))];
+      return packCritical(i, bitwise.criticalBit8Mask(a.charCodeAt(i), b.charCodeAt(i)));
     }
 
     i++;
   }
 
-  return a.length === b.length ? null : [i, bitwise.criticalBit8Mask(b.charCodeAt(0), 0)];
+  return a.length === b.length ? null : packCritical(i, bitwise.criticalBit8Mask(b.charCodeAt(0), 0));
 }
 
-function get(key, address) {
-  return bitwise.testCriticalBit8(key.charCodeAt(address[0]), address[1]);
+function get(key, critical) {
+  return bitwise.testCriticalBit8(key.charCodeAt(unpackByte(critical)), unpackMask(critical));
 }
 
 // NOTE: maybe it is possible to avoid conditions with bitwise magic
 function criticalGt(a, b) {
-  if (a[0] > b[0])
+  if (a > b)
     return true;
 
-  if (a[0] < b[0])
+  if (a < b)
     return false;
 
   // TODO: issue here because of the mask?
-  if (a[1] > b[1])
-    return true;
+  // if (a[1] > b[1])
+  //   return true;
 
   return false;
 }
 
 function InternalNode(critical) {
-  this.critical = critical;
+  this.critical = critical
   this.left = null;
   this.right = null;
 }
@@ -309,7 +324,7 @@ function printNode(node) {
     return '';
 
   if (node instanceof InternalNode)
-    return '(' + node.critical[0] + ',' + unmask(node.critical[1]) + ')';
+    return '(' + unpackByte(node.critical) + ',' + unmask(unpackMask(node.critical)) + ')';
 
   return node.key + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
 }
@@ -377,4 +392,8 @@ if (require.main === module) {
   // console.log(tree);
   log(tree);
 
+  var a = packCritical(45, 154);
+  console.log('Address', 45, 154, a);
+  console.log('Byte', unpackByte(a));
+  console.log('Mask', unpackMask(a));
 }
