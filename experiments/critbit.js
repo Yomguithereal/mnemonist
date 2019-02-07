@@ -312,6 +312,8 @@ CritBitTree.prototype.delete = function(key) {
 
       if (bit === 0) {
         if (!node.left) {
+
+          // TODO: remove that! it will add things when deleting!
           node.left = new ExternalNode(key);
           return;
         }
@@ -349,7 +351,7 @@ function printNode(node) {
   if (node instanceof InternalNode)
     return '(' + unpackByte(node.critical) + ',' + unmask(unpackMask(node.critical)) + ')';
 
-  return node.key + '•' + Array.from(node.key, k => k.charCodeAt(0)).map(numberToBitstring);
+  return node.key;
 }
 
 function log(tree) {
@@ -383,15 +385,15 @@ if (require.main === module) {
   // tree.add(14);
   // tree.add(15);
 
-  tree.add('abcde');
-  tree.add('bcd');
+  // tree.add('abcde');
+  // tree.add('bcd');
   // tree.add('abb');
   // tree.add('abc');
-  tree.add('abd');
-  tree.add('abdg');
-  tree.add('abe');
-  tree.add('aba');
-  tree.add('abz');
+  // tree.add('abd');
+  // tree.add('abdg');
+  // tree.add('abe');
+  // tree.add('aba');
+  // tree.add('abz');
 
   // tree.delete('bcd');
   // tree.delete('abd');
@@ -401,6 +403,15 @@ if (require.main === module) {
   // tree.delete('abz');
   // tree.delete('abe');
 
+  var data = [
+    'abc',
+    'def',
+    'abgd',
+    'zza',
+    'idzzzudzzduuzduz'
+  ];
+
+  data.forEach(k => tree.add(k));
   // tree.add(String.fromCharCode(13));
   // tree.add(String.fromCharCode(10));
   // tree.add(String.fromCharCode(8));

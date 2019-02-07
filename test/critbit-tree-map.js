@@ -9,6 +9,10 @@ var assert = require('assert'),
 // var asciitree = require('asciitree');
 
 // function printTree(tree) {
+
+//   if (tree.root === null)
+//     return console.log('{empty}');
+
 //   var string = asciitree(
 //     tree.root,
 //     function(node) {
@@ -55,7 +59,39 @@ describe('CritBitTreeMap', function() {
 
     assert.strictEqual(tree.has('abc'), true);
     assert.strictEqual(tree.has('whatever'), false);
+  });
 
-    // printTree(tree);
+  it('should be possible to delete elements.', function() {
+    var tree = new CritBitTreeMap();
+
+    tree.set('abc', 1);
+    assert.strictEqual(tree.delete('abc'), true);
+    assert.strictEqual(tree.size, 0);
+    assert.strictEqual(tree.delete('abc'), false);
+
+    var data = [
+      'abc',
+      'def',
+      'abgd',
+      'zza',
+      'idzzzudzzduuzduz'
+    ];
+
+    data.forEach(function(key, i) {
+      tree.set(key, i);
+    });
+
+    assert.strictEqual(tree.size, data.length);
+
+    data.reverse().forEach(function(key) {
+      tree.delete(key);
+    });
+
+    assert.strictEqual(tree.size, 0);
+
+    data.forEach(function(key) {
+      assert.strictEqual(tree.delete(key), false);
+      assert.strictEqual(tree.has(key), false);
+    });
   });
 });

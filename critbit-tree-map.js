@@ -72,7 +72,7 @@ function findCriticalBit(a, b, offset) {
   if (a.length === b.length)
     return -1;
 
-  mask = bitwise.criticalBit8Mask(b.charCodeAt(i + 1), 0);
+  mask = bitwise.criticalBit8Mask(b.charCodeAt(i), 0);
 
   return (i << 8) | mask;
 }
@@ -271,7 +271,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
       // Full rotation
       else {
         parent = ancestors[best];
-        leftPath = ancestor[best];
+        leftPath = ancestors[best];
         child = ancestors[best + 1];
 
         if (leftPath)
@@ -356,6 +356,96 @@ CritBitTreeMap.prototype.has = function(key) {
     // Reaching an external node
     else {
       return node.key === key;
+    }
+  }
+};
+
+/**
+ * Method used to delete the given key from the tree and return whether the
+ * key did exist or not.
+ *
+ * @param  {string} key - Key to delete.
+ * @return {boolean}
+ */
+CritBitTreeMap.prototype.delete = function(key) {
+
+  // Walk state
+  var node = this.root,
+      dir;
+
+  var parent = null,
+      grandParent = null,
+      wentLeftForParent = false,
+      wentLeftForGrandparent = false;
+
+  // Walking the tree
+  while (true) {
+
+    // Dead end
+    if (node === null)
+      return false;
+
+    // Traversing an internal node
+    if (node instanceof InternalNode) {
+      dir = getDirection(key, node.critbit);
+
+      if (dir === 0) {
+        grandParent = parent;
+        wentLeftForGrandparent = wentLeftForParent;
+        parent = node;
+        wentLeftForParent = true;
+
+        node = node.left;
+      }
+      else {
+        grandParent = parent;
+        wentLeftForGrandparent = wentLeftForParent;
+        parent = node;
+        wentLeftForParent = false;
+
+        node = node.right;
+      }
+    }
+
+    // Reaching an external node
+    else {
+      if (key !== node.key)
+        return false;
+
+      this.size--;
+
+      // Rewiring
+      if (parent === null) {
+        this.root = null;
+      }
+
+      else if (grandParent === null) {
+        if (wentLeftForParent)
+          this.root = parent.right;
+        else
+          this.root = parent.left;
+      }
+
+      else {
+        if (wentLeftForGrandparent) {
+          if (wentLeftForParent) {
+            grandParent.left = parent.right;
+          }
+          else {
+            grandParent.left = parent.left;
+          }
+        }
+        else {
+          if (wentLeftForParent) {
+            grandParent.right = parent.right;
+          }
+          else {
+            grandParent.right = parent.left;
+          }
+        }
+      }
+
+      return true;
     }
   }
 };
