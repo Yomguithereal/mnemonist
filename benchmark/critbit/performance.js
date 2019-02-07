@@ -1,9 +1,8 @@
-var fs = require('fs');
 var shuffleInPlace = require('pandemonium/shuffle-in-place');
 var randomString = require('pandemonium/random-string');
 
-var words = fs.readFileSync('/usr/share/dict/words', 'utf-8').split('\n');
-words.length--;
+var words = require('./words.json');
+
 shuffleInPlace(words);
 
 var w, r, l = words.length;
