@@ -105,6 +105,8 @@ SemiDynamicTrie.prototype.ensureSibling = function(block, character) {
     block = startingBlock;
 
     var offset = this.maps.length;
+
+    this.maps.resize(offset + 255);
     this.maps.set(offset + 255, 0);
 
     while (true) {

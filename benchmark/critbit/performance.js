@@ -9,9 +9,11 @@ var w, r, l = words.length;
 
 var CritBitTreeMap = require('../../critbit-tree-map');
 var TrieMap = require('../../trie-map');
+var SemiDynamicTrie = require('../../semi-dynamic-trie');
 
 var critbit = new CritBitTreeMap();
 var trie = new TrieMap();
+var semi = new SemiDynamicTrie();
 var map = new Map();
 var object = {};
 
@@ -33,6 +35,11 @@ for (w = 0; w < l; w++)
 console.timeEnd('Trie Set');
 
 // console.log('Trie sanity check', trie.size, l);
+
+console.time('SemiDynamicTrie Set');
+for (w = 0; w < l; w++)
+  semi.add(words[w]);
+console.timeEnd('SemiDynamicTrie Set');
 
 console.time('Map Set');
 for (w = 0; w < l; w++)
@@ -59,8 +66,13 @@ console.timeEnd('Critbit Get');
 
 console.time('Trie Get');
 for (w = 0; w < l; w++)
-  r =trie.get(words[w]);
+  r = trie.get(words[w]);
 console.timeEnd('Trie Get');
+
+console.time('SemiDynamicTrie Get');
+for (w = 0; w < l; w++)
+  r = semi.has(words[w]);
+console.timeEnd('SemiDynamicTrie Get');
 
 console.time('Map Get');
 for (w = 0; w < l; w++)
@@ -87,8 +99,13 @@ console.timeEnd('Critbit Miss');
 
 console.time('Trie Miss');
 for (w = 0; w < l; w++)
-  r =trie.get(randomString(3, 25));
+  r = trie.get(randomString(3, 25));
 console.timeEnd('Trie Miss');
+
+console.time('SemiDynamicTrie Miss');
+for (w = 0; w < l; w++)
+  r = semi.has(randomString(3, 25));
+console.timeEnd('SemiDynamicTrie Miss');
 
 console.time('Map Miss');
 for (w = 0; w < l; w++)
