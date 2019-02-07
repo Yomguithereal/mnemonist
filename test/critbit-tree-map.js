@@ -53,6 +53,9 @@ describe('CritBitTreeMap', function() {
     assert.strictEqual(tree.get('zzzzzzz'), 3);
     assert.strictEqual(tree.get('zzzzzzzaaaa'), undefined);
 
+    assert.strictEqual(tree.has('abc'), true);
+    assert.strictEqual(tree.has('whatever'), false);
+
     // printTree(tree);
   });
 });

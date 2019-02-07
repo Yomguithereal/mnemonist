@@ -294,7 +294,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
  * Method used to get the value attached to the given key in the tree or
  * undefined if not found.
  *
- * @param  {string}         key   - Key to set.
+ * @param  {string} key   - Key to get.
  * @return {any}
  */
 CritBitTreeMap.prototype.get = function(key) {
@@ -323,6 +323,39 @@ CritBitTreeMap.prototype.get = function(key) {
         return;
 
       return node.value;
+    }
+  }
+};
+
+/**
+ * Method used to return whether the given key exists in the tree.
+ *
+ * @param  {string} key - Key to test.
+ * @return {boolean}
+ */
+CritBitTreeMap.prototype.has = function(key) {
+
+  // Walk state
+  var node = this.root,
+      dir;
+
+  // Walking the tree
+  while (true) {
+
+    // Dead end
+    if (node === null)
+      return false;
+
+    // Traversing an internal node
+    if (node instanceof InternalNode) {
+      dir = getDirection(key, node.critbit);
+
+      node = dir ? node.right : node.left;
+    }
+
+    // Reaching an external node
+    else {
+      return node.key === key;
     }
   }
 };
