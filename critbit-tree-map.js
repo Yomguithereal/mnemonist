@@ -111,8 +111,6 @@ function CritBitTreeMap() {
   // Properties
   this.root = null;
   this.size = 0;
-  this.keys = [];
-  this.values = [];
 
   this.clear();
 }
