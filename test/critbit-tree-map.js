@@ -94,4 +94,16 @@ describe('CritBitTreeMap', function() {
       assert.strictEqual(tree.has(key), false);
     });
   });
+
+  it('should not clamp strings.', function() {
+    var tree = new CritBitTreeMap();
+
+    tree.set('abc', 0);
+    tree.set('zzz', 0);
+    tree.set('metastasis', 1);
+    tree.set('metastases', 2);
+
+    assert.strictEqual(tree.size, 4);
+    assert.strictEqual(tree.has('metastases'), true);
+  });
 });
