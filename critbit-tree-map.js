@@ -200,7 +200,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
       }
     }
 
-    // Reaching an internal node
+    // Reaching an external node
     else {
 
       // 1. Creating a new external node
@@ -286,6 +286,43 @@ CritBitTreeMap.prototype.set = function(key, value) {
       }
 
       return this;
+    }
+  }
+};
+
+/**
+ * Method used to get the value attached to the given key in the tree or
+ * undefined if not found.
+ *
+ * @param  {string}         key   - Key to set.
+ * @return {any}
+ */
+CritBitTreeMap.prototype.get = function(key) {
+
+  // Walk state
+  var node = this.root,
+      dir;
+
+  // Walking the tree
+  while (true) {
+
+    // Dead end
+    if (node === null)
+      return;
+
+    // Traversing an internal node
+    if (node instanceof InternalNode) {
+      dir = getDirection(key, node.critbit);
+
+      node = dir ? node.right : node.left;
+    }
+
+    // Reaching an external node
+    else {
+      if (node.key !== key)
+        return;
+
+      return node.value;
     }
   }
 };
