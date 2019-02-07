@@ -231,6 +231,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
       for (i = l - 1; i >= 0; i--) {
         ancestor = ancestors[i];
 
+        // TODO: this may mess up letter order somehow
         if (ancestor.critbit > critbit)
           continue;
 

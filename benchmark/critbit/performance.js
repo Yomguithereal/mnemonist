@@ -1,17 +1,127 @@
 var fs = require('fs');
+var shuffleInPlace = require('pandemonium/shuffle-in-place');
+var randomString = require('pandemonium/random-string');
 
 var words = fs.readFileSync('/usr/share/dict/words', 'utf-8').split('\n');
 words.length--;
+shuffleInPlace(words);
 
-var w, l = words.length;
+var w, r, l = words.length;
 
 var CritBitTreeMap = require('../../critbit-tree-map');
+var TrieMap = require('../../trie-map');
 
 var critbit = new CritBitTreeMap();
+var trie = new TrieMap();
+var map = new Map();
+var object = {};
+
+/**
+ * Set operations.
+ */
+console.group('set ops');
 
 console.time('Critbit Set');
 for (w = 0; w < l; w++)
   critbit.set(words[w], w);
 console.timeEnd('Critbit Set');
 
-console.log(critbit.size, l);
+// console.log('Cribit sanity check', critbit.size, l);
+
+console.time('Trie Set');
+for (w = 0; w < l; w++)
+  trie.set(words[w], w);
+console.timeEnd('Trie Set');
+
+// console.log('Trie sanity check', trie.size, l);
+
+console.time('Map Set');
+for (w = 0; w < l; w++)
+  map.set(words[w], w);
+console.timeEnd('Map Set');
+
+console.time('Object Set');
+for (w = 0; w < l; w++)
+  object[words[w]] = w;
+console.timeEnd('Object Set');
+
+console.groupEnd('set ops');
+
+/**
+ * Get operations.
+ */
+console.log();
+console.group('get ops');
+
+console.time('Critbit Get');
+for (w = 0; w < l; w++)
+  r = critbit.get(words[w]);
+console.timeEnd('Critbit Get');
+
+console.time('Trie Get');
+for (w = 0; w < l; w++)
+  r =trie.get(words[w]);
+console.timeEnd('Trie Get');
+
+console.time('Map Get');
+for (w = 0; w < l; w++)
+  r = map.get(words[w]);
+console.timeEnd('Map Get');
+
+console.time('Object Get');
+for (w = 0; w < l; w++)
+  r = object[words[w]];
+console.timeEnd('Object Get');
+
+console.groupEnd('get ops');
+
+/**
+ * Miss operations.
+ */
+console.log();
+console.group('miss ops');
+
+console.time('Critbit Miss');
+for (w = 0; w < l; w++)
+  r = critbit.get(randomString(3, 25));
+console.timeEnd('Critbit Miss');
+
+console.time('Trie Miss');
+for (w = 0; w < l; w++)
+  r =trie.get(randomString(3, 25));
+console.timeEnd('Trie Miss');
+
+console.time('Map Miss');
+for (w = 0; w < l; w++)
+  r = map.get(randomString(3, 25));
+console.timeEnd('Map Miss');
+
+console.time('Object Miss');
+for (w = 0; w < l; w++)
+  r = object[randomString(3, 25)];
+console.timeEnd('Object Miss');
+
+console.groupEnd('miss ops');
+
+/**
+ * Delete operations.
+ */
+console.log();
+console.group('delete ops');
+
+console.time('Critbit Delete');
+for (w = 0; w < l; w++)
+  critbit.delete(words[w]);
+console.timeEnd('Critbit Delete');
+
+console.time('Map Delete');
+for (w = 0; w < l; w++)
+  map.delete(words[w]);
+console.timeEnd('Map Delete');
+
+console.time('Object Delete');
+for (w = 0; w < l; w++)
+  delete object[words[w]];
+console.timeEnd('Object Delete');
+
+console.groupEnd('delete ops');
