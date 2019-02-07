@@ -403,15 +403,20 @@ if (require.main === module) {
   // tree.delete('abz');
   // tree.delete('abe');
 
-  var data = [
-    'abc',
-    'def',
-    'abgd',
-    'zza',
-    'idzzzudzzduuzduz'
-  ];
+  // var data = [
+  //   'abc',
+  //   'def',
+  //   'abgd',
+  //   'zza',
+  //   'idzzzudzzduuzduz'
+  // ];
 
-  data.forEach(k => tree.add(k));
+  // data.forEach(k => tree.add(k));
+  tree.add('abc', 0);
+  tree.add('zzz', 0);
+  tree.add('metastasis', 1);
+  tree.add('metastases', 2);
+  tree.add('meta', 4);
   // tree.add(String.fromCharCode(13));
   // tree.add(String.fromCharCode(10));
   // tree.add(String.fromCharCode(8));

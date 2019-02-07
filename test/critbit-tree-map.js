@@ -95,15 +95,17 @@ describe('CritBitTreeMap', function() {
     });
   });
 
-  it('should not clamp strings.', function() {
+  it('differences in string\'s lengths should not cause issues.', function() {
     var tree = new CritBitTreeMap();
 
     tree.set('abc', 0);
     tree.set('zzz', 0);
     tree.set('metastasis', 1);
     tree.set('metastases', 2);
+    tree.set('meta', 4);
 
-    assert.strictEqual(tree.size, 4);
+    assert.strictEqual(tree.size, 5);
     assert.strictEqual(tree.has('metastases'), true);
+    assert.strictEqual(tree.get('abc'), 0);
   });
 });

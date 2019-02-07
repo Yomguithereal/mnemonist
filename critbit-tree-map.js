@@ -204,7 +204,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
     else {
 
       // 1. Creating a new external node
-      critbit = findCriticalBit(key, node.key, offset);
+      critbit = findCriticalBit(key, node.key, 0);
 
       // Key is identical, we just replace the value
       if (critbit === -1) {
@@ -271,7 +271,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
       // Full rotation
       else {
         parent = ancestors[best];
-        leftPath = ancestors[best];
+        leftPath = path[best];
         child = ancestors[best + 1];
 
         if (leftPath)
