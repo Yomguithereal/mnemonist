@@ -38,11 +38,10 @@ function getDirection(key, critbit) {
  *
  * @param  {string} a      - First key.
  * @param  {string} b      - Second key.
- * @param  {number} offset - Byte offset.
  * @return {number}        - Packed address of byte + mask.
  */
-function findCriticalBit(a, b, offset) {
-  var i = offset,
+function findCriticalBit(a, b) {
+  var i = 0,
       tmp;
 
   // Swapping so a is the shortest
@@ -158,7 +157,6 @@ CritBitTreeMap.prototype.set = function(key, value) {
       internal,
       left,
       leftPath,
-      offset = 0,
       best,
       dir,
       i,
@@ -180,7 +178,6 @@ CritBitTreeMap.prototype.set = function(key, value) {
 
         ancestors.push(node);
         path.push(true);
-        offset = node.critbit >> 8;
 
         node = node.left;
       }
@@ -194,7 +191,6 @@ CritBitTreeMap.prototype.set = function(key, value) {
 
         ancestors.push(node);
         path.push(false);
-        offset = node.critbit >> 8;
 
         node = node.right;
       }
@@ -204,7 +200,7 @@ CritBitTreeMap.prototype.set = function(key, value) {
     else {
 
       // 1. Creating a new external node
-      critbit = findCriticalBit(key, node.key, 0);
+      critbit = findCriticalBit(key, node.key);
 
       // Key is identical, we just replace the value
       if (critbit === -1) {
