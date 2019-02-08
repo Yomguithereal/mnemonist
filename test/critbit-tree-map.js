@@ -4,7 +4,8 @@
  * ==========================
  */
 var assert = require('assert'),
-    CritBitTreeMap = require('../critbit-tree-map.js');
+    CritBitTreeMap = require('../critbit-tree-map.js'),
+    sortBy = require('lodash/sortBy');
 
 // var asciitree = require('asciitree');
 
@@ -107,5 +108,33 @@ describe('CritBitTreeMap', function() {
     assert.strictEqual(tree.size, 5);
     assert.strictEqual(tree.has('metastases'), true);
     assert.strictEqual(tree.get('abc'), 0);
+  });
+
+  it('should be possible to iterate over the tree.', function() {
+    var tree = new CritBitTreeMap();
+
+    var data = [
+      ['abc', 1],
+      ['xyz', 2],
+      ['Abc', 3],
+      ['abcde', 4],
+      ['bd', 5]
+    ];
+
+    var s = function(item) {
+      return item[0];
+    };
+
+    data.forEach(function(item) {
+      tree.set(item[0], item[1]);
+    });
+
+    var result = [];
+
+    tree.forEach(function(value, key) {
+      result.push([key, value]);
+    });
+
+    assert.deepEqual(result, sortBy(data, s));
   });
 });

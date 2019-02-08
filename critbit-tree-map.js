@@ -448,6 +448,44 @@ CritBitTreeMap.prototype.delete = function(key) {
 };
 
 /**
+ * Method used to iterate over the tree in key order.
+ *
+ * @param  {function}  callback - Function to call for each item.
+ * @param  {object}    scope    - Optional scope.
+ * @return {undefined}
+ */
+CritBitTreeMap.prototype.forEach = function(callback, scope) {
+  scope = arguments.length > 1 ? scope : this;
+
+  // Inorder traversal of the tree
+  var current = this.root,
+      stack = [];
+
+  while (true) {
+
+    if (current !== null) {
+      stack.push(current);
+
+      current = current instanceof InternalNode ? current.left : null;
+    }
+
+    else {
+      if (stack.length > 0) {
+        current = stack.pop();
+
+        if (current instanceof ExternalNode)
+          callback.call(scope, current.value, current.key);
+
+        current = current instanceof InternalNode ? current.right : null;
+      }
+      else {
+        break;
+      }
+    }
+  }
+};
+
+/**
  * Convenience known methods.
  */
 CritBitTreeMap.prototype.inspect = function() {
