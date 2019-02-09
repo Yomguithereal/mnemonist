@@ -58,11 +58,17 @@ exports.test = function(x, pos) {
 exports.criticalBit8 = function(a, b) {
   return msb8(a ^ b);
 };
+
 exports.criticalBit8Mask = function(a, b) {
   return (~msb8(a ^ b) >>> 0) & 0xff;
 };
+
 exports.testCriticalBit8 = function(x, mask) {
   return (1 + (x | mask)) >> 8;
+};
+
+exports.criticalBit32Mask = function(a, b) {
+  return (~msb32(a ^ b) >>> 0) & 0xffffffff;
 };
 
 /**
