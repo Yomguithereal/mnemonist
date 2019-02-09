@@ -36,7 +36,7 @@ for (w = 0; w < l; w++)
   fixed.set(words[w], w);
 console.timeEnd('Fixed Critbit Set');
 
-// console.log('Fixed Cribit sanity check', fixed.size, l);
+// console.log('Fixed Cribit sanity check', fixed.size, l, fixed.get(words[4]));
 
 console.time('Trie Set');
 for (w = 0; w < l; w++)

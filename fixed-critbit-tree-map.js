@@ -36,7 +36,7 @@ function getDirection(key, critbit) {
   var byte = key.charCodeAt(byteIndex),
       mask = critbit & 0xff;
 
-  return (1 + (byte | mask)) >> 8;
+  return byte & mask;
 }
 
 /**
@@ -63,9 +63,8 @@ function findCriticalBit(a, b) {
 
   while (i < l) {
     if (a[i] !== b[i]) {
-      mask = bitwise.criticalBit8Mask(
-        a.charCodeAt(i),
-        b.charCodeAt(i)
+      mask = bitwise.msb8(
+        a.charCodeAt(i) ^ b.charCodeAt(i)
       );
 
       return (i << 8) | mask;
@@ -79,7 +78,7 @@ function findCriticalBit(a, b) {
     return -1;
 
   // NOTE: x ^ 0 is the same as x
-  mask = bitwise.criticalBit8Mask(b.charCodeAt(i));
+  mask = bitwise.msb8(b.charCodeAt(i));
 
   return (i << 8) | mask;
 }
@@ -227,7 +226,10 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       for (i = l - 1; i >= 0; i--) {
         ancestor = ancestors[i];
 
-        if (this.critbits[ancestor] > critbit)
+        if (
+          (this.critbits[ancestor] >> 8) > (critbit >> 8) &&
+          (this.critbits[ancestor] & 0xff) < (critbit & 0xff)
+        )
           continue;
 
         best = i;
