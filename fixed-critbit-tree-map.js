@@ -106,9 +106,6 @@ function FixedCritBitTreeMap(capacity) {
   this.lefts = new PointerArray(capacity - 1);
   this.rights = new PointerArray(capacity - 1);
   this.critbits = new Uint32Array(capacity);
-
-  this.direction = [this.lefts, this.rights];
-  this.opposite = [this.rights, this.lefts];
 }
 
 /**
@@ -175,7 +172,7 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       // Choosing the correct direction
       dir = getDirection(key, this.critbits[pointer]);
 
-      leftOrRight = this.direction[dir];
+      leftOrRight = dir === 0 ? this.lefts : this.rights;
       newPointer = leftOrRight[pointer];
 
       if (newPointer === 0) {
@@ -216,8 +213,8 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       this.critbits[internal] = critbit;
 
       dir = getDirection(key, critbit);
-      leftOrRight = this.direction[dir];
-      opposite = this.opposite[dir];
+      leftOrRight = dir === 0 ? this.lefts : this.rights;
+      opposite = dir === 0 ? this.rights : this.lefts;
 
       leftOrRight[internal] = -(newPointer + 1);
       opposite[internal] = -(pointer + 1);
@@ -253,7 +250,7 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
         parent = ancestors[best];
         dir = path[best];
 
-        leftOrRight = this.direction[dir];
+        leftOrRight = dir === 0 ? this.lefts : this.rights;
 
         leftOrRight[parent] = internal + 1;
       }
@@ -266,7 +263,7 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
 
         opposite[internal] = child + 1;
 
-        leftOrRight = this.direction[dir];
+        leftOrRight = dir === 0 ? this.lefts : this.rights;
 
         leftOrRight[parent] = internal + 1;
       }
@@ -301,7 +298,7 @@ FixedCritBitTreeMap.prototype.get = function(key) {
       pointer -= 1;
       dir = getDirection(key, this.critbits[pointer]);
 
-      pointer = this.direction[dir][pointer];
+      pointer = dir === 0 ? this.lefts[pointer] : this.rights[pointer];
     }
 
     // Reaching an external node
