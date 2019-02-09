@@ -78,7 +78,8 @@ function findCriticalBit(a, b) {
   if (a.length === b.length)
     return -1;
 
-  mask = bitwise.criticalBit8Mask(b.charCodeAt(i), 0);
+  // NOTE: x ^ 0 is the same as x
+  mask = bitwise.criticalBit8Mask(b.charCodeAt(i));
 
   return (i << 8) | mask;
 }
