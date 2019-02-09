@@ -85,20 +85,25 @@ function findCriticalBit(a, b) {
  */
 function FixedCritBitTreeMap(capacity) {
 
+  if (typeof capacity !== 'number' || capacity <= 0)
+    throw new Error('mnemonist/fixed-critbit-tree-map: `capacity` should be a positive number.');
+
   // Properties
   this.capacity = capacity;
+  this.offset = 0;
   this.root = 0;
   this.size = 0;
 
-  var PointerArray = new PointerArray(capacity);
+  var PointerArray = typed.getSignedPointerArray(capacity + 1);
 
   this.keys = new Array(capacity);
   this.values = new Array(capacity);
-  this.lefts = new PointerArray(capacity);
-  this.rights = new PointerArray(capacity);
-  this.critbits = new Int32Array(capacity);
+  this.lefts = new PointerArray(capacity - 1);
+  this.rights = new PointerArray(capacity - 1);
+  this.critbits = new Uint32Array(capacity);
 
-  this.clear();
+  this.direction = [this.lefts, this.rights];
+  this.opposite = [this.rights, this.lefts];
 }
 
 /**
@@ -124,21 +129,25 @@ FixedCritBitTreeMap.prototype.clear = function() {
 FixedCritBitTreeMap.prototype.set = function(key, value) {
   var pointer;
 
+  // TODO: yell if capacity is already full!
+
   // Tree is empty
   if (this.size === 0) {
-    pointer = this.size;
-
-    this.root = pointer + 1;
-    this.keys[pointer] = key;
-    this.values[pointer] = value;
+    this.keys[0] = key;
+    this.values[0] = value;
 
     this.size++;
+
+    this.root = -1;
 
     return this;
   }
 
   // Walk state
-  var node = this.root,
+  var pointer = this.root,
+      newPointer,
+      leftOrRight,
+      opposite,
       ancestors = [],
       path = [],
       ancestor,
@@ -146,8 +155,6 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       child,
       critbit,
       internal,
-      left,
-      leftPath,
       best,
       dir,
       i,
@@ -157,63 +164,58 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
   while (true) {
 
     // Traversing an internal node
-    if (node instanceof InternalNode) {
-      dir = getDirection(key, node.critbit);
+    if (pointer > 0) {
+      pointer -= 1;
 
-      // Going left & creating key if not yet there
-      if (dir === 0) {
-        if (!node.left) {
-          node.left = new ExternalNode(key, value);
-          return this;
-        }
+      // Choosing the correct direction
+      dir = getDirection(key, this.critbits[pointer]);
 
-        ancestors.push(node);
-        path.push(true);
+      leftOrRight = this.direction[dir];
+      newPointer = leftOrRight[pointer];
 
-        node = node.left;
+      if (newPointer === 0) {
+
+        // Creating a fitting external node
+        pointer = this.size++;
+        leftOrRight[newPointer] = -(pointer + 1);
+        this.keys[pointer] = key;
+        this.values[pointer] = value;
+        return this;
       }
 
-      // Going right & creating key if not yet there
-      else {
-        if (!node.right) {
-          node.right = new ExternalNode(key, value);
-          return this;
-        }
-
-        ancestors.push(node);
-        path.push(false);
-
-        node = node.right;
-      }
+      ancestors.push(pointer);
+      path.push(dir);
+      pointer = newPointer;
     }
 
     // Reaching an external node
     else {
+      pointer = -pointer;
+      pointer -= 1;
 
       // 1. Creating a new external node
-      critbit = findCriticalBit(key, node.key);
+      critbit = findCriticalBit(key, this.keys[pointer]);
 
       // Key is identical, we just replace the value
       if (critbit === -1) {
-        node.value = value;
+        this.values[pointer] = value;
         return this;
       }
 
-      this.size++;
+      internal = this.offset++;
+      newPointer = this.size++;
 
-      internal = new InternalNode(critbit);
+      this.keys[newPointer] = key;
+      this.values[newPointer] = value;
 
-      left = getDirection(key, critbit) === 0;
+      this.critbits[internal] = critbit;
 
-      // TODO: maybe setting opposite pointer is not necessary
-      if (left) {
-        internal.left = new ExternalNode(key, value);
-        internal.right = node;
-      }
-      else {
-        internal.left = node;
-        internal.right = new ExternalNode(key, value);
-      }
+      dir = getDirection(key, critbit);
+      leftOrRight = this.direction[dir];
+      opposite = this.opposite[dir];
+
+      leftOrRight[internal] = -(newPointer + 1);
+      opposite[internal] = -(pointer + 1);
 
       // 2. Bubbling up
       best = -1;
@@ -222,8 +224,7 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       for (i = l - 1; i >= 0; i--) {
         ancestor = ancestors[i];
 
-        // TODO: this may mess up letter order somehow
-        if (ancestor.critbit > critbit)
+        if (this.critbits[ancestor] > critbit)
           continue;
 
         best = i;
@@ -232,45 +233,37 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
 
       // Do we need to attach to the root?
       if (best < 0) {
-        this.root = internal;
+        this.root = internal + 1;
 
         // Need to rewire parent as child?
         if (l > 0) {
           parent = ancestors[0];
 
-          if (left)
-            internal.right = parent;
-          else
-            internal.left = parent;
+          leftOrRight[internal] = parent + 1;
         }
       }
 
       // Simple case without rotation
       else if (best === l - 1) {
         parent = ancestors[best];
-        leftPath = path[best];
+        dir = path[best];
 
-        if (leftPath)
-          parent.left = internal;
-        else
-          parent.right = internal;
+        leftOrRight = this.direction[dir];
+
+        leftOrRight[parent] = internal + 1;
       }
 
       // Full rotation
       else {
         parent = ancestors[best];
-        leftPath = path[best];
+        dir = path[best];
         child = ancestors[best + 1];
 
-        if (leftPath)
-          parent.left = internal;
-        else
-          parent.right = internal;
+        opposite[internal] = child + 1;
 
-        if (left)
-          internal.right = child;
-        else
-          internal.left = child;
+        leftOrRight = this.direction[dir];
+
+        leftOrRight[parent] = internal + 1;
       }
 
       return this;

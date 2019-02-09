@@ -1,7 +1,7 @@
 /* eslint-disable */
 /**
- * Mnemonist Trie Unit Tests
- * ==========================
+ * Mnemonist CritBitTreeMap Unit Tests
+ * ====================================
  */
 var assert = require('assert'),
     CritBitTreeMap = require('../critbit-tree-map.js'),

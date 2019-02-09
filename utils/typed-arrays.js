@@ -19,6 +19,10 @@ var MAX_8BIT_INTEGER = Math.pow(2, 8) - 1,
     MAX_16BIT_INTEGER = Math.pow(2, 16) - 1,
     MAX_32BIT_INTEGER = Math.pow(2, 32) - 1;
 
+var MAX_SIGNED_8BIT_INTEGER = Math.pow(2, 7) - 1,
+    MAX_SIGNED_16BIT_INTEGER = Math.pow(2, 15) - 1,
+    MAX_SIGNED_32BIT_INTEGER = Math.pow(2, 31) - 1;
+
 exports.getPointerArray = function(size) {
   var maxIndex = size - 1;
 
@@ -30,6 +34,21 @@ exports.getPointerArray = function(size) {
 
   if (maxIndex <= MAX_32BIT_INTEGER)
     return Uint32Array;
+
+  return Float64Array;
+};
+
+exports.getSignedPointerArray = function(size) {
+  var maxIndex = size - 1;
+
+  if (maxIndex <= MAX_SIGNED_8BIT_INTEGER)
+    return Int8Array;
+
+  if (maxIndex <= MAX_SIGNED_16BIT_INTEGER)
+    return Int16Array;
+
+  if (maxIndex <= MAX_SIGNED_32BIT_INTEGER)
+    return Int32Array;
 
   return Float64Array;
 };
