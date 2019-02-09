@@ -8,10 +8,12 @@ shuffleInPlace(words);
 var w, r, l = words.length;
 
 var CritBitTreeMap = require('../../critbit-tree-map');
+var FixedCritBitTreeMap = require('../../fixed-critbit-tree-map');
 var TrieMap = require('../../trie-map');
 var SemiDynamicTrie = require('../../semi-dynamic-trie');
 
 var critbit = new CritBitTreeMap();
+var fixed = new FixedCritBitTreeMap(words.length);
 var trie = new TrieMap();
 var semi = new SemiDynamicTrie();
 var map = new Map();
@@ -28,6 +30,13 @@ for (w = 0; w < l; w++)
 console.timeEnd('Critbit Set');
 
 // console.log('Cribit sanity check', critbit.size, l);
+
+console.time('Fixed Critbit Set');
+for (w = 0; w < l; w++)
+  fixed.set(words[w], w);
+console.timeEnd('Fixed Critbit Set');
+
+// console.log('Fixed Cribit sanity check', fixed.size, l);
 
 console.time('Trie Set');
 for (w = 0; w < l; w++)
@@ -64,6 +73,11 @@ for (w = 0; w < l; w++)
   r = critbit.get(words[w]);
 console.timeEnd('Critbit Get');
 
+console.time('Fixed Critbit Get');
+for (w = 0; w < l; w++)
+  r = fixed.get(words[w]);
+console.timeEnd('Fixed Critbit Get');
+
 console.time('Trie Get');
 for (w = 0; w < l; w++)
   r = trie.get(words[w]);
@@ -96,6 +110,11 @@ console.time('Critbit Miss');
 for (w = 0; w < l; w++)
   r = critbit.get(randomString(3, 25));
 console.timeEnd('Critbit Miss');
+
+console.time('Fixed Critbit Miss');
+for (w = 0; w < l; w++)
+  r = fixed.get(randomString(3, 25));
+console.timeEnd('Fixed Critbit Miss');
 
 console.time('Trie Miss');
 for (w = 0; w < l; w++)

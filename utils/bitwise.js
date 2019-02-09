@@ -11,7 +11,7 @@
  * @param  {number} x - Target number.
  * @return {number}
  */
-exports.msb32 = function(x) {
+function msb32(x) {
   x |= (x >> 1);
   x |= (x >> 2);
   x |= (x >> 4);
@@ -20,6 +20,7 @@ exports.msb32 = function(x) {
 
   return (x & ~(x >> 1));
 };
+exports.msb32 = msb32;
 
 /**
  * Takes a byte and returns its MSB using SWAR strategy.
