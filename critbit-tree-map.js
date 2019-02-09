@@ -26,7 +26,12 @@ var bitwise = require('./utils/bitwise.js');
  * @return {number}         - 0, left or 1, right.
  */
 function getDirection(key, critbit) {
-  var byte = key.charCodeAt(critbit >> 8),
+  var byteIndex = critbit >> 8;
+
+  if (byteIndex > key.length - 1)
+    return 0;
+
+  var byte = key.charCodeAt(byteIndex),
       mask = critbit & 0xff;
 
   return (1 + (byte | mask)) >> 8;

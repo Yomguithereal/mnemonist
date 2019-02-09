@@ -65,6 +65,7 @@ console.groupEnd('set ops');
 /**
  * Get operations.
  */
+shuffleInPlace(words);
 console.log();
 console.group('get ops');
 
@@ -141,6 +142,7 @@ console.groupEnd('miss ops');
 /**
  * Delete operations.
  */
+shuffleInPlace(words);
 console.log();
 console.group('delete ops');
 
