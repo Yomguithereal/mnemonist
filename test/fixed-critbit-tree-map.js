@@ -64,16 +64,16 @@ describe('FixedCritBitTreeMap', function() {
     assert.strictEqual(tree.size, 1);
     assert.strictEqual(tree.get('abc'), 2);
 
-    // tree.set('azb', 2);
-    // tree.set('zzzzzzz', 3);
+    tree.set('azb', 2);
+    tree.set('zzzzzzz', 3);
 
-    // assert.strictEqual(tree.size, 3);
-    // assert.strictEqual(tree.get('azb'), 2);
-    // assert.strictEqual(tree.get('zzzzzzz'), 3);
-    // assert.strictEqual(tree.get('zzzzzzzaaaa'), undefined);
+    assert.strictEqual(tree.size, 3);
+    assert.strictEqual(tree.get('azb'), 2);
+    assert.strictEqual(tree.get('zzzzzzz'), 3);
+    assert.strictEqual(tree.get('zzzzzzzaaaa'), undefined);
 
-    // assert.strictEqual(tree.has('abc'), true);
-    // assert.strictEqual(tree.has('whatever'), false);
+    assert.strictEqual(tree.has('abc'), true);
+    assert.strictEqual(tree.has('whatever'), false);
   });
 
   // it('should be possible to delete elements.', function() {
@@ -110,19 +110,19 @@ describe('FixedCritBitTreeMap', function() {
   //   });
   // });
 
-  // it('differences in string\'s lengths should not cause issues.', function() {
-  //   var tree = new FixedCritBitTreeMap();
+  it('differences in string\'s lengths should not cause issues.', function() {
+    var tree = new FixedCritBitTreeMap(5);
 
-  //   tree.set('abc', 0);
-  //   tree.set('zzz', 0);
-  //   tree.set('metastasis', 1);
-  //   tree.set('metastases', 2);
-  //   tree.set('meta', 4);
+    tree.set('abc', 0);
+    tree.set('zzz', 0);
+    tree.set('metastasis', 1);
+    tree.set('metastases', 2);
+    tree.set('meta', 4);
 
-  //   assert.strictEqual(tree.size, 5);
-  //   assert.strictEqual(tree.has('metastases'), true);
-  //   assert.strictEqual(tree.get('abc'), 0);
-  // });
+    assert.strictEqual(tree.size, 5);
+    assert.strictEqual(tree.has('metastases'), true);
+    assert.strictEqual(tree.get('abc'), 0);
+  });
 
   // it('should be possible to iterate over the tree.', function() {
   //   var tree = new FixedCritBitTreeMap();
