@@ -281,29 +281,33 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
 FixedCritBitTreeMap.prototype.get = function(key) {
 
   // Walk state
-  var node = this.root,
+  var pointer = this.root,
       dir;
 
   // Walking the tree
   while (true) {
 
     // Dead end
-    if (node === null)
+    if (pointer === 0)
       return;
 
     // Traversing an internal node
-    if (node instanceof InternalNode) {
-      dir = getDirection(key, node.critbit);
+    if (pointer > 0) {
+      pointer -= 1;
+      dir = getDirection(key, this.critbits[pointer]);
 
-      node = dir ? node.right : node.left;
+      pointer = this.direction[dir][pointer];
     }
 
     // Reaching an external node
     else {
-      if (node.key !== key)
+      pointer = -pointer;
+      pointer -= 1;
+
+      if (this.keys[pointer] !== key)
         return;
 
-      return node.value;
+      return this.values[pointer];
     }
   }
 };

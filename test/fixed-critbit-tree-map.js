@@ -7,40 +7,40 @@ var assert = require('assert'),
     FixedCritBitTreeMap = require('../fixed-critbit-tree-map.js');
     // sortBy = require('lodash/sortBy');
 
-// var asciitree = require('asciitree');
+var asciitree = require('asciitree');
 
-// function printTree(tree) {
+function printTree(tree) {
 
-//   if (tree.size === 0)
-//     return console.log('{empty}');
+  if (tree.size === 0)
+    return console.log('{empty}');
 
-//   var string = asciitree(
-//     tree.root,
-//     function(node) {
+  var string = asciitree(
+    tree.root,
+    function(node) {
 
-//       if (node > 0)
-//         return '' + tree.critbits[node - 1];
+      if (node > 0)
+        return '' + tree.critbits[node - 1];
 
-//       node = -node;
-//       node -= 1;
+      node = -node;
+      node -= 1;
 
-//       return '(' + tree.keys[node]  + '•' + tree.values[node] + ')';
-//     },
-//     function(node) {
-//       if (node <= 0)
-//         return null;
+      return '(' + tree.keys[node]  + '•' + tree.values[node] + ')';
+    },
+    function(node) {
+      if (node <= 0)
+        return null;
 
-//       node -= 1;
+      node -= 1;
 
-//       var left = tree.lefts[node],
-//           right = tree.rights[node];
+      var left = tree.lefts[node],
+          right = tree.rights[node];
 
-//       return [left ? left : null, right ? right : null];
-//     }
-//   );
+      return [left ? left : null, right ? right : null];
+    }
+  );
 
-//   console.log(string);
-// }
+  console.log(string);
+}
 
 describe('FixedCritBitTreeMap', function() {
 
@@ -51,25 +51,18 @@ describe('FixedCritBitTreeMap', function() {
   });
 
   it('should be possible to set values.', function() {
-    // var tree = new FixedCritBitTreeMap(3);
+    var tree = new FixedCritBitTreeMap(3);
 
-    // tree.set('abc', 1);
-    // console.log(tree);
-    // printTree(tree);
-    // tree.set('zzz', 2);
-    // console.log(tree);
-    // printTree(tree);
-    // tree.set('aaa', 3);
-    // console.log(tree);
-    // printTree(tree);
-    // assert.strictEqual(tree.size, 1);
-    // assert.strictEqual(tree.get('abc'), 1);
-    // assert.strictEqual(tree.get('whatever'), undefined);
+    tree.set('abc', 1);
+    assert.strictEqual(tree.size, 1);
 
-    // tree.set('abc', 2);
+    assert.strictEqual(tree.get('abc'), 1);
+    assert.strictEqual(tree.get('whatever'), undefined);
 
-    // assert.strictEqual(tree.size, 1);
-    // assert.strictEqual(tree.get('abc'), 2);
+    tree.set('abc', 2);
+
+    assert.strictEqual(tree.size, 1);
+    assert.strictEqual(tree.get('abc'), 2);
 
     // tree.set('azb', 2);
     // tree.set('zzzzzzz', 3);
