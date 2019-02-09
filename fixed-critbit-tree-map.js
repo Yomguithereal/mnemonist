@@ -338,7 +338,7 @@ FixedCritBitTreeMap.prototype.has = function(key) {
       pointer -= 1;
       dir = getDirection(key, this.critbits[pointer]);
 
-      pointer = this.direction[dir][pointer];
+      pointer = dir === 0 ? this.lefts[pointer] : this.rights[pointer];
     }
 
     // Reaching an external node
