@@ -19,7 +19,7 @@ function msb32(x) {
   x |= (x >> 16);
 
   return (x & ~(x >> 1));
-};
+}
 exports.msb32 = msb32;
 
 /**
