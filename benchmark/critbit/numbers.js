@@ -6,10 +6,12 @@ var MAX = Math.pow(2, 32) - 1;
 
 var w, r, l = SIZE;
 
-var words = new Array(SIZE);
+var words = new Set();
 
-for (w = 0; w < l; w++)
-  words[w] = random(0, MAX);
+while (words.size < SIZE)
+  words.add(random(0, MAX));
+
+words = Array.from(words);
 
 shuffleInPlace(words);
 
