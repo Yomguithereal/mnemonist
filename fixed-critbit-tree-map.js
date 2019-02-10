@@ -226,11 +226,14 @@ FixedCritBitTreeMap.prototype.set = function(key, value) {
       for (i = l - 1; i >= 0; i--) {
         ancestor = ancestors[i];
 
-        if (
-          (this.critbits[ancestor] >> 8) > (critbit >> 8) &&
-          (this.critbits[ancestor] & 0xff) < (critbit & 0xff)
-        )
+        // TODO: this can be made faster
+        if ((this.critbits[ancestor] >> 8) > (critbit >> 8)) {
           continue;
+        }
+        else if ((this.critbits[ancestor] >> 8) === (critbit >> 8)) {
+          if ((this.critbits[ancestor] & 0xff) < (critbit & 0xff))
+            continue;
+        }
 
         best = i;
         break;
