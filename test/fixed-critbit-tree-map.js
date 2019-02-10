@@ -4,43 +4,43 @@
  * =========================================
  */
 var assert = require('assert'),
-    FixedCritBitTreeMap = require('../fixed-critbit-tree-map.js');
-    // sortBy = require('lodash/sortBy');
+    FixedCritBitTreeMap = require('../fixed-critbit-tree-map.js'),
+    sortBy = require('lodash/sortBy');
 
-var asciitree = require('asciitree');
+// var asciitree = require('asciitree');
 
-function printTree(tree) {
+// function printTree(tree) {
 
-  if (tree.size === 0)
-    return console.log('{empty}');
+//   if (tree.size === 0)
+//     return console.log('{empty}');
 
-  var string = asciitree(
-    tree.root,
-    function(node) {
+//   var string = asciitree(
+//     tree.root,
+//     function(node) {
 
-      if (node > 0)
-        return '' + tree.critbits[node - 1];
+//       if (node > 0)
+//         return '' + tree.critbits[node - 1];
 
-      node = -node;
-      node -= 1;
+//       node = -node;
+//       node -= 1;
 
-      return '(' + tree.keys[node]  + '•' + tree.values[node] + ')';
-    },
-    function(node) {
-      if (node <= 0)
-        return null;
+//       return '(' + tree.keys[node]  + '•' + tree.values[node] + ')';
+//     },
+//     function(node) {
+//       if (node <= 0)
+//         return null;
 
-      node -= 1;
+//       node -= 1;
 
-      var left = tree.lefts[node],
-          right = tree.rights[node];
+//       var left = tree.lefts[node],
+//           right = tree.rights[node];
 
-      return [left ? left : null, right ? right : null];
-    }
-  );
+//       return [left ? left : null, right ? right : null];
+//     }
+//   );
 
-  console.log(string);
-}
+//   console.log(string);
+// }
 
 describe('FixedCritBitTreeMap', function() {
 
@@ -124,31 +124,31 @@ describe('FixedCritBitTreeMap', function() {
     assert.strictEqual(tree.get('abc'), 0);
   });
 
-  // it('should be possible to iterate over the tree.', function() {
-  //   var tree = new FixedCritBitTreeMap();
+  it('should be possible to iterate over the tree.', function() {
+    var tree = new FixedCritBitTreeMap(5);
 
-  //   var data = [
-  //     ['abc', 1],
-  //     ['xyz', 2],
-  //     ['Abc', 3],
-  //     ['abcde', 4],
-  //     ['bd', 5]
-  //   ];
+    var data = [
+      ['abc', 1],
+      ['xyz', 2],
+      ['Abc', 3],
+      ['abcde', 4],
+      ['bd', 5]
+    ];
 
-  //   var s = function(item) {
-  //     return item[0];
-  //   };
+    var s = function(item) {
+      return item[0];
+    };
 
-  //   data.forEach(function(item) {
-  //     tree.set(item[0], item[1]);
-  //   });
+    data.forEach(function(item) {
+      tree.set(item[0], item[1]);
+    });
 
-  //   var result = [];
+    var result = [];
 
-  //   tree.forEach(function(value, key) {
-  //     result.push([key, value]);
-  //   });
+    tree.forEach(function(value, key) {
+      result.push([key, value]);
+    });
 
-  //   assert.deepEqual(result, sortBy(data, s));
-  // });
+    assert.deepEqual(result, sortBy(data, s));
+  });
 });

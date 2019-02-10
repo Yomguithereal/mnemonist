@@ -358,96 +358,6 @@ FixedCritBitTreeMap.prototype.has = function(key) {
 };
 
 /**
- * Method used to delete the given key from the tree and return whether the
- * key did exist or not.
- *
- * @param  {string} key - Key to delete.
- * @return {boolean}
- */
-FixedCritBitTreeMap.prototype.delete = function(key) {
-
-  // Walk state
-  var node = this.root,
-      dir;
-
-  var parent = null,
-      grandParent = null,
-      wentLeftForParent = false,
-      wentLeftForGrandparent = false;
-
-  // Walking the tree
-  while (true) {
-
-    // Dead end
-    if (node === null)
-      return false;
-
-    // Traversing an internal node
-    if (node instanceof InternalNode) {
-      dir = getDirection(key, node.critbit);
-
-      if (dir === 0) {
-        grandParent = parent;
-        wentLeftForGrandparent = wentLeftForParent;
-        parent = node;
-        wentLeftForParent = true;
-
-        node = node.left;
-      }
-      else {
-        grandParent = parent;
-        wentLeftForGrandparent = wentLeftForParent;
-        parent = node;
-        wentLeftForParent = false;
-
-        node = node.right;
-      }
-    }
-
-    // Reaching an external node
-    else {
-      if (key !== node.key)
-        return false;
-
-      this.size--;
-
-      // Rewiring
-      if (parent === null) {
-        this.root = null;
-      }
-
-      else if (grandParent === null) {
-        if (wentLeftForParent)
-          this.root = parent.right;
-        else
-          this.root = parent.left;
-      }
-
-      else {
-        if (wentLeftForGrandparent) {
-          if (wentLeftForParent) {
-            grandParent.left = parent.right;
-          }
-          else {
-            grandParent.left = parent.left;
-          }
-        }
-        else {
-          if (wentLeftForParent) {
-            grandParent.right = parent.right;
-          }
-          else {
-            grandParent.right = parent.left;
-          }
-        }
-      }
-
-      return true;
-    }
-  }
-};
-
-/**
  * Method used to iterate over the tree in key order.
  *
  * @param  {function}  callback - Function to call for each item.
@@ -459,24 +369,29 @@ FixedCritBitTreeMap.prototype.forEach = function(callback, scope) {
 
   // Inorder traversal of the tree
   var current = this.root,
-      stack = [];
+      stack = [],
+      p;
 
   while (true) {
 
-    if (current !== null) {
+    if (current !== 0) {
       stack.push(current);
 
-      current = current instanceof InternalNode ? current.left : null;
+      current = current > 0 ? this.lefts[current - 1] : 0;
     }
 
     else {
       if (stack.length > 0) {
         current = stack.pop();
 
-        if (current instanceof ExternalNode)
-          callback.call(scope, current.value, current.key);
+        if (current < 0) {
+          p = -current;
+          p -= 1;
 
-        current = current instanceof InternalNode ? current.right : null;
+          callback.call(scope, this.values[p], this.keys[p]);
+        }
+
+        current = current > 0 ? this.rights[current - 1] : 0;
       }
       else {
         break;
