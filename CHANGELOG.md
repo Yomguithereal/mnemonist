@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.28.0
+
+* Adding `LRUCache.peek` and `LRUMap.peek` (@veggiesaurus).
+
 ## 0.27.2
 
 * Fixing usage with TypeScript.
