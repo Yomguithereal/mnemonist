@@ -39,15 +39,15 @@ describe('BloomFilter', function() {
 
     filter.add('hello');
 
-    assert.deepEqual(filter.data, [128, 0, 86, 65]);
+    assert.deepEqual(Array.from(filter.data), [128, 0, 86, 65]);
 
     filter.add('world');
 
-    assert.deepEqual(filter.data, [131, 130, 94, 89]);
+    assert.deepEqual(Array.from(filter.data), [131, 130, 94, 89]);
 
     filter.add('longer string');
 
-    assert.deepEqual(filter.data, [167, 130, 95, 121]);
+    assert.deepEqual(Array.from(filter.data), [167, 130, 95, 121]);
   });
 
   it('should be possible to insert more items.', function() {
@@ -56,7 +56,7 @@ describe('BloomFilter', function() {
     for (var i = 0; i < filter.capacity; i++)
       filter.add(i % 2 ? ('hello' + i) : ('world' + i));
 
-    assert.deepEqual(filter.data, [168, 120, 121, 113, 105, 114, 37, 230, 138, 115, 203, 112, 167, 31, 235, 139, 90, 200, 77, 118, 194, 243, 25, 93, 128, 18, 115, 178, 23, 200, 73, 134, 160, 117, 57, 192, 116, 205, 164, 241, 63, 169, 140, 184, 195, 92, 45, 15, 33, 254, 79, 217, 147, 240, 50, 100, 251, 96, 216, 34, 104, 35, 6, 17, 179, 77, 146, 178]);
+    assert.deepEqual(Array.from(filter.data), [168, 120, 121, 113, 105, 114, 37, 230, 138, 115, 203, 112, 167, 31, 235, 139, 90, 200, 77, 118, 194, 243, 25, 93, 128, 18, 115, 178, 23, 200, 73, 134, 160, 117, 57, 192, 116, 205, 164, 241, 63, 169, 140, 184, 195, 92, 45, 15, 33, 254, 79, 217, 147, 240, 50, 100, 251, 96, 216, 34, 104, 35, 6, 17, 179, 77, 146, 178]);
   });
 
   it('should be possible to test items.', function() {
