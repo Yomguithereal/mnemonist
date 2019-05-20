@@ -118,13 +118,16 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('three', 3);
 
-      var result = 0;
-      cache.set('four', 4, function(v) {
-        result = v;
+      var evictedValue = 0;
+      var evictedKey = '';
+      cache.set('four', 4, function(k, v) {
+        evictedKey = k;
+        evictedValue = v;
       });
 
       assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
-      assert.equal(result, 1);
+      assert.equal(evictedKey, 'one');
+      assert.equal(evictedValue, 1);
     });
 
     it('should work with capacity = 1.', function() {

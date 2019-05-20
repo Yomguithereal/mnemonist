@@ -16,7 +16,7 @@ export default class LRUCache<K, V> implements Iterable<[K, V]> {
 
   // Methods
   clear(): void;
-  set(key: K, value: V, callback: (v: V) => void): this;
+  set(key: K, value: V, callback: (oldKey: K, oldValue: V) => void): this;
   get(key: K): V | undefined;
   peek(key: K): V | undefined;
   has(key: K): boolean;
