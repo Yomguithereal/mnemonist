@@ -161,28 +161,28 @@ describe('FixedDeque', function() {
     deque.push(2);
     deque.pop();
 
-    assert.deepEqual(deque.toArray(), [1]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([1]));
 
     deque.push(3);
     deque.push(4);
 
-    assert.deepEqual(deque.toArray(), [1, 3, 4]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([1, 3, 4]));
 
     deque.shift();
     deque.shift();
 
-    assert.deepEqual(deque.toArray(), [4]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([4]));
     deque.pop();
-    assert.deepEqual(deque.toArray(), []);
+    assert.deepEqual(deque.toArray(), new Uint8Array([]));
 
     deque.push(5);
     deque.push(6);
 
-    assert.deepEqual(deque.toArray(), [5, 6]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([5, 6]));
 
     deque.shift();
 
-    assert.deepEqual(deque.toArray(), [6]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([6]));
   });
 
   it('should be possible to iterate over the deque.', function() {
@@ -210,7 +210,7 @@ describe('FixedDeque', function() {
     deque.push(2);
     deque.push(3);
 
-    assert.deepEqual(deque.toArray(), [1, 2, 3]);
+    assert.deepEqual(deque.toArray(), new Uint8Array([1, 2, 3]));
 
     assert(deque.toArray() instanceof Uint8Array);
   });

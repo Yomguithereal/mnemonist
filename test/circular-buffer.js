@@ -203,28 +203,28 @@ describe('CircularBuffer', function() {
     buffer.push(2);
     buffer.pop();
 
-    assert.deepEqual(buffer.toArray(), [1]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([1]));
 
     buffer.push(3);
     buffer.push(4);
 
-    assert.deepEqual(buffer.toArray(), [1, 3, 4]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([1, 3, 4]));
 
     buffer.shift();
     buffer.shift();
 
-    assert.deepEqual(buffer.toArray(), [4]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([4]));
     buffer.pop();
-    assert.deepEqual(buffer.toArray(), []);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([]));
 
     buffer.push(5);
     buffer.push(6);
 
-    assert.deepEqual(buffer.toArray(), [5, 6]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([5, 6]));
 
     buffer.shift();
 
-    assert.deepEqual(buffer.toArray(), [6]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([6]));
   });
 
   it('should be possible to iterate over the buffer.', function() {
@@ -252,7 +252,7 @@ describe('CircularBuffer', function() {
     buffer.push(2);
     buffer.push(3);
 
-    assert.deepEqual(buffer.toArray(), [1, 2, 3]);
+    assert.deepEqual(buffer.toArray(), new Uint8Array([1, 2, 3]));
 
     assert(buffer.toArray() instanceof Uint8Array);
   });

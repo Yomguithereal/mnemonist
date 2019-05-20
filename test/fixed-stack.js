@@ -109,7 +109,7 @@ describe('FixedStack', function() {
     stack.push(2);
     stack.push(3);
 
-    assert.deepEqual(stack.toArray(), [3, 2, 1]);
+    assert.deepEqual(stack.toArray(), new Uint8Array([3, 2, 1]));
 
     assert(stack.toArray() instanceof Uint8Array);
   });

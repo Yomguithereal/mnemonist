@@ -62,7 +62,7 @@ describe('FixedReverseHeap', function() {
     heap.push(0);
 
     assert.strictEqual(heap.size, 3);
-    assert.deepEqual(heap.consume(), [0, 1, 3]);
+    assert.deepEqual(heap.consume(), new Uint8Array([0, 1, 3]));
   });
 
   it('should return the same type of array as given to the constructor.', function() {
@@ -92,7 +92,7 @@ describe('FixedReverseHeap', function() {
     heap.push(0);
 
     assert.strictEqual(heap.size, 2);
-    assert.deepEqual(heap.consume(), [0, 234]);
+    assert.deepEqual(heap.consume(), new Uint8Array([0, 234]));
   });
 
   it('should work with a reverse comparator.', function() {
@@ -118,6 +118,6 @@ describe('FixedReverseHeap', function() {
     heap.push(0);
 
     assert.strictEqual(heap.size, 3);
-    assert.deepEqual(heap.consume(), [234, 138, 90]);
+    assert.deepEqual(heap.consume(), new Uint8Array([234, 138, 90]));
   });
 });
