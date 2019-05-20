@@ -127,6 +127,21 @@ LRUMap.prototype.get = function(key) {
   return this.V[pointer];
 };
 
+/**
+ * Method used to get the value attached to the given key. Does not modify
+ * the ordering of the underlying linked list.
+ *
+ * @param  {any} key   - Key.
+ * @return {any}
+ */
+LRUMap.prototype.peek = function(key) {
+  var pointer = this.items.get(key);
+
+  if (typeof pointer === 'undefined')
+    return;
+
+  return this.V[pointer];
+};
 
 /**
  * Methods that can be reused as-is from LRUCache.
