@@ -120,7 +120,7 @@ function makeTests(Cache, name) {
 
       var evictedValue = 0;
       var evictedKey = '';
-      cache.set('four', 4, function(k, v) {
+      cache.set('four', 4, function(v, k) {
         evictedKey = k;
         evictedValue = v;
       });
