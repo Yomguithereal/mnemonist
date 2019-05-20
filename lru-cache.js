@@ -168,6 +168,22 @@ LRUCache.prototype.get = function(key) {
 };
 
 /**
+ * Method used to get the value attached to the given key. Does not modify
+ * the ordering of the underlying linked list.
+ *
+ * @param  {any} key   - Key.
+ * @return {any}
+ */
+LRUCache.prototype.peek = function(key) {
+    var pointer = this.items[key];
+
+    if (typeof pointer === 'undefined')
+        return;
+
+    return this.V[pointer];
+};
+
+/**
  * Method used to iterate over the cache's entries using a callback.
  *
  * @param  {function}  callback - Function to call for each item.

@@ -53,6 +53,9 @@ function makeTests(Cache, name) {
       assert.strictEqual(cache.get('three'), 3);
       assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
+      assert.strictEqual(cache.peek('two'), 5);
+      assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
+
       if (name === 'LRUCache')
         assert.strictEqual(Object.keys(cache.items).length, 3);
       else
