@@ -26,7 +26,7 @@ describe('StaticDisjointSet', function() {
 
     var mapping = sets.mapping();
 
-    assert.deepEqual(mapping, [0, 0, 1, 1, 1, 0, 2, 0, 3, 3]);
+    assert.deepEqual(Array.from(mapping), [0, 0, 1, 1, 1, 0, 2, 0, 3, 3]);
 
     var compiled = sets.compile();
     assert.deepEqual(Array.from(compiled, a => Array.from(a)), [[0, 1, 5, 7], [2, 3, 4], [6], [8, 9]]);
