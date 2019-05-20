@@ -111,6 +111,22 @@ function makeTests(Cache, name) {
       assert.deepEqual(Array.from(cache.values()), [3, 2, 1]);
     });
 
+    it('should be possible to get a callback when items are evicted from cache', function() {
+      var cache = new Cache(3);
+
+      cache.set('one', 1);
+      cache.set('two', 2);
+      cache.set('three', 3);
+
+      var result = 0;
+      cache.set('four', 4, function(v) {
+        result = v;
+      });
+
+      assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
+      assert.equal(result, 1);
+    });
+
     it('should work with capacity = 1.', function() {
       var cache = new Cache(1);
 

@@ -88,7 +88,7 @@ LRUMap.prototype.set = function(key, value, callback) {
     pointer = this.tail;
     this.tail = this.backward[pointer];
     if (callback) {
-      callback(this.items[this.K[pointer]]);
+      callback(this.V[pointer]);
     }
     this.items.delete(this.K[pointer]);
   }
