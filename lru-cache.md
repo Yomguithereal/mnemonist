@@ -146,7 +146,7 @@ cache.get('one');
 
 Retrieves the value associated to the given key in the cache or `undefined` if the key is not found.
 
-Unlike `get`, it does not modify the underlying list.
+Unlike [`#.get`](#get), it does not modify the underlying list.
 
 `O(1)`
 
