@@ -63,6 +63,7 @@ var cache = LRUMap.from({one: 1, two: 2}, Array, Uint8Array, 10);
 *Read*
 
 * [#.get](#get)
+* [#.peek](#peek)
 * [#.has](#has)
 
 *Iteration*
@@ -138,6 +139,21 @@ If the key is found, the key is moved to the front of the underlying list to be 
 var cache = new LRUMap(Array, 10);
 cache.set('one', 1);
 cache.get('one');
+>>> 1
+```
+
+### #.peek
+
+Retrieves the value associated to the given key in the cache or `undefined` if the key is not found.
+
+Unlike `get`, it does not modify the underlying list.
+
+`O(1)`
+
+```js
+var cache = new LRUMap(Array, 10);
+cache.set('one', 1);
+cache.peek('one');
 >>> 1
 ```
 
