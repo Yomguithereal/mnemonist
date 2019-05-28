@@ -120,14 +120,39 @@ function makeTests(Cache, name) {
 
       var evictedValue = 0;
       var evictedKey = '';
-      cache.set('four', 4, function(v, k) {
+      var isOverwritten = false;
+      cache.setWithCallback('four', 4, function(v, k, overwritten) {
         evictedKey = k;
         evictedValue = v;
+        isOverwritten = overwritten;
       });
 
       assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
       assert.equal(evictedKey, 'one');
       assert.equal(evictedValue, 1);
+      assert.equal(isOverwritten, false);
+    });
+
+    it('should be possible to get a callback when items are overwritten from cache', function() {
+      var cache = new Cache(3);
+
+      cache.set('one', 1);
+      cache.set('two', 2);
+      cache.set('three', 3);
+
+      var overwrittenValue = 0;
+      var overwrittenKey = '';
+      var isOverwritten = false;
+      cache.setWithCallback('three', 10, function(v, k, overwritten) {
+        overwrittenKey = k;
+        overwrittenValue = v;
+        isOverwritten = overwritten;
+      });
+
+      assert.deepEqual(Array.from(cache.values()), [10, 2, 1]);
+      assert.equal(overwrittenKey, 'three');
+      assert.equal(overwrittenValue, 3);
+      assert.equal(isOverwritten, true);
     });
 
     it('should work with capacity = 1.', function() {

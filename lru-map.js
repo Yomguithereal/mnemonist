@@ -62,11 +62,9 @@ LRUMap.prototype.clear = function() {
  *
  * @param  {any} key   - Key.
  * @param  {any} value - Value.
- * @param  {function} callback - Callback function to be called
- * when evicting items from cache
  * @return {undefined}
  */
-LRUMap.prototype.set = function(key, value, callback) {
+LRUMap.prototype.set = function(key, value) {
 
   // The key already exists, we just need to update the value and splay on top
   var pointer = this.items.get(key);
@@ -87,8 +85,55 @@ LRUMap.prototype.set = function(key, value, callback) {
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
+    this.items.delete(this.K[pointer]);
+  }
+
+  // Storing key & value
+  this.items.set(key, pointer);
+  this.K[pointer] = key;
+  this.V[pointer] = value;
+
+  // Moving the item at the front of the list
+  this.forward[pointer] = this.head;
+  this.backward[this.head] = pointer;
+  this.head = pointer;
+};
+
+/**
+ * Method used to set the value for the given key in the cache.
+ * Runs a callback when a tile is overwritten or evicted
+ *
+ * @param  {any} key   - Key.
+ * @param  {any} value - Value.
+ * @param  {function} callback - Callback function to be called
+ * when evicting or overwriting items from cache
+ * @return {undefined}
+ */
+LRUMap.prototype.setWithCallback = function(key, value, callback) {
+
+  // The key already exists, we just need to update the value and splay on top
+  var pointer = this.items.get(key);
+
+  if (typeof pointer !== 'undefined') {
+    this.splayOnTop(pointer);
     if (callback) {
-      callback(this.V[pointer], this.K[pointer]);
+      callback(this.V[pointer], this.K[pointer], true);
+    }
+    this.V[pointer] = value;
+    return;
+  }
+
+  // The cache is not yet full
+  if (this.size < this.capacity) {
+    pointer = this.size++;
+  }
+
+  // Cache is full, we need to drop the last value
+  else {
+    pointer = this.tail;
+    this.tail = this.backward[pointer];
+    if (callback) {
+      callback(this.V[pointer], this.K[pointer], false);
     }
     this.items.delete(this.K[pointer]);
   }
