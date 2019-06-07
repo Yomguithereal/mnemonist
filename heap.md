@@ -17,7 +17,7 @@ var MinHeap = require('mnemonist/heap').MinHeap;
 var MaxHeap = require('mnemonist/heap').MaxHeap;
 ```
 
-If you now the maximum number of items you will store and need a more performant implementation, check out the [`FixedReverseHeap`]({{ site.baseurl }}/fixed-reverse-heap).
+If you know the maximum number of items you will store and need a more performant implementation, check out the [`FixedReverseHeap`]({{ site.baseurl }}/fixed-reverse-heap).
 
 ## Use case
 
