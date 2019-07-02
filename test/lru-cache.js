@@ -129,10 +129,10 @@ function makeTests(Cache, name) {
           cache.set('one', 1);
           cache.set('two', 2);
           var popResult = cache.setpop('three', 3);
-          assert.equal(popResult, null)
+          assert.equal(popResult, null);
     });
 
-    it('should be possible to get a callback when items are overwritten from cache', function() {
+    it('should be possible to pop an overwritten value when items are overwritten from cache', function() {
       var cache = new Cache(3);
 
       cache.set('one', 1);
