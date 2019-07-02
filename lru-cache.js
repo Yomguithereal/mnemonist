@@ -140,26 +140,27 @@ LRUCache.prototype.set = function(key, value) {
 };
 
 /**
- * Method used to set the value for the given key in the cache.
+ * Method used to set the value for the given key in the cache
  *
  * @param  {any} key   - Key.
  * @param  {any} value - Value.
- * @param  {function} callback - Callback function to be called
- * when evicting items from cache
- * @return {undefined}
+ * @return {{evicted: boolean, key: any, value: any}} An object containing the
+ * key and value of an item that was overwritten or evicted in the set
+ * operation, as well as a boolean indicating whether it was evicted due to
+ * limited capacity. Object is null if no values were evicted or overwritten in
+ * the set operation
  */
-LRUCache.prototype.setWithCallback = function(key, value, callback) {
-
+LRUCache.prototype.setpop = function(key, value) {
+  var oldValue = null;
+  var oldKey = null;
   // The key already exists, we just need to update the value and splay on top
   var pointer = this.items[key];
 
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
-    if (callback) {
-      callback(this.V[pointer], this.K[pointer], true);
-    }
+    oldValue = this.V[pointer];
     this.V[pointer] = value;
-    return;
+    return {evicted: false, key: key, value: oldValue};
   }
 
   // The cache is not yet full
@@ -171,9 +172,8 @@ LRUCache.prototype.setWithCallback = function(key, value, callback) {
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
-    if (callback) {
-      callback(this.V[pointer], this.K[pointer], false);
-    }
+    oldValue = this.V[pointer];
+    oldKey = this.K[pointer];
     delete this.items[this.K[pointer]];
   }
 
@@ -186,6 +186,14 @@ LRUCache.prototype.setWithCallback = function(key, value, callback) {
   this.forward[pointer] = this.head;
   this.backward[this.head] = pointer;
   this.head = pointer;
+
+  // Return object if eviction took place, otherwise return null
+  if (oldKey) {
+    return {evicted: true, key: oldKey, value: oldValue};
+  }
+  else {
+    return null;
+  }
 };
 
 /**

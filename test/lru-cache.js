@@ -111,26 +111,16 @@ function makeTests(Cache, name) {
       assert.deepEqual(Array.from(cache.values()), [3, 2, 1]);
     });
 
-    it('should be possible to get a callback when items are evicted from cache', function() {
+    it('should be possible to pop an evicted value when items are evicted from cache', function() {
       var cache = new Cache(3);
 
       cache.set('one', 1);
       cache.set('two', 2);
       cache.set('three', 3);
 
-      var evictedValue = 0;
-      var evictedKey = '';
-      var isOverwritten = false;
-      cache.setWithCallback('four', 4, function(v, k, overwritten) {
-        evictedKey = k;
-        evictedValue = v;
-        isOverwritten = overwritten;
-      });
-
+      var popResult = cache.setpop('four', 4);
+      assert.deepEqual(popResult, {evicted: true, key: 'one', value: 1});
       assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
-      assert.equal(evictedKey, 'one');
-      assert.equal(evictedValue, 1);
-      assert.equal(isOverwritten, false);
     });
 
     it('should be possible to get a callback when items are overwritten from cache', function() {
@@ -140,19 +130,9 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('three', 3);
 
-      var overwrittenValue = 0;
-      var overwrittenKey = '';
-      var isOverwritten = false;
-      cache.setWithCallback('three', 10, function(v, k, overwritten) {
-        overwrittenKey = k;
-        overwrittenValue = v;
-        isOverwritten = overwritten;
-      });
-
+      var popResult = cache.setpop('three', 10);
+      assert.deepEqual(popResult, {evicted: false, key: 'three', value: 3});
       assert.deepEqual(Array.from(cache.values()), [10, 2, 1]);
-      assert.equal(overwrittenKey, 'three');
-      assert.equal(overwrittenValue, 3);
-      assert.equal(isOverwritten, true);
     });
 
     it('should work with capacity = 1.', function() {

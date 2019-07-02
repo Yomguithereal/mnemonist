@@ -17,7 +17,7 @@ export default class LRUMap<K, V> implements Iterable<[K, V]> {
   // Methods
   clear(): void;
   set(key: K, value: V): this;
-  setWithCallback(key: K, value: V, callback: (oldValue: V, oldKey: K, overwriting: boolean) => void): this;
+  setpop(key: K, value: V): {evicted: boolean, value: V, key: K};
   get(key: K): V | undefined;
   peek(key: K): V | undefined;
   has(key: K): boolean;
