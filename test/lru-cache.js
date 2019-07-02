@@ -123,6 +123,15 @@ function makeTests(Cache, name) {
       assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
     });
 
+    it('should return null when setting an item does not overwrite or evict', function() {
+          var cache = new Cache(3);
+
+          cache.set('one', 1);
+          cache.set('two', 2);
+          var popResult = cache.setpop('three', 3);
+          assert.equal(popResult, null)
+    });
+
     it('should be possible to get a callback when items are overwritten from cache', function() {
       var cache = new Cache(3);
 
