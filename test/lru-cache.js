@@ -111,6 +111,39 @@ function makeTests(Cache, name) {
       assert.deepEqual(Array.from(cache.values()), [3, 2, 1]);
     });
 
+    it('should be possible to pop an evicted value when items are evicted from cache', function() {
+      var cache = new Cache(3);
+
+      cache.set('one', 1);
+      cache.set('two', 2);
+      cache.set('three', 3);
+
+      var popResult = cache.setpop('four', 4);
+      assert.deepEqual(popResult, {evicted: true, key: 'one', value: 1});
+      assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
+    });
+
+    it('should return null when setting an item does not overwrite or evict', function() {
+          var cache = new Cache(3);
+
+          cache.set('one', 1);
+          cache.set('two', 2);
+          var popResult = cache.setpop('three', 3);
+          assert.equal(popResult, null);
+    });
+
+    it('should be possible to pop an overwritten value when items are overwritten from cache', function() {
+      var cache = new Cache(3);
+
+      cache.set('one', 1);
+      cache.set('two', 2);
+      cache.set('three', 3);
+
+      var popResult = cache.setpop('three', 10);
+      assert.deepEqual(popResult, {evicted: false, key: 'three', value: 3});
+      assert.deepEqual(Array.from(cache.values()), [10, 2, 1]);
+    });
+
     it('should work with capacity = 1.', function() {
       var cache = new Cache(1);
 
