@@ -58,6 +58,7 @@ var cache = LRUMap.from({one: 1, two: 2}, Array, Uint8Array, 10);
 *Mutation*
 
 * [#.set](#set)
+* [#.setpop](#setpop)
 * [#.clear](#clear)
 
 *Read*
@@ -108,6 +109,22 @@ var cache = new LRUMap(Array, 10);
 cache.set('one', 1);
 cache.has('one');
 >>> true
+```
+
+### #.setpop
+
+Sets a value for the given key in the cache. If the cache is already full, the least recently used key will be dropped from the cache, and an object containing the dropped key, dropped value and `evicted = true` will be returned. If the key already exists, an object containing the key, previous value and `evicted = false` will be returned. If no eviction or overwrite occurs, `null` is returned. 
+
+`O(1)`
+
+```js
+var cache = new LRUMap(Array, 1);
+cache.setpop('one', 1)
+>>> null
+cache.setpop('one', 10)
+>>> {key: 'one', value: 1, evicted: false}
+cache.setpop('two', 2)
+>>> {key: 'one', value: 10, evicted: true}
 ```
 
 ### #.clear
