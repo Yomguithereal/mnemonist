@@ -147,8 +147,8 @@ LRUCache.prototype.set = function(key, value) {
  * @return {{evicted: boolean, key: any, value: any}} An object containing the
  * key and value of an item that was overwritten or evicted in the set
  * operation, as well as a boolean indicating whether it was evicted due to
- * limited capacity. Object is null if no values were evicted or overwritten in
- * the set operation
+ * limited capacity. Return value is null if nothing was evicted or overwritten
+ * during the set operation.
  */
 LRUCache.prototype.setpop = function(key, value) {
   var oldValue = null;

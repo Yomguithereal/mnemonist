@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.29.0
+
+* Adding `LRUCache.setpop` and `LRUMap.setpop` (@veggiesaurus).
+
 ## 0.28.0
 
 * Adding `LRUCache.peek` and `LRUMap.peek` (@veggiesaurus).
