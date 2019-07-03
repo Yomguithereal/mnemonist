@@ -80,7 +80,7 @@ var cache = LRUMap.from({one: 1, two: 2}, Array, Uint8Array, 10);
 Maximum number of items the cache is able to store.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.capacity
 >>> 10
 ```
@@ -90,7 +90,7 @@ cache.capacity
 Number of items actually in the cache.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.size
 >>> 0
 cache.set('one', 1);
@@ -105,7 +105,7 @@ Sets a value for the given key in the cache. If the cache is already full, the l
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.set('one', 1);
 cache.has('one');
 >>> true
@@ -113,12 +113,12 @@ cache.has('one');
 
 ### #.setpop
 
-Sets a value for the given key in the cache. If the cache is already full, the least recently used key will be dropped from the cache, and an object containing the dropped key, dropped value and `evicted = true` will be returned. If the key already exists, an object containing the key, previous value and `evicted = false` will be returned. If no eviction or overwrite occurs, `null` is returned. 
+Sets a value for the given key in the cache. If the cache is already full, the least recently used key will be dropped from the cache, and an object containing the dropped key, dropped value and `evicted = true` will be returned. If the key already exists, an object containing the key, previous value and `evicted = false` will be returned. If no eviction or overwrite occurs, `null` is returned.
 
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 1);
+var cache = new LRUMap(1);
 cache.setpop('one', 1)
 >>> null
 cache.setpop('one', 10)
@@ -134,7 +134,7 @@ Completely clears the cache.
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.set('one', 1);
 cache.clear();
 
@@ -153,7 +153,7 @@ If the key is found, the key is moved to the front of the underlying list to be 
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.set('one', 1);
 cache.get('one');
 >>> 1
@@ -168,7 +168,7 @@ Unlike [`#.get`](#get), it does not modify the underlying list.
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.set('one', 1);
 cache.peek('one');
 >>> 1
@@ -181,7 +181,7 @@ Retrieves whether the given key exists in the cache.
 `O(1)`
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 cache.set('one', 1);
 cache.has('one');
 >>> true
@@ -195,7 +195,7 @@ cache.has('two');
 Iterates over the cache from the most to the least recently used key-value pair.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
@@ -210,7 +210,7 @@ cache.forEach(function(value, key, cache) {
 Returns an iterator over the cache's keys from the most to the least recently used key.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
@@ -226,7 +226,7 @@ iterator.next().value
 Returns an iterator over the cache's values from the most to the least recently used value.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
@@ -242,7 +242,7 @@ iterator.next().value
 Returns an iterator over the cache's entries from the most to the least recently used entry.
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
@@ -258,7 +258,7 @@ iterator.next().value
 Alternatively, you can iterate over a cache's entries using ES2015 `for...of` protocol:
 
 ```js
-var cache = new LRUMap(Array, 10);
+var cache = new LRUMap(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
