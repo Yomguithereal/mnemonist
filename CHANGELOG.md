@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.29.1 (provisional)
+
+* Stricter TS definitions (`--noImplicitAny`, `--noImplicitReturns`) (@pbadenski).
+
 ## 0.29.0
 
 * Adding `LRUCache.setpop` and `LRUMap.setpop` (@veggiesaurus).
