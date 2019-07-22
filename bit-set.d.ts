@@ -13,9 +13,9 @@ export default class BitSet implements Iterable<number> {
 
   // Methods
   clear(): void;
-  set(index: number, value?: boolean | number);
-  reset(index: number, value: boolean | number);
-  flip(index: number, value: boolean | number);
+  set(index: number, value?: boolean | number): void;
+  reset(index: number, value: boolean | number): void;
+  flip(index: number, value: boolean | number): void;
   get(index: number): number;
   test(index: number): boolean;
   rank(r: number): number;
