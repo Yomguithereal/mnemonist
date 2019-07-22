@@ -22,8 +22,8 @@ export default class BitVector implements Iterable<number> {
   // Methods
   clear(): void;
   set(index: number, value?: boolean | number): this;
-  reset(index: number, value: boolean | number);
-  flip(index: number, value: boolean | number);
+  reset(index: number, value: boolean | number): void;
+  flip(index: number, value: boolean | number): void;
   reallocate(capacity: number): this;
   grow(capacity?: number): this;
   resize(length: number): this;

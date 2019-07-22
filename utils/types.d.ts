@@ -6,11 +6,11 @@
  */
 export interface IArrayLike {
   length: number;
-  slice(from, to?): IArrayLike;
+  slice(from: number, to?: number): IArrayLike;
 }
 
 export type ArrayLike = IArrayLike | ArrayBuffer;
 
 export interface IArrayLikeConstructor {
-  new(...args): ArrayLike;
+  new(...args: any[]): ArrayLike;
 }
