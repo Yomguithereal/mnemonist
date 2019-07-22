@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.29.1 (provisional)
+## 0.30.0
 
 * Stricter TS definitions (`--noImplicitAny`, `--noImplicitReturns`) (@pbadenski).
 
