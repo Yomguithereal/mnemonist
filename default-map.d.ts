@@ -16,6 +16,7 @@ export default class DefaultMap<K, V> implements Iterable<[K, V]> {
   delete(key: K): boolean;
   has(key: K): boolean;
   get(key: K): V | undefined;
+  peek(key: K): V | undefined;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
   keys(): Iterator<K>;
   values(): Iterator<V>;

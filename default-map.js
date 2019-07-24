@@ -35,7 +35,7 @@ DefaultMap.prototype.clear = function() {
 
 /**
  * Method used to get the value set for given key. If the key does not exist,
- * the value will be set.
+ * the value will be created using the provided factory.
  *
  * @param  {any} key - Target key.
  * @return {any}
@@ -50,6 +50,17 @@ DefaultMap.prototype.get = function(key) {
   }
 
   return value;
+};
+
+/**
+ * Method used to get the value set for given key. If the key does not exist,
+ * a value won't be created.
+ *
+ * @param  {any} key - Target key.
+ * @return {any}
+ */
+DefaultMap.prototype.peek = function(key) {
+  return this.items.get(key);
 };
 
 /**

@@ -97,4 +97,15 @@ describe('DefaultMap', function() {
     assert.strictEqual(map.get('test2'), 1);
     assert.strictEqual(map.size, 2);
   });
+
+  it('should be possible to peek.', function() {
+    var map = new DefaultMap(FACTORY);
+
+    map.get('one').push(1);
+
+    assert.deepEqual(map.peek('one'), [1]);
+    assert.strictEqual(map.peek('two'), undefined);
+    assert.strictEqual(map.size, 1);
+    assert.strictEqual(map.has('two'), false);
+  });
 });

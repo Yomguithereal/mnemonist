@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.31.0 (provisional)
+
+* Adding `DefaultMap.peek`.
+
 ## 0.30.0
 
 * Stricter TS definitions (`--noImplicitAny`, `--noImplicitReturns`) (@pbadenski).
