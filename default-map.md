@@ -82,7 +82,22 @@ var map = new DefaultMap((key, size) => `${key}-${size}`);
 
 ## Members & Methods
 
-The `DefaultMap` has the exact same interface as JavaScript's [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+The `DefaultMap` has the exact same interface as JavaScript's [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map). Except for the following:
+
+* [#.peek](#peek)
+
+### #.peek
+
+Same as `#.get` except that it won't create a value using the provided factory if key is not found.
+
+```js
+var map = new DefaultMap(() => []);
+
+map.peek('one');
+>>> undefined
+map.size
+>>> 0
+```
 
 ## Typical factories
 
