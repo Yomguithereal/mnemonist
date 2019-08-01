@@ -194,7 +194,7 @@ map.multiplicity('hello');
 
 map.set('hello', 'world');
 map.multiplicity('hello');
->>> 0
+>>> 1
 ```
 
 ### #.get
@@ -231,7 +231,7 @@ map.forEach(function(value, key) {
 
 ### #.forEachAssociation
 
-Iterates over each of the associations of the multimap.
+Iterates over each of the associations (key, container) of the multimap.
 
 ```js
 var map = new Multimap();
