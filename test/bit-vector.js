@@ -44,6 +44,22 @@ describe('BitVector', function() {
     assert.strictEqual(vector.test(3), false);
   });
 
+  it('should count set bits when only last bit is set', function() {
+    var set = new BitVector(32);
+
+    set.set(31);
+
+    assert.strictEqual(set.size, 1);
+  });
+
+  it('should count set bits when only last bit is flipped', function() {
+    var set = new BitVector(32);
+
+    set.flip(31);
+
+    assert.strictEqual(set.size, 1);
+  });
+
   it('should be possible to reset bits.', function() {
     var vector = new BitVector(4);
 
