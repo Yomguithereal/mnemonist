@@ -51,6 +51,14 @@ describe('BitSet', function() {
     assert.strictEqual(set.size, 1);
   });
 
+  it('should count set bits when only last bit is flipped', function() {
+    var set = new BitSet(32);
+
+    set.flip(31);
+
+    assert.strictEqual(set.size, 1);
+  });
+
   it('should be possible to reset bits.', function() {
     var set = new BitSet(4);
 
