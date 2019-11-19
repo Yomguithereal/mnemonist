@@ -137,10 +137,10 @@ BitVector.prototype.applyPolicy = function(override) {
   var newCapacity = this.policy(override || this.capacity);
 
   if (typeof newCapacity !== 'number' || newCapacity < 0)
-    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned an invalid value (expecting a positive integer).');
+    throw new Error('mnemonist/bit-vector.applyPolicy: policy returned an invalid value (expecting a positive integer).');
 
   if (newCapacity <= this.capacity)
-    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned a less or equal capacity to allocate.');
+    throw new Error('mnemonist/bit-vector.applyPolicy: policy returned a less or equal capacity to allocate.');
 
   // TODO: we should probably check that the returned number is an integer
 

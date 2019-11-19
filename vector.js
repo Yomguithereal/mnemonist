@@ -37,7 +37,7 @@ var pointerArrayFactory = function(capacity) {
  */
 function Vector(ArrayClass, initialCapacityOrOptions) {
   if (arguments.length < 1)
-    throw new Error('mnemonist/dynamic-array: expecting at least a byte array constructor.');
+    throw new Error('mnemonist/vector: expecting at least a byte array constructor.');
 
   var initialCapacity = initialCapacityOrOptions || 0,
       policy = DEFAULT_GROWING_POLICY,
@@ -101,10 +101,10 @@ Vector.prototype.applyPolicy = function(override) {
   var newCapacity = this.policy(override || this.capacity);
 
   if (typeof newCapacity !== 'number' || newCapacity < 0)
-    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned an invalid value (expecting a positive integer).');
+    throw new Error('mnemonist/vector.applyPolicy: policy returned an invalid value (expecting a positive integer).');
 
   if (newCapacity <= this.capacity)
-    throw new Error('mnemonist.dynamic-array.applyPolicy: policy returned a less or equal capacity to allocate.');
+    throw new Error('mnemonist/vector.applyPolicy: policy returned a less or equal capacity to allocate.');
 
   // TODO: we should probably check that the returned number is an integer
   return newCapacity;

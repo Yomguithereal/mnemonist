@@ -11,7 +11,7 @@ describe('Vector', function() {
   it('should throw if given too few arguments.', function() {
     assert.throws(function() {
       new Vector();
-    }, /dynamic-array/);
+    }, /vector/);
   });
 
   it('should be possible to create a dynamic vector.', function() {
