@@ -59,6 +59,12 @@ BitSet.prototype.set = function(index, value) {
   else
     newBytes = this.array[byteIndex] |= (1 << pos);
 
+  // The operands of all bitwise operators are converted to *signed* 32-bit integers.
+  // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Signed_32-bit_integers
+  // Shifting by 31 changes the sign (i.e. 1 << 31 = -2147483648).
+  // Therefore, get the unsigned representation by shifting with `>>> 0`.
+  newBytes = newBytes >>> 0;
+
   // Updating size
   if (newBytes > oldBytes)
     this.size++;

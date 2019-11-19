@@ -43,6 +43,14 @@ describe('BitSet', function() {
     assert.strictEqual(set.test(3), false);
   });
 
+  it('should count set bits when only last bit is set', function() {
+    var set = new BitSet(32);
+
+    set.set(31);
+
+    assert.strictEqual(set.size, 1);
+  });
+
   it('should be possible to reset bits.', function() {
     var set = new BitSet(4);
 
