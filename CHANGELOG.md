@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.31.1
+
+* Fixing `BitSet` & `BitVector` `#.size` caching edge case.
+
 ## 0.31.0
 
 * Adding `DefaultMap.peek`.
