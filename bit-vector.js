@@ -75,6 +75,8 @@ BitVector.prototype.set = function(index, value) {
   else
     newBytes = this.array[byteIndex] |= (1 << pos);
 
+  newBytes = Math.abs(newBytes);
+
   // Updating size
   if (newBytes > oldBytes)
     this.size++;
@@ -117,6 +119,8 @@ BitVector.prototype.flip = function(index) {
       oldBytes = this.array[byteIndex];
 
   var newBytes = this.array[byteIndex] ^= (1 << pos);
+
+  newBytes = Math.abs(newBytes);
 
   // Updating size
   if (newBytes > oldBytes)
