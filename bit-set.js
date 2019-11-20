@@ -62,8 +62,8 @@ BitSet.prototype.set = function(index, value) {
   // The operands of all bitwise operators are converted to *signed* 32-bit integers.
   // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Signed_32-bit_integers
   // Shifting by 31 changes the sign (i.e. 1 << 31 = -2147483648).
-  // Therefore, get absolute value.
-  newBytes = Math.abs(newBytes);
+  // Therefore, get unsigned representation by applying '>>> 0'.
+  newBytes = newBytes >>> 0;
 
   // Updating size
   if (newBytes > oldBytes)
@@ -108,7 +108,8 @@ BitSet.prototype.flip = function(index) {
 
   var newBytes = this.array[byteIndex] ^= (1 << pos);
 
-  newBytes = Math.abs(newBytes);
+  // Get unsigned representation.
+  newBytes = newBytes >>> 0;
 
   // Updating size
   if (newBytes > oldBytes)
