@@ -1,8 +1,10 @@
 # Changelog
 
-## 0.31.0 (provisional)
+## 0.31.0
 
 * Adding `DefaultMap.peek`.
+* Fixing some error messages.
+* Fixing `BitSet` & `BitVector` `#.size` caching.
 
 ## 0.30.0
 
