@@ -398,7 +398,8 @@ BitVector.prototype.forEach = function(callback, scope) {
 
   var length = this.length,
       byte,
-      bit;
+      bit,
+      b = 32;
 
   for (var i = 0, l = this.array.length; i < l; i++) {
     byte = this.array[i];
