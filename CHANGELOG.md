@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.31.2 (provisional)
+## 0.31.2
 
 * Fixing `BitSet` & `BitVector` iteration methods edge case.
+* Fixing `BitSet` & `BitVector` `#.select` method.
 
 ## 0.31.1
 
