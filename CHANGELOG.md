@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.31.2 (provisional)
+
+* Fixing `BitSet` & `BitVector` iteration methods edge case.
+
 ## 0.31.1
 
 * Fixing `BitSet` & `BitVector` `#.size` caching edge case.

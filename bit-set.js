@@ -225,13 +225,16 @@ BitSet.prototype.select = function(r) {
 BitSet.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
-  var byte,
-      bit;
+  var length = this.length,
+      byte,
+      bit,
+      b = 32;
 
   for (var i = 0, l = this.array.length; i < l; i++) {
     byte = this.array[i];
 
-    var b = i === l - 1 ? this.length % 32 : 32;
+    if (i === l - 1)
+      b = length % 32 || 32;
 
     for (var j = 0; j < b; j++) {
       bit = (byte >> j) & 1;
@@ -255,7 +258,7 @@ BitSet.prototype.values = function() {
       l = array.length,
       i = 0,
       j = -1,
-      b;
+      b = 32;
 
   return new Iterator(function next() {
     if (!inner) {
@@ -265,7 +268,9 @@ BitSet.prototype.values = function() {
           done: true
         };
 
-      b = i === l - 1 ? length % 32 : 32;
+      if (i === l - 1)
+        b = length % 32 || 32;
+
       byte = array[i++];
       inner = true;
       j = -1;
@@ -301,7 +306,7 @@ BitSet.prototype.entries = function() {
       l = array.length,
       i = 0,
       j = -1,
-      b;
+      b = 32;
 
   return new Iterator(function next() {
     if (!inner) {
@@ -311,7 +316,9 @@ BitSet.prototype.entries = function() {
           done: true
         };
 
-      b = i === l - 1 ? length % 32 : 32;
+      if (i === l - 1)
+        b = length % 32 || 32;
+
       byte = array[i++];
       inner = true;
       j = -1;

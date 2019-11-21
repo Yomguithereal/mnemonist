@@ -162,6 +162,22 @@ describe('BitSet', function() {
     assert.deepEqual(obliterator.take(set.entries()), indexedArray);
   });
 
+  it('length divisible by 32 iteration, issue #117.', function() {
+    var set = new BitSet(64);
+
+    var iterator = set.entries();
+    var result = iterator.next();
+    var counter = 0;
+
+    while (!result.done) {
+      assert.deepEqual(result.value, [counter, 0]);
+      result = iterator.next();
+      counter++;
+    }
+
+    assert.strictEqual(counter, set.length);
+  });
+
   it('should be possible to export to JSON.', function() {
     var set = new BitSet(10);
     set.set(2);

@@ -163,6 +163,22 @@ describe('BitVector', function() {
     assert.deepEqual(obliterator.take(vector.entries()), indexedArray);
   });
 
+  it('length divisible by 32 iteration, issue #117.', function() {
+    var set = new BitVector(64);
+
+    var iterator = set.entries();
+    var result = iterator.next();
+    var counter = 0;
+
+    while (!result.done) {
+      assert.deepEqual(result.value, [counter, 0]);
+      result = iterator.next();
+      counter++;
+    }
+
+    assert.strictEqual(counter, set.length);
+  });
+
   it('should return undefined on out-of-bound values.', function() {
     var vector = new BitVector(5);
 
