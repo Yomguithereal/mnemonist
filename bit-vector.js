@@ -361,11 +361,11 @@ BitVector.prototype.select = function(r) {
     return -1;
 
   var byte,
-      b = 0,
+      b = 32,
       p = 0,
       c = 0;
 
-  for (var i = 0, l = this.length; i < l; i++) {
+  for (var i = 0, l = this.array.length; i < l; i++) {
     byte = this.array[i];
 
     // The byte is empty, let's continue
@@ -373,7 +373,8 @@ BitVector.prototype.select = function(r) {
       continue;
 
     // TODO: This branching might not be useful here
-    b = i === l - 1 ? this.length % 32 : 32;
+    if (i === l - 1)
+      b = this.length % 32 || 32;
 
     // TODO: popcount should speed things up here
 
