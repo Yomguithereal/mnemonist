@@ -209,7 +209,7 @@ function nsmallest(compare, n, iterable) {
 
   var result;
 
-  // If n is equal to 1, it's just a matter of find the minimum
+  // If n is equal to 1, it's just a matter of finding the minimum
   if (n === 1) {
     if (iterables.isArrayLike(iterable)) {
       for (i = 0, l = iterable.length; i < l; i++) {
@@ -304,7 +304,7 @@ function nlargest(compare, n, iterable) {
 
   var result;
 
-  // If n is equal to 1, it's just a matter of find the maximum
+  // If n is equal to 1, it's just a matter of finding the maximum
   if (n === 1) {
     if (iterables.isArrayLike(iterable)) {
       for (i = 0, l = iterable.length; i < l; i++) {
