@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.31.3 (provisional)
+## 0.31.3
 
 * Fixing `Heap.nsmallest` & `Heap.nlargest` docs & typings.
+* Fixing `Heap.nsmallest` & `Heap.nlargest` not using custom comparator function when `n = 1`.
 
 ## 0.31.2
 
