@@ -405,7 +405,7 @@ Heap.nsmallest(3, [4, 2, 1, 5, 6, 8]);
 >>> [1, 2, 4]
 
 // If you need a custom comparator
-Heap.nsmallest(3, comparator, [4, 2, 1, 5, 6, 8]);
+Heap.nsmallest(comparator, 3, [4, 2, 1, 5, 6, 8]);
 ```
 
 ### nlargest
@@ -422,5 +422,5 @@ Heap.nlargest(3, [4, 2, 1, 5, 6, 8]);
 
 // If you need a custom comparator
 // BEWARE: must be the same as you would use with nsmallest!
-Heap.nlargest(3, comparator, [4, 2, 1, 5, 6, 8]);
+Heap.nlargest(comparator, 3, [4, 2, 1, 5, 6, 8]);
 ```
