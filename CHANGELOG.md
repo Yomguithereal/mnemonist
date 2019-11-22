@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.31.3 (provisional)
+
+* Fixing `Heap.nsmallest` & `Heap.nlargest` docs & typings.
+
 ## 0.31.2
 
 * Fixing `BitSet` & `BitVector` iteration methods edge case.
