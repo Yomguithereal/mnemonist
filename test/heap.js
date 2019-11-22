@@ -206,27 +206,27 @@ describe('Heap', function() {
     assert.deepEqual(Heap.nlargest(3, set.values()), [134, 45, 9]);
   });
 
-  // it('should use the given comparator when n = 1, issue #120.', function() {
-  //   var comparator = function(a, b) {
-  //     var aEven = a % 2 === 0,
-  //         bEven = b % 2 === 0;
+  it('should use the given comparator when n = 1, issue #120.', function() {
+    var comparator = function(a, b) {
+      var aEven = a % 2 === 0,
+          bEven = b % 2 === 0;
 
-  //     if (aEven && !bEven)
-  //       return 1;
-  //     if (!aEven && bEven)
-  //       return -1;
+      if (aEven && !bEven)
+        return 1;
+      if (!aEven && bEven)
+        return -1;
 
-  //     return -DEFAULT_COMPARATOR(a, b);
-  //   };
+      return -DEFAULT_COMPARATOR(a, b);
+    };
 
-  //   var array = [2, 3, 1, 6, 4, 10, 8, 9, 7];
+    var array = [2, 3, 1, 6, 4, 10, 8, 9, 7];
 
-  //   var first = Heap.nsmallest(comparator, 1, array);
+    var first = Heap.nsmallest(comparator, 1, array);
 
-  //   assert.deepEqual(first, [9]);
+    assert.deepEqual(first, [9]);
 
-  //   var first = Heap.nlargest(comparator, 1, array);
+    first = Heap.nlargest(comparator, 1, array);
 
-  //   assert.deepEqual(first, [2]);
-  // });
+    assert.deepEqual(first, [2]);
+  });
 });

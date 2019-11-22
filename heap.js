@@ -215,7 +215,7 @@ function nsmallest(compare, n, iterable) {
       for (i = 0, l = iterable.length; i < l; i++) {
         v = iterable[i];
 
-        if (v < min)
+        if (min === Infinity || compare(v, min) < 0)
           min = v;
       }
 
@@ -226,7 +226,7 @@ function nsmallest(compare, n, iterable) {
     }
 
     forEach(iterable, function(value) {
-      if (value < min)
+      if (min === Infinity || compare(value, min) < 0)
         min = value;
     });
 
@@ -310,7 +310,7 @@ function nlargest(compare, n, iterable) {
       for (i = 0, l = iterable.length; i < l; i++) {
         v = iterable[i];
 
-        if (v > max)
+        if (max === -Infinity || compare(v, max) > 0)
           max = v;
       }
 
@@ -321,7 +321,7 @@ function nlargest(compare, n, iterable) {
     }
 
     forEach(iterable, function(value) {
-      if (value > max)
+      if (max === -Infinity || compare(value, max) > 0)
         max = value;
     });
 
