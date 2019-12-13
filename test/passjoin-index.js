@@ -12,56 +12,56 @@ var EXPECTED_INTERVALS = [
   [[1, 3, 6, 3], [7, 7]]
 ];
 
-// var MULTI_MATCH_AWARE_TESTS = [
-//   [
-//     [0, 7, ['a']],
-//     [1, 7, ['at']],
-//     [2, 7, ['re']],
-//     [3, 7, ['ha']]
-//   ],
+var MULTI_MATCH_AWARE_TESTS = [
+  [
+    [0, 7, ['a']],
+    [1, 7, ['at']],
+    [2, 7, ['ra']],
+    [3, 7, ['ha']]
+  ],
 
-//   [
-//     [0, 8, ['av']],
-//     [1, 8, ['at', 'ta']],
-//     [2, 8, ['re', 'es']],
-//     [3, 8, ['ha']]
-//   ],
+  [
+    [0, 8, ['av']],
+    [1, 8, ['at', 'te']],
+    [2, 8, ['ra', 'as']],
+    [3, 8, ['ha']]
+  ],
 
-//   [
-//     [0, 9, ['av']],
-//     [1, 9, ['va', 'at', 'ta']],
-//     [2, 9, ['ar', 're', 'es']],
-//     [3, 9, ['sha']]
-//   ],
+  [
+    [0, 9, ['av']],
+    [1, 9, ['va', 'at', 'te']],
+    [2, 9, ['er', 'ra', 'as']],
+    [3, 9, ['sha']]
+  ],
 
-//   [
-//     [0, 10, ['av']],
-//     [1, 10, ['va', 'at', 'ta']],
-//     [2, 10, ['tar', 'are', 'res']],
-//     [3, 10, ['sha']]
-//   ],
+  [
+    [0, 10, ['av']],
+    [1, 10, ['va', 'at', 'te']],
+    [2, 10, ['ter', 'era', 'ras']],
+    [3, 10, ['sha']]
+  ],
 
-//   [
-//     [0, 11, ['av']],
-//     [1, 11, ['vat', 'ata', 'tar']],
-//     [2, 11, ['tar', 'are', 'res']],
-//     [3, 11, ['sha']]
-//   ],
+  [
+    [0, 11, ['av']],
+    [1, 11, ['vat', 'ate', 'ter']],
+    [2, 11, ['ter', 'era', 'ras']],
+    [3, 11, ['sha']]
+  ],
 
-//   [
-//     [0, 12, ['ava']],
-//     [1, 12, ['ata', 'tar']],
-//     [2, 12, ['are', 'res']],
-//     [3, 12, ['sha']]
-//   ],
+  [
+    [0, 12, ['ava']],
+    [1, 12, ['ate', 'ter']],
+    [2, 12, ['era', 'ras']],
+    [3, 12, ['sha']]
+  ],
 
-//   [
-//     [0, 13, ['ava']],
-//     [1, 13, ['ata']],
-//     [2, 13, ['are']],
-//     [3, 13, ['esha']]
-//   ]
-// ];
+  [
+    [0, 13, ['ava']],
+    [1, 13, ['ate']],
+    [2, 13, ['era']],
+    [3, 13, ['asha']]
+  ]
+];
 
 describe('PassjoinIndex', function() {
 
@@ -100,23 +100,28 @@ describe('PassjoinIndex', function() {
     });
   });
 
-  // it('should be possible to extract the multi-match aware substrings.', function() {
-  //   MULTI_MATCH_AWARE_TESTS.forEach(function(group) {
-  //     var P = PassjoinIndex.partition(3, group[0][1]);
+  it('should be possible to extract the multi-match aware substrings.', function() {
+    MULTI_MATCH_AWARE_TESTS.forEach(function(group) {
+      var P = PassjoinIndex.partition(3, group[0][1]);
 
-  //     group.forEach(function(params, j) {
-  //       var i = params[0],
-  //           l = params[1],
-  //           substrings = params[2];
+      group.forEach(function(params, j) {
+        var i = params[0],
+            l = params[1],
+            substrings = params[2];
 
-  //       var pi = P[j][0],
-  //           li = P[j][1];
+        var pi = P[j][0],
+            li = P[j][1];
 
-  //       assert.deepEqual(
-  //         PassjoinIndex.multiMatchAwareSubstrings(3, 'avaterasha', l, i, pi, li),
-  //         substrings
-  //       );
-  //     });
-  //   });
-  // });
+        assert.deepEqual(
+          PassjoinIndex.multiMatchAwareSubstrings(3, 'avaterasha', l, i, pi, li),
+          substrings
+        );
+      });
+    });
+
+    // Duplicate letters
+    var substringsWithoutDuplicates = PassjoinIndex.multiMatchAwareSubstrings(3, 'avatssssha', 11, 2, 5, 3);
+
+    assert.deepEqual(substringsWithoutDuplicates, ['tss', 'sss']);
+  });
 });
