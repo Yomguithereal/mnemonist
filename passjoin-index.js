@@ -121,6 +121,8 @@ function partition(k, l) {
  * @param   {string} string - Target string.
  * @returns {Array}         - The string's segments.
  */
+
+// TODO: optimize!
 function segments(k, string) {
   var i, l = k + 1;
 
@@ -132,6 +134,78 @@ function segments(k, string) {
     S[i] = string.slice(P[i][0], P[i][0] + P[i][1]);
 
   return S;
+}
+
+/**
+ * Function returning the interval of relevant substrings to lookup using the
+ * multi-match-aware substring selection scheme described in the paper.
+ *
+ * @param   {number} k      - Levenshtein distance threshold.
+ * @param   {number} delta  - Signed length difference between both considered strings.
+ * @param   {number} i      - k + 1 segment index.
+ * @param   {number} s      - String's length.
+ * @param   {number} pi     - k + 1 segment position in target string.
+ * @param   {number} li     - k + 1 segment length.
+ * @returns {Array}         - The interval (start, stop).
+ */
+function multiMatchAwareInterval(k, delta, i, s, pi, li) {
+  var start1 = pi - i,
+      end1 = pi + i;
+
+  var o = k - i;
+
+  var start2 = pi + delta - o,
+      end2 = pi + delta + o;
+
+  var end3 = s - li;
+
+  return [Math.max(0, start1, start2), Math.min(end1, end2, end3)];
+}
+
+/**
+ * Function yielding relevant substrings to lookup using the multi-match-aware
+ * substring selection scheme described in the paper.
+ *
+ * @param   {number} k      - Levenshtein distance threshold.
+ * @param   {string} string  - Target string.
+ * @param   {number} l      - Length of strings to match.
+ * @param   {number} i      - k + 1 segment index.
+ * @param   {number} pi     - k + 1 segment position in target string.
+ * @param   {number} li     - k + 1 segment length.
+ * @returns {Array}         - The contiguous substrings.
+ */
+function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
+  var s = string.length;
+
+  // Note that we need to keep the non-absolute delta for this function
+  // to work in both directions, up & down
+  var delta = s - l;
+
+  var interval = multiMatchAwareInterval(k, delta, i, s, pi, li);
+
+  var start = interval[0],
+      stop = interval[1];
+
+  var currentSubstring = '';
+
+  var substrings = [];
+
+  var substring, j, m;
+
+  for (j = start, m = stop + 1; j < m; j++) {
+    substring = string.slice(j, j + li);
+
+    // We skip identical consecutive substrings (to avoid repetition in case
+    // of contiguous letter duplication)
+    if (substring === currentSubstring)
+      continue;
+
+    substrings.push(substring);
+
+    currentSubstring = substring;
+  }
+
+  return substrings;
 }
 
 /**
@@ -181,5 +255,7 @@ PassjoinIndex.countKeys = countKeys;
 PassjoinIndex.comparator = comparator;
 PassjoinIndex.partition = partition;
 PassjoinIndex.segments = segments;
+PassjoinIndex.multiMatchAwareInterval = multiMatchAwareInterval;
+PassjoinIndex.multiMatchAwareSubstrings = multiMatchAwareSubstrings;
 
 module.exports = PassjoinIndex;
