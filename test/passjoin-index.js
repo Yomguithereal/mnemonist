@@ -3,6 +3,7 @@
  * ==============================
  */
 var assert = require('assert'),
+    leven = require('leven'),
     PassjoinIndex = require('../passjoin-index.js');
 
 var EXPECTED_INTERVALS = [
@@ -61,6 +62,19 @@ var MULTI_MATCH_AWARE_TESTS = [
     [2, 13, ['era']],
     [3, 13, ['asha']]
   ]
+];
+
+var STRINGS = [
+  'benjamin',
+  'paule',
+  'paul',
+  'pa',
+  'benja',
+  'benjomon',
+  'ab',
+  'a',
+  'b',
+  ''
 ];
 
 describe('PassjoinIndex', function() {
@@ -124,4 +138,42 @@ describe('PassjoinIndex', function() {
 
     assert.deepEqual(substringsWithoutDuplicates, ['tss', 'sss']);
   });
+
+  it('should throw if given wrong arguments.', function() {
+    assert.throws(function() {
+      new PassjoinIndex();
+    }, /Levenshtein/);
+
+    assert.throws(function() {
+      new PassjoinIndex(Function.prototype, -45);
+    }, /number > 0/);
+  });
+
+  it('should be possible to add & search values using the index.', function() {
+    var k1 = new PassjoinIndex(leven, 1),
+        k2 = new PassjoinIndex(leven, 2),
+        k3 = new PassjoinIndex(leven, 3);
+
+    STRINGS.forEach(function(string) {
+      k1.add(string);
+      k2.add(string);
+      k3.add(string);
+    });
+
+    assert.strictEqual(k1.size, STRINGS.length);
+    assert.strict(k1.k, 1);
+
+    assert.deepEqual(k1.search('paul'), new Set(['paul', 'paule']));
+    assert.deepEqual(k1.search('paulet'), new Set(['paule']));
+    assert.deepEqual(k1.search('a'), new Set(['', 'a', 'b', 'pa', 'ab']));
+
+    assert.deepEqual(k2.search('benjiman'), new Set(['benjamin', 'benjomon']));
+
+    assert.deepEqual(k3.search('benja'), new Set(['benjamin', 'benja']));
+    assert.deepEqual(k3.search('pa'), new Set(['', 'a', 'b', 'pa', 'ab', 'paul', 'paule']));
+  });
 });
+
+// TODO: test with arbitrary sequences
+// TODO: iteration functions
+// TODO: use multiarray

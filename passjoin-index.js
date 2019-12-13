@@ -213,7 +213,15 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
  *
  * @constructor
  */
-function PassjoinIndex() {
+function PassjoinIndex(distance, k) {
+  if (typeof distance !== 'function')
+    throw new Error('mnemonist/passjoin-index: `distance` should be a function computing the Levenshtein distance between two strings.');
+
+  if (typeof k !== 'number' || k < 1)
+    throw new Error('mnemonist/passjoin-index: `k` should be a number > 0');
+
+  this.distance = distance;
+  this.k = k;
   this.clear();
 }
 
@@ -225,13 +233,142 @@ function PassjoinIndex() {
 PassjoinIndex.prototype.clear = function() {
 
   // Properties
+  this.size = 0;
+  this.strings = [];
+  this.invertedIndices = {};
+};
+
+/**
+ * Method used to add a new value to the index.
+ *
+ * @param  {string|Array} value - Value to add.
+ * @return {PassjoinIndex}
+ */
+PassjoinIndex.prototype.add = function(value) {
+  var l = value.length;
+
+  var stringIndex = this.size;
+
+  this.strings.push(value);
+  this.size++;
+
+  var S = segments(this.k, value);
+
+  var Ll = this.invertedIndices[l];
+
+  if (typeof Ll === 'undefined') {
+    Ll = {};
+    this.invertedIndices[l] = Ll;
+  }
+
+  var segment,
+      matches,
+      key,
+      i,
+      m;
+
+  for (i = 0, m = S.length; i < m; i++) {
+    segment = S[i];
+    key = segment + i;
+    matches = Ll[key];
+
+    if (typeof matches === 'undefined') {
+      matches = [stringIndex];
+      Ll[key] = matches;
+    }
+    else {
+      matches.push(stringIndex);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Method used to search for string matching the given query.
+ *
+ * @param  {string|Array} query - Query string.
+ * @return {Array}
+ */
+PassjoinIndex.prototype.search = function(query) {
+  var s = query.length,
+      k = this.k;
+
+  var M = new Set();
+
+  var candidates,
+      candidate,
+      key,
+      S,
+      P,
+      l,
+      m,
+      i,
+      n1,
+      j,
+      n2,
+      y,
+      n3;
+
+  for (l = Math.max(0, s - k), m = s + k + 1; l < m; l++) {
+    var Ll = this.invertedIndices[l];
+
+    if (typeof Ll === 'undefined')
+      continue;
+
+    P = partition(k, l);
+
+    for (i = 0, n1 = P.length; i < n1; i++) {
+      S = multiMatchAwareSubstrings(k, query, l, i, P[i][0], P[i][1]);
+
+      // Empty string edge case
+      if (!S.length)
+        S = [''];
+
+      for (j = 0, n2 = S.length; j < n2; j++) {
+        key = S[j] + i;
+        candidates = Ll[key];
+
+        if (typeof candidates === 'undefined')
+          continue;
+
+        for (y = 0, n3 = candidates.length; y < n3; y++) {
+          candidate = this.strings[candidates[y]];
+
+          // NOTE: first condition is here not to compute Levenshtein
+          // distance for tiny strings
+          if (
+            s <= k && l <= k ||
+            (
+              !M.has(candidate) &&
+              (
+                query === candidate ||
+                this.distance(query, candidate) <= this.k
+              )
+            )
+          )
+            M.add(candidate);
+        }
+      }
+    }
+  }
+
+  return M;
 };
 
 /**
  * Convenience known methods.
  */
 PassjoinIndex.prototype.inspect = function() {
-  return this;
+  var array = this.strings.slice();
+
+  // Trick so that node displays the name of the constructor
+  Object.defineProperty(array, 'constructor', {
+    value: PassjoinIndex,
+    enumerable: false
+  });
+
+  return array;
 };
 
 if (typeof Symbol !== 'undefined')
