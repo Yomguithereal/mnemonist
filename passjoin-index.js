@@ -209,6 +209,137 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
 }
 
 /**
+ * Function returning a fraction of the Levenshtein distance between two strings
+ * with heuristics leveraging the fact that we know their lengths and which of
+ * their selected substrings matched.
+ *
+ * @note Ported from: https://github.com/lispc/EditDistanceClusterer/blob/master/src/edu/tsinghua/dbgroup/EditDistanceJoiner.java
+ *
+ * @param   {string} s1        - First string.
+ * @param   {number} start1    - Start in first string.
+ * @param   {number} l1        - Length of first string segment.
+ * @param   {string} s2        - Secong string.
+ * @param   {number} start2    - Start in second string.
+ * @param   {number} l2        - Length of second string segment.
+ * @param   {number} threshold - Distance threshold.
+ * @param   {Array}  buffer    - Distance computations buffer.
+ * @returns {number}
+ */
+function levenshteinWithThreshold(s1, start1, l1, s2, start2, l2, threshold, buffer) {
+  if (threshold < 0)
+    return 0;
+
+  var sub1, sub2;
+
+  if (threshold === 0) {
+    sub1 = s1.slice(start1, start1 + l1);
+    sub2 = s2.slice(start2, start2 + l2);
+
+    return sub1 === sub2 ? 0 : 1;
+  }
+
+  if (l1 === 0)
+    return l2;
+
+  if (l2 === 0)
+    return l1;
+
+  var i, j, t;
+
+  var start,
+      end;
+
+  var earlyTermination = true;
+
+  for (j = 1; j <= l1; j++) {
+    start = Math.max(j - threshold, 1);
+    end = Math.min(l2, j + threshold);
+
+    t = j - threshold - 1;
+
+    if (t >= 1)
+      buffer[t][j] = threshold + 1;
+
+    for (i = start; i <= end; i++) {
+      if (s1[start1 + j - 1] === s2[start2 + i - 1]) {
+        buffer[i][j] = buffer[i - 1][j - 1];
+      }
+      else {
+        buffer[i][j] = Math.min(
+          buffer[i - 1][j - 1],
+          buffer[i - 1][j],
+          buffer[i][j - 1]
+        ) + 1;
+      }
+    }
+
+    if (end < l2)
+      buffer[end + 1][j] = threshold + 1;
+
+    earlyTermination = true;
+    for (i = start; i <= end; i++) {
+      if (buffer[i][j] <= threshold) {
+        earlyTermination = false;
+        break;
+      }
+    }
+
+    if (earlyTermination)
+      return threshold + 1;
+  }
+
+  return buffer[l2][l1];
+}
+
+/**
+ * Function returning the Levenshtein distance between two strings using
+ * heuristics leveraging the fact that we know their lengths and which of
+ * their selected substrings matched. Will return -1 if the strings cannot
+ * match because their distance is over a threshold `k`.
+ *
+ * @note Ported from: https://github.com/lispc/EditDistanceClusterer/blob/master/src/edu/tsinghua/dbgroup/EditDistanceJoiner.java
+ *
+ * @param   {number} k      - Edit distance threshold.
+ * @param   {string} s1     - First string.
+ * @param   {string} s2     - Second string.
+ * @param   {number} i1     - Position of match in first string.
+ * @param   {number} i2     - Position of match in second string.
+ * @param   {number} li     - Length of matched segment.
+ * @param   {Array}  buffer - Distance computations buffer.
+ * @returns {number}
+ */
+function levenshteinDistanceForCandidate(k, s1, s2, i1, i2, li, buffer) {
+  var l1 = s1.length - i1 - li,
+      l2 = s2.length - i2 - li;
+
+  var leftThreshold = k - Math.abs(l1 - l2);
+
+  var leftDistance = levenshteinWithThreshold(
+    s1, 0, i1,
+    s2, 0, i2,
+    leftThreshold,
+    buffer
+  );
+
+  if (leftDistance > leftThreshold)
+    return -1;
+
+  var rightThreshold = k - leftDistance;
+
+  var rightDistance = levenshteinWithThreshold(
+    s1, i1 + li, l1,
+    s2, i2 + li, l2,
+    rightThreshold,
+    buffer
+  );
+
+  if (rightDistance > rightThreshold)
+    return -1;
+
+  return leftDistance + rightDistance;
+}
+
+/**
  * PassjoinIndex.
  *
  * @constructor
@@ -394,5 +525,6 @@ PassjoinIndex.partition = partition;
 PassjoinIndex.segments = segments;
 PassjoinIndex.multiMatchAwareInterval = multiMatchAwareInterval;
 PassjoinIndex.multiMatchAwareSubstrings = multiMatchAwareSubstrings;
+PassjoinIndex.levenshteinDistanceForCandidate = levenshteinDistanceForCandidate;
 
 module.exports = PassjoinIndex;
