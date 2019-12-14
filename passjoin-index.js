@@ -302,21 +302,21 @@ function levenshteinWithThreshold(s1, start1, l1, s2, start2, l2, threshold, buf
  * @param   {number} k      - Edit distance threshold.
  * @param   {string} s1     - First string.
  * @param   {string} s2     - Second string.
- * @param   {number} i1     - Position of match in first string.
- * @param   {number} i2     - Position of match in second string.
+ * @param   {number} pi1    - Position of match in first string.
+ * @param   {number} pi2    - Position of match in second string.
  * @param   {number} li     - Length of matched segment.
  * @param   {Array}  buffer - Distance computations buffer.
  * @returns {number}
  */
-function levenshteinDistanceForCandidate(k, s1, s2, i1, i2, li, buffer) {
-  var l1 = s1.length - i1 - li,
-      l2 = s2.length - i2 - li;
+function levenshteinDistanceForCandidate(k, i, s1, s2, pi1, pi2, li, buffer) {
+  var l1 = s1.length - pi1 - li,
+      l2 = s2.length - pi2 - li;
 
-  var leftThreshold = k - Math.abs(l1 - l2);
+  var leftThreshold = Math.min(k - Math.abs(l1 - l2), i);
 
   var leftDistance = levenshteinWithThreshold(
-    s1, 0, i1,
-    s2, 0, i2,
+    s1, 0, pi1,
+    s2, 0, pi2,
     leftThreshold,
     buffer
   );
@@ -324,11 +324,14 @@ function levenshteinDistanceForCandidate(k, s1, s2, i1, i2, li, buffer) {
   if (leftDistance > leftThreshold)
     return -1;
 
-  var rightThreshold = k - leftDistance;
+  var rightThreshold = Math.min(k - leftDistance, k + 1 - (i - 1));
+
+  if (rightThreshold < 0)
+    return leftDistance;
 
   var rightDistance = levenshteinWithThreshold(
-    s1, i1 + li, l1,
-    s2, i2 + li, l2,
+    s1, pi1 + li, l1,
+    s2, pi2 + li, l2,
     rightThreshold,
     buffer
   );
@@ -344,15 +347,23 @@ function levenshteinDistanceForCandidate(k, s1, s2, i1, i2, li, buffer) {
  *
  * @constructor
  */
-function PassjoinIndex(distance, k) {
-  if (typeof distance !== 'function')
-    throw new Error('mnemonist/passjoin-index: `distance` should be a function computing the Levenshtein distance between two strings.');
-
+function PassjoinIndex(k) {
   if (typeof k !== 'number' || k < 1)
     throw new Error('mnemonist/passjoin-index: `k` should be a number > 0');
 
-  this.distance = distance;
   this.k = k;
+
+  var max = 1000;
+  this.buffer = new Array(max);
+
+  for (var i = 0; i < max; i++)
+    this.buffer[i] = new Float64Array(max);
+
+  for (var i = 0; i < max; i++) {
+    this.buffer[0][i] = i;
+    this.buffer[i][0] = i;
+  }
+
   this.clear();
 }
 
@@ -435,12 +446,14 @@ PassjoinIndex.prototype.search = function(query) {
       l,
       m,
       i,
+      pi2,
       n1,
       j,
       n2,
       y,
       n3;
 
+  // TODO: factorize P[i][0]
   for (l = Math.max(0, s - k), m = s + k + 1; l < m; l++) {
     var Ll = this.invertedIndices[l];
 
@@ -456,6 +469,7 @@ PassjoinIndex.prototype.search = function(query) {
       if (!S.length)
         S = [''];
 
+      pi2 = 0;
       for (j = 0, n2 = S.length; j < n2; j++) {
         key = S[j] + i;
         candidates = Ll[key];
@@ -474,12 +488,23 @@ PassjoinIndex.prototype.search = function(query) {
               !M.has(candidate) &&
               (
                 query === candidate ||
-                this.distance(query, candidate) <= this.k
+                levenshteinDistanceForCandidate(
+                  this.k,
+                  i,
+                  query,
+                  candidate,
+                  P[i][0],
+                  pi2,
+                  P[i][1],
+                  this.buffer
+                ) !== -1
               )
             )
           )
             M.add(candidate);
         }
+
+        pi2 += S[j].length;
       }
     }
   }
