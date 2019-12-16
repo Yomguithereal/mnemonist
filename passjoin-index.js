@@ -209,134 +209,138 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
 }
 
 /**
- * Function returning a fraction of the Levenshtein distance between two strings
- * with heuristics leveraging the fact that we know their lengths and which of
- * their selected substrings matched.
+ * Function returning the Levenshtein distance between two sequences
+ * but with a twist: this version will stop its computation if distance
+ * exceed a given maximum and return Infinity. This version only works on
+ * strings and leverage the `.charCodeAt` method to perform fast comparisons
+ * between 16 bits integers.
  *
- * @note Ported from: https://github.com/lispc/EditDistanceClusterer/blob/master/src/edu/tsinghua/dbgroup/EditDistanceJoiner.java
+ * It has been tweaked from talisman's version so that it can work on specific
+ * segments of target strings to leverage the information we get from
+ * substring match in the index.
  *
- * @param   {string} s1        - First string.
- * @param   {number} start1    - Start in first string.
- * @param   {number} l1        - Length of first string segment.
- * @param   {string} s2        - Secong string.
- * @param   {number} start2    - Start in second string.
- * @param   {number} l2        - Length of second string segment.
- * @param   {number} threshold - Distance threshold.
- * @param   {Array}  buffer    - Distance computations buffer.
- * @returns {number}
+ * @param  {number} max  - Maximum distance.
+ * @param  {string} a    - The first string to process.
+ * @param  {number} aPos - Starting position in string a.
+ * @param  {number} aLen - Length of segment in string a.
+ * @param  {string} b    - The second string to process.
+ * @param  {number} bPos - Starting position in string b.
+ * @param  {number} bLen - Length of segment in string b.
+ * @return {number}      - The Levenshtein distance between a & b or Infinity.
  */
-function levenshteinWithThreshold(s1, start1, l1, s2, start2, l2, threshold, buffer) {
-  if (threshold < 0)
+var VECTOR = [];
+var CODES = [];
+
+function segmentedLimitedLevenshtein(max, a, aPos, aLen, b) {
+  if (a === b)
     return 0;
 
-  var sub1, sub2;
+  const tmp = a;
 
-  if (threshold === 0) {
-    sub1 = s1.slice(start1, start1 + l1);
-    sub2 = s2.slice(start2, start2 + l2);
-
-    return sub1 === sub2 ? 0 : 1;
+  // Swapping the strings so that the shorter string is the first one.
+  if (a.length > b.length) {
+    a = b;
+    b = tmp;
   }
 
-  if (l1 === 0)
-    return l2;
+  let la = a.length,
+      lb = b.length;
 
-  if (l2 === 0)
-    return l1;
+  if (!la)
+    return lb > max ? Infinity : lb;
+  if (!lb)
+    return la > max ? Infinity : la;
 
-  var i, j, t;
-
-  var start,
-      end;
-
-  var earlyTermination = true;
-
-  for (j = 1; j <= l1; j++) {
-    start = Math.max(j - threshold, 1);
-    end = Math.min(l2, j + threshold);
-
-    t = j - threshold - 1;
-
-    if (t >= 1)
-      buffer[t][j] = threshold + 1;
-
-    for (i = start; i <= end; i++) {
-      if (s1[start1 + j - 1] === s2[start2 + i - 1]) {
-        buffer[i][j] = buffer[i - 1][j - 1];
-      }
-      else {
-        buffer[i][j] = Math.min(
-          buffer[i - 1][j - 1],
-          buffer[i - 1][j],
-          buffer[i][j - 1]
-        ) + 1;
-      }
-    }
-
-    if (end < l2)
-      buffer[end + 1][j] = threshold + 1;
-
-    earlyTermination = true;
-    for (i = start; i <= end; i++) {
-      if (buffer[i][j] <= threshold) {
-        earlyTermination = false;
-        break;
-      }
-    }
-
-    if (earlyTermination)
-      return threshold + 1;
+  // Ignoring common suffix
+  // NOTE: ~- is a fast - 1 operation, it does not work on big number though
+  while (la > 0 && (a.charCodeAt(~-la) === b.charCodeAt(~-lb))) {
+    la--;
+    lb--;
   }
 
-  return buffer[l2][l1];
-}
+  if (!la)
+    return lb > max ? Infinity : lb;
 
-/**
- * Function returning the Levenshtein distance between two strings using
- * heuristics leveraging the fact that we know their lengths and which of
- * their selected substrings matched. Will return -1 if the strings cannot
- * match because their distance is over a threshold `k`.
- *
- * @note Ported from: https://github.com/lispc/EditDistanceClusterer/blob/master/src/edu/tsinghua/dbgroup/EditDistanceJoiner.java
- *
- * @param   {number} k      - Edit distance threshold.
- * @param   {string} s1     - First string.
- * @param   {string} s2     - Second string.
- * @param   {number} i1     - Position of match in first string.
- * @param   {number} i2     - Position of match in second string.
- * @param   {number} li     - Length of matched segment.
- * @param   {Array}  buffer - Distance computations buffer.
- * @returns {number}
- */
-function levenshteinDistanceForCandidate(k, s1, s2, i1, i2, li, buffer) {
-  var l1 = s1.length - i1 - li,
-      l2 = s2.length - i2 - li;
+  let start = 0;
 
-  var leftThreshold = k - Math.abs(l1 - l2);
+  // Ignoring common prefix
+  while (start < la && (a.charCodeAt(start) === b.charCodeAt(start)))
+    start++;
 
-  var leftDistance = levenshteinWithThreshold(
-    s1, 0, i1,
-    s2, 0, i2,
-    leftThreshold,
-    buffer
-  );
+  la -= start;
+  lb -= start;
 
-  if (leftDistance > leftThreshold)
-    return -1;
+  if (!la)
+    return lb > max ? Infinity : lb;
 
-  var rightThreshold = k - leftDistance;
+  const diff = lb - la;
 
-  var rightDistance = levenshteinWithThreshold(
-    s1, i1 + li, l1,
-    s2, i2 + li, l2,
-    rightThreshold,
-    buffer
-  );
+  if (max > lb)
+    max = lb;
+  else if (diff > max)
+    return Infinity;
 
-  if (rightDistance > rightThreshold)
-    return -1;
+  const v0 = VECTOR;
 
-  return leftDistance + rightDistance;
+  let i = 0;
+
+  while (i < max) {
+    CODES[i] = b.charCodeAt(start + i);
+    v0[i] = ++i;
+  }
+  while (i < lb) {
+    CODES[i] = b.charCodeAt(start + i);
+    v0[i++] = max + 1;
+  }
+
+  const offset = max - diff,
+        haveMax = max < lb;
+
+  let jStart = 0,
+      jEnd = max;
+
+  let current = 0,
+      left,
+      above,
+      charA,
+      j;
+
+  // Starting the nested loops
+  for (i = 0; i < la; i++) {
+    left = i;
+    current = i + 1;
+
+    charA = a.charCodeAt(start + i);
+    jStart += (i > offset) ? 1 : 0;
+    jEnd += (jEnd < lb) ? 1 : 0;
+
+    for (j = jStart; j < jEnd; j++) {
+      above = current;
+
+      current = left;
+      left = v0[j];
+
+      if (charA !== CODES[j]) {
+
+        // Insertion
+        if (left < current)
+          current = left;
+
+        // Deletion
+        if (above < current)
+          current = above;
+
+        current++;
+      }
+
+      v0[j] = current;
+    }
+
+    if (haveMax && v0[i + diff] > max)
+      return Infinity;
+  }
+
+  return current <= max ? current : Infinity;
 }
 
 /**
@@ -525,6 +529,6 @@ PassjoinIndex.partition = partition;
 PassjoinIndex.segments = segments;
 PassjoinIndex.multiMatchAwareInterval = multiMatchAwareInterval;
 PassjoinIndex.multiMatchAwareSubstrings = multiMatchAwareSubstrings;
-PassjoinIndex.levenshteinDistanceForCandidate = levenshteinDistanceForCandidate;
+PassjoinIndex.segmentedLimitedLevenshtein = segmentedLimitedLevenshtein;
 
 module.exports = PassjoinIndex;
