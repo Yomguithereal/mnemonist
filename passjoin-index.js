@@ -136,6 +136,28 @@ function segments(k, string) {
   return S;
 }
 
+// TODO: jsdocs
+function segmentPos(k, i, string) {
+  if (i === 0)
+    return 0;
+
+  var l = string.length;
+
+  var m = k + 1,
+      a = (l / m) | 0,
+      b = a + 1;
+
+  var largeSegments = l - a * m,
+      smallSegments = m - largeSegments;
+
+  if (i <= smallSegments - 1)
+    return i * a;
+
+  var offset = i - smallSegments;
+
+  return smallSegments * a + offset * b;
+}
+
 /**
  * Function returning the interval of relevant substrings to lookup using the
  * multi-match-aware substring selection scheme described in the paper.
@@ -228,10 +250,35 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
  * @param  {number} bLen - Length of segment in string b.
  * @return {number}      - The Levenshtein distance between a & b or Infinity.
  */
+
+// TODO: use byte arrays allocated in the function?
 var VECTOR = [];
 var CODES = [];
 
 function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
+  console.log('SEGLIM', max, a, aPos, aLen, b, bPos, bLen)
+
+  var c;
+
+  // Zero-tolerance edge-case
+  if (max === 0) {
+    if (aLen !== bLen)
+      return 1;
+
+    for (c = 0; c < aLen; c++) {
+      if (a[aPos + c] !== b[bPos + c])
+        return 1;
+    }
+
+    return 0;
+  }
+
+  // Empty strings
+  if (aPos === 0 && aLen === 0 && bPos === 0 && bLen === 0)
+    return 0;
+
+  // Identical strings
+  // TODO: test actual performance in this peculiar context
   if (a === b)
     return 0;
 
@@ -261,22 +308,23 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
 
   // Ignoring common suffix
   // NOTE: ~- is a fast - 1 operation, it does not work on big number though
-  // while (la > 0 && (a.charCodeAt(~-la) === b.charCodeAt(~-lb))) {
-  //   la--;
-  //   lb--;
-  // }
+  while (la > 0 && (a.charCodeAt(aPos + (~-la)) === b.charCodeAt(bPos + (~-lb)))) {
+    la--;
+    lb--;
+  }
 
-  // if (!la)
-  //   return lb > max ? Infinity : lb;
+  if (!la)
+    return lb > max ? Infinity : lb;
 
-  let start = 0;
+  let aStart = aPos,
+      bStart = bPos;
 
-  // // Ignoring common prefix
-  // while (start < la && (a.charCodeAt(start) === b.charCodeAt(start)))
-  //   start++;
+  // Ignoring common prefix
+  while (aStart < la && (a.charCodeAt(aStart) === b.charCodeAt(bStart)))
+    bStart = ++aStart;
 
-  // la -= start;
-  // lb -= start;
+  la -= aStart;
+  lb -= bStart;
 
   if (!la)
     return lb > max ? Infinity : lb;
@@ -293,11 +341,11 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   let i = 0;
 
   while (i < max) {
-    CODES[i] = b.charCodeAt(start + bPos + i);
+    CODES[i] = b.charCodeAt(bStart + i);
     v0[i] = ++i;
   }
   while (i < lb) {
-    CODES[i] = b.charCodeAt(start + bPos + i);
+    CODES[i] = b.charCodeAt(bStart + i);
     v0[i++] = max + 1;
   }
 
@@ -318,7 +366,7 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
     left = i;
     current = i + 1;
 
-    charA = a.charCodeAt(start + aPos + i);
+    charA = a.charCodeAt(aStart + i);
     jStart += (i > offset) ? 1 : 0;
     jEnd += (jEnd < lb) ? 1 : 0;
 
@@ -349,6 +397,43 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   }
 
   return current <= max ? current : Infinity;
+}
+
+// TODO: jsdocs
+function leftRightLevenshtein(i, max, a, aPos, aLen, b, bPos, bLen) {
+  console.log(i, max, a, aPos, aLen, b, bPos, bLen)
+  var la = a.length,
+      lb = b.length;
+
+  var delta = Math.abs(la - lb);
+
+  var leftMax = Math.min(max - delta, i);
+
+  var leftDistance = segmentedLimitedLevenshtein(
+    leftMax,
+    a, 0, aPos,
+    b, 0, bPos
+  );
+
+  console.log('LEFT', leftDistance, leftMax);
+
+  if (leftMax > 0 && leftDistance > leftMax)
+    return Infinity;
+
+  var rightMax = Math.min(max - leftDistance, max - i);
+
+  var rightDistance = segmentedLimitedLevenshtein(
+    rightMax,
+    a, aPos + aLen, la - aLen,
+    b, bPos + bLen, lb - bLen
+  );
+
+  console.log('RIGHT', rightDistance, rightMax);
+
+  if (rightDistance > rightMax)
+    return Infinity;
+
+  return leftDistance + rightDistance;
 }
 
 /**
@@ -441,6 +526,10 @@ PassjoinIndex.prototype.search = function(query) {
 
   var candidates,
       candidate,
+      queryPos,
+      querySegmentLength,
+      candidatePos,
+      candidateSegmentLength,
       key,
       S,
       P,
@@ -462,14 +551,27 @@ PassjoinIndex.prototype.search = function(query) {
     P = partition(k, l);
 
     for (i = 0, n1 = P.length; i < n1; i++) {
-      S = multiMatchAwareSubstrings(k, query, l, i, P[i][0], P[i][1]);
+      queryPos = P[i][0];
+      querySegmentLength = P[i][1];
+
+      S = multiMatchAwareSubstrings(
+        k,
+        query,
+        l,
+        i,
+        queryPos,
+        querySegmentLength
+      );
 
       // Empty string edge case
       if (!S.length)
         S = [''];
 
       for (j = 0, n2 = S.length; j < n2; j++) {
-        key = S[j] + i;
+        key = S[j];
+        candidateSegmentLength = key.length;
+
+        key += i;
         candidates = Ll[key];
 
         if (typeof candidates === 'undefined')
@@ -477,16 +579,28 @@ PassjoinIndex.prototype.search = function(query) {
 
         for (y = 0, n3 = candidates.length; y < n3; y++) {
           candidate = this.strings[candidates[y]];
+          candidatePos = segmentPos(this.k, i, candidate);
 
           // NOTE: first condition is here not to compute Levenshtein
           // distance for tiny strings
+          // NOTE: we could also maintain a set of non-matching candidates
+          // but this is unlikely to be useful
           if (
             s <= k && l <= k ||
             (
               !M.has(candidate) &&
               (
                 query === candidate ||
-                this.distance(query, candidate) <= this.k
+                leftRightLevenshtein(
+                  i,
+                  this.k,
+                  query,
+                  queryPos,
+                  querySegmentLength,
+                  candidate,
+                  candidatePos,
+                  candidateSegmentLength
+                ) !== Infinity
               )
             )
           )
@@ -535,6 +649,7 @@ PassjoinIndex.countKeys = countKeys;
 PassjoinIndex.comparator = comparator;
 PassjoinIndex.partition = partition;
 PassjoinIndex.segments = segments;
+PassjoinIndex.segmentPos = segmentPos;
 PassjoinIndex.multiMatchAwareInterval = multiMatchAwareInterval;
 PassjoinIndex.multiMatchAwareSubstrings = multiMatchAwareSubstrings;
 PassjoinIndex.segmentedLimitedLevenshtein = segmentedLimitedLevenshtein;

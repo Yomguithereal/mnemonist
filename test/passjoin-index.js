@@ -83,7 +83,10 @@ var CUSTOM_LEVENSHTEIN_TESTS = [
   [['baratte', 2, 3, 'rat', 0, 3], 1, 0],
   [['baratte', 0, 4, 'rat', 0, 3], 3, 3],
   [['baratte', 2, 2, 'rat', 0, 2], 3, 0],
-  [['romain', 0, 4, 'gala', 0, 1], 1, Infinity]
+  [['romain', 0, 4, 'gala', 0, 1], 1, Infinity],
+  [['ul', 0, 2, 'eul', 0, 3], 1, 1],
+  [['ul', 0, 2, 'ule', 0, 3], 1, 1],
+  [['a', 0, 1, 'pa', 0, 1], 1, 1]
 ];
 
 describe('PassjoinIndex', function() {
@@ -104,6 +107,18 @@ describe('PassjoinIndex', function() {
   it('should be possible to split strings into segments for indexation.', function() {
     assert.deepEqual(PassjoinIndex.segments(3, 'vankatesh'), ['va', 'nk', 'at', 'esh']);
     assert.deepEqual(PassjoinIndex.segments(3, 'avaterasha'), ['av', 'at', 'era', 'sha']);
+  });
+
+  it('should be possible to retrieve a segment\'s position.', function() {
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 0, 'candidate'), 0);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 1, 'candidate'), 2);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 2, 'candidate'), 4);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 3, 'candidate'), 6);
+
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 0, 'candidater'), 0);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 1, 'candidater'), 2);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 2, 'candidater'), 4);
+    assert.strictEqual(PassjoinIndex.segmentPos(3, 3, 'candidater'), 7);
   });
 
   it('should be possible to compute the multi-match aware interval.', function() {
