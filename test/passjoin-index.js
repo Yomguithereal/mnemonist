@@ -3,7 +3,6 @@
  * ==============================
  */
 var assert = require('assert'),
-    leven = require('leven'),
     PassjoinIndex = require('../passjoin-index.js');
 
 var EXPECTED_INTERVALS = [
@@ -166,18 +165,14 @@ describe('PassjoinIndex', function() {
 
   it('should throw if given wrong arguments.', function() {
     assert.throws(function() {
-      new PassjoinIndex();
-    }, /Levenshtein/);
-
-    assert.throws(function() {
-      new PassjoinIndex(Function.prototype, -45);
+      new PassjoinIndex(-45);
     }, /number > 0/);
   });
 
   it('should be possible to add & search values using the index.', function() {
-    var k1 = new PassjoinIndex(leven, 1),
-        k2 = new PassjoinIndex(leven, 2),
-        k3 = new PassjoinIndex(leven, 3);
+    var k1 = new PassjoinIndex(1),
+        k2 = new PassjoinIndex(2),
+        k3 = new PassjoinIndex(3);
 
     STRINGS.forEach(function(string) {
       k1.add(string);

@@ -432,14 +432,10 @@ function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
  *
  * @constructor
  */
-function PassjoinIndex(distance, k) {
-  if (typeof distance !== 'function')
-    throw new Error('mnemonist/passjoin-index: `distance` should be a function computing the Levenshtein distance between two strings.');
-
+function PassjoinIndex(k) {
   if (typeof k !== 'number' || k < 1)
     throw new Error('mnemonist/passjoin-index: `k` should be a number > 0');
 
-  this.distance = distance;
   this.k = k;
   this.clear();
 }
