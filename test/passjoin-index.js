@@ -86,7 +86,8 @@ var CUSTOM_LEVENSHTEIN_TESTS = [
   [['romain', 0, 4, 'gala', 0, 1], 1, Infinity],
   [['ul', 0, 2, 'eul', 0, 3], 1, 1],
   [['ul', 0, 2, 'ule', 0, 3], 1, 1],
-  [['a', 0, 1, 'pa', 0, 1], 1, 1]
+  [['a', 0, 1, 'pa', 0, 1], 1, 1],
+  [['paul', 2, 2, 'paule', 2, 3], 1, 1]
 ];
 
 describe('PassjoinIndex', function() {

@@ -256,22 +256,6 @@ var VECTOR = [];
 var CODES = [];
 
 function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
-  console.log('SEGLIM', max, a, aPos, aLen, b, bPos, bLen)
-
-  var c;
-
-  // Zero-tolerance edge-case
-  if (max === 0) {
-    if (aLen !== bLen)
-      return 1;
-
-    for (c = 0; c < aLen; c++) {
-      if (a[aPos + c] !== b[bPos + c])
-        return 1;
-    }
-
-    return 0;
-  }
 
   // Empty strings
   if (aPos === 0 && aLen === 0 && bPos === 0 && bLen === 0)
@@ -301,9 +285,9 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   let la = aLen,
       lb = bLen;
 
-  if (!la)
+  if (la === 0)
     return lb > max ? Infinity : lb;
-  if (!lb)
+  if (lb === 0)
     return la > max ? Infinity : la;
 
   // Ignoring common suffix
@@ -313,20 +297,24 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
     lb--;
   }
 
-  if (!la)
+  if (la === 0)
     return lb > max ? Infinity : lb;
 
   let aStart = aPos,
-      bStart = bPos;
+      bStart = bPos,
+      commonPrefixLength = 0;
 
   // Ignoring common prefix
-  while (aStart < la && (a.charCodeAt(aStart) === b.charCodeAt(bStart)))
-    bStart = ++aStart;
+  while (aStart < (aStart + la) && (a.charCodeAt(aStart) === b.charCodeAt(bStart))) {
+    aStart++;
+    bStart++;
+    commonPrefixLength++;
+  }
 
-  la -= aStart;
-  lb -= bStart;
+  la -= commonPrefixLength;
+  lb -= commonPrefixLength;
 
-  if (!la)
+  if (la === 0)
     return lb > max ? Infinity : lb;
 
   const diff = lb - la;
@@ -400,14 +388,21 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
 }
 
 // TODO: jsdocs
-function leftRightLevenshtein(i, max, a, aPos, aLen, b, bPos, bLen) {
-  console.log(i, max, a, aPos, aLen, b, bPos, bLen)
+function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
   var la = a.length,
       lb = b.length;
 
+  // Handling edge case when strings are smaller than the threshold
+  if (la <= k || lb <= k)
+    return segmentedLimitedLevenshtein(
+      k,
+      a, 0, la,
+      b, 0, lb
+    );
+
   var delta = Math.abs(la - lb);
 
-  var leftMax = Math.min(max - delta, i);
+  var leftMax = Math.min(k - delta, i);
 
   var leftDistance = segmentedLimitedLevenshtein(
     leftMax,
@@ -415,20 +410,16 @@ function leftRightLevenshtein(i, max, a, aPos, aLen, b, bPos, bLen) {
     b, 0, bPos
   );
 
-  console.log('LEFT', leftDistance, leftMax);
-
   if (leftMax > 0 && leftDistance > leftMax)
     return Infinity;
 
-  var rightMax = Math.min(max - leftDistance, max - i);
+  var rightMax = Math.min(k - leftDistance, k - i);
 
   var rightDistance = segmentedLimitedLevenshtein(
     rightMax,
     a, aPos + aLen, la - aLen,
     b, bPos + bLen, lb - bLen
   );
-
-  console.log('RIGHT', rightDistance, rightMax);
 
   if (rightDistance > rightMax)
     return Infinity;
