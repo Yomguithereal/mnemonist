@@ -235,7 +235,7 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   if (a === b)
     return 0;
 
-  const tmp = a;
+  let tmp = a;
 
   // Swapping the strings so that the shorter string is the first one.
   if (aLen > bLen) {
@@ -261,22 +261,22 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
 
   // Ignoring common suffix
   // NOTE: ~- is a fast - 1 operation, it does not work on big number though
-  while (la > 0 && (a.charCodeAt(~-la) === b.charCodeAt(~-lb))) {
-    la--;
-    lb--;
-  }
+  // while (la > 0 && (a.charCodeAt(~-la) === b.charCodeAt(~-lb))) {
+  //   la--;
+  //   lb--;
+  // }
 
-  if (!la)
-    return lb > max ? Infinity : lb;
+  // if (!la)
+  //   return lb > max ? Infinity : lb;
 
   let start = 0;
 
-  // Ignoring common prefix
-  while (start < la && (a.charCodeAt(start) === b.charCodeAt(start)))
-    start++;
+  // // Ignoring common prefix
+  // while (start < la && (a.charCodeAt(start) === b.charCodeAt(start)))
+  //   start++;
 
-  la -= start;
-  lb -= start;
+  // la -= start;
+  // lb -= start;
 
   if (!la)
     return lb > max ? Infinity : lb;
@@ -293,11 +293,11 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   let i = 0;
 
   while (i < max) {
-    CODES[i] = b.charCodeAt(start + i);
+    CODES[i] = b.charCodeAt(start + bPos + i);
     v0[i] = ++i;
   }
   while (i < lb) {
-    CODES[i] = b.charCodeAt(start + i);
+    CODES[i] = b.charCodeAt(start + bPos + i);
     v0[i++] = max + 1;
   }
 
@@ -318,7 +318,7 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
     left = i;
     current = i + 1;
 
-    charA = a.charCodeAt(start + i);
+    charA = a.charCodeAt(start + aPos + i);
     jStart += (i > offset) ? 1 : 0;
     jEnd += (jEnd < lb) ? 1 : 0;
 

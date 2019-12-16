@@ -77,6 +77,15 @@ var STRINGS = [
   ''
 ];
 
+var CUSTOM_LEVENSHTEIN_TESTS = [
+  [['tabernacle', 0, 10, 'tabernaclo', 0, 10], 5, 1],
+  [['tabernacle', 2, 7, 'tabernaclo', 2, 7], 1, 0],
+  [['baratte', 2, 3, 'rat', 0, 3], 1, 0],
+  [['baratte', 0, 4, 'rat', 0, 3], 3, 3],
+  [['baratte', 2, 2, 'rat', 0, 2], 3, 0],
+  [['romain', 0, 4, 'gala', 0, 1], 1, Infinity]
+];
+
 describe('PassjoinIndex', function() {
 
   it('should be possible to sort strings according to the 4.2 point of the paper.', function() {
@@ -172,8 +181,22 @@ describe('PassjoinIndex', function() {
     assert.deepEqual(k3.search('benja'), new Set(['benjamin', 'benja']));
     assert.deepEqual(k3.search('pa'), new Set(['', 'a', 'b', 'pa', 'ab', 'paul', 'paule']));
   });
+
+  it('should be possible to apply custom segmented limited Levenshtein distance.', function() {
+    CUSTOM_LEVENSHTEIN_TESTS.forEach(function(test) {
+      const args = test[0],
+            max = test[1],
+            distance = test[2];
+
+      assert.strictEqual(
+        PassjoinIndex.segmentedLimitedLevenshtein.apply(null, [max].concat(args)),
+        distance
+      );
+    });
+  });
 });
 
 // TODO: test with arbitrary sequences
 // TODO: iteration functions
 // TODO: use multiarray
+// TODO: function returning tuple with distance
