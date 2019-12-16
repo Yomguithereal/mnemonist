@@ -231,20 +231,28 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
 var VECTOR = [];
 var CODES = [];
 
-function segmentedLimitedLevenshtein(max, a, aPos, aLen, b) {
+function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   if (a === b)
     return 0;
 
   const tmp = a;
 
   // Swapping the strings so that the shorter string is the first one.
-  if (a.length > b.length) {
+  if (aLen > bLen) {
     a = b;
     b = tmp;
+
+    tmp = aPos;
+    aPos = bPos;
+    bPos = tmp;
+
+    tmp = aLen;
+    aLen = bLen;
+    bLen = tmp;
   }
 
-  let la = a.length,
-      lb = b.length;
+  let la = aLen,
+      lb = bLen;
 
   if (!la)
     return lb > max ? Infinity : lb;
