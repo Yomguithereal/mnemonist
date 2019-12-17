@@ -259,6 +259,4 @@ describe('PassjoinIndex', function() {
   });
 });
 
-// TODO: test with arbitrary sequences
 // TODO: use multiarray
-// TODO: function returning tuple with distance

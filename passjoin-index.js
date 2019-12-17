@@ -122,17 +122,31 @@ function partition(k, l) {
  * @param   {string} string - Target string.
  * @returns {Array}         - The string's segments.
  */
-
-// TODO: optimize!
 function segments(k, string) {
-  var i, l = k + 1;
+  var l = string.length,
+      m = k + 1,
+      a = (l / m) | 0,
+      b = a + 1,
+      o,
+      i,
+      j;
 
-  var P = partition(k, string.length);
+  var largeSegments = l - a * m,
+      smallSegments = m - largeSegments;
 
-  var S = new Array(l);
+  var S = new Array(k + 1);
 
-  for (i = 0; i < l; i++)
-    S[i] = string.slice(P[i][0], P[i][0] + P[i][1]);
+  for (i = 0; i < smallSegments; i++) {
+    o = i * a;
+    S[i] = string.slice(o, o + a);
+  }
+
+  var offset = (i - 1) * a + a;
+
+  for (j = 0; j < largeSegments; j++) {
+    o = offset + j * b;
+    S[i + j] = string.slice(o, o + b);
+  }
 
   return S;
 }
