@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.32.0 (provisional)
+## 0.32.0
 
 * Adding `PassjoinIndex`.
 
