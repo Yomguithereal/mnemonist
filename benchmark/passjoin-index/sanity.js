@@ -36,7 +36,7 @@ function sanityTest(k) {
 
   console.time('indexation');
 
-  var index = new PassjoinIndex(k);
+  var index = new PassjoinIndex(leven, k);
 
   for (j = 0; j < W; j++)
     index.add(words[j]);

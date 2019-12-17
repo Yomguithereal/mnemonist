@@ -3,6 +3,7 @@
  * ==============================
  */
 var assert = require('assert'),
+    leven = require('leven'),
     PassjoinIndex = require('../passjoin-index.js');
 
 var EXPECTED_INTERVALS = [
@@ -76,18 +77,18 @@ var STRINGS = [
   ''
 ];
 
-var CUSTOM_LEVENSHTEIN_TESTS = [
-  [['tabernacle', 0, 10, 'tabernaclo', 0, 10], 5, 1],
-  [['tabernacle', 2, 7, 'tabernaclo', 2, 7], 1, 0],
-  [['baratte', 2, 3, 'rat', 0, 3], 1, 0],
-  [['baratte', 0, 4, 'rat', 0, 3], 3, 3],
-  [['baratte', 2, 2, 'rat', 0, 2], 3, 0],
-  [['romain', 0, 4, 'gala', 0, 1], 1, Infinity],
-  [['ul', 0, 2, 'eul', 0, 3], 1, 1],
-  [['ul', 0, 2, 'ule', 0, 3], 1, 1],
-  [['a', 0, 1, 'pa', 0, 1], 1, 1],
-  [['paul', 2, 2, 'paule', 2, 3], 1, 1]
-];
+// var CUSTOM_LEVENSHTEIN_TESTS = [
+//   [['tabernacle', 0, 10, 'tabernaclo', 0, 10], 5, 1],
+//   [['tabernacle', 2, 7, 'tabernaclo', 2, 7], 1, 0],
+//   [['baratte', 2, 3, 'rat', 0, 3], 1, 0],
+//   [['baratte', 0, 4, 'rat', 0, 3], 3, 3],
+//   [['baratte', 2, 2, 'rat', 0, 2], 3, 0],
+//   [['romain', 0, 4, 'gala', 0, 1], 1, Infinity],
+//   [['ul', 0, 2, 'eul', 0, 3], 1, 1],
+//   [['ul', 0, 2, 'ule', 0, 3], 1, 1],
+//   [['a', 0, 1, 'pa', 0, 1], 1, 1],
+//   [['paul', 2, 2, 'paule', 2, 3], 1, 1]
+// ];
 
 describe('PassjoinIndex', function() {
 
@@ -165,14 +166,18 @@ describe('PassjoinIndex', function() {
 
   it('should throw if given wrong arguments.', function() {
     assert.throws(function() {
-      new PassjoinIndex(-45);
+      new PassjoinIndex(null);
+    }, /levenshtein/i);
+
+    assert.throws(function() {
+      new PassjoinIndex(Function.prototype, -45);
     }, /number > 0/);
   });
 
   it('should be possible to add & search values using the index.', function() {
-    var k1 = new PassjoinIndex(1),
-        k2 = new PassjoinIndex(2),
-        k3 = new PassjoinIndex(3);
+    var k1 = new PassjoinIndex(leven, 1),
+        k2 = new PassjoinIndex(leven, 2),
+        k3 = new PassjoinIndex(leven, 3);
 
     STRINGS.forEach(function(string) {
       k1.add(string);
@@ -193,21 +198,8 @@ describe('PassjoinIndex', function() {
     assert.deepEqual(k3.search('pa'), new Set(['', 'a', 'b', 'pa', 'ab', 'paul', 'paule']));
   });
 
-  it('should be possible to apply custom segmented limited Levenshtein distance.', function() {
-    CUSTOM_LEVENSHTEIN_TESTS.forEach(function(test) {
-      const args = test[0],
-            max = test[1],
-            distance = test[2];
-
-      assert.strictEqual(
-        PassjoinIndex.segmentedLimitedLevenshtein.apply(null, [max].concat(args)),
-        distance
-      );
-    });
-  });
-
   it('should remain sane.', function() {
-    var index = new PassjoinIndex(1);
+    var index = new PassjoinIndex(leven, 1);
 
     index.add('agility\'s');
     index.add('ability\'s');

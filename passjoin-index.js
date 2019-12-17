@@ -231,237 +231,27 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
 }
 
 /**
- * Function returning the Levenshtein distance between two sequences
- * but with a twist: this version will stop its computation if distance
- * exceed a given maximum and return Infinity. This version only works on
- * strings and leverage the `.charCodeAt` method to perform fast comparisons
- * between 16 bits integers.
- *
- * It has been tweaked from talisman's version so that it can work on specific
- * segments of target strings to leverage the information we get from
- * substring match in the index.
- *
- * @param  {number} max  - Maximum distance.
- * @param  {string} a    - The first string to process.
- * @param  {number} aPos - Starting position in string a.
- * @param  {number} aLen - Length of segment in string a.
- * @param  {string} b    - The second string to process.
- * @param  {number} bPos - Starting position in string b.
- * @param  {number} bLen - Length of segment in string b.
- * @return {number}      - The Levenshtein distance between a & b or Infinity.
- */
-
-// TODO: use byte arrays allocated in the function?
-var VECTOR = [];
-var CODES = [];
-
-function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
-  // console.log('SEGLIM', max, a, aPos, aLen, b, bPos, bLen)
-
-  // Empty strings
-  if (aPos === 0 && aLen === 0 && bPos === 0 && bLen === 0)
-    return 0;
-
-  // We are farther than the length of the string, which means we are comparing
-  // empty strings again.
-  if (aPos >= a.length && bPos >= b.length)
-    return 0;
-
-  // Identical strings
-  // TODO: test actual performance in this peculiar context
-  if (a === b)
-    return 0;
-
-  var c;
-
-  // Zero threshold edge case
-  if (max === 0) {
-    if (aLen !== bLen)
-      return 1;
-
-    for (c = 0; c < aLen; c++) {
-      if (a[aPos + c] !== b[bPos + c])
-        return 1;
-    }
-
-    return 0;
-  }
-
-  let tmp = a;
-
-  // Swapping the strings so that the shorter string is the first one.
-  if (aLen > bLen) {
-    a = b;
-    b = tmp;
-
-    tmp = aPos;
-    aPos = bPos;
-    bPos = tmp;
-
-    tmp = aLen;
-    aLen = bLen;
-    bLen = tmp;
-  }
-
-  let la = aLen,
-      lb = bLen;
-
-  if (la === 0)
-    return lb > max ? Infinity : lb;
-  if (lb === 0)
-    return la > max ? Infinity : la;
-
-  // Ignoring common suffix
-  // NOTE: ~- is a fast - 1 operation, it does not work on big number though
-  while (la > 0 && (a.charCodeAt(aPos + (~-la)) === b.charCodeAt(bPos + (~-lb)))) {
-    la--;
-    lb--;
-  }
-
-  if (la === 0)
-    return lb > max ? Infinity : lb;
-
-  let aStart = aPos,
-      bStart = bPos,
-      commonPrefixLength = 0;
-
-  // Ignoring common prefix
-  while (aStart < (aStart + la) && (a.charCodeAt(aStart) === b.charCodeAt(bStart))) {
-    aStart++;
-    bStart++;
-    commonPrefixLength++;
-  }
-
-  la -= commonPrefixLength;
-  lb -= commonPrefixLength;
-
-  if (la === 0)
-    return lb > max ? Infinity : lb;
-
-  const diff = lb - la;
-
-  if (max > lb)
-    max = lb;
-  else if (diff > max)
-    return Infinity;
-
-  const v0 = VECTOR;
-
-  let i = 0;
-
-  while (i < max) {
-    CODES[i] = b.charCodeAt(bStart + i);
-    v0[i] = ++i;
-  }
-  while (i < lb) {
-    CODES[i] = b.charCodeAt(bStart + i);
-    v0[i++] = max + 1;
-  }
-
-  const offset = max - diff,
-        haveMax = max < lb;
-
-  let jStart = 0,
-      jEnd = max;
-
-  let current = 0,
-      left,
-      above,
-      charA,
-      j;
-
-  // Starting the nested loops
-  for (i = 0; i < la; i++) {
-    left = i;
-    current = i + 1;
-
-    charA = a.charCodeAt(aStart + i);
-    jStart += (i > offset) ? 1 : 0;
-    jEnd += (jEnd < lb) ? 1 : 0;
-
-    for (j = jStart; j < jEnd; j++) {
-      above = current;
-
-      current = left;
-      left = v0[j];
-
-      if (charA !== CODES[j]) {
-
-        // Insertion
-        if (left < current)
-          current = left;
-
-        // Deletion
-        if (above < current)
-          current = above;
-
-        current++;
-      }
-
-      v0[j] = current;
-    }
-
-    if (haveMax && v0[i + diff] > max)
-      return Infinity;
-  }
-
-  return current <= max ? current : Infinity;
-}
-
-// TODO: jsdocs
-function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
-  // console.log('LEFTRIGHT', i, k, a, aPos, aLen, b, bPos, bLen)
-  var la = a.length,
-      lb = b.length;
-
-  // Handling edge case when strings are smaller than the threshold
-  if (la <= k || lb <= k)
-    return segmentedLimitedLevenshtein(
-      k,
-      a, 0, la,
-      b, 0, lb
-    );
-
-  var delta = Math.abs(la - lb);
-
-  var leftMax = Math.min(k - delta, i);
-
-  var leftDistance = segmentedLimitedLevenshtein(
-    leftMax,
-    a, 0, aPos,
-    b, 0, bPos
-  );
-
-  // console.log(leftDistance, leftMax);
-
-  if (leftMax > 0 && leftDistance > leftMax)
-    return Infinity;
-
-  var rightMax = Math.min(k - leftDistance, k - i);
-
-  var rightDistance = segmentedLimitedLevenshtein(
-    rightMax,
-    a, aPos + aLen, la - aLen,
-    b, bPos + bLen, lb - bLen
-  );
-
-  // console.log(rightDistance, rightMax);
-
-  if (rightMax > 0 && rightDistance > rightMax)
-    return Infinity;
-
-  return leftDistance + rightDistance;
-}
-
-/**
  * PassjoinIndex.
  *
+ * @note I tried to apply the paper's optimizations regarding Levenshtein
+ * distance computations but it did not provide a performance boost, quite
+ * the contrary. This is because since we are mostly using the index for small k
+ * here, most of the strings we work on are quite small and the bookkeeping
+ * induced by Ukkonen's method and the paper's one are slowing us down more than
+ * they actually help us go faster.
+ *
  * @constructor
+ * @param {function} levenshtein - Levenshtein distance function.
+ * @param {number}   k           - Levenshtein distance threshold.
  */
-function PassjoinIndex(k) {
+function PassjoinIndex(levenshtein, k) {
+  if (typeof levenshtein !== 'function')
+    throw new Error('mnemonist/passjoin-index: `levenshtein` should be a function returning edit distance between two strings.');
+
   if (typeof k !== 'number' || k < 1)
     throw new Error('mnemonist/passjoin-index: `k` should be a number > 0');
 
+  this.levenshtein = levenshtein;
   this.k = k;
   this.clear();
 }
@@ -541,8 +331,6 @@ PassjoinIndex.prototype.search = function(query) {
       candidate,
       queryPos,
       querySegmentLength,
-      candidatePos,
-      candidateSegmentLength,
       key,
       S,
       P,
@@ -581,10 +369,7 @@ PassjoinIndex.prototype.search = function(query) {
         S = [''];
 
       for (j = 0, n2 = S.length; j < n2; j++) {
-        key = S[j];
-        candidateSegmentLength = key.length;
-
-        key += i;
+        key = S[j] + i;
         candidates = Ll[key];
 
         if (typeof candidates === 'undefined')
@@ -592,7 +377,6 @@ PassjoinIndex.prototype.search = function(query) {
 
         for (y = 0, n3 = candidates.length; y < n3; y++) {
           candidate = this.strings[candidates[y]];
-          candidatePos = segmentPos(this.k, i, candidate);
 
           // NOTE: first condition is here not to compute Levenshtein
           // distance for tiny strings
@@ -602,19 +386,7 @@ PassjoinIndex.prototype.search = function(query) {
             s <= k && l <= k ||
             (
               !M.has(candidate) &&
-              (
-                query === candidate ||
-                leftRightLevenshtein(
-                  i,
-                  this.k,
-                  query,
-                  queryPos,
-                  querySegmentLength,
-                  candidate,
-                  candidatePos,
-                  candidateSegmentLength
-                ) !== Infinity
-              )
+              this.levenshtein(query, candidate) <= k
             )
           )
             M.add(candidate);
@@ -665,6 +437,5 @@ PassjoinIndex.segments = segments;
 PassjoinIndex.segmentPos = segmentPos;
 PassjoinIndex.multiMatchAwareInterval = multiMatchAwareInterval;
 PassjoinIndex.multiMatchAwareSubstrings = multiMatchAwareSubstrings;
-PassjoinIndex.segmentedLimitedLevenshtein = segmentedLimitedLevenshtein;
 
 module.exports = PassjoinIndex;
