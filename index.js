@@ -36,6 +36,7 @@ module.exports = {
   LRUMap: require('./lru-map.js'),
   MultiMap: require('./multi-map.js'),
   MultiSet: require('./multi-set.js'),
+  PassjoinIndex: require('./passjoin-index.js'),
   Queue: require('./queue.js'),
   FixedStack: require('./fixed-stack.js'),
   Stack: require('./stack.js'),

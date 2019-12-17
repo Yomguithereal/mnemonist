@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.32.0 (provisional)
+
+* Adding `PassjoinIndex`.
+
 ## 0.31.3
 
 * Fixing `Heap.nsmallest` & `Heap.nlargest` docs & typings.

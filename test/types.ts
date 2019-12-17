@@ -23,6 +23,7 @@ import {
   LRUMap,
   MultiSet,
   MultiMap,
+  PassjoinIndex,
   Queue,
   set,
   SparseSet,
@@ -36,6 +37,8 @@ import {
   Vector, Uint16Vector,
   VPTree
 } from '../index';
+
+import leven from 'leven';
 
 /**
  * BiMap.
@@ -175,6 +178,13 @@ multiset = MultiSet.from({'one': 1});
 let multimap: MultiMap<number, string> = new MultiMap(Set);
 multimap.set(45, 'test');
 let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
+
+/**
+ * PassjoinIndex.
+ */
+const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex(leven, 1);
+
+let passjoinResults: Set<string> = passjoinIndex.search('hello');
 
 /**
  * Queue.

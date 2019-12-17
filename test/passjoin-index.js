@@ -257,6 +257,16 @@ describe('PassjoinIndex', function() {
 
     assert.strictEqual(i, 3);
   });
+
+  it('should be possible to clear the index.', function() {
+    var index = PassjoinIndex.from(['a', 'ab', 'abc'], leven, 1);
+
+    index.clear();
+
+    assert.strictEqual(index.size, 0);
+    assert.deepEqual(Array.from(index.values()), []);
+    assert.deepEqual(index.search('abc'), new Set());
+  });
 });
 
 // TODO: use multiarray

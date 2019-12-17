@@ -27,6 +27,7 @@ export {default as LRUCache} from './lru-cache';
 export {default as LRUMap} from './lru-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
+export {default as PassjoinIndex} from './passjoin-index';
 export {default as Queue} from './queue';
 export {set};
 export {default as SparseSet} from './sparse-set';
