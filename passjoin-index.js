@@ -22,7 +22,8 @@
  * [Urls]:
  * http://people.csail.mit.edu/dongdeng/projects/passjoin/index.html
  */
-var forEach = require('obliterator/foreach');
+var Iterator = require('obliterator/iterator'),
+    forEach = require('obliterator/foreach');
 
 /**
  * Helpers.
@@ -400,6 +401,52 @@ PassjoinIndex.prototype.search = function(query) {
 
   return M;
 };
+
+/**
+ * Method used to iterate over the index.
+ *
+ * @param  {function}  callback - Function to call for each item.
+ * @param  {object}    scope    - Optional scope.
+ * @return {undefined}
+ */
+PassjoinIndex.prototype.forEach = function(callback, scope) {
+  scope = arguments.length > 1 ? scope : this;
+
+  for (var i = 0, l = this.strings.length; i < l; i++)
+    callback.call(scope, this.strings[i], i, this);
+};
+
+/**
+ * Method used to create an iterator over a index's values.
+ *
+ * @return {Iterator}
+ */
+PassjoinIndex.prototype.values = function() {
+  var strings = this.strings,
+      l = strings.length,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i >= l)
+      return {
+        done: true
+      };
+
+    var value = strings[i];
+    i++;
+
+    return {
+      value: value,
+      done: false
+    };
+  });
+};
+
+/**
+ * Attaching the #.values method to Symbol.iterator if possible.
+ */
+if (typeof Symbol !== 'undefined')
+  PassjoinIndex.prototype[Symbol.iterator] = PassjoinIndex.prototype.values;
 
 /**
  * Convenience known methods.

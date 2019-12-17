@@ -221,9 +221,44 @@ describe('PassjoinIndex', function() {
     assert.strictEqual(index.size, 2);
     assert.deepEqual(index.search('failed'), new Set(['failed', 'flailed']));
   });
+
+  it('should be possible to iterate over the index.', function() {
+    var test = 'abc',
+        i = 0;
+
+    var index = PassjoinIndex.from(['a', 'ab', 'abc'], leven, 1);
+
+    index.forEach(function(string, j) {
+      i++;
+      assert.strictEqual(string, test.slice(0, j + 1));
+    });
+
+    assert.strictEqual(i, 3);
+  });
+
+  it('should be possible to create an iterator over the index\'s values.', function() {
+    var strings = ['a', 'ab', 'abc'];
+
+    var index = PassjoinIndex.from(['a', 'ab', 'abc'], leven, 1);
+
+    assert.deepEqual(Array.from(index.values()), strings);
+  });
+
+  it('should be possible to iterate over the index using for...of.', function() {
+    var test = 'abc',
+        i = 0;
+
+    var index = PassjoinIndex.from(['a', 'ab', 'abc'], leven, 1);
+
+    for (var string of index) {
+      assert.strictEqual(string, test.slice(0, i + 1));
+      i++;
+    }
+
+    assert.strictEqual(i, 3);
+  });
 });
 
 // TODO: test with arbitrary sequences
-// TODO: iteration functions
 // TODO: use multiarray
 // TODO: function returning tuple with distance
