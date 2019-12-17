@@ -22,7 +22,7 @@
  * [Urls]:
  * http://people.csail.mit.edu/dongdeng/projects/passjoin/index.html
  */
-// var forEach = require('obliterator/foreach');
+var forEach = require('obliterator/foreach');
 
 /**
  * Helpers.
@@ -240,6 +240,9 @@ function multiMatchAwareSubstrings(k, string, l, i, pi, li) {
  * induced by Ukkonen's method and the paper's one are slowing us down more than
  * they actually help us go faster.
  *
+ * @note This implementation does not try to ensure that you add the same string
+ * more than once.
+ *
  * @constructor
  * @param {function} levenshtein - Levenshtein distance function.
  * @param {number}   k           - Levenshtein distance threshold.
@@ -423,9 +426,15 @@ if (typeof Symbol !== 'undefined')
  * @param  {Iterable} iterable - Target iterable.
  * @return {PassjoinIndex}
  */
-// PassjoinIndex.from = function(iterable) {
+PassjoinIndex.from = function(iterable, levenshtein, k) {
+  var index = new PassjoinIndex(levenshtein, k);
 
-// };
+  forEach(iterable, function(string) {
+    index.add(string);
+  });
+
+  return index;
+};
 
 /**
  * Exporting.

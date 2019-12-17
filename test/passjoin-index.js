@@ -214,6 +214,13 @@ describe('PassjoinIndex', function() {
 
     assert.deepEqual(results, new Set(['failed', 'flailed']));
   });
+
+  it('should be possible to create an index from an arbitrary index.', function() {
+    var index = PassjoinIndex.from(['failed', 'flailed'], leven, 1);
+
+    assert.strictEqual(index.size, 2);
+    assert.deepEqual(index.search('failed'), new Set(['failed', 'flailed']));
+  });
 });
 
 // TODO: test with arbitrary sequences
