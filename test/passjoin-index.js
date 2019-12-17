@@ -205,6 +205,17 @@ describe('PassjoinIndex', function() {
       );
     });
   });
+
+  it('should remain sane.', function() {
+    var index = new PassjoinIndex(1);
+
+    index.add('agility\'s');
+    index.add('ability\'s');
+
+    var results = index.search('agility\'s');
+
+    assert.deepEqual(results, new Set(['agility\'s', 'ability\'s']));
+  });
 });
 
 // TODO: test with arbitrary sequences

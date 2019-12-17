@@ -36,7 +36,7 @@ function sanityTest(k) {
 
   console.time('indexation');
 
-  var index = new PassjoinIndex(leven, k);
+  var index = new PassjoinIndex(k);
 
   for (j = 0; j < W; j++)
     index.add(words[j]);
@@ -50,7 +50,10 @@ function sanityTest(k) {
   }
   console.timeEnd('query');
 
-  assert.deepEqual(ACTUAL, EXPECTED);
+  // Sanity
+  ACTUAL.forEach(function(_, i) {
+    assert.deepEqual(ACTUAL[i], EXPECTED[i]);
+  });
 
   console.log();
 }

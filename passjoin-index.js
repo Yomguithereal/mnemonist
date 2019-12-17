@@ -256,9 +256,15 @@ var VECTOR = [];
 var CODES = [];
 
 function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
+  // console.log('SEGLIM', max, a, aPos, aLen, b, bPos, bLen)
 
   // Empty strings
   if (aPos === 0 && aLen === 0 && bPos === 0 && bLen === 0)
+    return 0;
+
+  // We are farther than the length of the string, which means we are comparing
+  // empty strings again.
+  if (aPos >= a.length && bPos >= b.length)
     return 0;
 
   // Identical strings
@@ -389,6 +395,7 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
 
 // TODO: jsdocs
 function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
+  // console.log('LEFTRIGHT', i, k, a, aPos, aLen, b, bPos, bLen)
   var la = a.length,
       lb = b.length;
 
@@ -410,7 +417,9 @@ function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
     b, 0, bPos
   );
 
-  if (leftMax > 0 && leftDistance > leftMax)
+  // console.log(leftDistance, leftMax);
+
+  if (leftDistance > leftMax)
     return Infinity;
 
   var rightMax = Math.min(k - leftDistance, k - i);
@@ -420,6 +429,8 @@ function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
     a, aPos + aLen, la - aLen,
     b, bPos + bLen, lb - bLen
   );
+
+  // console.log(rightDistance, rightMax);
 
   if (rightDistance > rightMax)
     return Infinity;
