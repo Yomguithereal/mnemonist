@@ -65,6 +65,7 @@ npm install --save mnemonist
 * [Fuzzy Map]({{ site.baseurl }}/fuzzy-map)
 * [Fuzzy MultiMap]({{ site.baseurl }}/fuzzy-multi-map)
 * [Inverted Index]({{ site.baseurl }}/inverted-index)
+* [Passjoin Index]({{ site.baseurl }}/passjoin-index)
 * [SymSpell]({{ site.baseurl }}/symspell)
 
 **Space & time indexation**

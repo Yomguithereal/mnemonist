@@ -36,7 +36,7 @@ var tree = BKTtree.from(terms, levenshtein);
 var suggestions = tree.search(2, query);
 ```
 
-**N.B.** you should probably also check the [SymSpell]({{ site.baseurl }}/symspell) structure, which is able to perform the same kind of job but is even more efficient for this precise use case.
+**N.B.** you should probably also check the [PassjoinIndex]({{ site.baseurl }}/passjoin-index) structure, which is able to perform the same kind of job but is even more efficient for this precise use case.
 
 ## Constructor
 
