@@ -55,6 +55,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Fuzzy Map](https://yomguithereal.github.io/mnemonist/fuzzy-map)
 * [Fuzzy MultiMap](https://yomguithereal.github.io/mnemonist/fuzzy-multi-map)
 * [Inverted Index](https://yomguithereal.github.io/mnemonist/inverted-index)
+* [Passjoin Index](https://yomguithereal.github.io/mnemonist/passjoin-index)
 * [SymSpell](https://yomguithereal.github.io/mnemonist/symspell)
 
 **Space & time indexation**
