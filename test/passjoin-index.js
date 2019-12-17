@@ -211,10 +211,16 @@ describe('PassjoinIndex', function() {
 
     index.add('agility\'s');
     index.add('ability\'s');
+    index.add('failed');
+    index.add('flailed');
 
     var results = index.search('agility\'s');
 
     assert.deepEqual(results, new Set(['agility\'s', 'ability\'s']));
+
+    results = index.search('failed');
+
+    assert.deepEqual(results, new Set(['failed', 'flailed']));
   });
 });
 

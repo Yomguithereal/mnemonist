@@ -272,6 +272,21 @@ function segmentedLimitedLevenshtein(max, a, aPos, aLen, b, bPos, bLen) {
   if (a === b)
     return 0;
 
+  var c;
+
+  // Zero threshold edge case
+  if (max === 0) {
+    if (aLen !== bLen)
+      return 1;
+
+    for (c = 0; c < aLen; c++) {
+      if (a[aPos + c] !== b[bPos + c])
+        return 1;
+    }
+
+    return 0;
+  }
+
   let tmp = a;
 
   // Swapping the strings so that the shorter string is the first one.
@@ -419,7 +434,7 @@ function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
 
   // console.log(leftDistance, leftMax);
 
-  if (leftDistance > leftMax)
+  if (leftMax > 0 && leftDistance > leftMax)
     return Infinity;
 
   var rightMax = Math.min(k - leftDistance, k - i);
@@ -432,7 +447,7 @@ function leftRightLevenshtein(i, k, a, aPos, aLen, b, bPos, bLen) {
 
   // console.log(rightDistance, rightMax);
 
-  if (rightDistance > rightMax)
+  if (rightMax > 0 && rightDistance > rightMax)
     return Infinity;
 
   return leftDistance + rightDistance;
