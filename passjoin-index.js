@@ -4,7 +4,7 @@
  *
  * The PassjoinIndex is an index leveraging the "passjoin" algorithm as a mean
  * to index strings for Levenshtein distance queries. It features a complexity
- * related to the Levenhstein query threshold k rather than the number of
+ * related to the Levenshtein query threshold k rather than the number of
  * strings to test (roughly O(k^3)).
  *
  * [References]:
