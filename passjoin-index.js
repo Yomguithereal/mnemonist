@@ -398,8 +398,10 @@ PassjoinIndex.prototype.search = function(query) {
 
           // NOTE: first condition is here not to compute Levenshtein
           // distance for tiny strings
-          // NOTE: we could also maintain a set of non-matching candidates
-          // but this is unlikely to be useful
+
+          // NOTE: maintaining a Set of rejected candidate is not really useful
+          // because it consumes more memory and because non-matches are
+          // less likely to be candidates agains
           if (
             s <= k && l <= k ||
             (
