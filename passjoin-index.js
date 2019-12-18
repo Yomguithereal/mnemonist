@@ -28,6 +28,7 @@ var Iterator = require('obliterator/iterator'),
 // TODO: leveraging BagDistance as an upper bound of Levenshtein
 // TODO: leverage n-grams recursive indexing
 // TODO: try the MultiArray as a memory backend
+// TODO: what about damerau levenshtein
 
 /**
  * Helpers.
