@@ -25,6 +25,10 @@
 var Iterator = require('obliterator/iterator'),
     forEach = require('obliterator/foreach');
 
+// TODO: leveraging BagDistance as an upper bound of Levenshtein
+// TODO: leverage n-grams recursive indexing
+// TODO: try the MultiArray as a memory backend
+
 /**
  * Helpers.
  */

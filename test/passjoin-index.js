@@ -268,5 +268,3 @@ describe('PassjoinIndex', function() {
     assert.deepEqual(index.search('abc'), new Set());
   });
 });
-
-// TODO: use multiarray
