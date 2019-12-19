@@ -68,6 +68,10 @@ We recommend the following libraries for efficient Levenshtein distance function
 * [talisman](https://www.npmjs.com/package/talisman)
 * [node-levenshtein](https://www.npmjs.com/package/node-levenshtein)
 
+If `k` is 1, we recommend the following specialized library:
+
+* [levenshtein-lte1](https://www.npmjs.com/package/levenshtein-lte1)
+
 ### Static #.from
 
 Alternatively, one can build a `PassjoinIndex` from an arbitrary JavaScript iterable likewise:
