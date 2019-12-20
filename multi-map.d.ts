@@ -2,14 +2,12 @@
  * Mnemonist MultiMap Typings
  * ===========================
  */
-export default class MultiMap<K, V> implements Iterable<[K, V]> {
+
+interface MultiMap<K, V, C extends V[] | Set<V> = V[]> extends Iterable<[K, V]> {
 
   // Members
   dimension: number;
   size: number;
-
-  // Constructor
-  constructor(Container?: ArrayConstructor | SetConstructor);
 
   // Methods
   clear(): void;
@@ -17,22 +15,33 @@ export default class MultiMap<K, V> implements Iterable<[K, V]> {
   delete(key: K): boolean;
   remove(key: K, value: V): boolean;
   has(key: K): boolean;
-  get(key: K): Array<V> | Set<V> | undefined;
+  get(key: K): C | undefined;
   multiplicity(key: K): number;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
-  forEachAssociation(callback: (value: Array<V> | Set<V>, key: K, map: this) => void, scope?: any): void;
-  keys(): Iterator<K>;
-  values(): Iterator<V>;
-  entries(): Iterator<[K, V]>;
-  containers(): Iterator<Array<V> | Set<V>>;
-  associations(): Iterator<[K, Array<V> | Set<V>]>;
-  [Symbol.iterator](): Iterator<[K, V]>;
+  forEachAssociation(callback: (value: C, key: K, map: this) => void, scope?: any): void;
+  keys(): IterableIterator<K>;
+  values(): IterableIterator<V>;
+  entries(): IterableIterator<[K, V]>;
+  containers(): IterableIterator<C>;
+  associations(): IterableIterator<[K, C]>;
+  [Symbol.iterator](): IterableIterator<[K, V]>;
   inspect(): any;
   toJSON(): any;
-
-  // Statics
-  static from<I, J>(
-    iterable: Iterable<[I, J]> | {[key: string]: J},
-    Container?: ArrayConstructor | SetConstructor
-  ): MultiMap<I, J>;
 }
+
+interface MultiMapConstructor {
+  new <K, V>(container: SetConstructor): MultiMap<K, V, Set<V>>;
+  new <K, V>(container?: ArrayConstructor): MultiMap<K, V, V[]>;
+
+  from<K, V>(
+    iterable: Iterable<[K, V]> | {[key: string]: V},
+    Container: SetConstructor
+  ): MultiMap<K, V, Set<V>>;
+  from<K, V>(
+    iterable: Iterable<[K, V]> | {[key: string]: V},
+    Container?: ArrayConstructor
+  ): MultiMap<K, V, V[]>;
+}
+
+declare const MultiMap: MultiMapConstructor;
+export default MultiMap;
