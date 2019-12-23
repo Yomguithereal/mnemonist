@@ -188,7 +188,7 @@ for (const _ of multimap.associations()) { }
 /**
  * PassjoinIndex.
  */
-const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex(() => 0, 1);
+const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex((a: string, b: string) => 0, 1);
 
 let passjoinResults: Set<string> = passjoinIndex.search('hello');
 
