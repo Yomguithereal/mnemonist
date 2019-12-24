@@ -201,6 +201,8 @@ describe('MultiMap', function() {
 
     assert.strictEqual(iterator.next().value, 'one');
     assert.strictEqual(iterator.next().value, 'two');
+
+    assert.deepStrictEqual([...map.keys()], ['one', 'two']);
   });
 
   it('should be possible to create an iterator over the map\'s values.', function() {
@@ -218,6 +220,8 @@ describe('MultiMap', function() {
     assert.strictEqual(iterator.next().value, 'hello');
     assert.strictEqual(iterator.next().done, true);
 
+    assert.deepStrictEqual([...map.values()], ['hello', 'world', 'hello']);
+
     map = new MultiMap();
 
     map.set('one', 'hello');
@@ -230,6 +234,8 @@ describe('MultiMap', function() {
     assert.strictEqual(iterator.next().value, 'world');
     assert.strictEqual(iterator.next().value, 'hello');
     assert.strictEqual(iterator.next().done, true);
+
+    assert.deepStrictEqual([...map.values()], ['hello', 'world', 'hello']);
   });
 
   it('should be possible to create an iterator over the map\'s entries.', function() {
@@ -247,6 +253,8 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, ['two', 'hello']);
     assert.strictEqual(iterator.next().done, true);
 
+    assert.deepStrictEqual([...map.entries()], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
+
     map = new MultiMap();
 
     map.set('one', 'hello');
@@ -259,6 +267,8 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, ['one', 'world']);
     assert.deepEqual(iterator.next().value, ['two', 'hello']);
     assert.strictEqual(iterator.next().done, true);
+
+    assert.deepStrictEqual([...map.entries()], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
   });
 
   it('should be possible to create an iterator over the map\'s containers.', function() {
@@ -275,6 +285,8 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, new Set(['hello']));
     assert.strictEqual(iterator.next().done, true);
 
+    assert.deepStrictEqual([...map.containers()], [new Set(['hello', 'world']), new Set(['hello'])]);
+
     map = new MultiMap();
 
     map.set('one', 'hello');
@@ -286,6 +298,8 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, ['hello', 'world']);
     assert.deepEqual(iterator.next().value, ['hello']);
     assert.strictEqual(iterator.next().done, true);
+
+    assert.deepStrictEqual([...map.containers()], [['hello', 'world'], ['hello']]);
   });
 
   it('should be possible to create an iterator over the map\'s associations.', function() {
@@ -302,6 +316,11 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, ['two', new Set(['hello'])]);
     assert.strictEqual(iterator.next().done, true);
 
+    assert.deepStrictEqual(
+      [...map.associations()],
+      [['one', new Set(['hello', 'world'])], ['two', new Set(['hello'])]]
+    );
+
     map = new MultiMap();
 
     map.set('one', 'hello');
@@ -313,6 +332,11 @@ describe('MultiMap', function() {
     assert.deepEqual(iterator.next().value, ['one', ['hello', 'world']]);
     assert.deepEqual(iterator.next().value, ['two', ['hello']]);
     assert.strictEqual(iterator.next().done, true);
+
+    assert.deepStrictEqual(
+      [...map.associations()],
+      [['one', ['hello', 'world']], ['two', ['hello']]]
+    );
   });
 
   it('should be possible to iterate over the map using for...of.', function() {
@@ -331,6 +355,8 @@ describe('MultiMap', function() {
     }
 
     assert.strictEqual(i, 3);
+
+    assert.deepStrictEqual([...map], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
   });
 
   it('should be possible to create a map from an abitrary iterable.', function() {

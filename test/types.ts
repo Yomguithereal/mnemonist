@@ -38,8 +38,6 @@ import {
   VPTree
 } from '../index';
 
-import leven from 'leven';
-
 /**
  * BiMap.
  */
@@ -175,14 +173,22 @@ multiset = MultiSet.from({'one': 1});
 /**
  * MultiMap.
  */
-let multimap: MultiMap<number, string> = new MultiMap(Set);
+let multimap: MultiMap<number, string, Set<string>> = new MultiMap(Set);
 multimap.set(45, 'test');
+multimap.get(45).has('test');
 let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
+stringMultimap.get('one').indexOf(1);
+for (const _ of multimap) { }
+for (const _ of multimap.keys()) { }
+for (const _ of multimap.values()) { }
+for (const _ of multimap.entries()) { }
+for (const _ of multimap.containers()) { }
+for (const _ of multimap.associations()) { }
 
 /**
  * PassjoinIndex.
  */
-const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex(leven, 1);
+const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex((a: string, b: string) => 0, 1);
 
 let passjoinResults: Set<string> = passjoinIndex.search('hello');
 

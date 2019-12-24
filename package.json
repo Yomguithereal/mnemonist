@@ -6,7 +6,7 @@
     "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
-    "test:types": "tsc --lib es2015,dom --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
+    "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
   "files": [
     "utils",
