@@ -5,6 +5,8 @@
  * Useful function related to sets such as union, intersection and so on...
  */
 
+// TODO: optimize versions for less variadicities
+
 /**
  * Variadic function computing the intersection of multiple sets.
  *
@@ -268,4 +270,36 @@ exports.disjunct = function(A, B) {
     A.delete(toRemove[i]);
 
   return;
+};
+
+/**
+ * Function returning the size of the intersection of A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.intersectionSize = function(A, B) {
+  var tmp;
+
+  // We need to know the smallest set
+  if (A.size > B.size) {
+    tmp = A;
+    A = B;
+    B = tmp;
+  }
+
+  if (A.size === 0)
+    return 0;
+
+  var iterator = A.values(),
+      step;
+
+  var I = 0;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (B.has(step.value))
+      I++;
+  }
+
+  return I;
 };

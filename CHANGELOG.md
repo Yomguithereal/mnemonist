@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.33.0 (provisional)
+
+* Addings `set.intersectionSize`.
+
 ## 0.32.0
 
 * Adding `PassjoinIndex`.
