@@ -151,4 +151,16 @@ describe('Set functions', function() {
       assert.strictEqual(functions.intersectionSize(A, N), 0);
     });
   });
+
+  describe('#.unionSize', function() {
+    it('should properly return the size of the intersection.', function() {
+      var A = new Set([1, 2, 3]),
+          B = new Set([2, 3, 4]);
+
+      var N = new Set([]);
+
+      assert.strictEqual(functions.unionSize(A, B), 4);
+      assert.strictEqual(functions.unionSize(A, N), 3);
+    });
+  });
 });

@@ -303,3 +303,15 @@ exports.intersectionSize = function(A, B) {
 
   return I;
 };
+
+/**
+ * Function returning the size of the union of A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.unionSize = function(A, B) {
+  var I = exports.intersectionSize(A, B);
+
+  return A.size + B.size - I;
+};

@@ -2,7 +2,8 @@
 
 ## 0.33.0 (provisional)
 
-* Addings `set.intersectionSize`.
+* Adding `set.intersectionSize`.
+* Adding `set.unionSize`.
 
 ## 0.32.0
 
