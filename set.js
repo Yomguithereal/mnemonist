@@ -291,6 +291,9 @@ exports.intersectionSize = function(A, B) {
   if (A.size === 0)
     return 0;
 
+  if (A === B)
+    return A.size;
+
   var iterator = A.values(),
       step;
 
@@ -314,4 +317,21 @@ exports.unionSize = function(A, B) {
   var I = exports.intersectionSize(A, B);
 
   return A.size + B.size - I;
+};
+
+/**
+ * Function returning the Jaccard similarity between A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ */
+exports.jaccard = function(A, B) {
+  var I = exports.intersectionSize(A, B);
+
+  if (I === 0)
+    return 0;
+
+  var U = A.size + B.size - I;
+
+  return I / U;
 };

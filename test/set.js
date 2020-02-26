@@ -153,7 +153,7 @@ describe('Set functions', function() {
   });
 
   describe('#.unionSize', function() {
-    it('should properly return the size of the intersection.', function() {
+    it('should properly return the size of the union.', function() {
       var A = new Set([1, 2, 3]),
           B = new Set([2, 3, 4]);
 
@@ -161,6 +161,20 @@ describe('Set functions', function() {
 
       assert.strictEqual(functions.unionSize(A, B), 4);
       assert.strictEqual(functions.unionSize(A, N), 3);
+    });
+  });
+
+  describe('#.jaccard', function() {
+    it('should properly return the Jaccard similarity between two sets.', function() {
+      var A = new Set([1, 2, 3]),
+          B = new Set([2, 3, 4]);
+
+      var N = new Set([]);
+
+      assert.strictEqual(functions.jaccard(A, B), 2 / 4);
+      assert.strictEqual(functions.jaccard(A, N), 0);
+
+      assert.strictEqual(functions.jaccard(new Set('contact'), new Set('context')), 4 / 7);
     });
   });
 });

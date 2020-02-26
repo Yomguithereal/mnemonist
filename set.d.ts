@@ -12,3 +12,6 @@ export function add<T>(a: Set<T>, b: Set<T>): void;
 export function subtract<T>(a: Set<T>, b: Set<T>): void;
 export function intersect<T>(a: Set<T>, b: Set<T>): void;
 export function disjunct<T>(a: Set<T>, b: Set<T>): void;
+export function intersectionSize<T>(a: Set<T>, b:Set<T>): number;
+export function unionSize<T>(a: Set<T>, b:Set<T>): number;
+export function jaccard<T>(a: Set<T>, b:Set<T>): number;

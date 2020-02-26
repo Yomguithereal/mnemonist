@@ -4,6 +4,7 @@
 
 * Adding `set.intersectionSize`.
 * Adding `set.unionSize`.
+* Adding `set.jaccard`.
 
 ## 0.32.0
 
