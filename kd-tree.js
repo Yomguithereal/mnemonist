@@ -100,6 +100,8 @@ KDTree.prototype.nearestNeighbor = function(point) {
     d = depth % this.dimensions;
 
     length = stop - start + 1;
+
+    // TODO: bitwise opt.
     half = (length / 2) | 0;
     median = start + half;
     pivot = this.sortedAxes[d][median];
@@ -107,27 +109,6 @@ KDTree.prototype.nearestNeighbor = function(point) {
     console.log(this.values[pivot]);
   }
 };
-
-// if (!root) return;
-// d = dist(root, nd, dim);
-// dx = root->x[i] - nd->x[i];
-// dx2 = dx * dx;
-
-// visited ++;
-
-// if (!*best || d < *best_dist) {
-//     *best_dist = d;
-//     *best = root;
-// }
-
-// /* if chance of exact match is high */
-// if (!*best_dist) return;
-
-// if (++i >= dim) i = 0;
-
-// nearest(dx > 0 ? root->left : root->right, nd, i, dim, best, best_dist);
-// if (dx2 >= *best_dist) return;
-// nearest(dx > 0 ? root->right : root->left, nd, i, dim, best, best_dist);
 
 /**
  * Convenience known methods.
