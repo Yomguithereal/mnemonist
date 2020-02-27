@@ -83,6 +83,7 @@ function buildTree(dimensions, data) {
 
   i = 0;
 
+  // NOTE: partial sorting would be more memory-efficient
   var axisSorter = function(a, b) {
     a = axes[d][a];
     b = axes[d][b];
@@ -131,7 +132,13 @@ function buildTree(dimensions, data) {
     i++;
   }
 
-  return {axes: axes, values: values, pivots: pivots, lefts: lefts, rights: rights};
+  return {
+    axes: axes,
+    values: values,
+    pivots: pivots,
+    lefts: lefts,
+    rights: rights
+  };
 }
 
 /**
@@ -145,8 +152,11 @@ function KDTree(dimensions, data) {
   this.dimensions = dimensions;
 
   this.axes = result.axes;
-  this.sortedAxes = result.sortedAxes;
   this.values = result.values;
+
+  this.pivots = result.pivots;
+  this.lefts = result.lefts;
+  this.rights = result.rights;
 
   this.size = this.values.length;
 }
@@ -155,50 +165,33 @@ KDTree.prototype.nearestNeighbor = function(query) {
   var bestDistance = Infinity,
       best = null;
 
-  var visited = 0;
+  var dimensions = this.dimensions,
+      pivots = this.pivots,
+      lefts = this.lefts,
+      right = this.rights;
 
-  var stack = [[0, 0, this.size - 1]],
+  var visited = 0,
+
+
+  var stack = [[0, 0]],
       step,
-      depth,
-      start,
-      stop,
-      length,
-      half,
-      median,
-      pivot,
-      leftStart,
-      leftStop,
-      hasLeft,
-      rightStart,
-      rightStop,
-      hasRight,
-      dist,
-      dx,
       d,
-      w;
+      pivot,
+      node,
+      left,
+      right,
+      dist,
+      dx;
 
   while (stack.length !== 0) {
     visited++;
 
     step = stack.pop();
-    depth = step[0];
-    start = step[1];
-    stop = step[2];
-
-    d = depth % this.dimensions;
-
-    length = stop - start + 1;
-    half = length >>> 1;
-    median = start + half;
-    pivot = this.sortedAxes[d][median];
-    console.log(this.values[pivot], depth, start, stop)
-    leftStart = start;
-    leftStop = median - 1;
-    hasLeft = leftStop - leftStart > -1;
-
-    rightStart = median + 1;
-    rightStop = stop;
-    hasRight = rightStop - rightStart > -1;
+    d = step[0];
+    node = step[1];
+    left = this.lefts[node];
+    right = this.rights[node];
+    pivot = this.pivots[node];
 
     dist = squaredDistanceAxes(
       this.dimensions,
@@ -207,6 +200,9 @@ KDTree.prototype.nearestNeighbor = function(query) {
       query
     );
 
+    if (dist === 0)
+      break;
+
     dx = this.axes[d][pivot] - query[d];
 
     if (dist < bestDistance) {
@@ -214,35 +210,40 @@ KDTree.prototype.nearestNeighbor = function(query) {
       bestDistance = dist;
     }
 
-    // Going the other way?
-    if (dx * dx < bestDistance) {
-      w = dx >= 0;
+    d = (d + 1) % this.dimensions;
+    immutable i2 = (i + 1 >= dim) ? 0 : i + 1;
 
-      if (w) {
-        if (hasRight)
-          stack.push([depth + 1, rightStart, rightStop]);
+    // Going the other way?
+    if (dx * dx >= bestDistance) {
+      if (dx > 0) {
+        if (right !== 0)
+          stack.push([d, right - 1]);
       }
       else {
-        if (hasLeft)
-          stack.push([depth + 1, leftStart, leftStop]);
+        if (left !== 0)
+          stack.push([d, left - 1]);
       }
     }
 
     // Going the correct way?
-    w = dx < 0;
-
-    if (w) {
-      if (hasRight)
-        stack.push([depth + 1, rightStart, rightStop]);
+    if (dx > 0) {
+      if (left !== 0)
+        stack.push([d, left - 1]);
     }
-    else {
-      if (hasLeft)
-        stack.push([depth + 1, leftStart, leftStop]);
+    else {
+      if (right !== 0)
+        stack.push([d, right - 1]);
     }
   }
 
-  console.log(this.axes, this.values, this.values[best], bestDistance, visited);
+  console.log('visited', visited)
+  console.log('point', this.values[best], [this.axes[0][best], this.axes[1][best]]);
 };
+
+
+// nearest(dx > 0 ? root->left : root->right, nd, i, dim, best, best_dist);
+// if (dx2 >= *best_dist) return;
+// nearest(dx > 0 ? root->right : root->left, nd, i, dim, best, best_dist);
 
 /**
  * Convenience known methods.
@@ -291,44 +292,49 @@ if (require.main === module) {
     ['five', [7, 2]]
   ];
 
-  var tree = buildTree(2, D);
-  console.log(tree.pivots, tree.lefts, tree.rights);
-  var children = (node) => {
+  // var tree = buildTree(2, D);
+  // console.log(tree.pivots, tree.lefts, tree.rights);
+  // var children = (node) => {
 
-    var row = [
-      tree.lefts[node] ? (tree.lefts[node] - 1) : null,
-      tree.rights[node] ? (tree.rights[node] - 1) : null
-    ];
+  //   var row = [
+  //     tree.lefts[node] ? (tree.lefts[node] - 1) : null,
+  //     tree.rights[node] ? (tree.rights[node] - 1) : null
+  //   ];
 
-    if (row[0] === null && row[1] === null)
-      return null;
+  //   if (row[0] === null && row[1] === null)
+  //     return null;
 
-    return row;
-  };
+  //   return row;
+  // };
 
-  var title = (node) => {
-    if (node === null)
-      return '';
+  // var title = (node) => {
+  //   if (node === null)
+  //     return '';
 
-    node = tree.pivots[node];
-    return '(' + [tree.axes[0][node], tree.axes[1][node]] + ')';
-  };
+  //   node = tree.pivots[node];
+  //   return '(' + [tree.axes[0][node], tree.axes[1][node]] + ')';
+  // };
 
-  console.log(asciitree(0, title, children))
+  // console.log(asciitree(0, title, children))
 
-  // var tree = new KDTree(2, D);
+  var tree = new KDTree(2, D);
 
-  // console.log(tree);
-  // console.log(tree.nearestNeighbor([5, 4]));
+  console.log(tree);
+  console.log(tree.nearestNeighbor([2, 3]));
 
   // var D = [];
-  // var N = 100000;
+  // var N = 10000;
 
   // for (var i = 0; i < N; i++) {
   //   D.push([i, [Math.random(), Math.random()]]);
   // }
 
   // var tree = new KDTree(2, D);
-  // tree.nearestNeighbor([Math.random(), Math.random()]);
+
+  // var T = 1000;
+
+  // // for (i = 0; i < T; i++)
+  //   tree.nearestNeighbor([Math.random(), Math.random()]);
+
   // console.log(Math.log2(N));
 }
