@@ -210,7 +210,7 @@ KDTree.prototype.nearestNeighbor = function(query) {
     }
 
     // Going the other way?
-    if (dx * dx >= bestDistance) {
+    if (dx * dx < bestDistance) {
       if (dx > 0) {
         if (right !== 0)
           recurse(d, right - 1);
@@ -313,7 +313,7 @@ if (require.main === module) {
   D.forEach(p => console.log(p[1], D[tree.nearestNeighbor(p[1])[1]]));
 
   var D = [];
-  var N = 10000;
+  var N = 1000000;
 
   for (var i = 0; i < N; i++) {
     D.push([i, [Math.random(), Math.random()]]);
