@@ -166,78 +166,65 @@ KDTree.prototype.nearestNeighbor = function(query) {
       best = null;
 
   var dimensions = this.dimensions,
+      axes = this.axes,
       pivots = this.pivots,
       lefts = this.lefts,
-      right = this.rights;
+      rights = this.rights;
 
-  var visited = 0,
+  var visited = 0;
 
-
-  var stack = [[0, 0]],
-      step,
-      d,
-      pivot,
-      node,
-      left,
-      right,
-      dist,
-      dx;
-
-  while (stack.length !== 0) {
+  function recurse(d, node) {
     visited++;
 
-    step = stack.pop();
-    d = step[0];
-    node = step[1];
-    left = this.lefts[node];
-    right = this.rights[node];
-    pivot = this.pivots[node];
+    var left = lefts[node],
+        right = rights[node],
+        pivot = pivots[node];
 
-    dist = squaredDistanceAxes(
-      this.dimensions,
-      this.axes,
+    var dist = squaredDistanceAxes(
+      dimensions,
+      axes,
       pivot,
       query
     );
 
-    if (dist === 0)
-      break;
-
-    dx = this.axes[d][pivot] - query[d];
-
     if (dist < bestDistance) {
       best = pivot;
       bestDistance = dist;
+
+      if (dist === 0)
+        return;
     }
 
-    d = (d + 1) % this.dimensions;
-    immutable i2 = (i + 1 >= dim) ? 0 : i + 1;
+    dx = axes[d][pivot] - query[d];
+
+    d = (d + 1) % dimensions;
+
+    // Going the correct way?
+    if (dx > 0) {
+      if (left !== 0)
+        recurse(d, left - 1);
+    }
+    else {
+      if (right !== 0)
+        recurse(d, right - 1);
+    }
 
     // Going the other way?
     if (dx * dx >= bestDistance) {
       if (dx > 0) {
         if (right !== 0)
-          stack.push([d, right - 1]);
+          recurse(d, right - 1);
       }
       else {
         if (left !== 0)
-          stack.push([d, left - 1]);
+          recurse(d, left - 1);
       }
-    }
-
-    // Going the correct way?
-    if (dx > 0) {
-      if (left !== 0)
-        stack.push([d, left - 1]);
-    }
-    else {
-      if (right !== 0)
-        stack.push([d, right - 1]);
     }
   }
 
-  console.log('visited', visited)
-  console.log('point', this.values[best], [this.axes[0][best], this.axes[1][best]]);
+  recurse(0, 0);
+
+  return [visited, best];
 };
 
 
@@ -281,6 +268,9 @@ KDTree.from = function(iterable) {
 module.exports = KDTree;
 
 if (require.main === module) {
+  // TODO: sanity tests
+  // TODO: find tipping point for k, wrt d
+
   var asciitree = require('asciitree');
 
   var D = [
@@ -294,47 +284,50 @@ if (require.main === module) {
 
   // var tree = buildTree(2, D);
   // console.log(tree.pivots, tree.lefts, tree.rights);
-  // var children = (node) => {
+  var children = (node) => {
 
-  //   var row = [
-  //     tree.lefts[node] ? (tree.lefts[node] - 1) : null,
-  //     tree.rights[node] ? (tree.rights[node] - 1) : null
-  //   ];
+    var row = [
+      tree.lefts[node] ? (tree.lefts[node] - 1) : null,
+      tree.rights[node] ? (tree.rights[node] - 1) : null
+    ];
 
-  //   if (row[0] === null && row[1] === null)
-  //     return null;
+    if (row[0] === null && row[1] === null)
+      return null;
 
-  //   return row;
-  // };
+    return row;
+  };
 
-  // var title = (node) => {
-  //   if (node === null)
-  //     return '';
+  var title = (node) => {
+    if (node === null)
+      return '';
 
-  //   node = tree.pivots[node];
-  //   return '(' + [tree.axes[0][node], tree.axes[1][node]] + ')';
-  // };
+    node = tree.pivots[node];
+    return '(' + [tree.axes[0][node].toString().slice(0,4), tree.axes[1][node].toString().slice(0,4)] + ')';
+  };
 
   // console.log(asciitree(0, title, children))
 
   var tree = new KDTree(2, D);
 
   console.log(tree);
-  console.log(tree.nearestNeighbor([2, 3]));
+  D.forEach(p => console.log(p[1], D[tree.nearestNeighbor(p[1])[1]]));
 
-  // var D = [];
-  // var N = 10000;
+  var D = [];
+  var N = 10000;
 
-  // for (var i = 0; i < N; i++) {
-  //   D.push([i, [Math.random(), Math.random()]]);
-  // }
+  for (var i = 0; i < N; i++) {
+    D.push([i, [Math.random(), Math.random()]]);
+  }
 
-  // var tree = new KDTree(2, D);
+  var tree = new KDTree(2, D);
+  // console.log(asciitree(0, title, children))
 
-  // var T = 1000;
+  var T = 1000,
+      s = 0;
 
-  // // for (i = 0; i < T; i++)
-  //   tree.nearestNeighbor([Math.random(), Math.random()]);
+  for (i = 0; i < T; i++) {
+    s += tree.nearestNeighbor([Math.random(), Math.random()])[0];
+  }
 
-  // console.log(Math.log2(N));
+  console.log(Math.log2(N), s / T);
 }
