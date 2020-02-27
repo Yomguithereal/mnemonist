@@ -8,6 +8,34 @@
 var forEach = require('obliterator/foreach');
 var typed = require('./utils/typed-arrays.js');
 
+function squaredDistance(dimensions, a, b) {
+  var d;
+
+  var dist = 0,
+      step;
+
+  for (d = 0; d < dimensions; d++) {
+    step = a[d] - b[d];
+    dist += step * step;
+  }
+
+  return dist;
+}
+
+function squaredDistanceAxes(dimensions, axes, pivot, b) {
+  var d;
+
+  var dist = 0,
+      step;
+
+  for (d = 0; d < dimensions; d++) {
+    step = axes[d][pivot] - b[d];
+    dist += step * step;
+  }
+
+  return dist;
+}
+
 function buildTree(dimensions, data) {
   var axes = new Array(dimensions),
       sortedAxes = new Array(dimensions),
@@ -72,8 +100,8 @@ function KDTree(dimensions, data) {
   this.size = this.values.length;
 }
 
-KDTree.prototype.nearestNeighbor = function(point) {
-  var bestDistance = -Infinity,
+KDTree.prototype.nearestNeighbor = function(query) {
+  var bestDistance = Infinity,
       best = null;
 
   var visited = 0;
@@ -87,7 +115,16 @@ KDTree.prototype.nearestNeighbor = function(point) {
       half,
       median,
       pivot,
-      d;
+      leftStart,
+      leftStop,
+      hasLeft,
+      rightStart,
+      rightStop,
+      hasRight,
+      dist,
+      dx,
+      d,
+      w;
 
   while (stack.length !== 0) {
     visited++;
@@ -100,14 +137,60 @@ KDTree.prototype.nearestNeighbor = function(point) {
     d = depth % this.dimensions;
 
     length = stop - start + 1;
-
-    // TODO: bitwise opt.
-    half = (length / 2) | 0;
+    half = length >>> 1;
     median = start + half;
     pivot = this.sortedAxes[d][median];
+    console.log(this.values[pivot], depth, start, stop)
+    leftStart = start;
+    leftStop = median - 1;
+    hasLeft = leftStop - leftStart > -1;
 
-    console.log(this.values[pivot]);
+    rightStart = median + 1;
+    rightStop = stop;
+    hasRight = rightStop - rightStart > -1;
+
+    dist = squaredDistanceAxes(
+      this.dimensions,
+      this.axes,
+      pivot,
+      query
+    );
+
+    dx = this.axes[d][pivot] - query[d];
+
+    if (dist < bestDistance) {
+      best = pivot;
+      bestDistance = dist;
+    }
+
+    // Going the other way?
+    if (dx * dx < bestDistance) {
+      w = dx >= 0;
+
+      if (w) {
+        if (hasRight)
+          stack.push([depth + 1, rightStart, rightStop]);
+      }
+      else {
+        if (hasLeft)
+          stack.push([depth + 1, leftStart, leftStop]);
+      }
+    }
+
+    // Going the correct way?
+    w = dx < 0;
+
+    if (w) {
+      if (hasRight)
+        stack.push([depth + 1, rightStart, rightStop]);
+    }
+    else {
+      if (hasLeft)
+        stack.push([depth + 1, leftStart, leftStop]);
+    }
   }
+
+  console.log(this.axes, this.values, this.values[best], bestDistance, visited);
 };
 
 /**
@@ -158,5 +241,5 @@ if (require.main === module) {
   var tree = new KDTree(2, D);
 
   console.log(tree);
-  console.log(tree.nearestNeighbor([3, 4]));
+  console.log(tree.nearestNeighbor([5, 4]));
 }
