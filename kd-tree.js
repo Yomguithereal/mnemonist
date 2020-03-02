@@ -319,7 +319,9 @@ if (require.main === module) {
     D.push([i, [Math.random(), Math.random()]]);
   }
 
+  console.time('build');
   var tree = new KDTree(2, D);
+  console.timeEnd('build');
   // console.log(asciitree(0, title, children))
 
   var T = 1000,
