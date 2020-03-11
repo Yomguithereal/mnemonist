@@ -4,12 +4,12 @@
  *
  * Insertion sort related functions.
  */
-function inplaceInsertionSort(array, i, l) {
-  i++;
+function inplaceInsertionSort(array, lo, hi) {
+  i = lo + 1;
 
   var j, k;
 
-  for (; i < l; i++) {
+  for (; i < hi; i++) {
     k = array[i];
     j = i - 1;
 
@@ -19,6 +19,8 @@ function inplaceInsertionSort(array, i, l) {
     }
     array[j + 1] = k;
   }
+
+  return array;
 }
 
 exports.inplaceInsertionSort = inplaceInsertionSort;
