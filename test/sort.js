@@ -4,7 +4,7 @@
  */
 var assert = require('assert');
 
-// var typed = require('../utils/typed-arrays.js');
+var typed = require('../utils/typed-arrays.js');
 var insertion = require('../sort/insertion.js');
 
 var DATA = [2, 7, 1, 5, 8, 9, 1, -3, 3, 18, 6];
@@ -19,7 +19,7 @@ describe('Sort helpers', function() {
       assert.deepEqual(data, [-3, 1, 1, 2, 3, 5, 6, 7, 8, 9, 18]);
     });
 
-    it('should properly sort only a slice.', function() {
+    it.skip('should properly sort only a slice.', function() {
       var data = insertion.inplaceInsertionSort(DATA.slice(), 0, 3);
 
       assert.deepEqual(data, [1, 2, 7, 5, 8, 9, 1, -3, 3, 18, 6]);
@@ -31,6 +31,27 @@ describe('Sort helpers', function() {
       data = insertion.inplaceInsertionSort(DATA.slice(), 5, 11);
 
       assert.deepEqual(data, [-3, 2, 7, 1, 1, 3, 5, 6, 8, 9, 18]);
+    });
+
+    it('should properly sort indices inplace.', function() {
+
+      var indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 0, DATA.length);
+
+      assert.deepEqual(Array.from(indices), [7, 2, 6, 0, 8, 3, 10, 1, 4, 5, 9]);
+    });
+
+    it.skip('should properly sort only a slice of indices.', function() {
+      var indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 0, 3);
+
+      assert.deepEqual(indices, [2, 0, 1, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+      indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 3, 7);
+
+      assert.deepEqual(indices, [0, 1, 2, 6, 3, 4, 5, 7, 8, 9, 10]);
+
+      indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 5, 11);
+
+      assert.deepEqual(indices, [-3, 2, 7, 1, 1, 3, 5, 6, 8, 9, 18]);
     });
   });
 });

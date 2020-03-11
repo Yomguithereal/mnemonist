@@ -17,6 +17,7 @@ function inplaceInsertionSort(array, lo, hi) {
       array[j + 1] = array[j];
       j--;
     }
+
     array[j + 1] = k;
   }
 
@@ -24,3 +25,25 @@ function inplaceInsertionSort(array, lo, hi) {
 }
 
 exports.inplaceInsertionSort = inplaceInsertionSort;
+
+function inplaceInsertionSortIndices(array, indices, lo, hi) {
+  i = lo + 1;
+
+  var j, k;
+
+  for (; i < hi; i++) {
+    k = array[indices[i]];
+    j = i - 1;
+
+    while (j >= 0 && array[indices[j]] > k) {
+      indices[j + 1] = indices[j];
+      j--;
+    }
+
+    indices[j + 1] = i;
+  }
+
+  return indices;
+}
+
+exports.inplaceInsertionSortIndices = inplaceInsertionSortIndices;
