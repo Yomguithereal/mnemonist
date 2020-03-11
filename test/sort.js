@@ -4,6 +4,7 @@
  */
 var assert = require('assert');
 
+// var typed = require('../utils/typed-arrays.js');
 var insertion = require('../sort/insertion.js');
 
 var DATA = [2, 7, 1, 5, 8, 9, 1, -3, 3, 18, 6];

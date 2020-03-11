@@ -168,3 +168,20 @@ exports.concat = function() {
 
   return array;
 };
+
+/**
+ * Function used to initialize a byte array of indices.
+ *
+ * @param  {number}    length - Length of target.
+ * @return {ByteArray}
+ */
+exports.indices = function(length) {
+  var PointerArray = exports.getPointerArray(length);
+
+  var array = new PointerArray(length);
+
+  for (var i = 0; i < length; i++)
+    array[i] = i;
+
+  return array;
+};
