@@ -29,10 +29,11 @@ exports.inplaceInsertionSort = inplaceInsertionSort;
 function inplaceInsertionSortIndices(array, indices, lo, hi) {
   i = lo + 1;
 
-  var j, k;
+  var j, k, t;
 
   for (; i < hi; i++) {
-    k = array[indices[i]];
+    t = indices[i];
+    k = array[t];
     j = i - 1;
 
     while (j >= lo && array[indices[j]] > k) {
@@ -40,7 +41,7 @@ function inplaceInsertionSortIndices(array, indices, lo, hi) {
       j--;
     }
 
-    indices[j + 1] = i;
+    indices[j + 1] = t;
   }
 
   return indices;

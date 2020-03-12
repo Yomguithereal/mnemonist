@@ -8,7 +8,7 @@ var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
 var FixedReverseHeap = require('./fixed-reverse-heap.js');
-// var inplaceInsertionSortIndices = require('./sort/insertion.js').inplaceInsertionSortIndices;
+var inplaceInsertionSortIndices = require('./sort/insertion.js').inplaceInsertionSortIndices;
 var inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices;
 
 /**
@@ -40,13 +40,12 @@ function kdSort(axis, indices, lo, hi) {
     return;
   }
 
-  // TODO: insertion sort seems to be broken...
   // If the remaining part is very small, we use insertion sort
-  // if (hi - lo <= 32) {
-  //   inplaceInsertionSortIndices(axis, indices, lo, hi);
+  if (hi - lo <= 32) {
+    inplaceInsertionSortIndices(axis, indices, lo, hi);
 
-  //   return;
-  // }
+    return;
+  }
 
   // Else we use quick sort
   inplaceQuickSortIndices(axis, indices, lo, hi);
