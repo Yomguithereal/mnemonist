@@ -259,6 +259,8 @@ var KNN_HEAP_COMPARATOR_2 = createTupleComparator(2);
  * @param  {array}  query - Query point.
  * @return {array}
  */
+
+// TODO: can do better by improving upon static-kdtree here
 KDTree.prototype.kNearestNeighbors = function(k, query) {
   if (k <= 0)
     throw new Error('mnemonist/kd-tree.kNearestNeighbors: k should be a positive number.');
