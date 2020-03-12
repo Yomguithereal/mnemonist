@@ -270,6 +270,11 @@ var KNN_HEAP_COMPARATOR_2 = createTupleComparator(2);
  * @return {array}
  */
 KDTree.prototype.kNearestNeighbors = function(k, query) {
+  if (k <= 0)
+    throw new Error('mnemonist/kd-tree.kNearestNeighbors: k should be a positive number.');
+
+  k = Math.min(k, this.size);
+
   if (k === 1)
     return [this.nearestNeighbor(query)];
 
@@ -350,6 +355,11 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
  * @return {array}
  */
 KDTree.prototype.linearKNearestNeighbors = function(k, query) {
+  if (k <= 0)
+    throw new Error('mnemonist/kd-tree.kNearestNeighbors: k should be a positive number.');
+
+  k = Math.min(k, this.size);
+
   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_2, k);
 
   var i, l, dist;
