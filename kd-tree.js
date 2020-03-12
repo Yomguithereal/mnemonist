@@ -8,49 +8,7 @@ var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
 var FixedReverseHeap = require('./fixed-reverse-heap.js');
-// var inplaceInsertionSortIndices = require('./sort/insertion.js').inplaceInsertionSortIndices;
 var inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices;
-
-/**
- * Adaptive indices inplace sorting function working on array parts as defined by
- * a lo & hi bounds.
- *
- * @param  {array}  axis    - Axis data.
- * @param  {array}  indices - Indices to sort.
- * @param  {number} lo      - Lower bound.
- * @param  {number} hi      - Upper bound.
- */
-function kdSort(axis, indices, lo, hi) {
-
-  // For initial sort, JS raw sorting should be faster
-  if (lo === 0 && hi === indices.length) {
-    indices.sort(function(a, b) {
-      a = axis[a];
-      b = axis[b];
-
-      if (a < b)
-        return -1;
-
-      if (a > b)
-        return 1;
-
-      return 0;
-    });
-
-    return;
-  }
-
-  // If the remaining part is very small, we use insertion sort
-  // NOTE: I tried but it does not seem to yield any performance gain
-  // if (hi - lo <= 32) {
-  //   inplaceInsertionSortIndices(axis, indices, lo, hi);
-
-  //   return;
-  // }
-
-  // Else we use quick sort
-  inplaceQuickSortIndices(axis, indices, lo, hi);
-}
 
 /**
  * Helper function used to compute the squared distance between a query point
@@ -161,7 +119,7 @@ function buildTree(dimensions, axes, ids, labels) {
     parent = step[3];
     direction = step[4];
 
-    kdSort(axes[d], ids, lo, hi);
+    inplaceQuickSortIndices(axes[d], ids, lo, hi);
 
     l = hi - lo;
     median = lo + (l >>> 1); // Fancy floor(l / 2)
