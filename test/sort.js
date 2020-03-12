@@ -19,6 +19,15 @@ function isIncreasing(array) {
   });
 }
 
+function isIncreasingIndices(array, indices) {
+  return indices.every(function(e, i) {
+    if (!i)
+      return true;
+
+    return array[e] > array[indices[i - 1]];
+  });
+}
+
 describe('Sort helpers', function() {
   describe('insertion', function() {
 
@@ -81,9 +90,7 @@ describe('Sort helpers', function() {
 
       var indices = insertion.inplaceInsertionSortIndices(data, typed.indices(data.length), 0, data.length);
 
-      assert(isIncreasing(Array.from(indices).map(function(i) {
-        return data[i];
-      })), 'Array should be in increasing order');
+      assert(isIncreasingIndices(data, indices), 'Array should be in increasing order');
     });
   });
 
@@ -147,9 +154,7 @@ describe('Sort helpers', function() {
 
       var indices = quick.inplaceQuickSortIndices(data, typed.indices(data.length), 0, data.length);
 
-      assert(isIncreasing(Array.from(indices).map(function(i) {
-        return data[i];
-      })), 'Array should be in increasing order');
+      assert(isIncreasingIndices(data, indices), 'Array should be in increasing order');
     });
   });
 });
