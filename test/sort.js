@@ -96,5 +96,26 @@ describe('Sort helpers', function() {
 
       assert(isIncreasing(data), 'Array should be in increasing order');
     });
+
+    it('should properly sort indices inplace.', function() {
+
+      var indices = quick.inplaceQuickSortIndices(DATA.slice(), typed.indices(DATA.length), 0, DATA.length);
+
+      assert.deepEqual(Array.from(indices), [7, 6, 2, 0, 8, 3, 10, 1, 4, 5, 9]);
+    });
+
+    it('should properly sort only a slice of indices.', function() {
+      var indices = quick.inplaceQuickSortIndices(DATA.slice(), typed.indices(DATA.length), 0, 3);
+
+      assert.deepEqual(Array.from(indices), [2, 0, 1, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+      indices = quick.inplaceQuickSortIndices(DATA.slice(), typed.indices(DATA.length), 3, 7);
+
+      assert.deepEqual(Array.from(indices), [0, 1, 2, 6, 3, 4, 5, 7, 8, 9, 10]);
+
+      indices = quick.inplaceQuickSortIndices(DATA.slice(), typed.indices(DATA.length), 5, 11);
+
+      assert.deepEqual(Array.from(indices), [0, 1, 2, 3, 4, 7, 6, 8, 10, 5, 9]);
+    });
   });
 });
