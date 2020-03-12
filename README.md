@@ -61,6 +61,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Space & time indexation**
 
 * [Static IntervalTree](https://yomguithereal.github.io/mnemonist/static-interval-tree)
+* [KD-Tree](https://yomguithereal.github.io/mnemonist/kd-tree)
 
 **Metric space indexation**
 
