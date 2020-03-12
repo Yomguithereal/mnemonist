@@ -155,6 +155,15 @@ FixedReverseHeap.prototype.push = function(item) {
 };
 
 /**
+ * Method used to peek the worst item in the heap.
+ *
+ * @return {any}
+ */
+FixedReverseHeap.prototype.peek = function() {
+  return this.items[0];
+};
+
+/**
  * Method used to consume the heap fully and return its items as a sorted array.
  *
  * @return {array}

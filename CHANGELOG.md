@@ -5,6 +5,7 @@
 * Adding `set.intersectionSize`.
 * Adding `set.unionSize`.
 * Adding `set.jaccard`.
+* Adding `FixedReverseHeap.peek`.
 
 ## 0.32.0
 
