@@ -223,10 +223,11 @@ KDTree.prototype.nearestNeighbor = function(query) {
   return this.labels[best];
 };
 
-var KNN_HEAP_COMPARATOR = createTupleComparator(3);
+var KNN_HEAP_COMPARATOR_3 = createTupleComparator(3);
+var KNN_HEAP_COMPARATOR_2 = createTupleComparator(2);
 
 KDTree.prototype.kNearestNeighbors = function(k, query) {
-  var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR, k);
+  var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_3, k);
 
   var dimensions = this.dimensions,
       axes = this.axes,
@@ -295,9 +296,29 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
   return best;
 };
 
-// KDTree.prototype.linearKNearestNeighbors = function(k, query) {
+KDTree.prototype.linearKNearestNeighbors = function(k, query) {
+  var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_2, k);
 
-// };
+  var i, l, dist;
+
+  for (i = 0, l = this.size; i < l; i++) {
+    dist = squaredDistanceAxes(
+      this.dimensions,
+      this.axes,
+      this.pivots[i],
+      query
+    );
+
+    heap.push([dist, i]);
+  }
+
+  var best = heap.consume();
+
+  for (i = 0; i < best.length; i++)
+    best[i] = this.labels[this.pivots[best[i][1]]];
+
+  return best;
+};
 
 /**
  * Convenience known methods.

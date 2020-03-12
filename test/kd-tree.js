@@ -96,4 +96,14 @@ describe('KDTree', function() {
       assert.deepEqual(new Set(tree.kNearestNeighbors(3, item[1])), new Set(nn3));
     });
   });
+
+  it('should be possible to retrieve knn linearly.', function() {
+    var tree = KDTree.from(DATA, 2);
+
+    DATA.forEach(function(item) {
+      assert.strictEqual(tree.nearestNeighbor(item[1]), tree.linearKNearestNeighbors(1, item[1])[0]);
+    });
+
+    assert.deepEqual(tree.linearKNearestNeighbors(3, [8, 3]), ['five', 'four', 'one']);
+  });
 });
