@@ -39,6 +39,7 @@
     "heap",
     "interval tree",
     "inverted index",
+    "kd tree",
     "linked list",
     "lru",
     "lru cache",

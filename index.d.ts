@@ -22,6 +22,7 @@ export {default as FuzzyMultiMap} from './fuzzy-multi-map';
 export {default as HashedArrayTree} from './hashed-array-tree';
 export {default as Heap, MinHeap, MaxHeap} from './heap';
 export {default as InvertedIndex} from './inverted-index';
+export {default as KDTree} from './kd-tree';
 export {default as LinkedList} from './linked-list';
 export {default as LRUCache} from './lru-cache';
 export {default as LRUMap} from './lru-map';

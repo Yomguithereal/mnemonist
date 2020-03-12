@@ -31,6 +31,7 @@ module.exports = {
   MaxHeap: Heap.MaxHeap,
   StaticIntervalTree: require('./static-interval-tree.js'),
   InvertedIndex: require('./inverted-index.js'),
+  KDTree: require('./kd-tree.js'),
   LinkedList: require('./linked-list.js'),
   LRUCache: require('./lru-cache.js'),
   LRUMap: require('./lru-map.js'),

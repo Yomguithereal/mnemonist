@@ -4,15 +4,12 @@
  */
 import {IArrayLike} from './utils/types';
 
-export default class KDTree<V>{
+export default class KDTree<V> {
 
   // Members
   dimensions: number;
   size: number;
   visited: number;
-
-  // Constructor
-  constructor(Token?: new () => K);
 
   // Methods
   nearestNeighbor(point: Array<number>): V;

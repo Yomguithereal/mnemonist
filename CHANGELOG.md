@@ -2,6 +2,7 @@
 
 ## 0.33.0 (provisional)
 
+* Adding `KDTree`.
 * Adding `set.intersectionSize`.
 * Adding `set.unionSize`.
 * Adding `set.jaccard`.
