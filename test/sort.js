@@ -117,5 +117,17 @@ describe('Sort helpers', function() {
 
       assert.deepEqual(Array.from(indices), [0, 1, 2, 3, 4, 7, 6, 8, 10, 5, 9]);
     });
+
+    it('indices sanity test.', function() {
+      var data = Array.from(new Array(1000), function() {
+        return Math.random();
+      });
+
+      var indices = quick.inplaceQuickSortIndices(data, typed.indices(data.length), 0, data.length);
+
+      assert(isIncreasing(Array.from(indices).map(function(i) {
+        return data[i];
+      })), 'Array should be in increasing order');
+    });
   });
 });
