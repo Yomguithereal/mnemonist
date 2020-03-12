@@ -43,15 +43,15 @@ describe('Sort helpers', function() {
     it('should properly sort only a slice of indices.', function() {
       var indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 0, 3);
 
-      assert.deepEqual(indices, [2, 0, 1, 3, 4, 5, 6, 7, 8, 9, 10]);
+      assert.deepEqual(Array.from(indices), [2, 0, 1, 3, 4, 5, 6, 7, 8, 9, 10]);
 
       indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 3, 7);
 
-      assert.deepEqual(indices, [0, 1, 2, 6, 3, 4, 5, 7, 8, 9, 10]);
+      assert.deepEqual(Array.from(indices), [0, 1, 2, 6, 3, 4, 5, 7, 8, 9, 10]);
 
       indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 5, 11);
 
-      assert.deepEqual(indices, [0, 1, 2, 3, 4, 7, 6, 8, 10, 5, 9]);
+      assert.deepEqual(Array.from(indices), [0, 1, 2, 3, 4, 7, 6, 8, 10, 5, 9]);
     });
   });
 });
