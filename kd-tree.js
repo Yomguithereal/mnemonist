@@ -6,20 +6,8 @@
  */
 var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
-
-// function squaredDistance(dimensions, a, b) {
-//   var d;
-
-//   var dist = 0,
-//       step;
-
-//   for (d = 0; d < dimensions; d++) {
-//     step = a[d] - b[d];
-//     dist += step * step;
-//   }
-
-//   return dist;
-// }
+// var createTupleComparator = require('./utils/comparators.js');
+// var FixedReverseHeap = require('./fixed-reverse-heap.js');
 
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
@@ -235,6 +223,75 @@ KDTree.prototype.nearestNeighbor = function(query) {
   this.visited = visited;
   return this.labels[best];
 };
+
+// var KNN_HEAP_COMPARATOR = createTupleComparator(2);
+
+// KDTree.prototype.kNearestNeighbors = function(k, query) {
+//   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR, k),
+//       dx;
+
+//   var dimensions = this.dimensions,
+//       axes = this.axes,
+//       pivots = this.pivots,
+//       lefts = this.lefts,
+//       rights = this.rights;
+
+//   var visited = 0;
+
+//   function recurse(d, node) {
+//     visited++;
+
+//     var left = lefts[node],
+//         right = rights[node],
+//         pivot = pivots[node];
+
+//     var dist = squaredDistanceAxes(
+//       dimensions,
+//       axes,
+//       pivot,
+//       query
+//     );
+
+//     if (dist < bestDistance) {
+//       best = pivot;
+//       bestDistance = dist;
+
+//       if (dist === 0)
+//         return;
+//     }
+
+//     dx = axes[d][pivot] - query[d];
+
+//     d = (d + 1) % dimensions;
+
+//     // Going the correct way?
+//     if (dx > 0) {
+//       if (left !== 0)
+//         recurse(d, left - 1);
+//     }
+//     else {
+//       if (right !== 0)
+//         recurse(d, right - 1);
+//     }
+
+//     // Going the other way?
+//     if (dx * dx < bestDistance) {
+//       if (dx > 0) {
+//         if (right !== 0)
+//           recurse(d, right - 1);
+//       }
+//       else {
+//         if (left !== 0)
+//           recurse(d, left - 1);
+//       }
+//     }
+//   }
+
+//   recurse(0, 0);
+
+//   this.visited = visited;
+//   return this.labels[best];
+// };
 
 /**
  * Convenience known methods.

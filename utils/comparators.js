@@ -32,8 +32,46 @@ function reverseComparator(comparator) {
 }
 
 /**
+ * Function returning a tuple comparator.
+ */
+function createTupleComparator(size) {
+  if (size === 2) {
+    return function(a, b) {
+      if (a[0] < b[0])
+        return -1;
+
+      if (a[0] > b[0])
+        return 1;
+
+      if (a[1] < b[1])
+        return -1;
+
+      if (a[1] > b[1])
+        return 1;
+
+      return 0;
+    };
+  }
+
+  return function(a, b) {
+    var i = 0;
+
+    while (i < size) {
+      if (a[i] < b[i])
+        return -1;
+
+      if (a[i] > b[i])
+        return 1;
+    }
+
+    return 0;
+  };
+}
+
+/**
  * Exporting.
  */
 exports.DEFAULT_COMPARATOR = DEFAULT_COMPARATOR;
 exports.DEFAULT_REVERSE_COMPARATOR = DEFAULT_REVERSE_COMPARATOR;
 exports.reverseComparator = reverseComparator;
+exports.createTupleComparator = createTupleComparator;
