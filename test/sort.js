@@ -43,6 +43,16 @@ describe('Sort helpers', function() {
       assert.deepEqual(data, [2, 7, 1, 5, 8, -3, 1, 3, 6, 9, 18]);
     });
 
+    it('sanity test.', function() {
+      var data = Array.from(new Array(1000), function() {
+        return Math.random();
+      });
+
+      insertion.inplaceInsertionSort(data, 0, data.length);
+
+      assert(isIncreasing(data), 'Array should be in increasing order');
+    });
+
     it('should properly sort indices inplace.', function() {
 
       var indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 0, DATA.length);
@@ -62,6 +72,18 @@ describe('Sort helpers', function() {
       indices = insertion.inplaceInsertionSortIndices(DATA.slice(), typed.indices(DATA.length), 5, 11);
 
       assert.deepEqual(Array.from(indices), [0, 1, 2, 3, 4, 7, 6, 8, 10, 5, 9]);
+    });
+
+    it('indices sanity test.', function() {
+      var data = Array.from(new Array(1000), function() {
+        return Math.random();
+      });
+
+      var indices = insertion.inplaceInsertionSortIndices(data, typed.indices(data.length), 0, data.length);
+
+      assert(isIncreasing(Array.from(indices).map(function(i) {
+        return data[i];
+      })), 'Array should be in increasing order');
     });
   });
 
