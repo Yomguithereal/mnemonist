@@ -71,6 +71,7 @@ npm install --save mnemonist
 **Space & time indexation**
 
 * [Static IntervalTree]({{ site.baseurl }}/static-interval-tree)
+* [KD-Tree]({{ site.baseurl }}/kd-tree)
 
 **Metric space indexation**
 
