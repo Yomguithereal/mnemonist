@@ -1,6 +1,6 @@
 ---
 layout: page
-title: TrieMapMap
+title: TrieMap
 ---
 
 The `TrieMap` is basically a [`Trie`]({{ site.baseurl }}/trie) in which you can associate an arbitraty value to the prefixes you insert.
