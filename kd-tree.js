@@ -8,6 +8,8 @@ var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
 var FixedReverseHeap = require('./fixed-reverse-heap.js');
+// var inplaceInsertionSortIndices = require('./sort/insertion.js').inplaceInsertionSortIndices;
+// var inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices;
 
 /**
  * Helper function used to compute the squared distance between a query point
@@ -22,7 +24,6 @@ var FixedReverseHeap = require('./fixed-reverse-heap.js');
  * @param  {array}  point      - Query point.
  * @return {number}
  */
-
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
 
