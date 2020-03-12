@@ -1,6 +1,6 @@
 {
   "name": "mnemonist",
-  "version": "0.33.0",
+  "version": "0.33.1",
   "description": "Curated collection of data structures for the JavaScript language.",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
@@ -9,6 +9,7 @@
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
   "files": [
+    "sort",
     "utils",
     "*.d.ts",
     "*.js"

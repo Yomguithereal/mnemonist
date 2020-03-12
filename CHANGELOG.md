@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.33.1
+
+* Fixing build by including missing `sort` folder.
+
 ## 0.33.0
 
 * Adding `KDTree`.
