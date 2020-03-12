@@ -7,7 +7,7 @@
 var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
-var Heap = require('./heap.js');
+var FixedReverseHeap = require('./fixed-reverse-heap.js');
 
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
@@ -158,8 +158,7 @@ function KDTree(dimensions, build) {
 
 KDTree.prototype.nearestNeighbor = function(query) {
   var bestDistance = Infinity,
-      best = null,
-      dx;
+      best = null;
 
   var dimensions = this.dimensions,
       axes = this.axes,
@@ -191,7 +190,7 @@ KDTree.prototype.nearestNeighbor = function(query) {
         return;
     }
 
-    dx = axes[d][pivot] - query[d];
+    var dx = axes[d][pivot] - query[d];
 
     d = (d + 1) % dimensions;
 
@@ -227,7 +226,7 @@ KDTree.prototype.nearestNeighbor = function(query) {
 var KNN_HEAP_COMPARATOR = createTupleComparator(3);
 
 KDTree.prototype.kNearestNeighbors = function(k, query) {
-  var heap = [];
+  var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR, k);
 
   var dimensions = this.dimensions,
       axes = this.axes,
@@ -249,15 +248,7 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
       query
     );
 
-    var item = [-dist, visited++, pivot];
-
-    if (heap.length >= k) {
-      if (-dist > heap[0][0])
-        Heap.replace(KNN_HEAP_COMPARATOR, heap, item);
-    }
-    else {
-      Heap.push(KNN_HEAP_COMPARATOR, heap, item);
-    }
+    heap.push([dist, visited++, pivot]);
 
     var point = query[d],
         split = axes[d][pivot],
@@ -278,7 +269,7 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
     }
 
     // Going the other way?
-    if (-(dx * dx) > heap[0][0] || heap.length < k) {
+    if (dx * dx > -heap.peek()[0] || heap.size < k) {
       if (point < split) {
         if (right !== 0) {
           recurse(d, right - 1);
@@ -296,13 +287,17 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
 
   this.visited = visited;
 
-  var best = Heap.consume(KNN_HEAP_COMPARATOR, heap).reverse();
+  var best = heap.consume();
 
   for (var i = 0; i < best.length; i++)
     best[i] = this.labels[best[i][2]];
 
   return best;
 };
+
+// KDTree.prototype.linearKNearestNeighbors = function(k, query) {
+
+// };
 
 /**
  * Convenience known methods.
