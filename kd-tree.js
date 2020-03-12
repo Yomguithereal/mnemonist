@@ -1,26 +1,25 @@
-/* eslint-disable */
 /**
  * Mnemonist KDTree
  * =================
  *
  * Low-level JavaScript implementation of a k-dimensional tree.
  */
-var forEach = require('obliterator/foreach');
+var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
 
-function squaredDistance(dimensions, a, b) {
-  var d;
+// function squaredDistance(dimensions, a, b) {
+//   var d;
 
-  var dist = 0,
-      step;
+//   var dist = 0,
+//       step;
 
-  for (d = 0; d < dimensions; d++) {
-    step = a[d] - b[d];
-    dist += step * step;
-  }
+//   for (d = 0; d < dimensions; d++) {
+//     step = a[d] - b[d];
+//     dist += step * step;
+//   }
 
-  return dist;
-}
+//   return dist;
+// }
 
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
@@ -37,13 +36,14 @@ function squaredDistanceAxes(dimensions, axes, pivot, b) {
 }
 
 function buildTree(dimensions, data) {
-  var axes = new Array(dimensions),
-      values = new Array(l),
-      axis;
-
   var l = data.length;
 
-  var PointerArray = typed.getPointerArray(l);
+  var axes = new Array(dimensions),
+      labels = new Array(l),
+      axis;
+
+  // NOTE: +1 because we need to keep 0 as null pointer
+  var PointerArray = typed.getPointerArray(l + 1);
 
   var ids = new PointerArray(l);
 
@@ -59,7 +59,7 @@ function buildTree(dimensions, data) {
       axis[i] = row[1][d];
 
       if (f) {
-        values[i] = row[0];
+        labels[i] = row[0];
         ids[i] = i;
       }
     }
@@ -110,7 +110,7 @@ function buildTree(dimensions, data) {
     pivot = buffer[median];
     pivots[i] = pivot;
 
-    if (parent > -1) {
+    if (parent > -1) {
       if (direction === 0)
         lefts[parent] = i + 1;
       else
@@ -134,7 +134,7 @@ function buildTree(dimensions, data) {
 
   return {
     axes: axes,
-    values: values,
+    labels: labels,
     pivots: pivots,
     lefts: lefts,
     rights: rights
@@ -146,24 +146,23 @@ function buildTree(dimensions, data) {
  *
  * @constructor
  */
-function KDTree(dimensions, data) {
-  var result = buildTree(dimensions, data);
-
+function KDTree(dimensions, build) {
   this.dimensions = dimensions;
 
-  this.axes = result.axes;
-  this.values = result.values;
+  this.axes = build.axes;
+  this.labels = build.labels;
 
-  this.pivots = result.pivots;
-  this.lefts = result.lefts;
-  this.rights = result.rights;
+  this.pivots = build.pivots;
+  this.lefts = build.lefts;
+  this.rights = build.rights;
 
-  this.size = this.values.length;
+  this.size = this.labels.length;
 }
 
 KDTree.prototype.nearestNeighbor = function(query) {
   var bestDistance = Infinity,
-      best = null;
+      best = null,
+      dx;
 
   var dimensions = this.dimensions,
       axes = this.axes,
@@ -171,10 +170,10 @@ KDTree.prototype.nearestNeighbor = function(query) {
       lefts = this.lefts,
       rights = this.rights;
 
-  var visited = 0;
+  // var visited = 0;
 
   function recurse(d, node) {
-    visited++;
+    // visited++;
 
     var left = lefts[node],
         right = rights[node],
@@ -204,7 +203,7 @@ KDTree.prototype.nearestNeighbor = function(query) {
       if (left !== 0)
         recurse(d, left - 1);
     }
-    else {
+    else {
       if (right !== 0)
         recurse(d, right - 1);
     }
@@ -224,13 +223,8 @@ KDTree.prototype.nearestNeighbor = function(query) {
 
   recurse(0, 0);
 
-  return [visited, best];
+  return this.labels[best];
 };
-
-
-// nearest(dx > 0 ? root->left : root->right, nd, i, dim, best, best_dist);
-// if (dx2 >= *best_dist) return;
-// nearest(dx > 0 ? root->right : root->left, nd, i, dim, best, best_dist);
 
 /**
  * Convenience known methods.
@@ -245,6 +239,17 @@ KDTree.prototype.inspect = function() {
     enumerable: false
   });
 
+  var i, j, point;
+
+  for (i = 0; i < this.size; i++) {
+    point = new Array(this.dimensions);
+
+    for (j = 0; j < this.dimensions; j++)
+      point[j] = this.axes[j][i];
+
+    dummy.set(this.labels[i], point);
+  }
+
   return dummy;
 };
 
@@ -255,81 +260,19 @@ if (typeof Symbol !== 'undefined')
  * Static @.from function taking an abitrary iterable & converting it into
  * a structure.
  *
- * @param  {Iterable} iterable - Target iterable.
+ * @param  {Iterable} iterable   - Target iterable.
+ * @param  {number}   dimensions - Space dimensions.
  * @return {KDTree}
  */
-KDTree.from = function(iterable) {
+KDTree.from = function(iterable, dimensions) {
+  var data = iterables.toArray(iterable);
 
+  var result = buildTree(dimensions, data);
+
+  return new KDTree(dimensions, result);
 };
 
 /**
  * Exporting.
  */
 module.exports = KDTree;
-
-if (require.main === module) {
-  // TODO: sanity tests
-  // TODO: find tipping point for k, wrt d
-
-  var asciitree = require('asciitree');
-
-  var D = [
-    ['zero', [2, 3]],
-    ['one', [5, 4]],
-    ['two', [9, 6]],
-    ['three', [4, 7]],
-    ['four', [8, 1]],
-    ['five', [7, 2]]
-  ];
-
-  // var tree = buildTree(2, D);
-  // console.log(tree.pivots, tree.lefts, tree.rights);
-  var children = (node) => {
-
-    var row = [
-      tree.lefts[node] ? (tree.lefts[node] - 1) : null,
-      tree.rights[node] ? (tree.rights[node] - 1) : null
-    ];
-
-    if (row[0] === null && row[1] === null)
-      return null;
-
-    return row;
-  };
-
-  var title = (node) => {
-    if (node === null)
-      return '';
-
-    node = tree.pivots[node];
-    return '(' + [tree.axes[0][node].toString().slice(0,4), tree.axes[1][node].toString().slice(0,4)] + ')';
-  };
-
-  // console.log(asciitree(0, title, children))
-
-  var tree = new KDTree(2, D);
-
-  console.log(tree);
-  D.forEach(p => console.log(p[1], D[tree.nearestNeighbor(p[1])[1]]));
-
-  var D = [];
-  var N = 1000000;
-
-  for (var i = 0; i < N; i++) {
-    D.push([i, [Math.random(), Math.random()]]);
-  }
-
-  console.time('build');
-  var tree = new KDTree(2, D);
-  console.timeEnd('build');
-  // console.log(asciitree(0, title, children))
-
-  var T = 1000,
-      s = 0;
-
-  for (i = 0; i < T; i++) {
-    s += tree.nearestNeighbor([Math.random(), Math.random()])[0];
-  }
-
-  console.log(Math.log2(N), s / T);
-}
