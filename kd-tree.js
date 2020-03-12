@@ -35,15 +35,14 @@ function squaredDistanceAxes(dimensions, axes, pivot, b) {
   return dist;
 }
 
-function buildTree(dimensions, data) {
+function reshapeIntoAxes(dimensions, data) {
   var l = data.length;
 
   var axes = new Array(dimensions),
       labels = new Array(l),
       axis;
 
-  // NOTE: +1 because we need to keep 0 as null pointer
-  var PointerArray = typed.getPointerArray(l + 1);
+  var PointerArray = typed.getPointerArray(l);
 
   var ids = new PointerArray(l);
 
@@ -68,6 +67,15 @@ function buildTree(dimensions, data) {
     axes[d] = axis;
   }
 
+  return {axes: axes, ids: ids, labels: labels};
+}
+
+function buildTree(dimensions, axes, ids, labels) {
+  var l = labels.length;
+
+  // NOTE: +1 because we need to keep 0 as null pointer
+  var PointerArray = typed.getPointerArray(l + 1);
+
   // Building the tree
   var pivots = new PointerArray(l),
       lefts = new PointerArray(l),
@@ -81,7 +89,7 @@ function buildTree(dimensions, data) {
       median,
       pivot;
 
-  i = 0;
+  var d, i = 0;
 
   // NOTE: partial sorting would be more memory-efficient
   var axisSorter = function(a, b) {
@@ -148,6 +156,7 @@ function buildTree(dimensions, data) {
  */
 function KDTree(dimensions, build) {
   this.dimensions = dimensions;
+  this.visited = 0;
 
   this.axes = build.axes;
   this.labels = build.labels;
@@ -170,10 +179,10 @@ KDTree.prototype.nearestNeighbor = function(query) {
       lefts = this.lefts,
       rights = this.rights;
 
-  // var visited = 0;
+  var visited = 0;
 
   function recurse(d, node) {
-    // visited++;
+    visited++;
 
     var left = lefts[node],
         right = rights[node],
@@ -223,6 +232,7 @@ KDTree.prototype.nearestNeighbor = function(query) {
 
   recurse(0, 0);
 
+  this.visited = visited;
   return this.labels[best];
 };
 
@@ -267,7 +277,27 @@ if (typeof Symbol !== 'undefined')
 KDTree.from = function(iterable, dimensions) {
   var data = iterables.toArray(iterable);
 
-  var result = buildTree(dimensions, data);
+  var reshaped = reshapeIntoAxes(dimensions, data);
+
+  var result = buildTree(dimensions, reshaped.axes, reshaped.ids, reshaped.labels);
+
+  return new KDTree(dimensions, result);
+};
+
+/**
+ * Static @.from function building a KDTree from given axes.
+ *
+ * @param  {Iterable} iterable   - Target iterable.
+ * @param  {number}   dimensions - Space dimensions.
+ * @return {KDTree}
+ */
+KDTree.fromAxes = function(axes, labels) {
+  if (!labels)
+    labels = typed.indices(axes[0].length);
+
+  var dimensions = axes.length;
+
+  var result = buildTree(axes.length, axes, typed.indices(labels.length), labels);
 
   return new KDTree(dimensions, result);
 };
