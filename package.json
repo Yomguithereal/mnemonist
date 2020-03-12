@@ -82,6 +82,7 @@
     "mocha": "^7.1.0",
     "pandemonium": "^1.2.1",
     "seedrandom": "^3.0.5",
+    "static-kdtree": "^1.0.2",
     "typescript": "^3.8.2"
   },
   "eslintConfig": {
