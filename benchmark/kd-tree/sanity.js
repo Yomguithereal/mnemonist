@@ -46,7 +46,7 @@ for (i = 0; i < KNN_TESTS; i++) {
 }
 
 console.log('For knn:');
-console.log('Visited nodes avg.', totalVisited / N);
+console.log('Visited nodes avg.', totalVisited / KNN_TESTS);
 console.log('log2', Math.log2(N));
 
 // TODO: test knn & count visited, find threshold for k better linear scan
