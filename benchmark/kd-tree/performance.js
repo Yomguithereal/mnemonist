@@ -1,7 +1,7 @@
 var KDTree = require('../../kd-tree.js');
 
 var N = 100000 * 5;
-var KNNS = [1, 5, 10, 20, 100, 1000, 10000];
+var KNNS = [1, 5, 10, 20, 100, 1000, 10000, N - 100];
 var KNN_TESTS = 100;
 
 var i;

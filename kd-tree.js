@@ -270,6 +270,9 @@ var KNN_HEAP_COMPARATOR_2 = createTupleComparator(2);
  * @return {array}
  */
 KDTree.prototype.kNearestNeighbors = function(k, query) {
+  if (k === 1)
+    return [this.nearestNeighbor(query)];
+
   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_3, k);
 
   var dimensions = this.dimensions,
