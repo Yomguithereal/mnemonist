@@ -270,7 +270,7 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
     }
 
     // Going the other way?
-    if (dx * dx > -heap.peek()[0] || heap.size < k) {
+    if (dx * dx < heap.peek()[0] || heap.size < k) {
       if (point < split) {
         if (right !== 0) {
           recurse(d, right - 1);
