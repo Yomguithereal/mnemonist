@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.33.0 (provisional)
+## 0.33.0
 
 * Adding `KDTree`.
 * Adding `set.intersectionSize`.
