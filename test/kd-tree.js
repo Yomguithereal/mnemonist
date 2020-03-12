@@ -91,6 +91,9 @@ describe('KDTree', function() {
 
       var nn2 = knn(2, item[1]);
       assert.deepEqual(new Set(tree.kNearestNeighbors(2, item[1])), new Set(nn2));
+
+      var nn3 = knn(3, item[1]);
+      assert.deepEqual(new Set(tree.kNearestNeighbors(3, item[1])), new Set(nn3));
     });
   });
 });
