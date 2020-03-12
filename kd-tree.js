@@ -6,8 +6,8 @@
  */
 var iterables = require('./utils/iterables.js');
 var typed = require('./utils/typed-arrays.js');
-// var createTupleComparator = require('./utils/comparators.js');
-// var FixedReverseHeap = require('./fixed-reverse-heap.js');
+var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
+var Heap = require('./heap.js');
 
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
@@ -224,74 +224,85 @@ KDTree.prototype.nearestNeighbor = function(query) {
   return this.labels[best];
 };
 
-// var KNN_HEAP_COMPARATOR = createTupleComparator(2);
+var KNN_HEAP_COMPARATOR = createTupleComparator(3);
 
-// KDTree.prototype.kNearestNeighbors = function(k, query) {
-//   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR, k),
-//       dx;
+KDTree.prototype.kNearestNeighbors = function(k, query) {
+  var heap = [];
 
-//   var dimensions = this.dimensions,
-//       axes = this.axes,
-//       pivots = this.pivots,
-//       lefts = this.lefts,
-//       rights = this.rights;
+  var dimensions = this.dimensions,
+      axes = this.axes,
+      pivots = this.pivots,
+      lefts = this.lefts,
+      rights = this.rights;
 
-//   var visited = 0;
+  var visited = 0;
 
-//   function recurse(d, node) {
-//     visited++;
+  function recurse(d, node) {
+    var left = lefts[node],
+        right = rights[node],
+        pivot = pivots[node];
 
-//     var left = lefts[node],
-//         right = rights[node],
-//         pivot = pivots[node];
+    var dist = squaredDistanceAxes(
+      dimensions,
+      axes,
+      pivot,
+      query
+    );
 
-//     var dist = squaredDistanceAxes(
-//       dimensions,
-//       axes,
-//       pivot,
-//       query
-//     );
+    var item = [-dist, visited++, pivot];
 
-//     if (dist < bestDistance) {
-//       best = pivot;
-//       bestDistance = dist;
+    if (heap.length >= k) {
+      if (-dist > heap[0][0])
+        Heap.replace(KNN_HEAP_COMPARATOR, heap, item);
+    }
+    else {
+      Heap.push(KNN_HEAP_COMPARATOR, heap, item);
+    }
 
-//       if (dist === 0)
-//         return;
-//     }
+    var point = query[d],
+        split = axes[d][pivot],
+        dx = point - split;
 
-//     dx = axes[d][pivot] - query[d];
+    d = (d + 1) % dimensions;
 
-//     d = (d + 1) % dimensions;
+    // Going the correct way?
+    if (point < split) {
+      if (left !== 0) {
+        recurse(d, left - 1);
+      }
+    }
+    else {
+      if (right !== 0) {
+        recurse(d, right - 1);
+      }
+    }
 
-//     // Going the correct way?
-//     if (dx > 0) {
-//       if (left !== 0)
-//         recurse(d, left - 1);
-//     }
-//     else {
-//       if (right !== 0)
-//         recurse(d, right - 1);
-//     }
+    // Going the other way?
+    if (-(dx * dx) > heap[0][0] || heap.length < k) {
+      if (point < split) {
+        if (right !== 0) {
+          recurse(d, right - 1);
+        }
+      }
+      else {
+        if (left !== 0) {
+          recurse(d, left - 1);
+        }
+      }
+    }
+  }
 
-//     // Going the other way?
-//     if (dx * dx < bestDistance) {
-//       if (dx > 0) {
-//         if (right !== 0)
-//           recurse(d, right - 1);
-//       }
-//       else {
-//         if (left !== 0)
-//           recurse(d, left - 1);
-//       }
-//     }
-//   }
+  recurse(0, 0);
 
-//   recurse(0, 0);
+  this.visited = visited;
 
-//   this.visited = visited;
-//   return this.labels[best];
-// };
+  var best = Heap.consume(KNN_HEAP_COMPARATOR, heap).reverse();
+
+  for (var i = 0; i < best.length; i++)
+    best[i] = this.labels[best[i][2]];
+
+  return best;
+};
 
 /**
  * Convenience known methods.

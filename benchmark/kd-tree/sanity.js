@@ -26,3 +26,7 @@ for (i = 0; i < N; i++) {
 
 console.log('Visited nodes avg.', totalVisited / N);
 console.log('log2', Math.log2(N));
+
+// TODO: test knn & count visited, find threshold for k better linear scan
+// TODO: perf test vs. linear + build perf
+// TODO: tests without exact search

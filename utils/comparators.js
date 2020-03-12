@@ -62,6 +62,8 @@ function createTupleComparator(size) {
 
       if (a[i] > b[i])
         return 1;
+
+      i++;
     }
 
     return 0;
