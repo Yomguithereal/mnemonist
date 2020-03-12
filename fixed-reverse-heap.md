@@ -83,6 +83,7 @@ var heap = new FixedReverseHeap(Uint8Array, 15);
 
 *Read*
 
+* [#.peek](#peek)
 * [#.toArray](#toarray)
 
 ### #.capacity
@@ -145,6 +146,23 @@ heap.push(34);
 heap.clear();
 heap.size
 >>> 0
+```
+
+### #.peek
+
+Returns the worst item currently stored in the heap.
+
+`O(1)`
+
+```js
+var heap = new FixedReverseHeap(Array, 3);
+
+heap.push(4);
+heap.push(34);
+heap.push(5);
+
+heap.peek();
+>>> 34
 ```
 
 ### #.toArray

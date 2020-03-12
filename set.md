@@ -34,6 +34,12 @@ var helpers = require('mnemonist/set');
 * [#.intersect](#intersect)
 * [#.disjunct](#disjunct)
 
+*Functions used for counting*
+
+* [#.intersectionSize](#intersectionsize)
+* [#.unionSize](#unionsize)
+* [#.jaccard](#jaccard)
+
 ### #.intersection
 
 Returns the intersection of the given sets.
@@ -178,4 +184,46 @@ helpers.disjunct(A, B);
 
 // A is now:
 >>> Set {1, 4}
+```
+
+### #.intersectionSize
+
+Returns the size of the intersection of both given sets.
+
+```js
+var A = new Set([1, 2, 3]),
+    B = new Set([2, 3, 4]);
+
+helpers.intersectionSize(A, B);
+>>> 2
+
+// This is faster and use less memory than:
+helpers.intersection(A, B).size;
+```
+
+### #.unionSize
+
+Returns the size of the union of both given sets.
+
+```js
+var A = new Set([1, 2, 3]),
+    B = new Set([2, 3, 4]);
+
+helpers.unionSize(A, B);
+>>> 4
+
+// This is faster and use less memory than:
+helpers.union(A, B).size;
+```
+
+### #.jaccard
+
+Returns the [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index) or similarity (i.e. intersection divided by union) between both given sets.
+
+```js
+var contact = new Set('contact'),
+    context = new Set('context');
+
+helpers.jaccard(contact, context);
+>>> 4 / 7
 ```
