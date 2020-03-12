@@ -9,7 +9,48 @@ var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
 var FixedReverseHeap = require('./fixed-reverse-heap.js');
 // var inplaceInsertionSortIndices = require('./sort/insertion.js').inplaceInsertionSortIndices;
-// var inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices;
+var inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices;
+
+/**
+ * Adaptive indices inplace sorting function working on array parts as defined by
+ * a lo & hi bounds.
+ *
+ * @param  {array}  axis    - Axis data.
+ * @param  {array}  indices - Indices to sort.
+ * @param  {number} lo      - Lower bound.
+ * @param  {number} hi      - Upper bound.
+ */
+function kdSort(axis, indices, lo, hi) {
+
+  // For initial sort, JS raw sorting should be faster
+  if (lo === 0 && hi === indices.length) {
+    indices.sort(function(a, b) {
+      a = axis[a];
+      b = axis[b];
+
+      if (a < b)
+        return -1;
+
+      if (a > b)
+        return 1;
+
+      return 0;
+    });
+
+    return;
+  }
+
+  // TODO: insertion sort seems to be broken...
+  // If the remaining part is very small, we use insertion sort
+  // if (hi - lo <= 32) {
+  //   inplaceInsertionSortIndices(axis, indices, lo, hi);
+
+  //   return;
+  // }
+
+  // Else we use quick sort
+  inplaceQuickSortIndices(axis, indices, lo, hi);
+}
 
 /**
  * Helper function used to compute the squared distance between a query point
@@ -100,41 +141,31 @@ function buildTree(dimensions, axes, ids, labels) {
       lefts = new PointerArray(l),
       rights = new PointerArray(l);
 
-  var stack = [[0, ids, -1, 0]],
+  var stack = [[0, 0, ids.length, -1, 0]],
       step,
-      buffer,
       parent,
       direction,
       median,
-      pivot;
+      pivot,
+      lo,
+      hi;
 
   var d, i = 0;
 
-  // NOTE: partial sorting would be more memory-efficient
-  var axisSorter = function(a, b) {
-    a = axes[d][a];
-    b = axes[d][b];
-
-    if (a < b)
-      return -1;
-
-    if (a > b)
-      return 1;
-
-    return 0;
-  };
-
   while (stack.length !== 0) {
     step = stack.pop();
+
     d = step[0];
-    buffer = step[1];
-    parent = step[2];
-    direction = step[3];
+    lo = step[1];
+    hi = step[2];
+    parent = step[3];
+    direction = step[4];
 
-    buffer.sort(axisSorter);
+    kdSort(axes[d], ids, lo, hi);
 
-    median = buffer.length >>> 1;
-    pivot = buffer[median];
+    l = hi - lo;
+    median = lo + (l >>> 1); // Fancy floor(l / 2)
+    pivot = ids[median];
     pivots[i] = pivot;
 
     if (parent > -1) {
@@ -147,13 +178,13 @@ function buildTree(dimensions, axes, ids, labels) {
     d = (d + 1) % dimensions;
 
     // Right
-    if (median !== 0 && median !== buffer.length - 1) {
-      stack.push([d, buffer.slice(median + 1), i, 1]);
+    if (median !== lo && median !== hi - 1) {
+      stack.push([d, median + 1, hi, i, 1]);
     }
 
     // Left
-    if (median !== 0) {
-      stack.push([d, buffer.slice(0, median), i, 0]);
+    if (median !== lo) {
+      stack.push([d, lo, median, i, 0]);
     }
 
     i++;
