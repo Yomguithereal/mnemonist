@@ -38,6 +38,16 @@ describe('Sort helpers', function() {
       assert.deepEqual(data, [-3, 1, 1, 2, 3, 5, 6, 7, 8, 9, 18]);
     });
 
+    it('should work with edge cases.', function() {
+      var data = insertion.inplaceInsertionSort([1], 0, 1);
+
+      assert.deepEqual(data, [1]);
+
+      data = insertion.inplaceInsertionSort([2, 1], 0, 2);
+
+      assert.deepEqual(data, [1, 2]);
+    });
+
     it('should properly sort only a slice.', function() {
       var data = insertion.inplaceInsertionSort(DATA.slice(), 0, 3);
 
