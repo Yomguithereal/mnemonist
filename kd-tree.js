@@ -9,6 +9,20 @@ var typed = require('./utils/typed-arrays.js');
 var createTupleComparator = require('./utils/comparators.js').createTupleComparator;
 var FixedReverseHeap = require('./fixed-reverse-heap.js');
 
+/**
+ * Helper function used to compute the squared distance between a query point
+ * and an indexed points whose values are stored in a tree's axes.
+ *
+ * Note that squared distance is used instead of euclidean to avoid
+ * costly sqrt computations.
+ *
+ * @param  {number} dimensions - Number of dimensions.
+ * @param  {array}  axes       - Axes data.
+ * @param  {number} pivot      - Pivot.
+ * @param  {array}  point      - Query point.
+ * @return {number}
+ */
+
 function squaredDistanceAxes(dimensions, axes, pivot, b) {
   var d;
 
@@ -23,6 +37,13 @@ function squaredDistanceAxes(dimensions, axes, pivot, b) {
   return dist;
 }
 
+/**
+ * Helper function used to reshape input data into low-level axes data.
+ *
+ * @param  {number} dimensions - Number of dimensions.
+ * @param  {array}  data       - Data in the shape [label, [x, y, z...]]
+ * @return {object}
+ */
 function reshapeIntoAxes(dimensions, data) {
   var l = data.length;
 
@@ -58,6 +79,15 @@ function reshapeIntoAxes(dimensions, data) {
   return {axes: axes, ids: ids, labels: labels};
 }
 
+/**
+ * Helper function used to build a kd-tree from axes data.
+ *
+ * @param  {number} dimensions - Number of dimensions.
+ * @param  {array}  axes       - Axes.
+ * @param  {array}  ids        - Indices to sort.
+ * @param  {array}  labels     - Point labels.
+ * @return {object}
+ */
 function buildTree(dimensions, axes, ids, labels) {
   var l = labels.length;
 
@@ -156,6 +186,12 @@ function KDTree(dimensions, build) {
   this.size = this.labels.length;
 }
 
+/**
+ * Method returning the query's nearest neighbor.
+ *
+ * @param  {array}  query - Query point.
+ * @return {any}
+ */
 KDTree.prototype.nearestNeighbor = function(query) {
   var bestDistance = Infinity,
       best = null;
@@ -226,6 +262,13 @@ KDTree.prototype.nearestNeighbor = function(query) {
 var KNN_HEAP_COMPARATOR_3 = createTupleComparator(3);
 var KNN_HEAP_COMPARATOR_2 = createTupleComparator(2);
 
+/**
+ * Method returning the query's k nearest neighbors.
+ *
+ * @param  {number} k     - Number of nearest neighbor to retrieve.
+ * @param  {array}  query - Query point.
+ * @return {array}
+ */
 KDTree.prototype.kNearestNeighbors = function(k, query) {
   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_3, k);
 
@@ -296,6 +339,13 @@ KDTree.prototype.kNearestNeighbors = function(k, query) {
   return best;
 };
 
+/**
+ * Method returning the query's k nearest neighbors by linear search.
+ *
+ * @param  {number} k     - Number of nearest neighbor to retrieve.
+ * @param  {array}  query - Query point.
+ * @return {array}
+ */
 KDTree.prototype.linearKNearestNeighbors = function(k, query) {
   var heap = new FixedReverseHeap(Array, KNN_HEAP_COMPARATOR_2, k);
 
