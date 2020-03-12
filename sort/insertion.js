@@ -13,7 +13,7 @@ function inplaceInsertionSort(array, lo, hi) {
     k = array[i];
     j = i - 1;
 
-    while (j >= 0 && array[j] > k) {
+    while (j >= lo && array[j] > k) {
       array[j + 1] = array[j];
       j--;
     }
@@ -35,7 +35,7 @@ function inplaceInsertionSortIndices(array, indices, lo, hi) {
     k = array[indices[i]];
     j = i - 1;
 
-    while (j >= 0 && array[indices[j]] > k) {
+    while (j >= lo && array[indices[j]] > k) {
       indices[j + 1] = indices[j];
       j--;
     }
