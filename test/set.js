@@ -177,4 +177,18 @@ describe('Set functions', function() {
       assert.strictEqual(functions.jaccard(new Set('contact'), new Set('context')), 4 / 7);
     });
   });
+
+  describe('#.overlap', function() {
+    it('should properly return the overlap coefficient between two sets.', function() {
+      var A = new Set([1, 2, 3]),
+          B = new Set([2, 3, 4]);
+
+      var N = new Set([]);
+
+      assert.strictEqual(functions.overlap(A, B), 2 / 3);
+      assert.strictEqual(functions.overlap(A, N), 0);
+
+      assert.strictEqual(functions.overlap(new Set('contact'), new Set('context')), 4 / 5);
+    });
+  });
 });

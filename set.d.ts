@@ -15,3 +15,4 @@ export function disjunct<T>(a: Set<T>, b: Set<T>): void;
 export function intersectionSize<T>(a: Set<T>, b:Set<T>): number;
 export function unionSize<T>(a: Set<T>, b:Set<T>): number;
 export function jaccard<T>(a: Set<T>, b:Set<T>): number;
+export function overlap<T>(a: Set<T>, b: Set<T>): number;

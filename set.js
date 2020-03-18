@@ -277,6 +277,7 @@ exports.disjunct = function(A, B) {
  *
  * @param  {Set} A - First set.
  * @param  {Set} B - Second set.
+ * @return {number}
  */
 exports.intersectionSize = function(A, B) {
   var tmp;
@@ -312,6 +313,7 @@ exports.intersectionSize = function(A, B) {
  *
  * @param  {Set} A - First set.
  * @param  {Set} B - Second set.
+ * @return {number}
  */
 exports.unionSize = function(A, B) {
   var I = exports.intersectionSize(A, B);
@@ -324,6 +326,7 @@ exports.unionSize = function(A, B) {
  *
  * @param  {Set} A - First set.
  * @param  {Set} B - Second set.
+ * @return {number}
  */
 exports.jaccard = function(A, B) {
   var I = exports.intersectionSize(A, B);
@@ -334,4 +337,20 @@ exports.jaccard = function(A, B) {
   var U = A.size + B.size - I;
 
   return I / U;
+};
+
+/**
+ * Function returning the overlap coefficient between A & B.
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {number}
+ */
+exports.overlap = function(A, B) {
+  var I = exports.intersectionSize(A, B);
+
+  if (I === 0)
+    return 0;
+
+  return I / Math.min(A.size, B.size);
 };
