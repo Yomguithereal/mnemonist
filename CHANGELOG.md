@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.34.0
+
+* Adding `set.overlap`.
+
 ## 0.33.1
 
 * Fixing build by including missing `sort` folder.
