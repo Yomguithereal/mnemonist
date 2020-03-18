@@ -34,11 +34,12 @@ var helpers = require('mnemonist/set');
 * [#.intersect](#intersect)
 * [#.disjunct](#disjunct)
 
-*Functions used for counting*
+*Functions used for counting & metrics*
 
 * [#.intersectionSize](#intersectionsize)
 * [#.unionSize](#unionsize)
 * [#.jaccard](#jaccard)
+* [#.overlap](#overlap)
 
 ### #.intersection
 
@@ -226,4 +227,16 @@ var contact = new Set('contact'),
 
 helpers.jaccard(contact, context);
 >>> 4 / 7
+```
+
+### #.overlap
+
+Returns the [overlap coefficient](https://en.wikipedia.org/wiki/Overlap_coefficient) (i.e. intersection divided by min size) between both given sets.
+
+```js
+var contact = new Set('contact'),
+    context = new Set('context');
+
+helpers.overlap(contact, context);
+>>> 4 / 5
 ```
