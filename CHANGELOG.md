@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.35.0 (provisional)
+## 0.35.0
 
 * Adding `SparseMap`.
 * Enhancing `SparseSet` performance.
