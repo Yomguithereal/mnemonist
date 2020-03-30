@@ -150,6 +150,8 @@ SparseSet.prototype.inspect = function() {
     enumerable: false
   });
 
+  proxy.length = this.length;
+
   return proxy;
 };
 
