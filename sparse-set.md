@@ -3,10 +3,11 @@ layout: page
 title: SparseSet
 ---
 
-A `SparseSet` is a very efficient set structure used to store unsigned integers in a provided range. Note however that this structure can consume a lot of memory (it relies on two byte arrays having a length equal to the maximum integer you need to store).
+A `SparseSet` is a very time-efficient set structure used to store unsigned integers in a provided range. Note however that this structure can consume a lot of memory (it relies on two byte arrays having a length equal to the maximum integer you need to store).
 
 Contrary to the [`BitSet`]({{ site.baseurl }}/bit-set), the `SparseSet` is very efficient if you need to iterate over the stored value or if you often need to clear the set.
 
+If you also need to associate values to the set's members, take a look to [`SparseMap`]({{ site.baseurl }}/sparse-map) instead.
 
 ```js
 var SparseSet = require('mnemonist/sparse-set');
@@ -54,7 +55,7 @@ set.length;
 
 ### #.size
 
-Number of items in the set.
+Number of items actually in the set.
 
 ```js
 var set = new SparseSet(4);
