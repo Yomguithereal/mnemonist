@@ -55,18 +55,38 @@ SparseMap.prototype.has = function(member) {
 };
 
 /**
+ * Method used to get the value associated to a member in the set.
+ *
+ * @param  {number} member - Member to test.
+ * @return {any}
+ */
+SparseMap.prototype.get = function(member) {
+  var index = this.sparse[member];
+
+  if (index < this.size && this.dense[index] === member)
+    return this.values[index];
+
+  return;
+};
+
+/**
  * Method used to set a value into the map.
  *
  * @param  {number} member - Member to set.
  * @param  {any}    value  - Associated value.
  * @return {SparseMap}
  */
-SparseMap.prototype.set = function(member) {
-  if (this.has(member))
+SparseMap.prototype.set = function(member, value) {
+  var index = this.sparse[member];
+
+  if (index < this.size && this.dense[index] === member) {
+    this.values[index] = value;
     return this;
+  }
 
   this.dense[this.size] = member;
   this.sparse[member] = this.size;
+  this.values[this.size] = value;
   this.size++;
 
   return this;
@@ -79,10 +99,12 @@ SparseMap.prototype.set = function(member) {
  * @return {boolean}
  */
 SparseMap.prototype.delete = function(member) {
-  if (!this.has(member))
+  var index = this.sparse[member];
+
+  if (index >= this.size || this.dense[index] !== member)
     return false;
 
-  var index = this.dense[this.size - 1];
+  index = this.dense[this.size - 1];
   this.dense[this.sparse[member]] = index;
   this.sparse[index] = this.sparse[member];
   this.size--;
@@ -145,10 +167,10 @@ if (typeof Symbol !== 'undefined')
  * Convenience known methods.
  */
 SparseMap.prototype.inspect = function() {
-  var proxy = new Set();
+  var proxy = new Map();
 
   for (var i = 0; i < this.size; i++)
-    proxy.add(this.dense[i]);
+    proxy.set(this.dense[i], this.values[i]);
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
@@ -157,6 +179,9 @@ SparseMap.prototype.inspect = function() {
   });
 
   proxy.length = this.length;
+
+  if (this.values.constructor !== Array)
+    proxy.type = this.values.constructor.name;
 
   return proxy;
 };
