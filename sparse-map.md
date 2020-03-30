@@ -3,11 +3,11 @@ layout: page
 title: SparseMap
 ---
 
-A `SparseMap` is a very time-efficient set structure used to associate arbitrary values to unsigned integers in a provided range. Note however that this structure can consume a lot of memory (it relies on two byte arrays having a length equal to the maximum integer you need to store).
+A `SparseMap` is a very time-efficient map structure used to associate arbitrary values to unsigned integers in a provided range. Note however that this structure can consume a lot of memory (it relies on two byte arrays having a length equal to the maximum integer you need to store).
 
 Contrary to the [`BitSet`]({{ site.baseurl }}/bit-set), the `SparseMap` is very efficient if you need to iterate over the stored value or if you often need to clear the map.
 
-If you don't need to associate values to your integers, take a look to [`SparseSet`]({{ site.baseurl }}/sparse-set) instead.
+If you don't need to associate values to your numbers, take a look to [`SparseSet`]({{ site.baseurl }}/sparse-set) instead.
 
 ```js
 var SparseMap = require('mnemonist/sparse-map');
