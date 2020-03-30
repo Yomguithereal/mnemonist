@@ -27,7 +27,7 @@ function SparseMap(Values, length) {
   this.length = length;
   this.dense = new ByteArray(length);
   this.sparse = new ByteArray(length);
-  this.values = new Values(length);
+  this.vals = new Values(length);
 }
 
 /**
@@ -64,7 +64,7 @@ SparseMap.prototype.get = function(member) {
   var index = this.sparse[member];
 
   if (index < this.size && this.dense[index] === member)
-    return this.values[index];
+    return this.vals[index];
 
   return;
 };
@@ -80,13 +80,13 @@ SparseMap.prototype.set = function(member, value) {
   var index = this.sparse[member];
 
   if (index < this.size && this.dense[index] === member) {
-    this.values[index] = value;
+    this.vals[index] = value;
     return this;
   }
 
   this.dense[this.size] = member;
   this.sparse[member] = this.size;
-  this.values[this.size] = value;
+  this.vals[this.size] = value;
   this.size++;
 
   return this;
@@ -122,21 +122,16 @@ SparseMap.prototype.delete = function(member) {
 SparseMap.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
-  var item;
-
-  for (var i = 0; i < this.size; i++) {
-    item = this.dense[i];
-
-    callback.call(scope, item, item);
-  }
+  for (var i = 0; i < this.size; i++)
+    callback.call(scope, this.vals[i], this.dense[i]);
 };
 
 /**
- * Method used to create an iterator over a set's values.
+ * Method used to create an iterator over a set's members.
  *
  * @return {Iterator}
  */
-SparseMap.prototype.values = function() {
+SparseMap.prototype.keys = function() {
   var size = this.size,
       dense = this.dense,
       i = 0;
@@ -158,10 +153,63 @@ SparseMap.prototype.values = function() {
 };
 
 /**
- * Attaching the #.values method to Symbol.iterator if possible.
+ * Method used to create an iterator over a set's values.
+ *
+ * @return {Iterator}
+ */
+SparseMap.prototype.values = function() {
+  var size = this.size,
+      values = this.vals,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i < size) {
+      var item = values[i];
+      i++;
+
+      return {
+        value: item
+      };
+    }
+
+    return {
+      done: true
+    };
+  });
+};
+
+/**
+ * Method used to create an iterator over a set's entries.
+ *
+ * @return {Iterator}
+ */
+SparseMap.prototype.entries = function() {
+  var size = this.size,
+      dense = this.dense,
+      values = this.vals,
+      i = 0;
+
+  return new Iterator(function() {
+    if (i < size) {
+      var item = [dense[i], values[i]];
+      i++;
+
+      return {
+        value: item
+      };
+    }
+
+    return {
+      done: true
+    };
+  });
+};
+
+/**
+ * Attaching the #.entries method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  SparseMap.prototype[Symbol.iterator] = SparseMap.prototype.values;
+  SparseMap.prototype[Symbol.iterator] = SparseMap.prototype.entries;
 
 /**
  * Convenience known methods.
@@ -170,7 +218,7 @@ SparseMap.prototype.inspect = function() {
   var proxy = new Map();
 
   for (var i = 0; i < this.size; i++)
-    proxy.set(this.dense[i], this.values[i]);
+    proxy.set(this.dense[i], this.vals[i]);
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
@@ -180,8 +228,8 @@ SparseMap.prototype.inspect = function() {
 
   proxy.length = this.length;
 
-  if (this.values.constructor !== Array)
-    proxy.type = this.values.constructor.name;
+  if (this.vals.constructor !== Array)
+    proxy.type = this.vals.constructor.name;
 
   return proxy;
 };
