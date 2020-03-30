@@ -31,6 +31,7 @@ export {default as MultiSet} from './multi-set';
 export {default as PassjoinIndex} from './passjoin-index';
 export {default as Queue} from './queue';
 export {set};
+export {default as SparseMap} from './sparse-map';
 export {default as SparseSet} from './sparse-set';
 export {default as Stack} from './stack';
 export {default as StaticDisjointSet} from './static-disjoint-set';

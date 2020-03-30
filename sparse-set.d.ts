@@ -5,6 +5,7 @@
 export default class SparseSet implements Iterable<number> {
 
   // Members
+  length: number;
   size: number;
 
   // Constructor

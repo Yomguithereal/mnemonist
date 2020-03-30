@@ -1,8 +1,8 @@
 /**
- * Mnemonist SparseSet
+ * Mnemonist SparseMap
  * ====================
  *
- * JavaScript sparse set implemented on top of byte arrays.
+ * JavaScript sparse map implemented on top of byte arrays.
  *
  * [Reference]: https://research.swtch.com/sparse
  */
@@ -10,11 +10,15 @@ var Iterator = require('obliterator/iterator'),
     getPointerArray = require('./utils/typed-arrays.js').getPointerArray;
 
 /**
- * SparseSet.
+ * SparseMap.
  *
  * @constructor
  */
-function SparseSet(length) {
+function SparseMap(Values, length) {
+  if (arguments.length < 2) {
+    length = Values;
+    Values = Array;
+  }
 
   var ByteArray = getPointerArray(length);
 
@@ -23,6 +27,7 @@ function SparseSet(length) {
   this.length = length;
   this.dense = new ByteArray(length);
   this.sparse = new ByteArray(length);
+  this.values = new Values(length);
 }
 
 /**
@@ -30,7 +35,7 @@ function SparseSet(length) {
  *
  * @return {undefined}
  */
-SparseSet.prototype.clear = function() {
+SparseMap.prototype.clear = function() {
   this.size = 0;
 };
 
@@ -38,9 +43,9 @@ SparseSet.prototype.clear = function() {
  * Method used to check the existence of a member in the set.
  *
  * @param  {number} member - Member to test.
- * @return {SparseSet}
+ * @return {SparseMap}
  */
-SparseSet.prototype.has = function(member) {
+SparseMap.prototype.has = function(member) {
   var index = this.sparse[member];
 
   return (
@@ -50,15 +55,14 @@ SparseSet.prototype.has = function(member) {
 };
 
 /**
- * Method used to add a member to the set.
+ * Method used to set a value into the map.
  *
- * @param  {number} member - Member to add.
- * @return {SparseSet}
+ * @param  {number} member - Member to set.
+ * @param  {any}    value  - Associated value.
+ * @return {SparseMap}
  */
-SparseSet.prototype.add = function(member) {
-  var index = this.sparse[member];
-
-  if (index < this.size && this.dense[index] === member)
+SparseMap.prototype.set = function(member) {
+  if (this.has(member))
     return this;
 
   this.dense[this.size] = member;
@@ -74,13 +78,11 @@ SparseSet.prototype.add = function(member) {
  * @param  {number} member - Member to delete.
  * @return {boolean}
  */
-SparseSet.prototype.delete = function(member) {
-  var index = this.sparse[member];
-
-  if (index >= this.size || this.dense[index] !== member)
+SparseMap.prototype.delete = function(member) {
+  if (!this.has(member))
     return false;
 
-  index = this.dense[this.size - 1];
+  var index = this.dense[this.size - 1];
   this.dense[this.sparse[member]] = index;
   this.sparse[index] = this.sparse[member];
   this.size--;
@@ -95,7 +97,7 @@ SparseSet.prototype.delete = function(member) {
  * @param  {object}    scope    - Optional scope.
  * @return {undefined}
  */
-SparseSet.prototype.forEach = function(callback, scope) {
+SparseMap.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
   var item;
@@ -112,7 +114,7 @@ SparseSet.prototype.forEach = function(callback, scope) {
  *
  * @return {Iterator}
  */
-SparseSet.prototype.values = function() {
+SparseMap.prototype.values = function() {
   var size = this.size,
       dense = this.dense,
       i = 0;
@@ -137,12 +139,12 @@ SparseSet.prototype.values = function() {
  * Attaching the #.values method to Symbol.iterator if possible.
  */
 if (typeof Symbol !== 'undefined')
-  SparseSet.prototype[Symbol.iterator] = SparseSet.prototype.values;
+  SparseMap.prototype[Symbol.iterator] = SparseMap.prototype.values;
 
 /**
  * Convenience known methods.
  */
-SparseSet.prototype.inspect = function() {
+SparseMap.prototype.inspect = function() {
   var proxy = new Set();
 
   for (var i = 0; i < this.size; i++)
@@ -150,7 +152,7 @@ SparseSet.prototype.inspect = function() {
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
-    value: SparseSet,
+    value: SparseMap,
     enumerable: false
   });
 
@@ -160,9 +162,9 @@ SparseSet.prototype.inspect = function() {
 };
 
 if (typeof Symbol !== 'undefined')
-  SparseSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = SparseSet.prototype.inspect;
+  SparseMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = SparseMap.prototype.inspect;
 
 /**
  * Exporting.
  */
-module.exports = SparseSet;
+module.exports = SparseMap;

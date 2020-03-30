@@ -48,6 +48,7 @@
     "multiset",
     "passjoin",
     "queue",
+    "sparse map",
     "sparse set",
     "stack",
     "structures",

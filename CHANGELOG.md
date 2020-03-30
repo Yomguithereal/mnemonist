@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.35.0 (provisional)
+
+* Adding `SparseMap`.
+* Enhancing `SparseSet` performance.
+
 ## 0.34.0
 
 * Adding `set.overlap`.
