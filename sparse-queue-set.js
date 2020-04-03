@@ -14,16 +14,16 @@ var Iterator = require('obliterator/iterator'),
  *
  * @constructor
  */
-function SparseQueueSet(length) {
+function SparseQueueSet(capacity) {
 
-  var ByteArray = getPointerArray(length);
+  var ByteArray = getPointerArray(capacity);
 
   // Properties
   this.start = 0;
   this.size = 0;
-  this.length = length;
-  this.dense = new ByteArray(length);
-  this.sparse = new ByteArray(length);
+  this.capacity = capacity;
+  this.dense = new ByteArray(capacity);
+  this.sparse = new ByteArray(capacity);
 }
 
 /**
@@ -43,10 +43,17 @@ SparseQueueSet.prototype.clear = function() {
  * @return {SparseQueueSet}
  */
 SparseQueueSet.prototype.has = function(member) {
+  if (this.size === 0)
+    return false;
+
   var index = this.sparse[member];
 
+  var inBounds = (index >= this.start) ?
+    (index < (this.start + this.size)) :
+    (index < ((this.start + this.size) % this.capacity));
+
   return (
-    index < this.size &&
+    inBounds &&
     this.dense[index] === member
   );
 };
@@ -60,34 +67,45 @@ SparseQueueSet.prototype.has = function(member) {
 SparseQueueSet.prototype.enqueue = function(member) {
   var index = this.sparse[member];
 
-  if (index < this.size && this.dense[index] === member)
+  var inBounds = (index >= this.start) ?
+    (index < (this.start + this.size)) :
+    (index < ((this.start + this.size) % this.capacity));
+
+  if (this.size !== 0 && inBounds && this.dense[index] === member)
     return this;
 
-  this.dense[this.size] = member;
-  this.sparse[member] = this.size;
+  index = (this.start + this.size) % this.capacity;
+
+  this.dense[index] = member;
+  this.sparse[member] = index;
   this.size++;
 
   return this;
 };
 
 /**
- * Method used to remove a member from the queue.
+ * Method used to remove the next member from the queue.
  *
  * @param  {number} member - Member to delete.
  * @return {boolean}
  */
-SparseQueueSet.prototype.delete = function(member) {
-  var index = this.sparse[member];
+SparseQueueSet.prototype.dequeue = function() {
+  if (this.size === 0)
+    return;
 
-  if (index >= this.size || this.dense[index] !== member)
-    return false;
+  var index = this.start;
 
-  index = this.dense[this.size - 1];
-  this.dense[this.sparse[member]] = index;
-  this.sparse[index] = this.sparse[member];
   this.size--;
+  this.start++;
 
-  return true;
+  if (this.start === this.capacity)
+    this.start = 0;
+
+  var member = this.dense[index];
+
+  this.sparse[member] = index + 1;
+
+  return member;
 };
 
 /**
@@ -100,12 +118,18 @@ SparseQueueSet.prototype.delete = function(member) {
 SparseQueueSet.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
-  var item;
+  var c = this.capacity,
+      l = this.size,
+      i = this.start,
+      j = 0;
 
-  for (var i = 0; i < this.size; i++) {
-    item = this.dense[i];
+  while (j < l) {
+    callback.call(scope, this.dense[i], j, this);
+    i++;
+    j++;
 
-    callback.call(scope, item, item);
+    if (i === c)
+      i = 0;
   }
 };
 
@@ -115,22 +139,29 @@ SparseQueueSet.prototype.forEach = function(callback, scope) {
  * @return {Iterator}
  */
 SparseQueueSet.prototype.values = function() {
-  var size = this.size,
-      dense = this.dense,
-      i = 0;
+  var dense = this.dense,
+      c = this.capacity,
+      l = this.size,
+      i = this.start,
+      j = 0;
 
   return new Iterator(function() {
-    if (i < size) {
-      var item = dense[i];
-      i++;
-
+    if (j >= l)
       return {
-        value: item
+        done: true
       };
-    }
+
+    var value = dense[i];
+
+    i++;
+    j++;
+
+    if (i === c)
+      i = 0;
 
     return {
-      done: true
+      value: value,
+      done: false
     };
   });
 };
@@ -145,10 +176,11 @@ if (typeof Symbol !== 'undefined')
  * Convenience known methods.
  */
 SparseQueueSet.prototype.inspect = function() {
-  var proxy = new Set();
+  var proxy = [];
 
-  for (var i = 0; i < this.size; i++)
-    proxy.add(this.dense[i]);
+  this.forEach(function(member) {
+    proxy.push(member);
+  });
 
   // Trick so that node displays the name of the constructor
   Object.defineProperty(proxy, 'constructor', {
@@ -156,7 +188,7 @@ SparseQueueSet.prototype.inspect = function() {
     enumerable: false
   });
 
-  proxy.length = this.length;
+  proxy.capacity = this.capacity;
 
   return proxy;
 };

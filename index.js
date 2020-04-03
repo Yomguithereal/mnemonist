@@ -44,6 +44,7 @@ module.exports = {
   SuffixArray: SuffixArray,
   GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,
   Set: require('./set.js'),
+  SparseQueueSet: require('./sparse-queue-set.js'),
   SparseMap: require('./sparse-map.js'),
   SparseSet: require('./sparse-set.js'),
   SymSpell: require('./symspell.js'),

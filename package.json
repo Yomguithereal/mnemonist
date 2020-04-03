@@ -8,6 +8,8 @@
     "test": "mocha",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "files": [
     "sort",
     "utils",
