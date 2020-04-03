@@ -55,6 +55,7 @@ npm install --save mnemonist
 * [Fixed Stack]({{ site.baseurl }}/fixed-stack)
 * [Hashed Array Tree]({{ site.baseurl }}/hashed-array-tree)
 * [Static DisjointSet]({{ site.baseurl }}/static-disjoint-set)
+* [SparseQueueSet]({{ site.baseurl }}/sparse-queue-set)
 * [SparseMap]({{ site.baseurl }}/sparse-map)
 * [SparseSet]({{ site.baseurl }}/sparse-set)
 * [Suffix Array]({{ site.baseurl }}/suffix-array)
