@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.0
+
+* Adding `SparseQueueSet`.
+
 ## 0.35.0
 
 * Adding `SparseMap`.

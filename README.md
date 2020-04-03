@@ -45,6 +45,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 * [Fixed Stack](https://yomguithereal.github.io/mnemonist/fixed-stack)
 * [Hashed Array Tree](https://yomguithereal.github.io/mnemonist/hashed-array-tree)
 * [Static DisjointSet](https://yomguithereal.github.io/mnemonist/static-disjoint-set)
+* [SparseQueueSet](https://yomguithereal.github.io/mnemonist/sparse-queue-set)
 * [SparseMap](https://yomguithereal.github.io/mnemonist/sparse-map)
 * [SparseSet](https://yomguithereal.github.io/mnemonist/sparse-set)
 * [Suffix Array](https://yomguithereal.github.io/mnemonist/suffix-array)
