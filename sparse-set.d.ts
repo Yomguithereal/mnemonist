@@ -17,7 +17,7 @@ export default class SparseSet implements Iterable<number> {
   add(value: number): this;
   delete(value: number): boolean;
   forEach(callback: (value: number, key: number, set: this) => void, scope?: any): void;
-  values(): Iterator<number>;
-  [Symbol.iterator](): Iterator<number>;
+  values(): IterableIterator<number>;
+  [Symbol.iterator](): IterableIterator<number>;
   inspect(): any;
 }

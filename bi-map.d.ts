@@ -15,10 +15,10 @@ export class InverseMap<K, V> implements Iterable<[K, V]> {
   has(key: K): boolean;
   get(key: K): V;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
-  keys(): Iterator<K>;
-  values(): Iterator<V>;
-  entries(): Iterator<[K, V]>;
-  [Symbol.iterator](): Iterator<[K, V]>;
+  keys(): IterableIterator<K>;
+  values(): IterableIterator<V>;
+  entries(): IterableIterator<[K, V]>;
+  [Symbol.iterator](): IterableIterator<[K, V]>;
   inspect(): any;
 }
 
@@ -35,10 +35,10 @@ export default class BiMap<K, V> implements Iterable<[K, V]> {
   has(key: K): boolean;
   get(key: K): V;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
-  keys(): Iterator<K>;
-  values(): Iterator<V>;
-  entries(): Iterator<[K, V]>;
-  [Symbol.iterator](): Iterator<[K, V]>;
+  keys(): IterableIterator<K>;
+  values(): IterableIterator<V>;
+  entries(): IterableIterator<[K, V]>;
+  [Symbol.iterator](): IterableIterator<[K, V]>;
   inspect(): any;
 
   // Statics

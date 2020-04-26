@@ -20,9 +20,9 @@ export default class FixedStack<T> implements Iterable<T> {
   peek(): T | undefined;
   forEach(callback: (item: T, index: number, stack: this) => void, scope?: any): void;
   toArray(): Iterable<T>;
-  values(): Iterator<T>;
-  entries(): Iterator<[number, T]>;
-  [Symbol.iterator](): Iterator<T>;
+  values(): IterableIterator<T>;
+  entries(): IterableIterator<[number, T]>;
+  [Symbol.iterator](): IterableIterator<T>;
   toString(): string;
   toJSON(): Iterable<T>;
   inspect(): any;

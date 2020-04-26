@@ -23,8 +23,8 @@ export default class FuzzyMultiMap<K, V> implements Iterable<V> {
   get(key: any): Array<V> | Set<V> | undefined;
   has(key: any): boolean;
   forEach(callback: (value: V, key: V) => void, scope?: any): void;
-  values(): Iterator<V>;
-  [Symbol.iterator](): Iterator<V>;
+  values(): IterableIterator<V>;
+  [Symbol.iterator](): IterableIterator<V>;
   inspect(): any;
 
   // Statics

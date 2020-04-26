@@ -20,9 +20,9 @@ export default class InvertedIndex<D> implements Iterable<D> {
   add(document: D): this;
   get(query: any): Array<D>;
   forEach(callback: (document: D, index: number, invertedIndex: this) => void, scope?: any): void;
-  documents(): Iterator<D>;
-  tokens(): Iterator<string>;
-  [Symbol.iterator](): Iterator<D>;
+  documents(): IterableIterator<D>;
+  tokens(): IterableIterator<string>;
+  [Symbol.iterator](): IterableIterator<D>;
   inspect(): any;
 
   // Statics

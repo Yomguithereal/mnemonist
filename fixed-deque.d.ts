@@ -24,9 +24,9 @@ export default class FixedDeque<T> implements Iterable<T> {
   get(index: number): T | undefined;
   forEach(callback: (item: T, index: number, buffer: this) => void, scope?: any): void;
   toArray(): Iterable<T>;
-  values(): Iterator<T>;
-  entries(): Iterator<[number, T]>;
-  [Symbol.iterator](): Iterator<T>;
+  values(): IterableIterator<T>;
+  entries(): IterableIterator<[number, T]>;
+  [Symbol.iterator](): IterableIterator<T>;
   inspect(): any;
 
   // Statics

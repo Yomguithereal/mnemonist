@@ -22,10 +22,10 @@ export default class LRUMap<K, V> implements Iterable<[K, V]> {
   peek(key: K): V | undefined;
   has(key: K): boolean;
   forEach(callback: (value: V, key: K, cache: this) => void, scope?: any): void;
-  keys(): Iterator<K>;
-  values(): Iterator<V>;
-  entries(): Iterator<[K, V]>;
-  [Symbol.iterator](): Iterator<[K, V]>;
+  keys(): IterableIterator<K>;
+  values(): IterableIterator<V>;
+  entries(): IterableIterator<[K, V]>;
+  [Symbol.iterator](): IterableIterator<[K, V]>;
   inspect(): any;
 
   // Statics

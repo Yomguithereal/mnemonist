@@ -16,9 +16,9 @@ export default class Trie<T> implements Iterable<T> {
   delete(prefix: T): boolean;
   has(prefix: T): boolean;
   find(prefix: T): Array<T>;
-  prefixes(): Iterator<T>;
-  keys(): Iterator<T>;
-  [Symbol.iterator](): Iterator<T>;
+  prefixes(): IterableIterator<T>;
+  keys(): IterableIterator<T>;
+  [Symbol.iterator](): IterableIterator<T>;
   inspect(): any;
 
   // Statics

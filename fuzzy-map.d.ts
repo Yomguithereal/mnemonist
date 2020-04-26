@@ -21,8 +21,8 @@ export default class FuzzyMap<K, V> implements Iterable<V> {
   get(key: any): V | undefined;
   has(key: any): boolean;
   forEach(callback: (value: V, key: V) => void, scope?: this): void;
-  values(): Iterator<V>;
-  [Symbol.iterator](): Iterator<V>;
+  values(): IterableIterator<V>;
+  [Symbol.iterator](): IterableIterator<V>;
   inspect(): any;
 
   // Statics
