@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.1
+
+* Improved typings for iteration methods (@yoursunny).
+
 ## 0.36.0
 
 * Adding `SparseQueueSet`.
