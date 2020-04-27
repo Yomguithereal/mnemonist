@@ -17,9 +17,9 @@ export default class LinkedList<T> implements Iterable<T> {
   unshift(value: T): number;
   forEach(callback: (value: T, index: number, list: this) => void, scope?: any): void;
   toArray(): Array<T>;
-  values(): Iterator<T>;
-  entries(): Iterator<[number, T]>;
-  [Symbol.iterator](): Iterator<T>;
+  values(): IterableIterator<T>;
+  entries(): IterableIterator<[number, T]>;
+  [Symbol.iterator](): IterableIterator<T>;
   toString(): string;
   toJSON(): Array<T>;
   inspect(): any;

@@ -17,11 +17,11 @@ export default class TrieMap<K, V> implements Iterable<[K, V]> {
   delete(prefix: K): boolean;
   has(prefix: K): boolean;
   find(prefix: K): Array<[K, V]>;
-  values(): Iterator<V>;
-  prefixes(): Iterator<K>;
-  keys(): Iterator<K>;
-  entries(): Iterator<[K, V]>;
-  [Symbol.iterator](): Iterator<[K, V]>;
+  values(): IterableIterator<V>;
+  prefixes(): IterableIterator<K>;
+  keys(): IterableIterator<K>;
+  entries(): IterableIterator<[K, V]>;
+  [Symbol.iterator](): IterableIterator<[K, V]>;
   inspect(): any;
 
   // Statics

@@ -17,8 +17,8 @@ export default class PassjoinIndex<T> implements Iterable<T> {
   search(query: T): Set<T>;
   clear(): void;
   forEach(callback: (value: T, index: number, self: this) => void, scope?: any): void;
-  values(): Iterator<T>;
-  [Symbol.iterator](): Iterator<T>;
+  values(): IterableIterator<T>;
+  [Symbol.iterator](): IterableIterator<T>;
   inspect(): any;
 
   // Statics

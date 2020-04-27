@@ -14,9 +14,9 @@ export default class Stack<T> implements Iterable<T> {
   peek(): T | undefined;
   forEach(callback: (item: T, index: number, stack: this) => void, scope?: any): void;
   toArray(): Array<T>;
-  values(): Iterator<T>;
-  entries(): Iterator<[number, T]>;
-  [Symbol.iterator](): Iterator<T>;
+  values(): IterableIterator<T>;
+  entries(): IterableIterator<[number, T]>;
+  [Symbol.iterator](): IterableIterator<T>;
   toString(): string;
   toJSON(): Array<T>;
   inspect(): any;

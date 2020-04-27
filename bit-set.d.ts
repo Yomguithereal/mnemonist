@@ -21,9 +21,9 @@ export default class BitSet implements Iterable<number> {
   rank(r: number): number;
   select(r: number): number;
   forEach(callback: (index: number, value: number, set: this) => void, scope?: any): void;
-  values(): Iterator<number>;
-  entries(): Iterator<[number, number]>;
-  [Symbol.iterator](): Iterator<number>;
+  values(): IterableIterator<number>;
+  entries(): IterableIterator<[number, number]>;
+  [Symbol.iterator](): IterableIterator<number>;
   inspect(): any;
   toJSON(): Array<number>;
 }
