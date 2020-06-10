@@ -8,7 +8,7 @@ export default class DefaultMap<K, V> implements Iterable<[K, V]> {
   size: number;
 
   // Constructor
-  constructor(factory: (key?: K, index?: number) => V);
+  constructor(factory: (key: K, index: number) => V);
 
   // Methods
   clear(): void;
