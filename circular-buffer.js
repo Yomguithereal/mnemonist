@@ -89,7 +89,7 @@ CircularBuffer.prototype.unshift = function(item) {
 };
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a circular buffer.
  *
  * @param  {Iterable} iterable   - Target iterable.

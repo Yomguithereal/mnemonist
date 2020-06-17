@@ -157,7 +157,7 @@ BloomFilter.prototype.toJSON = function() {
 };
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a filter.
  *
  * @param  {Iterable}    iterable - Target iterable.

@@ -177,7 +177,7 @@ if (typeof Symbol !== 'undefined')
   Stack.prototype[Symbol.for('nodejs.util.inspect.custom')] = Stack.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a stack.
  *
  * @param  {Iterable} iterable   - Target iterable.
@@ -194,7 +194,7 @@ Stack.from = function(iterable) {
 };
 
 /**
- * Static @.of function taking an abitrary number of arguments & converting it
+ * Static @.of function taking an arbitrary number of arguments & converting it
  * into a stack.
  *
  * @param  {...any} args

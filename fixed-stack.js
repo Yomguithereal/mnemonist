@@ -199,7 +199,7 @@ if (typeof Symbol !== 'undefined')
   FixedStack.prototype[Symbol.for('nodejs.util.inspect.custom')] = FixedStack.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a stack.
  *
  * @param  {Iterable} iterable   - Target iterable.

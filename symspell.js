@@ -525,7 +525,7 @@ if (typeof Symbol !== 'undefined')
   SymSpell.prototype[Symbol.for('nodejs.util.inspect.custom')] = SymSpell.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a structure.
  *
  * @param  {Iterable} iterable - Target iterable.

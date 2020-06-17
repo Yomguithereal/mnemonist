@@ -180,7 +180,7 @@ describe('BiMap', function() {
     assert.strictEqual(i, 2);
   });
 
-  it('should be possible to create a map from an abitrary iterable.', function() {
+  it('should be possible to create a map from an arbitrary iterable.', function() {
     var map = BiMap.from(new Map([['one', 'hello'], ['two', 'world']]));
 
     assert.strictEqual(map.size, 2);

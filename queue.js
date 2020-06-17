@@ -182,7 +182,7 @@ if (typeof Symbol !== 'undefined')
   Queue.prototype[Symbol.for('nodejs.util.inspect.custom')] = Queue.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a queue.
  *
  * @param  {Iterable} iterable   - Target iterable.
@@ -199,7 +199,7 @@ Queue.from = function(iterable) {
 };
 
 /**
- * Static @.of function taking an abitrary number of arguments & converting it
+ * Static @.of function taking an arbitrary number of arguments & converting it
  * into a queue.
  *
  * @param  {...any} args
