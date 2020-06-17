@@ -17,6 +17,7 @@ module.exports = {
   BKTree: require('./bk-tree.js'),
   CircularBuffer: require('./circular-buffer.js'),
   DefaultMap: require('./default-map.js'),
+  DefaultWeakMap: require('./default-weak-map.js'),
   FixedDeque: require('./fixed-deque.js'),
   StaticDisjointSet: require('./static-disjoint-set.js'),
   FibonacciHeap: FibonacciHeap,

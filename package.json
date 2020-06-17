@@ -93,6 +93,7 @@
     "globals": {
       "Set": true,
       "Map": true,
+      "WeakMap": true,
       "Symbol": true,
       "ArrayBuffer": true,
       "Uint8Array": true,
