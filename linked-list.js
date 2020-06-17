@@ -239,7 +239,7 @@ if (typeof Symbol !== 'undefined')
   LinkedList.prototype[Symbol.for('nodejs.util.inspect.custom')] = LinkedList.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a list.
  *
  * @param  {Iterable} iterable   - Target iterable.

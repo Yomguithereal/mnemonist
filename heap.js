@@ -512,7 +512,7 @@ function MaxHeap(comparator) {
 MaxHeap.prototype = Heap.prototype;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a heap.
  *
  * @param  {Iterable} iterable   - Target iterable.

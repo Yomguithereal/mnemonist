@@ -359,7 +359,7 @@ describe('MultiMap', function() {
     assert.deepStrictEqual([...map], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
   });
 
-  it('should be possible to create a map from an abitrary iterable.', function() {
+  it('should be possible to create a map from an arbitrary iterable.', function() {
     var map = MultiMap.from(new Map([['one', 'hello'], ['two', 'world']]));
 
     assert.strictEqual(map.size, 2);

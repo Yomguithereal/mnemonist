@@ -226,7 +226,7 @@ if (typeof Symbol !== 'undefined')
   InvertedIndex.prototype[Symbol.for('nodejs.util.inspect.custom')] = InvertedIndex.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a InvertedIndex.
  *
  * @param  {Iterable} iterable - Target iterable.

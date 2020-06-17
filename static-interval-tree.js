@@ -368,7 +368,7 @@ if (typeof Symbol !== 'undefined')
   StaticIntervalTree.prototype[Symbol.for('nodejs.util.inspect.custom')] = StaticIntervalTree.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a structure.
  *
  * @param  {Iterable} iterable - Target iterable.

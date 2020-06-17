@@ -411,7 +411,7 @@ if (typeof Symbol !== 'undefined')
   FixedCritBitTreeMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = FixedCritBitTreeMap.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a FixedCritBitTreeMap.
  *
  * @param  {Iterable} iterable - Target iterable.

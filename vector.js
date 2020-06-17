@@ -308,7 +308,7 @@ if (typeof Symbol !== 'undefined')
   Vector.prototype[Symbol.for('nodejs.util.inspect.custom')] = Vector.prototype.inspect;
 
 /**
- * Static @.from function taking an abitrary iterable & converting it into
+ * Static @.from function taking an arbitrary iterable & converting it into
  * a vector.
  *
  * @param  {Iterable} iterable   - Target iterable.
