@@ -90,6 +90,7 @@ npm install --save mnemonist
 
 * [BiMap]({{ site.baseurl }}/bi-map)
 * [DefaultMap]({{ site.baseurl }}/default-map)
+* [DefaultWeakMap]({{ site.baseurl }}/default-weak-map)
 
 ---
 
