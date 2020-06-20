@@ -80,6 +80,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 
 * [BiMap](https://yomguithereal.github.io/mnemonist/bi-map)
 * [DefaultMap](https://yomguithereal.github.io/mnemonist/default-map)
+* [DefaultWeakMap](https://yomguithereal.github.io/mnemonist/default-weak-map)
 
 ---
 

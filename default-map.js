@@ -14,7 +14,7 @@
  */
 function DefaultMap(factory) {
   if (typeof factory !== 'function')
-    throw new Error('mnemonist/FuzzyMultiMap.constructor: expecting a function.');
+    throw new Error('mnemonist/DefaultMap.constructor: expecting a function.');
 
   this.items = new Map();
   this.factory = factory;
