@@ -1,6 +1,6 @@
 /**
  * Mnemonist DefaultWeakMap
- * ========================
+ * =========================
  *
  * JavaScript implementation of a default weak map that will return a constructed
  * value any time one tries to access an non-existing key. It is similar to

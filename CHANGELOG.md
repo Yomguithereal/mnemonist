@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.37.0
+
+* Adding `DefaultWeakMap` (@yoursunny).
+
 ## 0.36.1
 
 * Improved typings for iteration methods (@yoursunny).
