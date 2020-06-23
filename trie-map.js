@@ -73,7 +73,7 @@ TrieMap.prototype.set = function(prefix, value) {
  * @param  {(oldValue: any | undefined) => any} updateFunction - Update value visitor callback.
  * @return {TrieMap}
  */
-TrieMap.prototype.set = function(prefix, updateFunction) {
+TrieMap.prototype.update = function(prefix, updateFunction) {
   var node = this.root,
       token;
 
