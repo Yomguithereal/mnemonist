@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.38.0
+
+* Adding `TrieMap.update` (@wholenews).
+
 ## 0.37.0
 
 * Adding `DefaultWeakMap` (@yoursunny).
