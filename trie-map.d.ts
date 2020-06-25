@@ -13,6 +13,7 @@ export default class TrieMap<K, V> implements Iterable<[K, V]> {
   // Methods
   clear(): void;
   set(prefix: K, value: V): this;
+  update(prefix: K, updateFunction: (oldValue: V | undefined) => V): this
   get(prefix: K): V;
   delete(prefix: K): boolean;
   has(prefix: K): boolean;

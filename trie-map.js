@@ -67,6 +67,32 @@ TrieMap.prototype.set = function(prefix, value) {
 };
 
 /**
+ * Method used to update the value of the given prefix in the trie.
+ *
+ * @param  {string|array} prefix - Prefix to follow.
+ * @param  {(oldValue: any | undefined) => any} updateFunction - Update value visitor callback.
+ * @return {TrieMap}
+ */
+TrieMap.prototype.update = function(prefix, updateFunction) {
+  var node = this.root,
+      token;
+
+  for (var i = 0, l = prefix.length; i < l; i++) {
+    token = prefix[i];
+
+    node = node[token] || (node[token] = {});
+  }
+
+  // Do we need to increase size?
+  if (!(SENTINEL in node))
+    this.size++;
+
+  node[SENTINEL] = updateFunction(node[SENTINEL]);
+
+  return this;
+};
+
+/**
  * Method used to return the value sitting at the end of the given prefix or
  * undefined if none exist.
  *

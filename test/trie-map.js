@@ -78,6 +78,17 @@ describe('TrieMap', function() {
     assert.strictEqual(trie.get([]), 45);
   });
 
+  it('should be possible to update items.', function() {
+    var trie = new TrieMap();
+
+    trie.update('rat', () => 1);
+    trie.update('rate', (v) => (v || 0) + 2);
+    trie.update('rat', (v) => v + 3);
+
+    assert.strictEqual(trie.size, 2);
+    assert.strictEqual(trie.get('rat'), 4);
+  });
+
   it('should be possible to delete items.', function() {
     var trie = new TrieMap();
 
