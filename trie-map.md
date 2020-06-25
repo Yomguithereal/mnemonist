@@ -41,6 +41,7 @@ var list = TrieMap.from({
 *Mutation*
 
 * [#.set](#set)
+* [#.update](#update)
 * [#.delete](#delete)
 * [#.clear](#clear)
 
@@ -87,14 +88,17 @@ trie.set(['I', 'am', 'very', 'happy'], 'world');
 
 ### #.update
 
-Updates the value associated with a prefix. Accepts a function to receive the current value and return the new value.
+Updates the value associated with a prefix. Accepts a function receiving the current value and returning the new one.
 
 `O(m)`, m being the size of the prefix string.
 
 ```js
 var trie = new TrieMap();
-trie.update('counter', (v) => (v || 0) + 1);
-trie.update('counter', (v) => (v || 0) + 1);
+
+var updater = v => (v || 0) + 1;
+
+trie.update('counter', updater);
+trie.update('counter', updater);
 
 trie.get('counter');
 >>> 2
