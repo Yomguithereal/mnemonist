@@ -85,6 +85,21 @@ trie.get('hello');
 trie.set(['I', 'am', 'very', 'happy'], 'world');
 ```
 
+### #.update
+
+Updates the value associated with a prefix. Accepts a function to receive the current value and return the new value.
+
+`O(m)`, m being the size of the prefix string.
+
+```js
+var trie = new TrieMap();
+trie.update('counter', (v) => (v || 0) + 1);
+trie.update('counter', (v) => (v || 0) + 1);
+
+trie.get('counter');
+>>> 2
+```
+
 ### #.delete
 
 Deletes a prefix from the TrieMap. Returns `true` if the prefix was deleted & `false` if the prefix was not in the TrieMap.
