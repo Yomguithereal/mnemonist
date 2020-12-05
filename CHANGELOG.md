@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.38.1
+
+* Fixing `SparseQueueSet` deopt.
+
 ## 0.38.0
 
 * Adding `TrieMap.update` (@wholenews).
