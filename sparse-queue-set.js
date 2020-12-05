@@ -48,9 +48,16 @@ SparseQueueSet.prototype.has = function(member) {
 
   var index = this.sparse[member];
 
-  var inBounds = (index >= this.start) ?
-    (index < (this.start + this.size)) :
-    (index < ((this.start + this.size) % this.capacity));
+  var inBounds = (
+    index < this.capacity &&
+    (
+      index >= this.start &&
+      index < this.start + this.size
+    ) ||
+    (
+      index < ((this.start + this.size) % this.capacity)
+    )
+  );
 
   return (
     inBounds &&
@@ -67,12 +74,21 @@ SparseQueueSet.prototype.has = function(member) {
 SparseQueueSet.prototype.enqueue = function(member) {
   var index = this.sparse[member];
 
-  var inBounds = (index >= this.start) ?
-    (index < (this.start + this.size)) :
-    (index < ((this.start + this.size) % this.capacity));
+  if (this.size !== 0) {
+    var inBounds = (
+      index < this.capacity &&
+      (
+        index >= this.start &&
+        index < this.start + this.size
+      ) ||
+      (
+        index < ((this.start + this.size) % this.capacity)
+      )
+    );
 
-  if (this.size !== 0 && inBounds && this.dense[index] === member)
-    return this;
+    if (inBounds && this.dense[index] === member)
+      return this;
+  }
 
   index = (this.start + this.size) % this.capacity;
 
@@ -103,7 +119,7 @@ SparseQueueSet.prototype.dequeue = function() {
 
   var member = this.dense[index];
 
-  this.sparse[member] = index + 1;
+  this.sparse[member] = this.capacity;
 
   return member;
 };
