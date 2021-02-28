@@ -154,6 +154,7 @@ function VPTree(distance, items) {
   // Properties
   this.distance = distance;
   this.items = [];
+  this.heap = new Heap(comparator);
 
   var indexes = [],
       self = this,
@@ -177,7 +178,7 @@ function VPTree(distance, items) {
  * @return {array}
  */
 VPTree.prototype.nearestNeighbors = function(k, query) {
-  var neighbors = new Heap(comparator),
+  var neighbors = this.heap,
       stack = [0],
       tau = Infinity,
       nodeIndex,
