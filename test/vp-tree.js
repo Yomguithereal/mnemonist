@@ -40,6 +40,13 @@ function identity(a, b) {
   return +(a !== b);
 }
 
+function euclid2d(a, b) {
+  var dx = a[0] - b[0],
+      dy = a[1] - b[1];
+
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
 // function print(tree) {
 //   var data = tree.data,
 //       stack = [[0, 0]],
@@ -79,14 +86,14 @@ describe('VPTree', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.strictEqual(tree.size, 15);
-    assert.deepEqual(Array.from(tree.data), [14, 6, 8, 4, 9, 7, 28, 24, 13, 5, 0, 12, 12, 4, 0, 16, 11, 2, 0, 20, 10, 0, 0, 0, 7, 8.5, 48, 44, 8, 7, 0, 32, 4, 1.5, 40, 36, 3, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0, 56, 6, 8, 0, 52, 5, 0, 0, 0, 0, 0, 0, 0]);
+    assert.deepStrictEqual(Array.from(tree.data), [14, 6, 8, 4, 9, 7, 28, 24, 13, 5, 0, 12, 12, 4, 0, 16, 11, 2, 0, 20, 10, 0, 0, 0, 7, 8.5, 48, 44, 8, 7, 0, 32, 4, 1.5, 40, 36, 3, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0, 56, 6, 8, 0, 52, 5, 0, 0, 0, 0, 0, 0, 0]);
   });
 
   it('should also work in the worst case scenario.', function() {
     var tree = new VPTree(identity, WORST_CASE);
 
     assert.strictEqual(tree.size, 8);
-    assert.deepEqual(Array.from(tree.data), [7, 1, 8, 4, 6, 1, 24, 20, 2, 0, 0, 12, 1, 0, 0, 16, 0, 0, 0, 0, 4, 0, 0, 28, 5, 0, 0, 0, 3, 0, 0, 0]);
+    assert.deepStrictEqual(Array.from(tree.data), [7, 1, 8, 4, 6, 1, 24, 20, 2, 0, 0, 12, 1, 0, 0, 16, 0, 0, 0, 0, 4, 0, 0, 28, 5, 0, 0, 0, 3, 0, 0, 0]);
   });
 
   it('should be possible to find the k nearest neighbors.', function() {
@@ -94,14 +101,14 @@ describe('VPTree', function() {
 
     var neighbors = tree.nearestNeighbors(2, 'look');
 
-    assert.deepEqual(neighbors, [
+    assert.deepStrictEqual(neighbors, [
       {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'}
     ]);
 
     neighbors = tree.nearestNeighbors(5, 'look');
 
-    assert.deepEqual(neighbors, [
+    assert.deepStrictEqual(neighbors, [
       {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'},
       {distance: 2, item: 'bock'},
@@ -113,13 +120,13 @@ describe('VPTree', function() {
   it('should be possible to find every neighbor within radius.', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
-    assert.deepEqual(tree.neighbors(2, 'look'), [
+    assert.deepStrictEqual(tree.neighbors(2, 'look'), [
       {distance: 2, item: 'bock'},
       {distance: 1, item: 'book'},
       {distance: 1, item: 'lock'}
     ]);
 
-    assert.deepEqual(tree.neighbors(3, 'look'), [
+    assert.deepStrictEqual(tree.neighbors(3, 'look'), [
       {distance: 3, item: 'shock'},
       {distance: 2, item: 'bock'},
       {distance: 1, item: 'book'},
@@ -134,7 +141,7 @@ describe('VPTree', function() {
 
     assert.strictEqual(tree.size, 15);
 
-    assert.deepEqual(tree.nearestNeighbors(2, 'look'), [
+    assert.deepStrictEqual(tree.nearestNeighbors(2, 'look'), [
       {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'}
     ]);
@@ -149,9 +156,20 @@ describe('VPTree', function() {
       return levenshtein(a.value, b.value);
     }, items);
 
-    assert.deepEqual(tree.nearestNeighbors(2, {value: 'look'}), [
+    assert.deepStrictEqual(tree.nearestNeighbors(2, {value: 'look'}), [
       {distance: 1, item: {value: 'lock'}},
       {distance: 1, item: {value: 'book'}}
+    ]);
+  });
+
+  it.skip('should return all nearest neighbors correctly (issue #147).', function() {
+    var tree = new VPTree(euclid2d, [[-100, -100], [100, 100]]);
+
+    var neighbors = tree.nearestNeighbors(2, [100, 100]);
+
+    assert.deepStrictEqual(neighbors, [
+      {distance: 0, item: [100, 100]},
+      {distance: Math.sqrt(80000), item: [-100, -100]}
     ]);
   });
 });
