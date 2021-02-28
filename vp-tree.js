@@ -20,7 +20,6 @@ var getPointerArray = typed.getPointerArray;
 
 // TODO: implement better selection technique for the vantage point
 // The one minimizing spread of sample using stdev is usually the accepted one
-// TODO: rationalize registers. use getArrayPointers to optimize memory
 // TODO: sort in place without memory consumption
 
 // TODO: if sorting to get median, can split
@@ -60,7 +59,8 @@ function createBinaryTree(distance, items, indexes) {
       lefts = new PointerArray(N),
       rights = new PointerArray(N),
       mus = new Float64Array(N),
-      stack = [0, indexes],
+      stack = [0],
+      containerStack = [indexes],
       distances = [],
       sortedDistances = [],
       nodeIndex,
@@ -75,8 +75,8 @@ function createBinaryTree(distance, items, indexes) {
       h;
 
   while (stack.length) {
-    currentIndexes = stack.pop();
     nodeIndex = stack.pop();
+    currentIndexes = containerStack.pop();
 
     // Getting our vantage point
     vantagePoint = currentIndexes.pop();
@@ -138,7 +138,7 @@ function createBinaryTree(distance, items, indexes) {
       C += 1;
       rights[nodeIndex] = C;
       stack.push(C);
-      stack.push(right);
+      containerStack.push(right);
     }
 
     // Left
@@ -146,7 +146,7 @@ function createBinaryTree(distance, items, indexes) {
       C += 1;
       lefts[nodeIndex] = C;
       stack.push(C);
-      stack.push(left);
+      containerStack.push(left);
     }
   }
 
