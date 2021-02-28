@@ -204,8 +204,9 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
       if (neighbors.size > k)
         neighbors.pop();
 
-      // Adjusting tau
-      tau = neighbors.peek().distance;
+      // Adjusting tau (only if we already have k items, else it stays Infinity)
+      if (neighbors.size >= k)
+       tau = neighbors.peek().distance;
     }
 
     leftIndex = this.data[nodeIndex + 2];

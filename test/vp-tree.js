@@ -112,7 +112,7 @@ describe('VPTree', function() {
       {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'},
       {distance: 2, item: 'bock'},
-      {distance: 3, item: 'shock'},
+      {distance: 3, item: 'mack'},
       {distance: 3, item: 'back'}
     ]);
   });
@@ -162,7 +162,7 @@ describe('VPTree', function() {
     ]);
   });
 
-  it.skip('should return all nearest neighbors correctly (issue #147).', function() {
+  it('should return all nearest neighbors correctly (issue #147).', function() {
     var tree = new VPTree(euclid2d, [[-100, -100], [100, 100]]);
 
     var neighbors = tree.nearestNeighbors(2, [100, 100]);
@@ -170,6 +170,16 @@ describe('VPTree', function() {
     assert.deepStrictEqual(neighbors, [
       {distance: 0, item: [100, 100]},
       {distance: Math.sqrt(80000), item: [-100, -100]}
+    ]);
+
+    tree = new VPTree(euclid2d, [[-100, -100], [100, 100], [100, 100], [100, 100]]);
+
+    neighbors = tree.nearestNeighbors(3, [100, 100]);
+
+    assert.deepStrictEqual(neighbors, [
+      {distance: 0, item: [100, 100]},
+      {distance: 0, item: [100, 100]},
+      {distance: 0, item: [100, 100]}
     ]);
   });
 });
