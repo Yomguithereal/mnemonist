@@ -12,9 +12,10 @@
  * [Reference]:
  * https://en.wikipedia.org/wiki/Vantage-point_tree
  */
-var forEach = require('obliterator/foreach'),
+var iterables = require('./utils/iterables.js'),
     typed = require('./utils/typed-arrays.js'),
     inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices,
+    lowerBoundIndices = require('./utils/binary-search.js').lowerBoundIndices,
     Heap = require('./heap.js');
 
 var getPointerArray = typed.getPointerArray;
@@ -45,11 +46,11 @@ function comparator(a, b) {
  *
  * @param  {function}     distance - Distance function to use.
  * @param  {array}        items    - Items to index (will be mutated).
- * @param  {array}        indexes  - Indexes of the items.
+ * @param  {array}        indices  - Indexes of the items.
  * @return {Float64Array}          - The flat binary tree.
  */
-function createBinaryTree(distance, items, indexes) {
-  var N = indexes.length;
+function createBinaryTree(distance, items, indices) {
+  var N = indices.length;
 
   var PointerArray = getPointerArray(N);
 
@@ -58,28 +59,30 @@ function createBinaryTree(distance, items, indexes) {
       lefts = new PointerArray(N),
       rights = new PointerArray(N),
       mus = new Float64Array(N),
-      stack = [0],
-      containerStack = [indexes],
+      stack = [[0, 0, N]],
       distances = new Float64Array(N),
-      distancesArgsort = new PointerArray(N),
+      payload,
       nodeIndex,
-      currentIndexes,
       vantagePoint,
       medianIndex,
+      lo,
+      hi,
+      mid,
       mu,
-      left,
-      right,
       i,
-      l,
-      h;
+      l;
 
   while (stack.length) {
-    nodeIndex = stack.pop();
-    currentIndexes = containerStack.pop();
+    payload = stack.pop();
+    nodeIndex = payload[0];
+    lo = payload[1];
+    hi = payload[2];
 
     // Getting our vantage point
-    vantagePoint = currentIndexes.pop();
-    l = currentIndexes.length;
+    vantagePoint = indices[hi - 1];
+    hi--;
+
+    l = hi - lo;
 
     // Storing vantage point
     nodes[nodeIndex] = vantagePoint;
@@ -88,72 +91,60 @@ function createBinaryTree(distance, items, indexes) {
     if (!l)
       continue;
 
+    // TODO: above should not happen (except single node case)?
+    // TODO: should we rely on same code as below to avoid shenanigans?
     if (l === 1) {
 
       // We put remaining item to the right
-      mu = distance(items[vantagePoint], items[currentIndexes[0]]);
+      mu = distance(items[vantagePoint], items[indices[lo]]);
 
       mus[nodeIndex] = mu;
 
       // Right
       C += 1;
       rights[nodeIndex] = C;
-      nodes[C] = currentIndexes[0];
+      nodes[C] = indices[lo];
 
       continue;
     }
 
     // Computing distance from vantage point to other points
-    for (i = 0; i < l; i++) {
-      distances[i] = distance(items[vantagePoint], items[currentIndexes[i]]);
-      distancesArgsort[i] = i;
-    }
+    for (i = lo; i < hi; i++)
+      distances[i] = distance(items[vantagePoint], items[indices[i]]);
 
-    inplaceQuickSortIndices(distances, distancesArgsort, 0, l);
+    inplaceQuickSortIndices(distances, indices, lo, hi);
 
     // Finding median of distances
-    h = l / 2;
-    medianIndex = h - 1;
+    medianIndex = lo + (l / 2) - 1;
 
     // Need to interpolate?
     if (medianIndex === (medianIndex | 0)) {
       mu = (
-        distances[distancesArgsort[medianIndex]] +
-        distances[distancesArgsort[medianIndex + 1]]
+        distances[indices[medianIndex]] +
+        distances[indices[medianIndex + 1]]
       ) / 2;
     }
     else {
-      mu = distances[distancesArgsort[Math.ceil(medianIndex)]];
+      mu = distances[indices[Math.ceil(medianIndex)]];
     }
 
     // Storing mu
     mus[nodeIndex] = mu;
 
-    // Dispatching the indexes left & right
-    left = [];
-    right = [];
-
-    for (i = 0; i < l; i++) {
-      if (distances[i] >= mu)
-        right.push(currentIndexes[i]);
-      else
-        left.push(currentIndexes[i]);
-    }
+    mid = lowerBoundIndices(distances, indices, mu, lo, hi);
 
     // Right
-    if (right.length) {
+    if (mid - lo > 0) {
       C += 1;
       rights[nodeIndex] = C;
-      stack.push(C);
-      containerStack.push(right);
+      stack.push([C, lo, mid]);
     }
 
     // Left
-    if (left.length) {
+    if (hi - mid > 0) {
       C += 1;
       lefts[nodeIndex] = C;
-      stack.push(C);
-      containerStack.push(left);
+      stack.push([C, mid, hi]);
     }
   }
 
@@ -181,22 +172,16 @@ function VPTree(distance, items) {
 
   // Properties
   this.distance = distance;
-  this.items = [];
   this.heap = new Heap(comparator);
 
-  var indexes = [],
-      self = this,
-      i = 0;
-
-  forEach(items, function(value) {
-    self.items.push(value);
-    indexes.push(i++);
-  });
+  var arrays = iterables.toArrayWithIndices(items);
+  this.items = arrays[0];
+  var indices = arrays[1];
 
   // Creating the binary tree
-  this.size = indexes.length;
+  this.size = indices.length;
 
-  var result = createBinaryTree(distance, this.items, indexes);
+  var result = createBinaryTree(distance, this.items, indices);
 
   this.nodes = result.nodes;
   this.lefts = result.lefts;

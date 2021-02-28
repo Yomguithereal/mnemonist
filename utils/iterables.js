@@ -49,6 +49,7 @@ function toArray(target) {
 
   var i = 0;
 
+  // TODO: we could optimize when given target is array like
   forEach(target, function(value) {
     array[i++] = value;
   });
@@ -74,6 +75,7 @@ function toArrayWithIndices(target) {
 
   var i = 0;
 
+  // TODO: we could optimize when given target is array like
   forEach(target, function(value) {
     array[i] = value;
     indices[i] = i++;
