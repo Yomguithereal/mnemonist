@@ -88,7 +88,7 @@ function createBinaryTree(distance, items, indices) {
     nodes[nodeIndex] = vantagePoint;
 
     // If we only have few items left
-    if (!l)
+    if (l === 0)
       continue;
 
     // TODO: above should not happen (except single node case)?
@@ -101,7 +101,7 @@ function createBinaryTree(distance, items, indices) {
       mus[nodeIndex] = mu;
 
       // Right
-      C += 1;
+      C++;
       rights[nodeIndex] = C;
       nodes[C] = indices[lo];
 
@@ -140,25 +140,25 @@ function createBinaryTree(distance, items, indices) {
     console.log('mid =', mid);
 
     console.log('need to split', Array.from(indices).slice(lo, hi).map(i => {
-      return [distances[i], distance(items[vantagePoint], items[i]), items[vantagePoint], items[i]];
+      return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
     }))
 
     // Right
-    if (mid - lo > 0) {
-      C += 1;
+    if (hi - mid > 0) {
+      C++;
       rights[nodeIndex] = C;
-      stack.push([C, lo, mid]);
-      console.log('Went right with', Array.from(indices).slice(lo, mid).map(i => {
+      stack.push([C, mid, hi]);
+      console.log('Went right with ', Array.from(indices).slice(mid, hi).map(i => {
         return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
       }))
     }
 
     // Left
-    if (hi - mid > 0) {
-      C += 1;
+    if (mid - lo > 0) {
+      C++;
       lefts[nodeIndex] = C;
-      stack.push([C, mid, hi]);
-      console.log('Went left with ', Array.from(indices).slice(mid, hi).map(i => {
+      stack.push([C, lo, mid]);
+      console.log('Went left with', Array.from(indices).slice(lo, mid).map(i => {
         return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
       }))
     }

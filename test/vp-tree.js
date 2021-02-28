@@ -86,7 +86,7 @@ describe('VPTree', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.strictEqual(tree.size, 15);
-
+    console.log(tree.nodes)
     assert.deepStrictEqual(tree.nodes, new Uint8Array([14, 9, 13, 12, 11, 10, 7, 8, 4, 3, 1, 2, 6, 5, 0]));
     assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 7, 0, 0, 0, 0, 12, 0, 10, 0, 0, 0, 0, 0, 0]));
     assert.deepStrictEqual(tree.rights, new Uint8Array([1, 6, 3, 4, 5, 0, 11, 8, 9, 0, 0, 14, 13, 0, 0]));
