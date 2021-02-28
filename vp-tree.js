@@ -31,13 +31,9 @@ var getPointerArray = typed.getPointerArray;
 function comparator(a, b) {
   if (a.distance < b.distance)
     return 1;
+
   if (a.distance > b.distance)
     return -1;
-
-  if (a < b)
-    return 1;
-  if (a > b)
-    return 1;
 
   return 0;
 }
