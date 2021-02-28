@@ -14,6 +14,7 @@
  */
 var forEach = require('obliterator/foreach'),
     typed = require('./utils/typed-arrays.js'),
+    inplaceQuickSortIndices = require('./sort/quick.js').inplaceQuickSortIndices,
     Heap = require('./heap.js');
 
 var getPointerArray = typed.getPointerArray;
@@ -61,8 +62,8 @@ function createBinaryTree(distance, items, indexes) {
       mus = new Float64Array(N),
       stack = [0],
       containerStack = [indexes],
-      distances = [],
-      sortedDistances = [],
+      distances = new Float64Array(N),
+      distancesArgsort = new PointerArray(N),
       nodeIndex,
       currentIndexes,
       vantagePoint,
@@ -105,19 +106,27 @@ function createBinaryTree(distance, items, indexes) {
     }
 
     // Computing distance from vantage point to other points
-    distances.length = l;
-    sortedDistances.length = l;
-
-    for (i = 0; i < l; i++)
+    for (i = 0; i < l; i++) {
       distances[i] = distance(items[vantagePoint], items[currentIndexes[i]]);
+      distancesArgsort[i] = i;
+    }
+
+    inplaceQuickSortIndices(distances, distancesArgsort, 0, l);
 
     // Finding median of distances
     h = l / 2;
-    sortedDistances = distances.slice().sort();
     medianIndex = h - 1;
-    mu = (medianIndex === (medianIndex | 0)) ?
-      (sortedDistances[medianIndex] + sortedDistances[medianIndex + 1]) / 2 :
-      sortedDistances[Math.ceil(medianIndex)];
+
+    // Need to interpolate?
+    if (medianIndex === (medianIndex | 0)) {
+      mu = (
+        distances[distancesArgsort[medianIndex]] +
+        distances[distancesArgsort[medianIndex + 1]]
+      ) / 2;
+    }
+    else {
+      mu = distances[distancesArgsort[Math.ceil(medianIndex)]];
+    }
 
     // Storing mu
     mus[nodeIndex] = mu;

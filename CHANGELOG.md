@@ -4,6 +4,7 @@
 
 * Refactoring `VPTree` memory layout.
 * Fixing `VPTree.nearestNeighbors` edge case.
+* Various `VPTree` optimizations.
 
 ## 0.38.2
 
