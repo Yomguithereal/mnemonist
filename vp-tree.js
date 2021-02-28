@@ -110,7 +110,7 @@ function createBinaryTree(distance, items, indices) {
 
     // Computing distance from vantage point to other points
     for (i = lo; i < hi; i++)
-      distances[i] = distance(items[vantagePoint], items[indices[i]]);
+      distances[indices[i]] = distance(items[vantagePoint], items[indices[i]]);
 
     inplaceQuickSortIndices(distances, indices, lo, hi);
 
@@ -133,11 +133,24 @@ function createBinaryTree(distance, items, indices) {
 
     mid = lowerBoundIndices(distances, indices, mu, lo, hi);
 
+    console.log('Vantage point', items[vantagePoint], vantagePoint);
+    console.log('mu =', mu);
+    console.log('lo =', lo);
+    console.log('hi =', hi);
+    console.log('mid =', mid);
+
+    console.log('need to split', Array.from(indices).slice(lo, hi).map(i => {
+      return [distances[i], distance(items[vantagePoint], items[i]), items[vantagePoint], items[i]];
+    }))
+
     // Right
     if (mid - lo > 0) {
       C += 1;
       rights[nodeIndex] = C;
       stack.push([C, lo, mid]);
+      console.log('Went right with', Array.from(indices).slice(lo, mid).map(i => {
+        return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
+      }))
     }
 
     // Left
@@ -145,7 +158,12 @@ function createBinaryTree(distance, items, indices) {
       C += 1;
       lefts[nodeIndex] = C;
       stack.push([C, mid, hi]);
+      console.log('Went left with ', Array.from(indices).slice(mid, hi).map(i => {
+        return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
+      }))
     }
+
+    console.log();
   }
 
   return {
