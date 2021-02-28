@@ -20,9 +20,10 @@ var iterables = require('./utils/iterables.js'),
 
 var getPointerArray = typed.getPointerArray;
 
-// TODO: use iterables.toArrayWithIndices
 // TODO: only rely on a single indices array recursively sorted by pieces
-// TODO: implement vantage point selection techniques
+// TODO: implement vantage point selection techniques (by swapping with last)
+// TODO: test with random medium scale data
+// TODO: adjust unit tests for different order (sets)
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.

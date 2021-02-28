@@ -82,7 +82,7 @@ describe('VPTree', function() {
     }, /items/);
   });
 
-  it.only('should properly build the tree.', function() {
+  it('should properly build the tree.', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.strictEqual(tree.size, 15);
