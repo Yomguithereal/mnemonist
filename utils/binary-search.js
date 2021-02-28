@@ -139,10 +139,11 @@ exports.lowerBoundWithComparator = function(comparator, array, value) {
  * @param  {any}      value - Needle.
  * @return {number}
  */
-exports.lowerBoundIndices = function(array, indices, value) {
-  var mid = 0,
-      lo = 0,
-      hi = array.length;
+exports.lowerBoundIndices = function(array, indices, value, lo, hi) {
+  var mid = 0;
+
+  lo = typeof lo !== 'undefined' ? lo : 0;
+  hi = typeof hi !== 'undefined' ? hi : array.length;
 
   while (lo < hi) {
     mid = (lo + hi) >>> 1;
