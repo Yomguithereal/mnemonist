@@ -13,11 +13,15 @@
  * https://en.wikipedia.org/wiki/Vantage-point_tree
  */
 var forEach = require('obliterator/foreach'),
+    typed = require('./utils/typed-arrays.js'),
     Heap = require('./heap.js');
+
+var getPointerArray = typed.getPointerArray;
 
 // TODO: implement better selection technique for the vantage point
 // The one minimizing spread of sample using stdev is usually the accepted one
 // TODO: rationalize registers. use getArrayPointers to optimize memory
+// TODO: sort in place without memory consumption
 
 // TODO: if sorting to get median, can split
 
@@ -47,9 +51,15 @@ function comparator(a, b) {
  * @return {Float64Array}          - The flat binary tree.
  */
 function createBinaryTree(distance, items, indexes) {
-  var N = indexes.length,
-      C = 0,
-      data = new Float64Array(N * 4),
+  var N = indexes.length;
+
+  var PointerArray = getPointerArray(N);
+
+  var C = 0,
+      nodes = new PointerArray(N),
+      lefts = new PointerArray(N),
+      rights = new PointerArray(N),
+      mus = new Float64Array(N),
       stack = [0, indexes],
       distances = [],
       sortedDistances = [],
@@ -73,7 +83,7 @@ function createBinaryTree(distance, items, indexes) {
     l = currentIndexes.length;
 
     // Storing vantage point
-    data[nodeIndex] = vantagePoint;
+    nodes[nodeIndex] = vantagePoint;
 
     // If we only have few items left
     if (!l)
@@ -84,12 +94,12 @@ function createBinaryTree(distance, items, indexes) {
       // We put remaining item to the right
       mu = distance(items[vantagePoint], items[currentIndexes[0]]);
 
-      data[nodeIndex + 1] = mu;
+      mus[nodeIndex] = mu;
 
       // Right
-      C += 4;
-      data[nodeIndex + 3] = C;
-      data[C] = currentIndexes[0];
+      C += 1;
+      rights[nodeIndex] = C;
+      nodes[C] = currentIndexes[0];
 
       continue;
     }
@@ -110,7 +120,7 @@ function createBinaryTree(distance, items, indexes) {
       sortedDistances[Math.ceil(medianIndex)];
 
     // Storing mu
-    data[nodeIndex + 1] = mu;
+    mus[nodeIndex] = mu;
 
     // Dispatching the indexes left & right
     left = [];
@@ -125,22 +135,27 @@ function createBinaryTree(distance, items, indexes) {
 
     // Right
     if (right.length) {
-      C += 4;
-      data[nodeIndex + 3] = C;
+      C += 1;
+      rights[nodeIndex] = C;
       stack.push(C);
       stack.push(right);
     }
 
     // Left
     if (left.length) {
-      C += 4;
-      data[nodeIndex + 2] = C;
+      C += 1;
+      lefts[nodeIndex] = C;
       stack.push(C);
       stack.push(left);
     }
   }
 
-  return data;
+  return {
+    nodes: nodes,
+    lefts: lefts,
+    rights: rights,
+    mus: mus
+  };
 }
 
 /**
@@ -173,7 +188,13 @@ function VPTree(distance, items) {
 
   // Creating the binary tree
   this.size = indexes.length;
-  this.data = createBinaryTree(distance, this.items, indexes);
+
+  var result = createBinaryTree(distance, this.items, indexes);
+
+  this.nodes = result.nodes;
+  this.lefts = result.lefts;
+  this.rights = result.rights;
+  this.mus = result.mus;
 }
 
 /**
@@ -197,7 +218,7 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
 
   while (stack.length) {
     nodeIndex = stack.pop();
-    itemIndex = this.data[nodeIndex];
+    itemIndex = this.nodes[nodeIndex];
     vantagePoint = this.items[itemIndex];
 
     // Distance between query & the current vantage point
@@ -215,14 +236,14 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
        tau = neighbors.peek().distance;
     }
 
-    leftIndex = this.data[nodeIndex + 2];
-    rightIndex = this.data[nodeIndex + 3];
+    leftIndex = this.lefts[nodeIndex];
+    rightIndex = this.rights[nodeIndex];
 
     // We are a leaf
     if (!leftIndex && !rightIndex)
       continue;
 
-    mu = this.data[nodeIndex + 1];
+    mu = this.mus[nodeIndex];
 
     if (d < mu) {
       if (leftIndex && d < mu + tau)
@@ -266,7 +287,7 @@ VPTree.prototype.neighbors = function(radius, query) {
 
   while (stack.length) {
     nodeIndex = stack.pop();
-    itemIndex = this.data[nodeIndex];
+    itemIndex = this.nodes[nodeIndex];
     vantagePoint = this.items[itemIndex];
 
     // Distance between query & the current vantage point
@@ -275,14 +296,14 @@ VPTree.prototype.neighbors = function(radius, query) {
     if (d <= radius)
       neighbors.push({distance: d, item: vantagePoint});
 
-    leftIndex = this.data[nodeIndex + 2];
-    rightIndex = this.data[nodeIndex + 3];
+    leftIndex = this.lefts[nodeIndex];
+    rightIndex = this.rights[nodeIndex];
 
     // We are a leaf
     if (!leftIndex && !rightIndex)
       continue;
 
-    mu = this.data[nodeIndex + 1];
+    mu = this.mus[nodeIndex];
 
     if (d < mu) {
       if (leftIndex && d < mu + radius)
