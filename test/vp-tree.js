@@ -82,18 +82,26 @@ describe('VPTree', function() {
     }, /items/);
   });
 
-  it.skip('should properly build the tree.', function() {
+  it('should properly build the tree.', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.strictEqual(tree.size, 15);
-    assert.deepStrictEqual(Array.from(tree.data), [14, 6, 8, 4, 9, 7, 28, 24, 13, 5, 0, 12, 12, 4, 0, 16, 11, 2, 0, 20, 10, 0, 0, 0, 7, 8.5, 48, 44, 8, 7, 0, 32, 4, 1.5, 40, 36, 3, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0, 56, 6, 8, 0, 52, 5, 0, 0, 0, 0, 0, 0, 0]);
+
+    assert.deepStrictEqual(tree.nodes, new Uint8Array([14, 9, 13, 12, 11, 10, 7, 8, 4, 3, 1, 2, 6, 5, 0]));
+    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 7, 0, 0, 0, 0, 12, 0, 10, 0, 0, 0, 0, 0, 0]));
+    assert.deepStrictEqual(tree.rights, new Uint8Array([1, 6, 3, 4, 5, 0, 11, 8, 9, 0, 0, 14, 13, 0, 0]));
+    assert.deepStrictEqual(tree.mus, new Float64Array([6, 7, 5, 4, 2, 0, 8.5, 7, 1.5, 0, 0, 1, 8, 0, 0]));
   });
 
-  it.skip('should also work in the worst case scenario.', function() {
+  it('should also work in the worst case scenario.', function() {
     var tree = new VPTree(identity, WORST_CASE);
 
     assert.strictEqual(tree.size, 8);
-    assert.deepStrictEqual(Array.from(tree.data), [7, 1, 8, 4, 6, 1, 24, 20, 2, 0, 0, 12, 1, 0, 0, 16, 0, 0, 0, 0, 4, 0, 0, 28, 5, 0, 0, 0, 3, 0, 0, 0]);
+
+    assert.deepStrictEqual(tree.nodes, new Uint8Array([7, 6, 2, 1, 0, 4, 5, 3]));
+    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 6, 0, 0, 0, 0, 0, 0]));
+    assert.deepStrictEqual(tree.rights, new Uint8Array([1, 5, 3, 4, 0, 7, 0, 0]));
+    assert.deepStrictEqual(tree.mus, new Float64Array([1, 1, 0, 0, 0, 0, 0, 0]));
   });
 
   it('should be possible to find the k nearest neighbors.', function() {
