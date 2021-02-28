@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.38.3 (provisional)
+
+* Refactoring `VPTree` memory layout.
+* Fixing `VPTree.nearestNeighbors` edge case.
+
 ## 0.38.2
 
 * Fixing `Heap.replace` & `Heap.pusphpop` types (@wholenews).
