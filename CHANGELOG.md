@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.38.2
+
+* Fixing `Heap.replace` & `Heap.pusphpop` types (@wholenews).
+
 ## 0.38.1
 
 * Fixing `SparseQueueSet` deopt.
