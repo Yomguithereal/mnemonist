@@ -132,6 +132,33 @@ exports.lowerBoundWithComparator = function(comparator, array, value) {
 };
 
 /**
+ * Same as above, but can work on sorted indices.
+ *
+ * @param  {array}    array - Haystack.
+ * @param  {array}    array - Indices.
+ * @param  {any}      value - Needle.
+ * @return {number}
+ */
+exports.lowerBoundIndices = function(array, indices, value) {
+  var mid = 0,
+      lo = 0,
+      hi = array.length;
+
+  while (lo < hi) {
+    mid = (lo + hi) >>> 1;
+
+    if (value <= array[indices[mid]]) {
+      hi = mid;
+    }
+    else {
+      lo = -~mid;
+    }
+  }
+
+  return lo;
+};
+
+/**
  * Function returning the upper bound of the given value in the array.
  *
  * @param  {array}  array - Haystack.

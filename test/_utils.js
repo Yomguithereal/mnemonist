@@ -129,6 +129,21 @@ describe('utils', function() {
         assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'two'), 1);
         assert.strictEqual(binarySearch.lowerBoundWithComparator(comparator, array, 'five'), 7);
       });
+
+      it('should work with sorted indices.', function() {
+        var array = [3, 6, 2, 5, 1, 0, 15];
+        var argsort = [5, 4, 2, 0, 3, 1, 6];
+        var sorted = [0, 1, 2, 3, 5, 6, 15];
+
+        var tests = [5, -14, 0, 1, 3, 36, 6758];
+
+        tests.forEach(function(n) {
+          assert.strictEqual(
+            binarySearch.lowerBoundIndices(array, argsort, n),
+            binarySearch.lowerBound(sorted, n)
+          );
+        });
+      });
     });
 
     describe('#.upperBound/#.upperBoundWithComparator', function() {
