@@ -19,11 +19,9 @@ var forEach = require('obliterator/foreach'),
 
 var getPointerArray = typed.getPointerArray;
 
-// TODO: implement better selection technique for the vantage point
-// The one minimizing spread of sample using stdev is usually the accepted one
-// TODO: sort in place without memory consumption
-
-// TODO: if sorting to get median, can split
+// TODO: use iterables.toArrayWithIndices
+// TODO: only rely on a single indices array recursively sorted by pieces
+// TODO: implement vantage point selection techniques
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.
