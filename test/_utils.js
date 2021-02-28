@@ -6,7 +6,8 @@ var assert = require('assert'),
     typed = require('../utils/typed-arrays.js'),
     binarySearch = require('../utils/binary-search.js'),
     merge = require('../utils/merge.js'),
-    hashTables = require('../utils/hash-tables.js');
+    hashTables = require('../utils/hash-tables.js'),
+    iterables = require('../utils/iterables.js');
 
 describe('utils', function() {
 
@@ -327,6 +328,30 @@ describe('utils', function() {
 
       assert.strictEqual(fn.get(h, keys, values, 485385), undefined);
       assert.strictEqual(fn.has(h, keys, 48753), false);
+    });
+  });
+
+  describe('iterables', function() {
+    describe('#.toArrayWithIndices', function() {
+      it('should work correctly.', function() {
+        var array = [4, 15, -3];
+        var set = new Set(array);
+
+        assert.deepStrictEqual(
+          iterables.toArrayWithIndices(array),
+          [[4, 15, -3], new Uint8Array([0, 1, 2])]
+        );
+
+        assert.deepStrictEqual(
+          iterables.toArrayWithIndices(set),
+          [[4, 15, -3], new Uint8Array([0, 1, 2])]
+        );
+
+        assert.deepStrictEqual(
+          iterables.toArrayWithIndices(set.values()),
+          [[4, 15, -3], [0, 1, 2]]
+        );
+      });
     });
   });
 });

@@ -6,7 +6,7 @@
  */
 var forEach = require('obliterator/foreach');
 
-var isTypedArray = require('./typed-arrays.js').isTypedArray;
+var typed = require('./typed-arrays.js');
 
 /**
  * Function used to determine whether the given object supports array-like
@@ -16,7 +16,7 @@ var isTypedArray = require('./typed-arrays.js').isTypedArray;
  * @return {boolean}
  */
 function isArrayLike(target) {
-  return Array.isArray(target) || isTypedArray(target);
+  return Array.isArray(target) || typed.isTypedArray(target);
 }
 
 /**
@@ -57,8 +57,35 @@ function toArray(target) {
 }
 
 /**
+ * Same as above but returns a supplementary indices array.
+ *
+ * @param  {any}   target - Iteration target.
+ * @return {array}
+ */
+function toArrayWithIndices(target) {
+  var l = guessLength(target);
+
+  var IndexArray = typeof l === 'number' ?
+    typed.getPointerArray(l) :
+    Array;
+
+  var array = typeof l === 'number' ? new Array(l) : [];
+  var indices = typeof l === 'number' ? new IndexArray(l) : [];
+
+  var i = 0;
+
+  forEach(target, function(value) {
+    array[i] = value;
+    indices[i] = i++;
+  });
+
+  return [array, indices];
+}
+
+/**
  * Exporting.
  */
 exports.isArrayLike = isArrayLike;
 exports.guessLength = guessLength;
 exports.toArray = toArray;
+exports.toArrayWithIndices = toArrayWithIndices;
