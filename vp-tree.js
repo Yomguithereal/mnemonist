@@ -21,7 +21,6 @@ var iterables = require('./utils/iterables.js'),
 var getPointerArray = typed.getPointerArray;
 
 // TODO: implement vantage point selection techniques (by swapping with last)
-// TODO: test with random medium scale data
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.

@@ -5,7 +5,8 @@
  */
 var assert = require('assert'),
     VPTree = require('../vp-tree.js'),
-    levenshtein = require('leven');
+    levenshtein = require('leven'),
+    random = require('pandemonium/random');
 
 var WORDS = [
   'book',
@@ -190,5 +191,45 @@ describe('VPTree', function() {
       {distance: 0, item: [100, 100]},
       {distance: 0, item: [100, 100]}
     ]);
+  });
+
+  it('should work with medium scale random data.', function() {
+    var N = 10000;
+    var vectors = new Array(N);
+
+    var i;
+
+    function randomVector() {
+      return [
+        random(-100, 100),
+        random(-100, 100),
+        random(-100, 100)
+      ];
+    }
+
+    for (i = 0; i < N; i++)
+      vectors[i] = randomVector();
+
+    var query = randomVector();
+
+    function linearAllNeighbors(items, radius, q) {
+      var results = [];
+
+      items.forEach(function(item) {
+        var distance = euclid2d(q, item);
+        if (distance <= radius)
+          results.push({distance: distance, item: item});
+      });
+
+      return results;
+    }
+
+    var linearResults = linearAllNeighbors(vectors, 50, query);
+
+    var tree = new VPTree(euclid2d, vectors);
+
+    var treeResults = tree.neighbors(50, query);
+
+    assertSameNeighbors(linearResults, treeResults);
   });
 });
