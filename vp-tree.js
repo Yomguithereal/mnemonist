@@ -20,10 +20,10 @@ var iterables = require('./utils/iterables.js'),
 
 var getPointerArray = typed.getPointerArray;
 
-// TODO: only rely on a single indices array recursively sorted by pieces
 // TODO: implement vantage point selection techniques (by swapping with last)
 // TODO: test with random medium scale data
 // TODO: adjust unit tests for different order (sets)
+// TODO: test knn invariant sorted by distance
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.
@@ -130,24 +130,24 @@ function createBinaryTree(distance, items, indices) {
 
     mid = lowerBoundIndices(distances, indices, mu, lo, hi);
 
-    console.log('Vantage point', items[vantagePoint], vantagePoint);
-    console.log('mu =', mu);
-    console.log('lo =', lo);
-    console.log('hi =', hi);
-    console.log('mid =', mid);
+    // console.log('Vantage point', items[vantagePoint], vantagePoint);
+    // console.log('mu =', mu);
+    // console.log('lo =', lo);
+    // console.log('hi =', hi);
+    // console.log('mid =', mid);
 
-    console.log('need to split', Array.from(indices).slice(lo, hi).map(i => {
-      return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
-    }))
+    // console.log('need to split', Array.from(indices).slice(lo, hi).map(i => {
+    //   return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
+    // }));
 
     // Right
     if (hi - mid > 0) {
       C++;
       rights[nodeIndex] = C;
       stack.push([C, mid, hi]);
-      console.log('Went right with ', Array.from(indices).slice(mid, hi).map(i => {
-        return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
-      }))
+      // console.log('Went right with ', Array.from(indices).slice(mid, hi).map(i => {
+      //   return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
+      // }));
     }
 
     // Left
@@ -155,12 +155,12 @@ function createBinaryTree(distance, items, indices) {
       C++;
       lefts[nodeIndex] = C;
       stack.push([C, lo, mid]);
-      console.log('Went left with', Array.from(indices).slice(lo, mid).map(i => {
-        return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
-      }))
+      // console.log('Went left with', Array.from(indices).slice(lo, mid).map(i => {
+      //   return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
+      // }));
     }
 
-    console.log();
+    // console.log();
   }
 
   return {

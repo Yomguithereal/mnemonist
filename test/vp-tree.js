@@ -86,11 +86,11 @@ describe('VPTree', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.strictEqual(tree.size, 15);
-    console.log(tree.nodes)
-    assert.deepStrictEqual(tree.nodes, new Uint8Array([14, 9, 13, 12, 11, 10, 7, 8, 4, 3, 1, 2, 6, 5, 0]));
-    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 7, 0, 0, 0, 0, 12, 0, 10, 0, 0, 0, 0, 0, 0]));
-    assert.deepStrictEqual(tree.rights, new Uint8Array([1, 6, 3, 4, 5, 0, 11, 8, 9, 0, 0, 14, 13, 0, 0]));
-    assert.deepStrictEqual(tree.mus, new Float64Array([6, 7, 5, 4, 2, 0, 8.5, 7, 1.5, 0, 0, 1, 8, 0, 0]));
+
+    assert.deepStrictEqual(tree.nodes, new Uint8Array([14, 6, 12, 13, 11, 10, 3, 8, 7, 9, 5, 2, 0, 4, 1]));
+    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 7, 0, 0, 0, 0, 11, 9, 0, 0, 0, 0, 14, 0, 0]));
+    assert.deepStrictEqual(tree.rights, new Uint8Array([1, 6, 3, 4, 5, 0, 10, 8, 0, 0, 12, 0, 13, 0, 0]));
+    assert.deepStrictEqual(tree.mus, new Float64Array([6, 8, 4, 5, 2, 0, 2, 7, 0, 0, 3, 0, 2.5, 0, 0]));
   });
 
   it('should also work in the worst case scenario.', function() {
@@ -98,7 +98,7 @@ describe('VPTree', function() {
 
     assert.strictEqual(tree.size, 8);
 
-    assert.deepStrictEqual(tree.nodes, new Uint8Array([7, 6, 2, 1, 0, 4, 5, 3]));
+    assert.deepStrictEqual(tree.nodes, new Uint8Array([7,6,2,1,0,3,5,4]));
     assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 6, 0, 0, 0, 0, 0, 0]));
     assert.deepStrictEqual(tree.rights, new Uint8Array([1, 5, 3, 4, 0, 7, 0, 0]));
     assert.deepStrictEqual(tree.mus, new Float64Array([1, 1, 0, 0, 0, 0, 0, 0]));
@@ -110,8 +110,8 @@ describe('VPTree', function() {
     var neighbors = tree.nearestNeighbors(2, 'look');
 
     assert.deepStrictEqual(neighbors, [
-      {distance: 1, item: 'lock'},
-      {distance: 1, item: 'book'}
+      {distance: 1, item: 'book'},
+      {distance: 1, item: 'lock'}
     ]);
 
     neighbors = tree.nearestNeighbors(5, 'look');
@@ -129,18 +129,18 @@ describe('VPTree', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     assert.deepStrictEqual(tree.neighbors(2, 'look'), [
-      {distance: 2, item: 'bock'},
+      {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'},
-      {distance: 1, item: 'lock'}
+      {distance: 2, item: 'bock'}
     ]);
 
     assert.deepStrictEqual(tree.neighbors(3, 'look'), [
+      {distance: 1, item: 'lock'},
       {distance: 3, item: 'shock'},
-      {distance: 2, item: 'bock'},
       {distance: 1, item: 'book'},
       {distance: 3, item: 'mack'},
       {distance: 3, item: 'back'},
-      {distance: 1, item: 'lock'}
+      {distance: 2, item: 'bock'}
     ]);
   });
 
@@ -150,8 +150,8 @@ describe('VPTree', function() {
     assert.strictEqual(tree.size, 15);
 
     assert.deepStrictEqual(tree.nearestNeighbors(2, 'look'), [
-      {distance: 1, item: 'lock'},
-      {distance: 1, item: 'book'}
+      {distance: 1, item: 'book'},
+      {distance: 1, item: 'lock'}
     ]);
   });
 
@@ -165,8 +165,8 @@ describe('VPTree', function() {
     }, items);
 
     assert.deepStrictEqual(tree.nearestNeighbors(2, {value: 'look'}), [
-      {distance: 1, item: {value: 'lock'}},
-      {distance: 1, item: {value: 'book'}}
+      {distance: 1, item: {value: 'book'}},
+      {distance: 1, item: {value: 'lock'}}
     ]);
   });
 
