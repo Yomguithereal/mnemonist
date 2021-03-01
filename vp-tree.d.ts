@@ -10,6 +10,7 @@ export default class VPTree<T> {
   // Members
   distance: DistanceFunction<T>;
   size: number;
+  D: number;
 
   // Constructor
   constructor(distance: DistanceFunction<T>, items: Iterable<T>);

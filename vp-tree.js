@@ -21,6 +21,7 @@ var iterables = require('./utils/iterables.js'),
 var getPointerArray = typed.getPointerArray;
 
 // TODO: implement vantage point selection techniques (by swapping with last)
+// TODO: is this required to implement early termination for k <= size?
 
 /**
  * Heap comparator used by the #.nearestNeighbors method.
@@ -79,12 +80,11 @@ function createBinaryTree(distance, items, indices) {
     // Storing vantage point
     nodes[nodeIndex] = vantagePoint;
 
-    // If we only have few items left
+    // We are in a leaf
     if (l === 0)
       continue;
 
-    // TODO: above should not happen (except single node case)?
-    // TODO: should we rely on same code as below to avoid shenanigans?
+    // We only have two elements, the second one has to go right
     if (l === 1) {
 
       // We put remaining item to the right
@@ -183,6 +183,7 @@ function VPTree(distance, items) {
   // Properties
   this.distance = distance;
   this.heap = new Heap(comparator);
+  this.D = 0;
 
   var arrays = iterables.toArrayWithIndices(items);
   this.items = arrays[0];
@@ -218,6 +219,8 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
       mu,
       d;
 
+  this.D = 0;
+
   while (stack.length) {
     nodeIndex = stack.pop();
     itemIndex = this.nodes[nodeIndex];
@@ -225,6 +228,7 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
 
     // Distance between query & the current vantage point
     d = this.distance(vantagePoint, query);
+    this.D++;
 
     if (d < tau) {
       neighbors.push({distance: d, item: vantagePoint});
@@ -287,6 +291,8 @@ VPTree.prototype.neighbors = function(radius, query) {
       mu,
       d;
 
+  this.D = 0;
+
   while (stack.length) {
     nodeIndex = stack.pop();
     itemIndex = this.nodes[nodeIndex];
@@ -294,6 +300,7 @@ VPTree.prototype.neighbors = function(radius, query) {
 
     // Distance between query & the current vantage point
     d = this.distance(vantagePoint, query);
+    this.D++;
 
     if (d <= radius)
       neighbors.push({distance: d, item: vantagePoint});
