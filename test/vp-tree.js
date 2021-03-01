@@ -47,27 +47,26 @@ function euclid2d(a, b) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-// function print(tree) {
-//   var data = tree.data,
-//       stack = [[0, 0]],
-//       L = data.length / 2;
+function serialize(results) {
+  return new Set(results.map(function(d) {
+    return d.distance + '§' + (typeof d.item === 'string' ? d.item : d.item.join('&'));
+  }));
+}
 
-//   while (stack.length) {
-//     var [index, level] = stack.pop();
+function assertSameNeighbors(A, B) {
+  assert.deepStrictEqual(serialize(A), serialize(B));
+}
 
-//     if (data[index + 1]) {
-//       console.log('-'.repeat(level * 2) + '[' + tree.items[data[index]] + ', ' + data[index + 1] + ']');
-//     }
-//     else {
-//       console.log('-'.repeat(level * 2) + '[' + tree.items[data[index]] + ']');
-//     }
+function assertKNNInvariant(results) {
+  var currentDistance = -Infinity;
 
-//     if (data[index + 2])
-//       stack.push([data[index + 2], level + 1]);
-//     if (data[index + 3])
-//       stack.push([data[index + 3], level + 1]);
-//   }
-// }
+  assert(results.every(function(d) {
+    var gte = d.distance >= currentDistance;
+    currentDistance = d.distance;
+
+    return gte;
+  }));
+}
 
 describe('VPTree', function() {
 
@@ -108,6 +107,7 @@ describe('VPTree', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
     var neighbors = tree.nearestNeighbors(2, 'look');
+    assertKNNInvariant(neighbors);
 
     assert.deepStrictEqual(neighbors, [
       {distance: 1, item: 'book'},
@@ -115,6 +115,7 @@ describe('VPTree', function() {
     ]);
 
     neighbors = tree.nearestNeighbors(5, 'look');
+    assertKNNInvariant(neighbors);
 
     assert.deepStrictEqual(neighbors, [
       {distance: 1, item: 'lock'},
@@ -128,13 +129,13 @@ describe('VPTree', function() {
   it('should be possible to find every neighbor within radius.', function() {
     var tree = new VPTree(levenshtein, WORDS);
 
-    assert.deepStrictEqual(tree.neighbors(2, 'look'), [
+    assertSameNeighbors(tree.neighbors(2, 'look'), [
       {distance: 1, item: 'lock'},
       {distance: 1, item: 'book'},
       {distance: 2, item: 'bock'}
     ]);
 
-    assert.deepStrictEqual(tree.neighbors(3, 'look'), [
+    assertSameNeighbors(tree.neighbors(3, 'look'), [
       {distance: 1, item: 'lock'},
       {distance: 3, item: 'shock'},
       {distance: 1, item: 'book'},
