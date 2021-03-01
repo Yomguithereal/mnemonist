@@ -56,9 +56,8 @@ function createBinaryTree(distance, items, indices) {
       lefts = new PointerArray(N),
       rights = new PointerArray(N),
       mus = new Float64Array(N),
-      stack = [[0, 0, N]],
+      stack = [0, 0, N],
       distances = new Float64Array(N),
-      payload,
       nodeIndex,
       vantagePoint,
       medianIndex,
@@ -70,10 +69,9 @@ function createBinaryTree(distance, items, indices) {
       l;
 
   while (stack.length) {
-    payload = stack.pop();
-    nodeIndex = payload[0];
-    lo = payload[1];
-    hi = payload[2];
+    hi = stack.pop();
+    lo = stack.pop();
+    nodeIndex = stack.pop();
 
     // Getting our vantage point
     vantagePoint = indices[hi - 1];
@@ -144,7 +142,7 @@ function createBinaryTree(distance, items, indices) {
     if (hi - mid > 0) {
       C++;
       rights[nodeIndex] = C;
-      stack.push([C, mid, hi]);
+      stack.push(C, mid, hi);
       // console.log('Went right with ', Array.from(indices).slice(mid, hi).map(i => {
       //   return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
       // }));
@@ -154,7 +152,7 @@ function createBinaryTree(distance, items, indices) {
     if (mid - lo > 0) {
       C++;
       lefts[nodeIndex] = C;
-      stack.push([C, lo, mid]);
+      stack.push(C, lo, mid);
       // console.log('Went left with', Array.from(indices).slice(lo, mid).map(i => {
       //   return [distances[i], distance(items[vantagePoint], items[i]), items[i]];
       // }));

@@ -98,7 +98,7 @@ describe('VPTree', function() {
 
     assert.strictEqual(tree.size, 8);
 
-    assert.deepStrictEqual(tree.nodes, new Uint8Array([7,6,2,1,0,3,5,4]));
+    assert.deepStrictEqual(tree.nodes, new Uint8Array([7, 6, 2, 1, 0, 3, 5, 4]));
     assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 6, 0, 0, 0, 0, 0, 0]));
     assert.deepStrictEqual(tree.rights, new Uint8Array([1, 5, 3, 4, 0, 7, 0, 0]));
     assert.deepStrictEqual(tree.mus, new Float64Array([1, 1, 0, 0, 0, 0, 0, 0]));
