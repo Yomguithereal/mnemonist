@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.38.3 (provisional)
+## 0.38.3
 
 * Refactoring `VPTree` memory layout.
 * Fixing `VPTree.nearestNeighbors` edge case.
