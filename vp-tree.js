@@ -254,13 +254,13 @@ VPTree.prototype.nearestNeighbors = function(k, query) {
     if (d < mu) {
       if (leftIndex && d < mu + tau)
         stack.push(leftIndex);
-      if (rightIndex && d >= mu - tau) // ALT
+      if (rightIndex && d >= mu - tau) // Might not be necessary to test d
         stack.push(rightIndex);
     }
     else {
       if (rightIndex && d >= mu - tau)
         stack.push(rightIndex);
-      if (leftIndex && d < mu + tau) // ALT
+      if (leftIndex && d < mu + tau) // Might not be necessary to test d
         stack.push(leftIndex);
     }
   }
@@ -317,13 +317,13 @@ VPTree.prototype.neighbors = function(radius, query) {
     if (d < mu) {
       if (leftIndex && d < mu + radius)
         stack.push(leftIndex);
-      if (rightIndex && d >= mu - radius) // Might not be necessary to test
+      if (rightIndex && d >= mu - radius) // Might not be necessary to test d
         stack.push(rightIndex);
     }
     else {
       if (rightIndex && d >= mu - radius)
         stack.push(rightIndex);
-      if (leftIndex && d < mu + radius) // Might not be necessary to test
+      if (leftIndex && d < mu + radius) // Might not be necessary to test d
         stack.push(leftIndex);
     }
   }
