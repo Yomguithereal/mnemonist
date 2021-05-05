@@ -244,6 +244,35 @@ LRUCache.prototype.peek = function(key) {
 };
 
 /**
+ * Method used to remove the value for the given key in the cache.
+ *
+ * @param  {any} key   - Key.
+ * @return {undefined}
+ */
+LRUCache.prototype.remove = function(key) {
+
+  var pointer = this.items[key];
+
+  if (typeof pointer === 'undefined') {
+    return;
+  }
+
+  // Update head/tail, head/tail has pointer.
+  if (pointer === this.tail) {
+    this.tail = this.backward[pointer];
+  }
+  if (pointer === this.head) {
+    this.head = this.forward[pointer];
+  }
+
+  // Delete key, and update sizes.
+  delete this.items[key];
+  this.size--;
+  this.deleted[this.deletedSize] = pointer;
+  this.deletedSize++;
+};
+
+/**
  * Method used to iterate over the cache's entries using a callback.
  *
  * @param  {function}  callback - Function to call for each item.
