@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
     "prepublish": "npm run lint && npm test && npm run test:types",
+    "prepublishOnly": "npm run prepublish",
     "test": "mocha",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
