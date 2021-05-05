@@ -121,7 +121,13 @@ LRUCache.prototype.set = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    pointer = this.size++;
+    if (this.deletedSize > 0) {
+      pointer = this.deleted[this.deletedSize--];
+    }
+    else {
+      pointer = this.size;
+    }
+    this.size++;
   }
 
   // Cache is full, we need to drop the last value
@@ -168,7 +174,13 @@ LRUCache.prototype.setpop = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    pointer = this.size++;
+    if (this.deletedSize > 0) {
+      pointer = this.deleted[this.deletedSize--];
+    }
+    else {
+      pointer = this.size;
+    }
+    this.size++;
   }
 
   // Cache is full, we need to drop the last value
@@ -268,8 +280,7 @@ LRUCache.prototype.remove = function(key) {
   // Delete key, and update sizes.
   delete this.items[key];
   this.size--;
-  this.deleted[this.deletedSize] = pointer;
-  this.deletedSize++;
+  this.deleted[this.deletedSize++] = pointer;
 };
 
 /**
