@@ -286,8 +286,6 @@ LRUCache.prototype.remove = function(key) {
     this.backward[this.forward[pointer]] = this.backward[pointer];
     this.forward[this.backward[pointer]] = this.forward[pointer];
   }
-  this.backward[pointer] = 0;
-  this.forward[pointer] = 0;
 
   // Delete key, and update sizes.
   delete this.items[key];
