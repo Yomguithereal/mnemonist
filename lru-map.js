@@ -229,25 +229,24 @@ LRUMap.prototype.peek = function(key) {
     return;
   }
 
-  // Clear if both head and tail are pointing to pointer.
   if (this.head === pointer && this.tail === pointer) {
     this.clear();
     return;
   }
 
-  // Update if either head/tail are pointing to pointer.
+  var previous = this.backward[pointer],
+      next = this.forward[pointer];
+
   if (this.head === pointer) {
-    this.head = this.forward[pointer];
+    this.head = next;
   }
   if (this.tail === pointer) {
-    this.tail = this.backward[pointer];
+    this.tail = previous;
   }
 
-  // Update forward/backward pointers of backward/forward pointers.
-  this.forward[this.backward[pointer]] = this.forward[pointer];
-  this.backward[this.forward[pointer]] = this.backward[pointer];
+  this.forward[previous] = next;
+  this.backward[next] = previous;
 
-  // Delete key, and update sizes.
   this.items.delete(key);
   this.size--;
   this.removed[this.removedSize++] = pointer;
