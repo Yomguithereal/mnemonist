@@ -270,8 +270,9 @@ LRUCache.prototype.remove = function(key) {
   }
 
   // Update head/tail, if pointer is at head/tail.
-  if (this.head === this.tail === pointer) {
+  if (this.head === pointer && this.tail === pointer) {
     this.clear();
+    return;
   }
   else if (this.head === pointer) {
     this.head = this.forward[pointer];

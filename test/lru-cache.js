@@ -92,6 +92,16 @@ function makeTests(Cache, name) {
         cache.remove('three');
         assert.strictEqual(cache.capacity, 3);
         assert.strictEqual(cache.size, 0);
+        assert.strictEqual(cache.head, 0);
+        assert.strictEqual(cache.tail, 0);
+
+        cache.set('one', 1);
+        cache.set('two', 2);
+        cache.set('three', 3);
+        cache.set('two', 6);
+        cache.set('four', 4);
+
+        assert.deepStrictEqual(Array.from(cache.entries()), [['four', 4], ['two', 6], ['three', 3]]);
       });
     }
 
@@ -112,6 +122,8 @@ function makeTests(Cache, name) {
 
       assert.strictEqual(cache.capacity, 3);
       assert.strictEqual(cache.size, 0);
+      assert.strictEqual(cache.head, 0);
+      assert.strictEqual(cache.tail, 0);
 
       assert.strictEqual(cache.has('two'), false);
 
