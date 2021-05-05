@@ -25,19 +25,19 @@ describe('DefaultMap', function() {
     map.get('one').push(1);
     map.set('two', [2]);
 
-    assert.deepEqual(map.get('one'), [1]);
-    assert.deepEqual(map.get('two'), [2]);
+    assert.deepStrictEqual(map.get('one'), [1]);
+    assert.deepStrictEqual(map.get('two'), [2]);
 
     assert.strictEqual(map.size, 2);
 
-    assert.deepEqual(map.get('unknown'), []);
+    assert.deepStrictEqual(map.get('unknown'), []);
 
     assert.strictEqual(map.size, 3);
 
     map.clear();
 
     assert.strictEqual(map.size, 0);
-    assert.deepEqual(map.get('one'), []);
+    assert.deepStrictEqual(map.get('one'), []);
   });
 
   it('should be possible to delete keys.', function() {
@@ -64,7 +64,7 @@ describe('DefaultMap', function() {
       items.push([key, list]);
     });
 
-    assert.deepEqual(items, [
+    assert.deepStrictEqual(items, [
       ['one', [1]],
       ['two', [2]]
     ]);
@@ -81,11 +81,11 @@ describe('DefaultMap', function() {
       ['two', [2]]
     ];
 
-    assert.deepEqual(take(map.entries()), entries);
-    assert.deepEqual(take(map.keys()), entries.map(function(e) {
+    assert.deepStrictEqual(take(map.entries()), entries);
+    assert.deepStrictEqual(take(map.keys()), entries.map(function(e) {
       return e[0];
     }));
-    assert.deepEqual(take(map.values()), entries.map(function(e) {
+    assert.deepStrictEqual(take(map.values()), entries.map(function(e) {
       return e[1];
     }));
   });
@@ -103,7 +103,7 @@ describe('DefaultMap', function() {
 
     map.get('one').push(1);
 
-    assert.deepEqual(map.peek('one'), [1]);
+    assert.deepStrictEqual(map.peek('one'), [1]);
     assert.strictEqual(map.peek('two'), undefined);
     assert.strictEqual(map.size, 1);
     assert.strictEqual(map.has('two'), false);

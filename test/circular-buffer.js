@@ -43,23 +43,23 @@ describe('CircularBuffer', function() {
     buffer.push(3);
     buffer.push(4);
 
-    assert.deepEqual(buffer.toArray(), [2, 3, 4]);
+    assert.deepStrictEqual(buffer.toArray(), [2, 3, 4]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.push(5);
 
-    assert.deepEqual(buffer.toArray(), [3, 4, 5]);
+    assert.deepStrictEqual(buffer.toArray(), [3, 4, 5]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.push(6);
 
-    assert.deepEqual(buffer.toArray(), [4, 5, 6]);
+    assert.deepStrictEqual(buffer.toArray(), [4, 5, 6]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.push(7);
     buffer.push(8);
 
-    assert.deepEqual(buffer.toArray(), [6, 7, 8]);
+    assert.deepStrictEqual(buffer.toArray(), [6, 7, 8]);
     assert.strictEqual(buffer.size, 3);
   });
 
@@ -71,23 +71,23 @@ describe('CircularBuffer', function() {
     buffer.unshift(3);
     buffer.unshift(4);
 
-    assert.deepEqual(buffer.toArray(), [4, 3, 2]);
+    assert.deepStrictEqual(buffer.toArray(), [4, 3, 2]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.unshift(5);
 
-    assert.deepEqual(buffer.toArray(), [5, 4, 3]);
+    assert.deepStrictEqual(buffer.toArray(), [5, 4, 3]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.unshift(6);
 
-    assert.deepEqual(buffer.toArray(), [6, 5, 4]);
+    assert.deepStrictEqual(buffer.toArray(), [6, 5, 4]);
     assert.strictEqual(buffer.size, 3);
 
     buffer.unshift(7);
     buffer.unshift(8);
 
-    assert.deepEqual(buffer.toArray(), [8, 7, 6]);
+    assert.deepStrictEqual(buffer.toArray(), [8, 7, 6]);
     assert.strictEqual(buffer.size, 3);
   });
 
@@ -100,7 +100,7 @@ describe('CircularBuffer', function() {
     buffer.clear();
 
     assert.strictEqual(buffer.size, 0);
-    assert.deepEqual(buffer.toArray(), []);
+    assert.deepStrictEqual(buffer.toArray(), []);
   });
 
   it('should be possible to peek.', function() {
@@ -203,28 +203,28 @@ describe('CircularBuffer', function() {
     buffer.push(2);
     buffer.pop();
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([1]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([1]));
 
     buffer.push(3);
     buffer.push(4);
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([1, 3, 4]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([1, 3, 4]));
 
     buffer.shift();
     buffer.shift();
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([4]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([4]));
     buffer.pop();
-    assert.deepEqual(buffer.toArray(), new Uint8Array([]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([]));
 
     buffer.push(5);
     buffer.push(6);
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([5, 6]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([5, 6]));
 
     buffer.shift();
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([6]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([6]));
   });
 
   it('should be possible to iterate over the buffer.', function() {
@@ -252,7 +252,7 @@ describe('CircularBuffer', function() {
     buffer.push(2);
     buffer.push(3);
 
-    assert.deepEqual(buffer.toArray(), new Uint8Array([1, 2, 3]));
+    assert.deepStrictEqual(buffer.toArray(), new Uint8Array([1, 2, 3]));
 
     assert(buffer.toArray() instanceof Uint8Array);
   });
@@ -260,7 +260,7 @@ describe('CircularBuffer', function() {
   it('should be possible to create a buffer from an arbitrary iterable.', function() {
     var buffer = CircularBuffer.from([1, 2, 3], Array);
 
-    assert.deepEqual(buffer.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(buffer.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to create a values iterator.', function() {
@@ -282,9 +282,9 @@ describe('CircularBuffer', function() {
 
     var iterator = buffer.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 1]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 3]);
+    assert.deepStrictEqual(iterator.next().value, [0, 1]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

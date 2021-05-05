@@ -54,7 +54,7 @@ describe('FixedStack', function() {
     stack.clear();
 
     assert.strictEqual(stack.size, 0);
-    assert.deepEqual(stack.toArray(), []);
+    assert.deepStrictEqual(stack.toArray(), []);
   });
 
   it('should be possible to peek.', function() {
@@ -109,7 +109,7 @@ describe('FixedStack', function() {
     stack.push(2);
     stack.push(3);
 
-    assert.deepEqual(stack.toArray(), new Uint8Array([3, 2, 1]));
+    assert.deepStrictEqual(stack.toArray(), new Uint8Array([3, 2, 1]));
 
     assert(stack.toArray() instanceof Uint8Array);
   });
@@ -117,7 +117,7 @@ describe('FixedStack', function() {
   it('should be possible to create a stack from an arbitrary iterable.', function() {
     var stack = FixedStack.from([1, 2, 3], Array);
 
-    assert.deepEqual(stack.toArray(), [3, 2, 1]);
+    assert.deepStrictEqual(stack.toArray(), [3, 2, 1]);
   });
 
   it('should be possible to create a values iterator.', function() {
@@ -139,9 +139,9 @@ describe('FixedStack', function() {
 
     var iterator = stack.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 3]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 1]);
+    assert.deepStrictEqual(iterator.next().value, [0, 3]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 1]);
     assert.strictEqual(iterator.next().done, true);
   });
 

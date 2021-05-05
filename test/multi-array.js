@@ -31,9 +31,9 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 3);
     assert.strictEqual(array.dimension, 3);
-    assert.deepEqual(array.get(0), [1]);
-    assert.deepEqual(array.get(1), [2]);
-    assert.deepEqual(array.get(2), [3]);
+    assert.deepStrictEqual(array.get(0), [1]);
+    assert.deepStrictEqual(array.get(1), [2]);
+    assert.deepStrictEqual(array.get(2), [3]);
 
     array.set(0, 4);
     array.set(1, 5);
@@ -41,9 +41,9 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 6);
     assert.strictEqual(array.dimension, 3);
-    assert.deepEqual(array.get(0), [1, 4]);
-    assert.deepEqual(array.get(1), [2, 5]);
-    assert.deepEqual(array.get(2), [3, 6]);
+    assert.deepStrictEqual(array.get(0), [1, 4]);
+    assert.deepStrictEqual(array.get(1), [2, 5]);
+    assert.deepStrictEqual(array.get(2), [3, 6]);
 
     array = new MultiArray(Uint8Array, 6);
 
@@ -53,9 +53,9 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 3);
     assert.strictEqual(array.dimension, 3);
-    assert.deepEqual(array.get(0), new Uint8Array([1]));
-    assert.deepEqual(array.get(1), new Uint8Array([2]));
-    assert.deepEqual(array.get(2), new Uint8Array([3]));
+    assert.deepStrictEqual(array.get(0), new Uint8Array([1]));
+    assert.deepStrictEqual(array.get(1), new Uint8Array([2]));
+    assert.deepStrictEqual(array.get(2), new Uint8Array([3]));
 
     array.set(0, 4);
     array.set(1, 5);
@@ -63,9 +63,9 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 6);
     assert.strictEqual(array.dimension, 3);
-    assert.deepEqual(array.get(0), new Uint8Array([1, 4]));
-    assert.deepEqual(array.get(1), new Uint8Array([2, 5]));
-    assert.deepEqual(array.get(2), new Uint8Array([3, 6]));
+    assert.deepStrictEqual(array.get(0), new Uint8Array([1, 4]));
+    assert.deepStrictEqual(array.get(1), new Uint8Array([2, 5]));
+    assert.deepStrictEqual(array.get(2), new Uint8Array([3, 6]));
 
     assert.throws(function() {
       array.push(45);
@@ -82,10 +82,10 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(array.get(4), undefined);
-    assert.deepEqual(array.get(0), [1, 2, 3]);
-    assert.deepEqual(array.get(1), [4, 5]);
-    assert.deepEqual(array.get(2), [6]);
+    assert.deepStrictEqual(array.get(4), undefined);
+    assert.deepStrictEqual(array.get(0), [1, 2, 3]);
+    assert.deepStrictEqual(array.get(1), [4, 5]);
+    assert.deepStrictEqual(array.get(2), [6]);
 
     assert.strictEqual(array.has(4), false);
     assert.strictEqual(array.has(0), true);
@@ -137,8 +137,8 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 3);
     assert.strictEqual(array.dimension, 35);
-    assert.deepEqual(array.get(2), [4, 5]);
-    assert.deepEqual(array.get(34), [3]);
+    assert.deepStrictEqual(array.get(2), [4, 5]);
+    assert.deepStrictEqual(array.get(34), [3]);
 
     array = new MultiArray(Uint8Array, 40);
 
@@ -148,8 +148,8 @@ describe('MultiArray', function() {
 
     assert.strictEqual(array.size, 3);
     assert.strictEqual(array.dimension, 35);
-    assert.deepEqual(Array.from(array.get(2)), [4, 5]);
-    assert.deepEqual(Array.from(array.get(34)), [3]);
+    assert.deepStrictEqual(Array.from(array.get(2)), [4, 5]);
+    assert.deepStrictEqual(Array.from(array.get(34)), [3]);
   });
 
   it('should be possible to iterate over containers.', function() {
@@ -162,7 +162,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(take(array.containers()), [
+    assert.deepStrictEqual(take(array.containers()), [
       [1, 2, 3],
       [4, 5],
       [6]
@@ -179,7 +179,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(take(array.associations()), [
+    assert.deepStrictEqual(take(array.associations()), [
       [0, [1, 2, 3]],
       [1, [4, 5]],
       [2, [6]]
@@ -196,11 +196,11 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(take(array.values()), [1, 2, 3, 4, 5, 6]);
-    assert.deepEqual(take(array.values(0)), [3, 2, 1]);
-    assert.deepEqual(take(array.values(1)), [5, 4]);
-    assert.deepEqual(take(array.values(2)), [6]);
-    assert.deepEqual(take(array.values(3)), []);
+    assert.deepStrictEqual(take(array.values()), [1, 2, 3, 4, 5, 6]);
+    assert.deepStrictEqual(take(array.values(0)), [3, 2, 1]);
+    assert.deepStrictEqual(take(array.values(1)), [5, 4]);
+    assert.deepStrictEqual(take(array.values(2)), [6]);
+    assert.deepStrictEqual(take(array.values(3)), []);
   });
 
   it('should be possible to iterate over entries.', function() {
@@ -213,7 +213,7 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(take(array.entries()), [
+    assert.deepStrictEqual(take(array.entries()), [
         [0, 3],
         [0, 2],
         [0, 1],
@@ -233,6 +233,6 @@ describe('MultiArray', function() {
     array.set(1, 5);
     array.set(2, 6);
 
-    assert.deepEqual(take(array.keys()), [0, 1, 2]);
+    assert.deepStrictEqual(take(array.keys()), [0, 1, 2]);
   });
 });

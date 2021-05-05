@@ -74,19 +74,19 @@ describe('InvertedIndex', function() {
     var index = InvertedIndex.from(DOCS, tokenizer);
 
     var results = index.get('A mouse.');
-    assert.deepEqual(results, DOCS);
+    assert.deepStrictEqual(results, DOCS);
 
     results = index.get('cheese');
-    assert.deepEqual(results, DOCS.slice(1));
+    assert.deepStrictEqual(results, DOCS.slice(1));
 
     results = index.get('The cat');
-    assert.deepEqual(results, [DOCS[0]]);
+    assert.deepStrictEqual(results, [DOCS[0]]);
 
     results = index.get('The cat likes');
-    assert.deepEqual(results, []);
+    assert.deepStrictEqual(results, []);
 
     results = index.get('really something');
-    assert.deepEqual(results, DOCS.slice(-1));
+    assert.deepStrictEqual(results, DOCS.slice(-1));
   });
 
   it('should be possible to iterate using #.forEach', function() {
@@ -103,9 +103,9 @@ describe('InvertedIndex', function() {
 
     var iterator = index.documents();
 
-    assert.deepEqual(iterator.next().value, OBJECT_DOCS[0]);
-    assert.deepEqual(iterator.next().value, OBJECT_DOCS[1]);
-    assert.deepEqual(iterator.next().value, OBJECT_DOCS[2]);
+    assert.deepStrictEqual(iterator.next().value, OBJECT_DOCS[0]);
+    assert.deepStrictEqual(iterator.next().value, OBJECT_DOCS[1]);
+    assert.deepStrictEqual(iterator.next().value, OBJECT_DOCS[2]);
     assert.strictEqual(iterator.next().done, true);
   });
 
@@ -114,13 +114,13 @@ describe('InvertedIndex', function() {
 
     var iterator = index.tokens();
 
-    assert.deepEqual(iterator.next().value, 'cat');
-    assert.deepEqual(iterator.next().value, 'eat');
-    assert.deepEqual(iterator.next().value, 'mouse');
-    assert.deepEqual(iterator.next().value, 'like');
-    assert.deepEqual(iterator.next().value, 'cheese');
-    assert.deepEqual(iterator.next().value, 'something');
-    assert.deepEqual(iterator.next().value, 'really');
+    assert.deepStrictEqual(iterator.next().value, 'cat');
+    assert.deepStrictEqual(iterator.next().value, 'eat');
+    assert.deepStrictEqual(iterator.next().value, 'mouse');
+    assert.deepStrictEqual(iterator.next().value, 'like');
+    assert.deepStrictEqual(iterator.next().value, 'cheese');
+    assert.deepStrictEqual(iterator.next().value, 'something');
+    assert.deepStrictEqual(iterator.next().value, 'really');
     assert.strictEqual(iterator.next().done, true);
   });
 });

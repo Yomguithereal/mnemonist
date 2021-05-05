@@ -94,14 +94,14 @@ describe('FibonacciHeap', function() {
     heap.push({value: 34});
     heap.push({value: 2});
 
-    assert.deepEqual(heap.peek(), {value: 2});
+    assert.deepStrictEqual(heap.peek(), {value: 2});
 
     var maxHeap = new MaxFibonacciHeap(comparator);
 
     maxHeap.push({value: 34});
     maxHeap.push({value: 2});
 
-    assert.deepEqual(maxHeap.peek(), {value: 34});
+    assert.deepStrictEqual(maxHeap.peek(), {value: 34});
   });
 
   it('should be possible to create a heap from an iterable.', function() {

@@ -149,6 +149,6 @@ describe('FixedCritBitTreeMap', function() {
       result.push([key, value]);
     });
 
-    assert.deepEqual(result, sortBy(data, s));
+    assert.deepStrictEqual(result, sortBy(data, s));
   });
 });

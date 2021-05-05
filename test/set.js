@@ -16,7 +16,7 @@ describe('Set functions', function() {
 
       var I = functions.intersection(A, B);
 
-      assert.deepEqual(Array.from(I), [2, 3]);
+      assert.deepStrictEqual(Array.from(I), [2, 3]);
     });
 
     it('should be variadic.', function() {
@@ -27,7 +27,7 @@ describe('Set functions', function() {
 
       var I = functions.intersection(A, B, C, D);
 
-      assert.deepEqual(Array.from(I), [4]);
+      assert.deepStrictEqual(Array.from(I), [4]);
     });
   });
 
@@ -39,7 +39,7 @@ describe('Set functions', function() {
 
       var U = functions.union(A, B);
 
-      assert.deepEqual(Array.from(U), [1, 2, 3, 4]);
+      assert.deepStrictEqual(Array.from(U), [1, 2, 3, 4]);
     });
 
     it('should be variadic.', function() {
@@ -50,7 +50,7 @@ describe('Set functions', function() {
 
       var U = functions.union(A, B, C, D);
 
-      assert.deepEqual(Array.from(U), [1, 2, 3, 4, 5, 6]);
+      assert.deepStrictEqual(Array.from(U), [1, 2, 3, 4, 5, 6]);
     });
   });
 
@@ -62,7 +62,7 @@ describe('Set functions', function() {
 
       var D = functions.difference(A, B);
 
-      assert.deepEqual(Array.from(D), [1, 4, 5]);
+      assert.deepStrictEqual(Array.from(D), [1, 4, 5]);
     });
   });
 
@@ -74,7 +74,7 @@ describe('Set functions', function() {
 
       var S = functions.symmetricDifference(A, B);
 
-      assert.deepEqual(Array.from(S), [1, 2, 4, 5]);
+      assert.deepStrictEqual(Array.from(S), [1, 2, 4, 5]);
     });
   });
 
@@ -106,7 +106,7 @@ describe('Set functions', function() {
 
       functions.add(A, new Set([2, 3]));
 
-      assert.deepEqual(Array.from(A), [1, 2, 3]);
+      assert.deepStrictEqual(Array.from(A), [1, 2, 3]);
     });
   });
 
@@ -116,7 +116,7 @@ describe('Set functions', function() {
 
       functions.subtract(A, new Set([2, 3]));
 
-      assert.deepEqual(Array.from(A), [1]);
+      assert.deepStrictEqual(Array.from(A), [1]);
     });
   });
 
@@ -126,7 +126,7 @@ describe('Set functions', function() {
 
       functions.intersect(A, new Set([2, 3]));
 
-      assert.deepEqual(Array.from(A), [2]);
+      assert.deepStrictEqual(Array.from(A), [2]);
     });
   });
 
@@ -136,7 +136,7 @@ describe('Set functions', function() {
 
       functions.disjunct(A, new Set([2, 3]));
 
-      assert.deepEqual(Array.from(A), [1, 3]);
+      assert.deepStrictEqual(Array.from(A), [1, 3]);
     });
   });
 

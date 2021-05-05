@@ -102,12 +102,12 @@ describe('PassjoinIndex', function() {
 
     var sorted = strings.slice().sort(PassjoinIndex.comparator);
 
-    assert.deepEqual(sorted, ['abcde', 'aba', 'abc', 'a']);
+    assert.deepStrictEqual(sorted, ['abcde', 'aba', 'abc', 'a']);
   });
 
   it('should be possible to split strings into segments for indexation.', function() {
-    assert.deepEqual(PassjoinIndex.segments(3, 'vankatesh'), ['va', 'nk', 'at', 'esh']);
-    assert.deepEqual(PassjoinIndex.segments(3, 'avaterasha'), ['av', 'at', 'era', 'sha']);
+    assert.deepStrictEqual(PassjoinIndex.segments(3, 'vankatesh'), ['va', 'nk', 'at', 'esh']);
+    assert.deepStrictEqual(PassjoinIndex.segments(3, 'avaterasha'), ['av', 'at', 'era', 'sha']);
   });
 
   it('should be possible to retrieve a segment\'s position.', function() {
@@ -132,7 +132,7 @@ describe('PassjoinIndex', function() {
           pi = params[2],
           li = params[3];
 
-      assert.deepEqual(
+      assert.deepStrictEqual(
         PassjoinIndex.multiMatchAwareInterval(3, delta, i, 10, pi, li),
         interval
       );
@@ -151,7 +151,7 @@ describe('PassjoinIndex', function() {
         var pi = P[j][0],
             li = P[j][1];
 
-        assert.deepEqual(
+        assert.deepStrictEqual(
           PassjoinIndex.multiMatchAwareSubstrings(3, 'avaterasha', l, i, pi, li),
           substrings
         );
@@ -161,7 +161,7 @@ describe('PassjoinIndex', function() {
     // Duplicate letters
     var substringsWithoutDuplicates = PassjoinIndex.multiMatchAwareSubstrings(3, 'avatssssha', 11, 2, 5, 3);
 
-    assert.deepEqual(substringsWithoutDuplicates, ['tss', 'sss']);
+    assert.deepStrictEqual(substringsWithoutDuplicates, ['tss', 'sss']);
   });
 
   it('should throw if given wrong arguments.', function() {
@@ -188,14 +188,14 @@ describe('PassjoinIndex', function() {
     assert.strictEqual(k1.size, STRINGS.length);
     assert.strict(k1.k, 1);
 
-    assert.deepEqual(k1.search('paul'), new Set(['paul', 'paule']));
-    assert.deepEqual(k1.search('paulet'), new Set(['paule']));
-    assert.deepEqual(k1.search('a'), new Set(['', 'a', 'b', 'pa', 'ab']));
+    assert.deepStrictEqual(k1.search('paul'), new Set(['paul', 'paule']));
+    assert.deepStrictEqual(k1.search('paulet'), new Set(['paule']));
+    assert.deepStrictEqual(k1.search('a'), new Set(['', 'a', 'b', 'pa', 'ab']));
 
-    assert.deepEqual(k2.search('benjiman'), new Set(['benjamin', 'benjomon']));
+    assert.deepStrictEqual(k2.search('benjiman'), new Set(['benjamin', 'benjomon']));
 
-    assert.deepEqual(k3.search('benja'), new Set(['benjamin', 'benja']));
-    assert.deepEqual(k3.search('pa'), new Set(['', 'a', 'b', 'pa', 'ab', 'paul', 'paule']));
+    assert.deepStrictEqual(k3.search('benja'), new Set(['benjamin', 'benja']));
+    assert.deepStrictEqual(k3.search('pa'), new Set(['', 'a', 'b', 'pa', 'ab', 'paul', 'paule']));
   });
 
   it('should remain sane.', function() {
@@ -208,18 +208,18 @@ describe('PassjoinIndex', function() {
 
     var results = index.search('agility\'s');
 
-    assert.deepEqual(results, new Set(['agility\'s', 'ability\'s']));
+    assert.deepStrictEqual(results, new Set(['agility\'s', 'ability\'s']));
 
     results = index.search('failed');
 
-    assert.deepEqual(results, new Set(['failed', 'flailed']));
+    assert.deepStrictEqual(results, new Set(['failed', 'flailed']));
   });
 
   it('should be possible to create an index from an arbitrary index.', function() {
     var index = PassjoinIndex.from(['failed', 'flailed'], leven, 1);
 
     assert.strictEqual(index.size, 2);
-    assert.deepEqual(index.search('failed'), new Set(['failed', 'flailed']));
+    assert.deepStrictEqual(index.search('failed'), new Set(['failed', 'flailed']));
   });
 
   it('should be possible to iterate over the index.', function() {
@@ -241,7 +241,7 @@ describe('PassjoinIndex', function() {
 
     var index = PassjoinIndex.from(['a', 'ab', 'abc'], leven, 1);
 
-    assert.deepEqual(Array.from(index.values()), strings);
+    assert.deepStrictEqual(Array.from(index.values()), strings);
   });
 
   it('should be possible to iterate over the index using for...of.', function() {
@@ -264,7 +264,7 @@ describe('PassjoinIndex', function() {
     index.clear();
 
     assert.strictEqual(index.size, 0);
-    assert.deepEqual(Array.from(index.values()), []);
-    assert.deepEqual(index.search('abc'), new Set());
+    assert.deepStrictEqual(Array.from(index.values()), []);
+    assert.deepStrictEqual(index.search('abc'), new Set());
   });
 });

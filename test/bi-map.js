@@ -152,15 +152,15 @@ describe('BiMap', function() {
 
     var iterator = map.entries();
 
-    assert.deepEqual(iterator.next().value, ['one', 'hello']);
-    assert.deepEqual(iterator.next().value, ['two', 'world']);
-    assert.deepEqual(iterator.next().done, true);
+    assert.deepStrictEqual(iterator.next().value, ['one', 'hello']);
+    assert.deepStrictEqual(iterator.next().value, ['two', 'world']);
+    assert.deepStrictEqual(iterator.next().done, true);
 
     iterator = map.inverse.entries();
 
-    assert.deepEqual(iterator.next().value, ['hello', 'one']);
-    assert.deepEqual(iterator.next().value, ['world', 'two']);
-    assert.deepEqual(iterator.next().done, true);
+    assert.deepStrictEqual(iterator.next().value, ['hello', 'one']);
+    assert.deepStrictEqual(iterator.next().value, ['world', 'two']);
+    assert.deepStrictEqual(iterator.next().done, true);
   });
 
   it('should be possible to iterate over the map using for...of.', function() {
@@ -184,6 +184,6 @@ describe('BiMap', function() {
     var map = BiMap.from(new Map([['one', 'hello'], ['two', 'world']]));
 
     assert.strictEqual(map.size, 2);
-    assert.deepEqual(map.get('one'), 'hello');
+    assert.deepStrictEqual(map.get('one'), 'hello');
   });
 });

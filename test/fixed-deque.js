@@ -58,7 +58,7 @@ describe('FixedDeque', function() {
     deque.clear();
 
     assert.strictEqual(deque.size, 0);
-    assert.deepEqual(deque.toArray(), []);
+    assert.deepStrictEqual(deque.toArray(), []);
   });
 
   it('should be possible to peek.', function() {
@@ -161,28 +161,28 @@ describe('FixedDeque', function() {
     deque.push(2);
     deque.pop();
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([1]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([1]));
 
     deque.push(3);
     deque.push(4);
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([1, 3, 4]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([1, 3, 4]));
 
     deque.shift();
     deque.shift();
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([4]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([4]));
     deque.pop();
-    assert.deepEqual(deque.toArray(), new Uint8Array([]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([]));
 
     deque.push(5);
     deque.push(6);
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([5, 6]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([5, 6]));
 
     deque.shift();
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([6]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([6]));
   });
 
   it('should be possible to iterate over the deque.', function() {
@@ -210,7 +210,7 @@ describe('FixedDeque', function() {
     deque.push(2);
     deque.push(3);
 
-    assert.deepEqual(deque.toArray(), new Uint8Array([1, 2, 3]));
+    assert.deepStrictEqual(deque.toArray(), new Uint8Array([1, 2, 3]));
 
     assert(deque.toArray() instanceof Uint8Array);
   });
@@ -218,7 +218,7 @@ describe('FixedDeque', function() {
   it('should be possible to create a deque from an arbitrary iterable.', function() {
     var deque = FixedDeque.from([1, 2, 3], Array);
 
-    assert.deepEqual(deque.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(deque.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to create a values iterator.', function() {
@@ -240,9 +240,9 @@ describe('FixedDeque', function() {
 
     var iterator = deque.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 1]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 3]);
+    assert.deepStrictEqual(iterator.next().value, [0, 1]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

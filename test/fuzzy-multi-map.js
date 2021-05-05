@@ -71,8 +71,8 @@ describe('FuzzyMultiMap', function() {
     map.set('HellO', {title: 'Hello2'});
     map.set('World', {title: 'World'});
 
-    assert.deepEqual(map.get('HELLO'), [{title: 'Hello1'}, {title: 'Hello2'}]);
-    assert.deepEqual(map.get('shawarama'), undefined);
+    assert.deepStrictEqual(map.get('HELLO'), [{title: 'Hello1'}, {title: 'Hello2'}]);
+    assert.deepStrictEqual(map.get('shawarama'), undefined);
   });
 
   it('should be possible to test the existence of an item in the map.', function() {
@@ -99,7 +99,7 @@ describe('FuzzyMultiMap', function() {
     var i = 0;
 
     map.forEach(function(value) {
-      assert.deepEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
+      assert.deepStrictEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
       i++;
     });
 
@@ -116,8 +116,8 @@ describe('FuzzyMultiMap', function() {
 
     var iterator = map.values();
 
-    assert.deepEqual(iterator.next().value, {title: 'Hello'});
-    assert.deepEqual(iterator.next().value, {title: 'World'});
+    assert.deepStrictEqual(iterator.next().value, {title: 'Hello'});
+    assert.deepStrictEqual(iterator.next().value, {title: 'World'});
     assert.strictEqual(iterator.next().done, true);
   });
 
@@ -132,7 +132,7 @@ describe('FuzzyMultiMap', function() {
     var i = 0;
 
     for (var value of map) {
-      assert.deepEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
+      assert.deepStrictEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
       i++;
     }
 
@@ -151,7 +151,7 @@ describe('FuzzyMultiMap', function() {
     var map = FuzzyMultiMap.from([{title: 'Hello'}, {title: 'World'}], [writeHash, readHash]);
 
     assert.strictEqual(map.size, 2);
-    assert.deepEqual(map.get('hellO'), [{title: 'Hello'}]);
+    assert.deepStrictEqual(map.get('hellO'), [{title: 'Hello'}]);
 
     var otherMap = new Map([
       ['Hello', {title: 'Hello'}],
@@ -161,7 +161,7 @@ describe('FuzzyMultiMap', function() {
     map = FuzzyMultiMap.from(otherMap, readHash, true);
 
     assert.strictEqual(map.size, 2);
-    assert.deepEqual(map.get('WOrlD'), [{title: 'World'}]);
+    assert.deepStrictEqual(map.get('WOrlD'), [{title: 'World'}]);
   });
 
   it('should work with a Set container.', function() {
@@ -180,7 +180,7 @@ describe('FuzzyMultiMap', function() {
 
     var set = map.get('hello');
 
-    assert.deepEqual(Array.from(set), [
+    assert.deepStrictEqual(Array.from(set), [
       {title: 'Hello1'},
       {title: 'Hello2'},
       {title: 'Hello3'}

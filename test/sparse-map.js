@@ -103,7 +103,7 @@ describe('SparseMap', function() {
         i = 0;
 
     map.forEach(function(value, key) {
-      assert.deepEqual([key, value], array[i++]);
+      assert.deepStrictEqual([key, value], array[i++]);
     });
   });
 
@@ -114,7 +114,7 @@ describe('SparseMap', function() {
     map.set(6, 22);
     map.set(9, 8);
 
-    assert.deepEqual(obliterator.take(map.keys()), [3, 6, 9]);
+    assert.deepStrictEqual(obliterator.take(map.keys()), [3, 6, 9]);
   });
 
   it('should be possible to create an iterator over the map\'s values.', function() {
@@ -124,7 +124,7 @@ describe('SparseMap', function() {
     map.set(6, 22);
     map.set(9, 8);
 
-    assert.deepEqual(obliterator.take(map.values()), [13, 22, 8]);
+    assert.deepStrictEqual(obliterator.take(map.values()), [13, 22, 8]);
   });
 
   it('should be possible to create an iterator over the map\'s entries.', function() {
@@ -134,6 +134,6 @@ describe('SparseMap', function() {
     map.set(6, 22);
     map.set(9, 8);
 
-    assert.deepEqual(obliterator.take(map.entries()), [[3, 13], [6, 22], [9, 8]]);
+    assert.deepStrictEqual(obliterator.take(map.entries()), [[3, 13], [6, 22], [9, 8]]);
   });
 });

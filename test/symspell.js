@@ -39,12 +39,12 @@ describe('SymSpell', function() {
 
     assert.strictEqual(index.size, 10);
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       index.search('shawarma'),
       []
     );
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       index.search('ello'),
       [
         {term: 'Hello', distance: 1, count: 2},
@@ -67,7 +67,7 @@ describe('SymSpell', function() {
     var index = new SymSpell({maxDistance: 4});
     DATA.forEach(word => index.add(word));
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       index.search('ello'),
       [
         {term: 'Hello', distance: 1, count: 2},
@@ -91,12 +91,12 @@ describe('SymSpell', function() {
       lessLazyIndex.add(word);
     });
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       lazyIndex.search('ello'),
       [{term: 'Hello', distance: 1, count: 2}]
     );
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       lessLazyIndex.search('ello'),
       [
         {term: 'Hello', distance: 1, count: 2},
@@ -117,7 +117,7 @@ describe('SymSpell', function() {
   it('should be possible to create an index from arbitrary iterables.', function() {
     var index = SymSpell.from(DATA);
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       index.search('ello'),
       [
         {term: 'Hello', distance: 1, count: 2},

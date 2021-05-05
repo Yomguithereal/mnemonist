@@ -42,23 +42,23 @@ describe('StaticIntervalTree', function() {
 
     var intervals = tree.intervalsContainingPoint(134);
 
-    assert.deepEqual(intervals, []);
+    assert.deepStrictEqual(intervals, []);
 
     intervals = tree.intervalsContainingPoint(13);
 
-    assert.deepEqual(intervals, [[10, 15], [3, 41]]);
+    assert.deepStrictEqual(intervals, [[10, 15], [3, 41]]);
 
     intervals = tree.intervalsContainingPoint(0);
 
-    assert.deepEqual(intervals, [[0, 1]]);
+    assert.deepStrictEqual(intervals, [[0, 1]]);
 
     intervals = tree.intervalsContainingPoint(4);
 
-    assert.deepEqual(intervals, [[3, 41]]);
+    assert.deepStrictEqual(intervals, [[3, 41]]);
 
     intervals = tree.intervalsContainingPoint(25);
 
-    assert.deepEqual(intervals, [[20, 36], [3, 41]]);
+    assert.deepStrictEqual(intervals, [[20, 36], [3, 41]]);
   });
 
   it('should be possible to query by interval.', function() {
@@ -66,11 +66,11 @@ describe('StaticIntervalTree', function() {
 
     var intervals = tree.intervalsOverlappingInterval([-34, 4]);
 
-    assert.deepEqual(intervals, [[0, 1], [3, 41]]);
+    assert.deepStrictEqual(intervals, [[0, 1], [3, 41]]);
 
     intervals = tree.intervalsOverlappingInterval([-100, 100]);
 
-    assert.deepEqual(intervals, [[10, 15], [20, 36], [29, 99], [0, 1], [3, 41]]);
+    assert.deepStrictEqual(intervals, [[10, 15], [20, 36], [29, 99], [0, 1], [3, 41]]);
   });
 
   it('should be possible to use getters.', function() {
@@ -86,10 +86,10 @@ describe('StaticIntervalTree', function() {
 
     var intervals = tree.intervalsContainingPoint(0);
 
-    assert.deepEqual(intervals, [{start: 0, end: 1}]);
+    assert.deepStrictEqual(intervals, [{start: 0, end: 1}]);
 
     intervals = tree.intervalsOverlappingInterval({start: -34, end: 4});
 
-    assert.deepEqual(intervals, [{start: 0, end: 1}, {start: 3, end: 41}]);
+    assert.deepStrictEqual(intervals, [{start: 0, end: 1}, {start: 3, end: 41}]);
   });
 });
