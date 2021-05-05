@@ -74,7 +74,7 @@ describe('SparseQueueSet', function() {
         assert.strictEqual(queue.size, i + 1);
       });
 
-      assert.deepEqual(obliterator.take(queue.values()), values);
+      assert.deepStrictEqual(obliterator.take(queue.values()), values);
 
       var contained = [];
 
@@ -82,7 +82,7 @@ describe('SparseQueueSet', function() {
         contained.push(v);
       });
 
-      assert.deepEqual(contained, values);
+      assert.deepStrictEqual(contained, values);
 
       values.forEach(function(v, i) {
         assert.strictEqual(queue.has(v), true);
@@ -104,7 +104,7 @@ describe('SparseQueueSet', function() {
     queue.enqueue(0);
     queue.enqueue(1);
 
-    assert.deepEqual(obliterator.take(queue.values()), [0, 1, 2, 3]);
+    assert.deepStrictEqual(obliterator.take(queue.values()), [0, 1, 2, 3]);
   });
 
   it('should be possible to iterate over the queue\'s items.', function() {
@@ -129,6 +129,6 @@ describe('SparseQueueSet', function() {
     queue.enqueue(6);
     queue.enqueue(9);
 
-    assert.deepEqual(obliterator.take(queue.values()), [3, 6, 9]);
+    assert.deepStrictEqual(obliterator.take(queue.values()), [3, 6, 9]);
   });
 });

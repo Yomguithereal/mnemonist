@@ -24,20 +24,20 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
 
       assert.strictEqual(cache.size, 2);
-      assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
 
       cache.set('three', 3);
 
       assert.strictEqual(cache.size, 3);
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
 
       cache.set('four', 4);
 
       assert.strictEqual(cache.size, 3);
-      assert.deepEqual(Array.from(cache.entries()), [['four', 4], ['three', 3], ['two', 2]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['four', 4], ['three', 3], ['two', 2]]);
 
       cache.set('two', 5);
-      assert.deepEqual(Array.from(cache.entries()), [['two', 5], ['four', 4], ['three', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['two', 5], ['four', 4], ['three', 3]]);
 
       assert.strictEqual(cache.has('four'), true);
       assert.strictEqual(cache.has('one'), false);
@@ -45,16 +45,16 @@ function makeTests(Cache, name) {
       assert.strictEqual(cache.get('one'), undefined);
       assert.strictEqual(cache.get('four'), 4);
 
-      assert.deepEqual(Array.from(cache.entries()), [['four', 4], ['two', 5], ['three', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['four', 4], ['two', 5], ['three', 3]]);
 
       assert.strictEqual(cache.get('three'), 3);
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
       assert.strictEqual(cache.get('three'), 3);
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
       assert.strictEqual(cache.peek('two'), 5);
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
       if (name === 'LRUCache')
         assert.strictEqual(Object.keys(cache.items).length, 3);
@@ -69,11 +69,11 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('one', 3);
 
-      assert.deepEqual(Array.from(cache.entries()), [['one', 3], ['two', 2]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['one', 3], ['two', 2]]);
 
       assert.strictEqual(cache.get('two'), 2);
 
-      assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['two', 2], ['one', 3]]);
 
       cache.clear();
 
@@ -88,7 +88,7 @@ function makeTests(Cache, name) {
       cache.set('two', 6);
       cache.set('four', 4);
 
-      assert.deepEqual(Array.from(cache.entries()), [['four', 4], ['two', 6], ['three', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['four', 4], ['two', 6], ['three', 3]]);
     });
 
     it('should be possible to create an iterator over the cache\'s keys.', function() {
@@ -98,7 +98,7 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('three', 3);
 
-      assert.deepEqual(Array.from(cache.keys()), ['three', 'two', 'one']);
+      assert.deepStrictEqual(Array.from(cache.keys()), ['three', 'two', 'one']);
     });
 
     it('should be possible to create an iterator over the cache\'s values.', function() {
@@ -108,7 +108,7 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('three', 3);
 
-      assert.deepEqual(Array.from(cache.values()), [3, 2, 1]);
+      assert.deepStrictEqual(Array.from(cache.values()), [3, 2, 1]);
     });
 
     it('should be possible to pop an evicted value when items are evicted from cache', function() {
@@ -119,8 +119,8 @@ function makeTests(Cache, name) {
       cache.set('three', 3);
 
       var popResult = cache.setpop('four', 4);
-      assert.deepEqual(popResult, {evicted: true, key: 'one', value: 1});
-      assert.deepEqual(Array.from(cache.values()), [4, 3, 2]);
+      assert.deepStrictEqual(popResult, {evicted: true, key: 'one', value: 1});
+      assert.deepStrictEqual(Array.from(cache.values()), [4, 3, 2]);
     });
 
     it('should return null when setting an item does not overwrite or evict', function() {
@@ -140,8 +140,8 @@ function makeTests(Cache, name) {
       cache.set('three', 3);
 
       var popResult = cache.setpop('three', 10);
-      assert.deepEqual(popResult, {evicted: false, key: 'three', value: 3});
-      assert.deepEqual(Array.from(cache.values()), [10, 2, 1]);
+      assert.deepStrictEqual(popResult, {evicted: false, key: 'three', value: 3});
+      assert.deepStrictEqual(Array.from(cache.values()), [10, 2, 1]);
     });
 
     it('should work with capacity = 1.', function() {
@@ -151,18 +151,18 @@ function makeTests(Cache, name) {
       cache.set('two', 2);
       cache.set('three', 3);
 
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3]]);
       assert.strictEqual(cache.get('one'), undefined);
       assert.strictEqual(cache.get('three'), 3);
       assert.strictEqual(cache.get('three'), 3);
 
-      assert.deepEqual(Array.from(cache.entries()), [['three', 3]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3]]);
     });
 
     it('should be possible to create a cache from an arbitrary iterable.', function() {
       var cache = Cache.from(new Map([['one', 1], ['two', 2]]));
 
-      assert.deepEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
     });
 
     it('should be possible to create a specialized cache.', function() {
@@ -173,7 +173,7 @@ function makeTests(Cache, name) {
       cache.set(23, 0.45);
       cache.set(59, -0.464);
 
-      assert.deepEqual(Array.from(cache.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
+      assert.deepStrictEqual(Array.from(cache.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
 
       var cacheFrom = Cache.from([], Uint8Array, Float64Array, 3);
 
@@ -182,7 +182,7 @@ function makeTests(Cache, name) {
       cacheFrom.set(23, 0.45);
       cacheFrom.set(59, -0.464);
 
-      assert.deepEqual(Array.from(cacheFrom.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
+      assert.deepStrictEqual(Array.from(cacheFrom.entries()), [[59, -0.464], [23, 0.45], [12, 6.464]]);
     });
 
     it('should be possible to iterate over the cache using a callback.', function() {
@@ -198,7 +198,7 @@ function makeTests(Cache, name) {
         entries.push([key, value]);
       });
 
-      assert.deepEqual(entries, Array.from(cache.entries()));
+      assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
 
     it('should be possible to iterate over the cache.', function() {
@@ -213,7 +213,7 @@ function makeTests(Cache, name) {
       for (var entry of cache)
         entries.push(entry);
 
-      assert.deepEqual(entries, Array.from(cache.entries()));
+      assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
   });
 }

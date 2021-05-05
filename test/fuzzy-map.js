@@ -66,8 +66,8 @@ describe('FuzzyMap', function() {
     map.set('Hello', {title: 'Hello'});
     map.set('World', {title: 'World'});
 
-    assert.deepEqual(map.get('HELLO'), {title: 'Hello'});
-    assert.deepEqual(map.get('shawarama'), undefined);
+    assert.deepStrictEqual(map.get('HELLO'), {title: 'Hello'});
+    assert.deepStrictEqual(map.get('shawarama'), undefined);
   });
 
   it('should be possible to test the existence of an item in the map.', function() {
@@ -94,7 +94,7 @@ describe('FuzzyMap', function() {
     var i = 0;
 
     map.forEach(function(value) {
-      assert.deepEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
+      assert.deepStrictEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
       i++;
     });
 
@@ -111,8 +111,8 @@ describe('FuzzyMap', function() {
 
     var iterator = map.values();
 
-    assert.deepEqual(iterator.next().value, {title: 'Hello'});
-    assert.deepEqual(iterator.next().value, {title: 'World'});
+    assert.deepStrictEqual(iterator.next().value, {title: 'Hello'});
+    assert.deepStrictEqual(iterator.next().value, {title: 'World'});
     assert.strictEqual(iterator.next().done, true);
   });
 
@@ -127,7 +127,7 @@ describe('FuzzyMap', function() {
     var i = 0;
 
     for (var value of map) {
-      assert.deepEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
+      assert.deepStrictEqual(value, !i ? {title: 'Hello'} : {title: 'World'});
       i++;
     }
 
@@ -146,7 +146,7 @@ describe('FuzzyMap', function() {
     var map = FuzzyMap.from([{title: 'Hello'}, {title: 'World'}], [writeHash, readHash]);
 
     assert.strictEqual(map.size, 2);
-    assert.deepEqual(map.get('hellO'), {title: 'Hello'});
+    assert.deepStrictEqual(map.get('hellO'), {title: 'Hello'});
 
     var otherMap = new Map([
       ['Hello', {title: 'Hello'}],
@@ -156,6 +156,6 @@ describe('FuzzyMap', function() {
     map = FuzzyMap.from(otherMap, readHash, true);
 
     assert.strictEqual(map.size, 2);
-    assert.deepEqual(map.get('WOrlD'), {title: 'World'});
+    assert.deepStrictEqual(map.get('WOrlD'), {title: 'World'});
   });
 });

@@ -45,11 +45,11 @@ describe('BKTree', function() {
     tree.add('roman');
     tree.add('yellow');
 
-    assert.deepEqual(tree.search(1, 'mello'), [
+    assert.deepStrictEqual(tree.search(1, 'mello'), [
       {item: 'hello', distance: 1}
     ]);
 
-    assert.deepEqual(tree.search(2, 'mello'), [
+    assert.deepStrictEqual(tree.search(2, 'mello'), [
       {item: 'hello', distance: 1},
       {item: 'yellow', distance: 2}
     ]);
@@ -64,11 +64,11 @@ describe('BKTree', function() {
     tree.add({value: 'roman'});
     tree.add({value: 'yellow'});
 
-    assert.deepEqual(tree.search(1, 'mello'), [
+    assert.deepStrictEqual(tree.search(1, 'mello'), [
       {item: {value: 'hello'}, distance: 1}
     ]);
 
-    assert.deepEqual(tree.search(2, 'mello'), [
+    assert.deepStrictEqual(tree.search(2, 'mello'), [
       {item: {value: 'hello'}, distance: 1},
       {item: {value: 'yellow'}, distance: 2}
     ]);

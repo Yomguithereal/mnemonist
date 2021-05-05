@@ -71,6 +71,6 @@ describe('SparseSet', function() {
     set.add(6);
     set.add(9);
 
-    assert.deepEqual(obliterator.take(set.values()), [3, 6, 9]);
+    assert.deepStrictEqual(obliterator.take(set.values()), [3, 6, 9]);
   });
 });

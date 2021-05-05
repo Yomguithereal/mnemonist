@@ -49,9 +49,9 @@ describe('KDTree', function() {
 
     assert.strictEqual(tree.nearestNeighbor([8, 5]), 'two');
 
-    assert.deepEqual(tree.pivots, new Uint8Array([5, 1, 0, 3, 2, 4]));
-    assert.deepEqual(tree.lefts, new Uint8Array([2, 3, 0, 0, 6, 0]));
-    assert.deepEqual(tree.rights, new Uint8Array([5, 4, 0, 0, 0, 0]));
+    assert.deepStrictEqual(tree.pivots, new Uint8Array([5, 1, 0, 3, 2, 4]));
+    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 3, 0, 0, 6, 0]));
+    assert.deepStrictEqual(tree.rights, new Uint8Array([5, 4, 0, 0, 0, 0]));
   });
 
   it('should be possible to build a KDTree directly from axes.', function() {
@@ -66,9 +66,9 @@ describe('KDTree', function() {
 
     assert.strictEqual(tree.nearestNeighbor([8, 5]), 'two');
 
-    assert.deepEqual(tree.pivots, new Uint8Array([5, 1, 0, 3, 2, 4]));
-    assert.deepEqual(tree.lefts, new Uint8Array([2, 3, 0, 0, 6, 0]));
-    assert.deepEqual(tree.rights, new Uint8Array([5, 4, 0, 0, 0, 0]));
+    assert.deepStrictEqual(tree.pivots, new Uint8Array([5, 1, 0, 3, 2, 4]));
+    assert.deepStrictEqual(tree.lefts, new Uint8Array([2, 3, 0, 0, 6, 0]));
+    assert.deepStrictEqual(tree.rights, new Uint8Array([5, 4, 0, 0, 0, 0]));
   });
 
   it('should be possible to build a KDTree from axes and without labels.', function() {
@@ -90,10 +90,10 @@ describe('KDTree', function() {
       assert.strictEqual(tree.nearestNeighbor(item[1]), tree.kNearestNeighbors(1, item[1])[0]);
 
       var nn2 = knn(2, item[1]);
-      assert.deepEqual(new Set(tree.kNearestNeighbors(2, item[1])), new Set(nn2));
+      assert.deepStrictEqual(new Set(tree.kNearestNeighbors(2, item[1])), new Set(nn2));
 
       var nn3 = knn(3, item[1]);
-      assert.deepEqual(new Set(tree.kNearestNeighbors(3, item[1])), new Set(nn3));
+      assert.deepStrictEqual(new Set(tree.kNearestNeighbors(3, item[1])), new Set(nn3));
     });
   });
 
@@ -104,6 +104,6 @@ describe('KDTree', function() {
       assert.strictEqual(tree.nearestNeighbor(item[1]), tree.linearKNearestNeighbors(1, item[1])[0]);
     });
 
-    assert.deepEqual(tree.linearKNearestNeighbors(3, [8, 3]), ['five', 'four', 'one']);
+    assert.deepStrictEqual(tree.linearKNearestNeighbors(3, [8, 3]), ['five', 'four', 'one']);
   });
 });

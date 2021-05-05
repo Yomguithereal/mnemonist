@@ -24,7 +24,7 @@ describe('Queue', function() {
     queue.clear();
 
     assert.strictEqual(queue.size, 0);
-    assert.deepEqual(queue.toArray(), []);
+    assert.deepStrictEqual(queue.toArray(), []);
   });
 
   it('should be possible to peek.', function() {
@@ -79,19 +79,19 @@ describe('Queue', function() {
     queue.enqueue(2);
     queue.enqueue(3);
 
-    assert.deepEqual(queue.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(queue.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to create a queue from an arbitrary iterable.', function() {
     var queue = Queue.from([1, 2, 3]);
 
-    assert.deepEqual(queue.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(queue.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to create a queue from arbitrary arguments.', function() {
     var queue = Queue.of(1, 2, 3);
 
-    assert.deepEqual(queue.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(queue.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to create a values iterator.', function() {
@@ -110,9 +110,9 @@ describe('Queue', function() {
 
     var iterator = queue.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 1]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 3]);
+    assert.deepStrictEqual(iterator.next().value, [0, 1]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

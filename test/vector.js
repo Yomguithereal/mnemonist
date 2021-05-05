@@ -175,19 +175,19 @@ describe('Vector', function() {
 
     assert.strictEqual(vector.length, 3);
     assert.strictEqual(vector.capacity, 3);
-    assert.deepEqual(Array.from(vector), [1, 2, 3]);
+    assert.deepStrictEqual(Array.from(vector), [1, 2, 3]);
 
     vector = Vector.from([1, 2, 3], Uint8Array, 10);
 
     assert.strictEqual(vector.length, 3);
     assert.strictEqual(vector.capacity, 10);
-    assert.deepEqual(Array.from(vector), [1, 2, 3]);
+    assert.deepStrictEqual(Array.from(vector), [1, 2, 3]);
 
     vector = Vector.Uint8Vector.from([1, 2, 3]);
 
     assert.strictEqual(vector.length, 3);
     assert.strictEqual(vector.capacity, 3);
-    assert.deepEqual(Array.from(vector), [1, 2, 3]);
+    assert.deepStrictEqual(Array.from(vector), [1, 2, 3]);
   });
 
   it('should be possible to create a values iterator.', function() {
@@ -206,9 +206,9 @@ describe('Vector', function() {
 
     var iterator = vector.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 1]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 3]);
+    assert.deepStrictEqual(iterator.next().value, [0, 1]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

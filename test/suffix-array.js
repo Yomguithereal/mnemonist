@@ -14,11 +14,11 @@ describe('SuffixArray', function() {
 
     assert.strictEqual(sa.length, 6);
     assert.strictEqual(sa.string, 'banana');
-    assert.deepEqual(sa.array, [5, 3, 1, 0, 4, 2]);
+    assert.deepStrictEqual(sa.array, [5, 3, 1, 0, 4, 2]);
 
     sa = new SuffixArray('This is a long string.');
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       sa.array,
       [
         7, 4, 9,
@@ -37,8 +37,8 @@ describe('SuffixArray', function() {
     var sa = new SuffixArray('banana'.split(''));
 
     assert.strictEqual(sa.length, 6);
-    assert.deepEqual(sa.string, 'banana'.split(''));
-    assert.deepEqual(sa.array, [5, 3, 1, 0, 4, 2]);
+    assert.deepStrictEqual(sa.string, 'banana'.split(''));
+    assert.deepStrictEqual(sa.array, [5, 3, 1, 0, 4, 2]);
   });
 });
 
@@ -49,7 +49,7 @@ describe('GeneralizedSuffixArray', function() {
 
     assert.strictEqual(sa.length, 13);
     assert.strictEqual(sa.size, 2);
-    assert.deepEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
+    assert.deepStrictEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
   });
 
   it('should also work with arbitrary sequences.', function() {
@@ -59,7 +59,7 @@ describe('GeneralizedSuffixArray', function() {
 
     assert.strictEqual(sa.length, 13);
     assert.strictEqual(sa.size, 2);
-    assert.deepEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
+    assert.deepStrictEqual(sa.array, [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]);
   });
 
   it('should be possible to extract the longest common subsequence.', function() {
@@ -82,7 +82,7 @@ describe('GeneralizedSuffixArray', function() {
       ['the', 'mouse', 'eats', 'cheese']
     ]);
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       sa.longestCommonSubsequence(),
       ['the', 'mouse']
     );

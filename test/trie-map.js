@@ -32,7 +32,7 @@ describe('TrieMap', function() {
     assert.strictEqual(trie.get('ra'), undefined);
     assert.strictEqual(trie.get('ratings'), undefined);
 
-    assert.deepEqual(trie.root, {
+    assert.deepStrictEqual(trie.root, {
       r: {
         a: {
           t: {
@@ -105,7 +105,7 @@ describe('TrieMap', function() {
 
     assert.strictEqual(trie.size, 2);
 
-    assert.deepEqual(trie.root, {
+    assert.deepStrictEqual(trie.root, {
       r: {
         a: {
           t: {
@@ -128,7 +128,7 @@ describe('TrieMap', function() {
 
     assert.strictEqual(trie.size, 1);
 
-    assert.deepEqual(trie.root, {
+    assert.deepStrictEqual(trie.root, {
       t: {
         a: {
           r: {
@@ -142,7 +142,7 @@ describe('TrieMap', function() {
 
     assert.strictEqual(trie.size, 0);
 
-    assert.deepEqual(trie.root, {});
+    assert.deepStrictEqual(trie.root, {});
   });
 
   it('should be possible to check the existence of a sequence in the TrieMap.', function() {
@@ -164,12 +164,12 @@ describe('TrieMap', function() {
     trie.set('romanesques', 3);
     trie.set('greek', 4);
 
-    assert.deepEqual(trie.find('roman'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
-    assert.deepEqual(trie.find('rom'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
-    assert.deepEqual(trie.find('romanesque'), [['romanesque', 2], ['romanesques', 3]]);
-    assert.deepEqual(trie.find('gr'), [['greek', 4]]);
-    assert.deepEqual(trie.find('hello'), []);
-    assert.deepEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+    assert.deepStrictEqual(trie.find('roman'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+    assert.deepStrictEqual(trie.find('rom'), [['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
+    assert.deepStrictEqual(trie.find('romanesque'), [['romanesque', 2], ['romanesques', 3]]);
+    assert.deepStrictEqual(trie.find('gr'), [['greek', 4]]);
+    assert.deepStrictEqual(trie.find('hello'), []);
+    assert.deepStrictEqual(trie.find(''), [['greek', 4], ['roman', 1], ['romanesque', 2], ['romanesques', 3]]);
   });
 
   it('should work with custom tokens.', function() {
@@ -180,7 +180,7 @@ describe('TrieMap', function() {
     trie.set(['hello', 'world'], 3);
 
     assert.strictEqual(trie.size, 3);
-    assert.deepEqual(trie.root, {
+    assert.deepStrictEqual(trie.root, {
       the: {
         cat: {
           eats: {
@@ -214,7 +214,7 @@ describe('TrieMap', function() {
 
     assert.strictEqual(trie.size, 2);
 
-    assert.deepEqual(trie.find(['the']), [
+    assert.deepStrictEqual(trie.find(['the']), [
       [['the', 'mouse', 'eats', 'cheese'], 2],
       [['the', 'cat', 'eats', 'the', 'mouse'], 1]
     ]);
@@ -228,14 +228,14 @@ describe('TrieMap', function() {
 
     var values = take(trie.values());
 
-    assert.deepEqual(values, [1, 2]);
+    assert.deepStrictEqual(values, [1, 2]);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
     values = take(trie.values('rate'));
 
-    assert.deepEqual(values, [2, 4, 3]);
+    assert.deepStrictEqual(values, [2, 4, 3]);
   });
 
   it('should be possible to iterate over the trie\'s prefixes.', function() {
@@ -246,14 +246,14 @@ describe('TrieMap', function() {
 
     var prefixes = take(trie.prefixes());
 
-    assert.deepEqual(prefixes, ['rat', 'rate']);
+    assert.deepStrictEqual(prefixes, ['rat', 'rate']);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
     prefixes = take(trie.keys('rate'));
 
-    assert.deepEqual(prefixes, ['rate', 'rates', 'rater']);
+    assert.deepStrictEqual(prefixes, ['rate', 'rates', 'rater']);
   });
 
   it('should be possible to iterate over the trie\'s entries.', function() {
@@ -264,14 +264,14 @@ describe('TrieMap', function() {
 
     var entries = take(trie.entries());
 
-    assert.deepEqual(entries, [['rat', 1], ['rate', 2]]);
+    assert.deepStrictEqual(entries, [['rat', 1], ['rate', 2]]);
 
     trie.set('rater', 3);
     trie.set('rates', 4);
 
     entries = take(trie.entries('rate'));
 
-    assert.deepEqual(entries, [['rate', 2], ['rates', 4], ['rater', 3]]);
+    assert.deepStrictEqual(entries, [['rate', 2], ['rates', 4], ['rater', 3]]);
   });
 
   it('should be possible to iterate over the trie\'s entries using for...of.', function() {
@@ -288,7 +288,7 @@ describe('TrieMap', function() {
     var i = 0;
 
     for (var entry of trie)
-      assert.deepEqual(entry, tests[i++]);
+      assert.deepStrictEqual(entry, tests[i++]);
   });
 
   it('should be possible to create a trie from an arbitrary iterable.', function() {
@@ -300,6 +300,6 @@ describe('TrieMap', function() {
     var trie = TrieMap.from(words);
 
     assert.strictEqual(trie.size, 2);
-    assert.deepEqual(trie.get('roman'), 1);
+    assert.deepStrictEqual(trie.get('roman'), 1);
   });
 });

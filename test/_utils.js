@@ -40,9 +40,9 @@ describe('utils', function() {
             abc = typed.concat(a, b, c),
             ba = typed.concat(b, a);
 
-        assert.deepEqual(Array.from(ab), [1, 2, 3, 4, 5]);
-        assert.deepEqual(Array.from(abc), [1, 2, 3, 4, 5, 5, 5, 6]);
-        assert.deepEqual(Array.from(ba), [4, 5, 1, 2, 3]);
+        assert.deepStrictEqual(Array.from(ab), [1, 2, 3, 4, 5]);
+        assert.deepStrictEqual(Array.from(abc), [1, 2, 3, 4, 5, 5, 5, 6]);
+        assert.deepStrictEqual(Array.from(ba), [4, 5, 1, 2, 3]);
       });
     });
   });
@@ -210,7 +210,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.merge(test[0], test[1]), test[2]);
+          assert.deepStrictEqual(merge.merge(test[0], test[1]), test[2]);
         });
       });
 
@@ -221,7 +221,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.merge.apply(null, test[0]), test[1]);
+          assert.deepStrictEqual(merge.merge.apply(null, test[0]), test[1]);
         });
       });
     });
@@ -239,7 +239,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.unionUnique(test[0], test[1]), test[2]);
+          assert.deepStrictEqual(merge.unionUnique(test[0], test[1]), test[2]);
         });
       });
 
@@ -250,7 +250,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.unionUnique.apply(null, test[0]), test[1]);
+          assert.deepStrictEqual(merge.unionUnique.apply(null, test[0]), test[1]);
         });
       });
     });
@@ -269,7 +269,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.intersectionUnique(test[0], test[1]), test[2]);
+          assert.deepStrictEqual(merge.intersectionUnique(test[0], test[1]), test[2]);
         });
       });
 
@@ -283,7 +283,7 @@ describe('utils', function() {
         ];
 
         tests.forEach(function(test) {
-          assert.deepEqual(merge.intersectionUnique.apply(null, test[0]), test[1]);
+          assert.deepStrictEqual(merge.intersectionUnique.apply(null, test[0]), test[1]);
         });
       });
     });

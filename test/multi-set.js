@@ -173,12 +173,12 @@ describe('MultiSet', function() {
     set.add('a');
     set.edit('a', 'b');
 
-    assert.deepEqual(Array.from(set.multiplicities()), [['b', 1]]);
+    assert.deepStrictEqual(Array.from(set.multiplicities()), [['b', 1]]);
 
     set.add('c');
     set.edit('b', 'c');
 
-    assert.deepEqual(Array.from(set.multiplicities()), [['c', 2]]);
+    assert.deepStrictEqual(Array.from(set.multiplicities()), [['c', 2]]);
   });
 
   it('should be possible to iterate over a set.', function() {
@@ -209,7 +209,7 @@ describe('MultiSet', function() {
       entries.push([key, value]);
     });
 
-    assert.deepEqual(entries, [
+    assert.deepStrictEqual(entries, [
       ['hello', 4],
       ['world', 3]
     ]);
@@ -249,8 +249,8 @@ describe('MultiSet', function() {
 
     var iterator = set.multiplicities();
 
-    assert.deepEqual(iterator.next().value, ['hello', 2]);
-    assert.deepEqual(iterator.next().value, ['world', 1]);
+    assert.deepStrictEqual(iterator.next().value, ['hello', 2]);
+    assert.deepStrictEqual(iterator.next().value, ['world', 1]);
     assert.strictEqual(iterator.next().done, true);
   });
 
@@ -304,11 +304,11 @@ describe('MultiSet', function() {
 
     var top5 = set.top(5);
 
-    assert.deepEqual(top5, [['i', 7], [' ', 7], ['r', 4], ['e', 4], ['s', 4]]);
+    assert.deepStrictEqual(top5, [['i', 7], [' ', 7], ['r', 4], ['e', 4], ['s', 4]]);
 
     var top = set.top(1);
 
-    assert.deepEqual(top, [['i', 7]]);
+    assert.deepStrictEqual(top, [['i', 7]]);
   });
 
   describe('helpers', function() {

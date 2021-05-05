@@ -23,7 +23,7 @@ describe('LinkedList', function() {
     list.unshift(1);
 
     assert.strictEqual(list.size, 3);
-    assert.deepEqual(list.toArray(), [1, 2, 3]);
+    assert.deepStrictEqual(list.toArray(), [1, 2, 3]);
   });
 
   it('should be possible to clear the list.', function() {
@@ -35,7 +35,7 @@ describe('LinkedList', function() {
     list.clear();
 
     assert.strictEqual(list.size, 0);
-    assert.deepEqual(list.toArray(), []);
+    assert.deepStrictEqual(list.toArray(), []);
   });
 
   it('should be possible to get the first & last items of the list.', function() {
@@ -123,9 +123,9 @@ describe('LinkedList', function() {
 
     var iterator = list.entries();
 
-    assert.deepEqual(iterator.next().value, [0, 1]);
-    assert.deepEqual(iterator.next().value, [1, 2]);
-    assert.deepEqual(iterator.next().value, [2, 3]);
+    assert.deepStrictEqual(iterator.next().value, [0, 1]);
+    assert.deepStrictEqual(iterator.next().value, [1, 2]);
+    assert.deepStrictEqual(iterator.next().value, [2, 3]);
     assert.strictEqual(iterator.next().done, true);
   });
 

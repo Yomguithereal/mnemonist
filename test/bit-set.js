@@ -158,8 +158,8 @@ describe('BitSet', function() {
       return [j, bit];
     });
 
-    assert.deepEqual(obliterator.take(set.values()), array);
-    assert.deepEqual(obliterator.take(set.entries()), indexedArray);
+    assert.deepStrictEqual(obliterator.take(set.values()), array);
+    assert.deepStrictEqual(obliterator.take(set.entries()), indexedArray);
   });
 
   it('length divisible by 32 iteration, issue #117.', function() {
@@ -170,7 +170,7 @@ describe('BitSet', function() {
     var counter = 0;
 
     while (!result.done) {
-      assert.deepEqual(result.value, [counter, 0]);
+      assert.deepStrictEqual(result.value, [counter, 0]);
       result = iterator.next();
       counter++;
     }
@@ -184,6 +184,6 @@ describe('BitSet', function() {
     set.set(8);
     set.set(9);
 
-    assert.deepEqual(set.toJSON(), [772]);
+    assert.deepStrictEqual(set.toJSON(), [772]);
   });
 });

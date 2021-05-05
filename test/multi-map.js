@@ -59,19 +59,19 @@ describe('MultiMap', function() {
 
     map.remove('one', 1);
 
-    assert.deepEqual(map.get('one'), [2, 1]);
+    assert.deepStrictEqual(map.get('one'), [2, 1]);
     assert.strictEqual(map.size, 2);
     assert.strictEqual(map.dimension, 1);
 
     map.remove('one', 1);
 
-    assert.deepEqual(map.get('one'), [2]);
+    assert.deepStrictEqual(map.get('one'), [2]);
     assert.strictEqual(map.size, 1);
     assert.strictEqual(map.dimension, 1);
 
     map.remove('one', 1);
 
-    assert.deepEqual(map.get('one'), [2]);
+    assert.deepStrictEqual(map.get('one'), [2]);
     assert.strictEqual(map.size, 1);
     assert.strictEqual(map.dimension, 1);
 
@@ -89,7 +89,7 @@ describe('MultiMap', function() {
 
     map.remove('one', 1);
 
-    assert.deepEqual(Array.from(map.get('one')), [2]);
+    assert.deepStrictEqual(Array.from(map.get('one')), [2]);
     assert.strictEqual(map.size, 1);
     assert.strictEqual(map.dimension, 1);
 
@@ -133,7 +133,7 @@ describe('MultiMap', function() {
     map.set('one', 'hello');
     map.set('one', 'world');
 
-    assert.deepEqual(map.get('one'), [
+    assert.deepStrictEqual(map.get('one'), [
       'hello',
       'world'
     ]);
@@ -147,7 +147,7 @@ describe('MultiMap', function() {
     assert.strictEqual(map.size, 2);
 
     assert.strictEqual(map.get('one') instanceof Set, true);
-    assert.deepEqual(Array.from(map.get('one')), [
+    assert.deepStrictEqual(Array.from(map.get('one')), [
       'hello',
       'world'
     ]);
@@ -184,7 +184,7 @@ describe('MultiMap', function() {
       entries.push([key, container]);
     });
 
-    assert.deepEqual(entries, [
+    assert.deepStrictEqual(entries, [
       ['one', ['hello', 'world']],
       ['two', ['hello']]
     ]);
@@ -248,9 +248,9 @@ describe('MultiMap', function() {
 
     var iterator = map.entries();
 
-    assert.deepEqual(iterator.next().value, ['one', 'hello']);
-    assert.deepEqual(iterator.next().value, ['one', 'world']);
-    assert.deepEqual(iterator.next().value, ['two', 'hello']);
+    assert.deepStrictEqual(iterator.next().value, ['one', 'hello']);
+    assert.deepStrictEqual(iterator.next().value, ['one', 'world']);
+    assert.deepStrictEqual(iterator.next().value, ['two', 'hello']);
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual([...map.entries()], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
@@ -263,9 +263,9 @@ describe('MultiMap', function() {
 
     iterator = map.entries();
 
-    assert.deepEqual(iterator.next().value, ['one', 'hello']);
-    assert.deepEqual(iterator.next().value, ['one', 'world']);
-    assert.deepEqual(iterator.next().value, ['two', 'hello']);
+    assert.deepStrictEqual(iterator.next().value, ['one', 'hello']);
+    assert.deepStrictEqual(iterator.next().value, ['one', 'world']);
+    assert.deepStrictEqual(iterator.next().value, ['two', 'hello']);
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual([...map.entries()], [['one', 'hello'], ['one', 'world'], ['two', 'hello']]);
@@ -281,8 +281,8 @@ describe('MultiMap', function() {
 
     var iterator = map.containers();
 
-    assert.deepEqual(iterator.next().value, new Set(['hello', 'world']));
-    assert.deepEqual(iterator.next().value, new Set(['hello']));
+    assert.deepStrictEqual(iterator.next().value, new Set(['hello', 'world']));
+    assert.deepStrictEqual(iterator.next().value, new Set(['hello']));
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual([...map.containers()], [new Set(['hello', 'world']), new Set(['hello'])]);
@@ -295,8 +295,8 @@ describe('MultiMap', function() {
 
     iterator = map.containers();
 
-    assert.deepEqual(iterator.next().value, ['hello', 'world']);
-    assert.deepEqual(iterator.next().value, ['hello']);
+    assert.deepStrictEqual(iterator.next().value, ['hello', 'world']);
+    assert.deepStrictEqual(iterator.next().value, ['hello']);
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual([...map.containers()], [['hello', 'world'], ['hello']]);
@@ -312,8 +312,8 @@ describe('MultiMap', function() {
 
     var iterator = map.associations();
 
-    assert.deepEqual(iterator.next().value, ['one', new Set(['hello', 'world'])]);
-    assert.deepEqual(iterator.next().value, ['two', new Set(['hello'])]);
+    assert.deepStrictEqual(iterator.next().value, ['one', new Set(['hello', 'world'])]);
+    assert.deepStrictEqual(iterator.next().value, ['two', new Set(['hello'])]);
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual(
@@ -329,8 +329,8 @@ describe('MultiMap', function() {
 
     iterator = map.associations();
 
-    assert.deepEqual(iterator.next().value, ['one', ['hello', 'world']]);
-    assert.deepEqual(iterator.next().value, ['two', ['hello']]);
+    assert.deepStrictEqual(iterator.next().value, ['one', ['hello', 'world']]);
+    assert.deepStrictEqual(iterator.next().value, ['two', ['hello']]);
     assert.strictEqual(iterator.next().done, true);
 
     assert.deepStrictEqual(
@@ -364,7 +364,7 @@ describe('MultiMap', function() {
 
     assert.strictEqual(map.size, 2);
     assert.strictEqual(map.dimension, 2);
-    assert.deepEqual(map.get('one'), ['hello']);
+    assert.deepStrictEqual(map.get('one'), ['hello']);
   });
 
   it('should work with vectors.', function() {
@@ -376,6 +376,6 @@ describe('MultiMap', function() {
 
     assert.strictEqual(map.size, 3);
     assert.strictEqual(map.dimension, 2);
-    assert.deepEqual(Array.from(map.get('one')), [45, 9]);
+    assert.deepStrictEqual(Array.from(map.get('one')), [45, 9]);
   });
 });
