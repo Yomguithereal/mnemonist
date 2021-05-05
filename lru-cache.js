@@ -44,13 +44,13 @@ function LRUCache(Keys, Values, capacity) {
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
-  this.deleted = new PointerArray(capacity);
+  this.removed = new PointerArray(capacity);
   this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
   this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
 
   // Properties
   this.size = 0;
-  this.deletedSize = 0;
+  this.removedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items = {};
@@ -63,7 +63,7 @@ function LRUCache(Keys, Values, capacity) {
  */
 LRUCache.prototype.clear = function() {
   this.size = 0;
-  this.deletedSize = 0;
+  this.removedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items = {};
@@ -121,8 +121,8 @@ LRUCache.prototype.set = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    if (this.deletedSize > 0) {
-      pointer = this.deleted[this.deletedSize--];
+    if (this.removedSize > 0) {
+      pointer = this.removed[this.removedSize--];
     }
     else {
       pointer = this.size;
@@ -174,8 +174,8 @@ LRUCache.prototype.setpop = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    if (this.deletedSize > 0) {
-      pointer = this.deleted[this.deletedSize--];
+    if (this.removedSize > 0) {
+      pointer = this.removed[this.removedSize--];
     }
     else {
       pointer = this.size;
@@ -280,7 +280,7 @@ LRUCache.prototype.remove = function(key) {
   // Delete key, and update sizes.
   delete this.items[key];
   this.size--;
-  this.deleted[this.deletedSize++] = pointer;
+  this.removed[this.removedSize++] = pointer;
 };
 
 /**
