@@ -20,6 +20,7 @@ export default class LRUCache<K, V> implements Iterable<[K, V]> {
   setpop(key: K, value: V): {evicted: boolean, key: K, value: V};
   get(key: K): V | undefined;
   peek(key: K): V | undefined;
+  remove(key: K): this;
   has(key: K): boolean;
   forEach(callback: (value: V, key: K, cache: this) => void, scope?: any): void;
   keys(): IterableIterator<K>;
