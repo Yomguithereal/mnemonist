@@ -62,6 +62,39 @@ function makeTests(Cache, name) {
         assert.strictEqual(cache.items.size, 3);
     });
 
+    if (name === 'LRUCache') {
+      it('should be possible to remove keys from a LRU cache.', function() {
+        var cache = new Cache(3);
+
+        assert.strictEqual(cache.capacity, 3);
+
+        cache.set('one', 1);
+        cache.set('two', 2);
+        cache.set('three', 3);
+
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
+
+        // Remove head
+        cache.remove('three');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
+
+        cache.set('three', 3);
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
+        // Remove node which is neither head or tail
+        cache.remove('two');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['one', 1]]);
+
+        // Remove tail
+        cache.remove('one');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3]]);
+
+        // Remove the only key
+        cache.remove('three');
+        assert.strictEqual(cache.capacity, 3);
+        assert.strictEqual(cache.size, 0);
+      });
+    }
+
     it('should be possible to clear a LRU cache.', function() {
       var cache = new Cache(3);
 
