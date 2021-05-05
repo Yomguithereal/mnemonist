@@ -44,11 +44,13 @@ function LRUCache(Keys, Values, capacity) {
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
+  this.deleted = new PointerArray(capacity);
   this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
   this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
 
   // Properties
   this.size = 0;
+  this.deletedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items = {};
@@ -61,6 +63,7 @@ function LRUCache(Keys, Values, capacity) {
  */
 LRUCache.prototype.clear = function() {
   this.size = 0;
+  this.deletedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items = {};
