@@ -122,7 +122,7 @@ LRUCache.prototype.set = function(key, value) {
   // The cache is not yet full
   if (this.size < this.capacity) {
     if (this.removedSize > 0) {
-      pointer = this.removed[this.removedSize--];
+      pointer = this.removed[--this.removedSize];
     }
     else {
       pointer = this.size;
@@ -269,13 +269,24 @@ LRUCache.prototype.remove = function(key) {
     return;
   }
 
-  // Update head/tail, head/tail has pointer.
-  if (pointer === this.tail) {
-    this.tail = this.backward[pointer];
+  // Update head/tail, if pointer is at head/tail.
+  if (this.head === this.tail === pointer) {
+    this.clear();
   }
-  if (pointer === this.head) {
+  else if (this.head === pointer) {
     this.head = this.forward[pointer];
+    this.backward[this.head] = this.backward[pointer];
   }
+  else if (this.tail === pointer) {
+    this.tail = this.backward[pointer];
+    this.forward[this.tail] = this.forward[pointer];
+  }
+  else {
+    this.backward[this.forward[pointer]] = this.backward[pointer];
+    this.forward[this.backward[pointer]] = this.forward[pointer];
+  }
+  this.backward[pointer] = 0;
+  this.forward[pointer] = 0;
 
   // Delete key, and update sizes.
   delete this.items[key];
