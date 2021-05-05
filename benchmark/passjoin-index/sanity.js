@@ -52,7 +52,7 @@ function sanityTest(k) {
 
   // Sanity
   ACTUAL.forEach(function(_, i) {
-    assert.deepEqual(ACTUAL[i], EXPECTED[i]);
+    assert.deepStrictEqual(ACTUAL[i], EXPECTED[i]);
   });
 
   console.log();

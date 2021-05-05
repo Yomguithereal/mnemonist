@@ -23,7 +23,7 @@ var P;
 
 for (i = 0; i < KNN_TESTS; i++) {
   P = [Math.random(), Math.random()];
-  assert.deepEqual(new Set(tree.kNearestNeighbors(KNN, P)), new Set(tree.linearKNearestNeighbors(KNN, P)));
+  assert.deepStrictEqual(new Set(tree.kNearestNeighbors(KNN, P)), new Set(tree.linearKNearestNeighbors(KNN, P)));
 }
 
 var totalVisited = 0;
