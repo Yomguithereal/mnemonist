@@ -35,11 +35,13 @@ function LRUMap(Keys, Values, capacity) {
 
   this.forward = new PointerArray(capacity);
   this.backward = new PointerArray(capacity);
+  this.removed = new PointerArray(capacity);
   this.K = typeof Keys === 'function' ? new Keys(capacity) : new Array(capacity);
   this.V = typeof Values === 'function' ? new Values(capacity) : new Array(capacity);
 
   // Properties
   this.size = 0;
+  this.removedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items = new Map();
@@ -52,6 +54,7 @@ function LRUMap(Keys, Values, capacity) {
  */
 LRUMap.prototype.clear = function() {
   this.size = 0;
+  this.removedSize = 0;
   this.head = 0;
   this.tail = 0;
   this.items.clear();
@@ -78,7 +81,13 @@ LRUMap.prototype.set = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    pointer = this.size++;
+    if (this.removedSize > 0) {
+      pointer = this.removed[--this.removedSize];
+    }
+    else {
+      pointer = this.size;
+    }
+    this.size++;
   }
 
   // Cache is full, we need to drop the last value
@@ -125,7 +134,13 @@ LRUMap.prototype.setpop = function(key, value) {
 
   // The cache is not yet full
   if (this.size < this.capacity) {
-    pointer = this.size++;
+    if (this.removedSize > 0) {
+      pointer = this.removed[--this.removedSize];
+    }
+    else {
+      pointer = this.size;
+    }
+    this.size++;
   }
 
   // Cache is full, we need to drop the last value
@@ -198,6 +213,46 @@ LRUMap.prototype.peek = function(key) {
     return;
 
   return this.V[pointer];
+};
+
+/**
+ * Method used to remove the value for the given key in the cache.
+ *
+ * @param  {any} key   - Key.
+ * @return {undefined}
+ */
+ LRUMap.prototype.remove = function(key) {
+
+  var pointer = this.items.get(key);
+
+  if (typeof pointer === 'undefined') {
+    return;
+  }
+
+  // Update head/tail, if pointer is at head/tail.
+  if (this.head === pointer && this.tail === pointer) {
+    this.clear();
+    return;
+  }
+  else if (this.head === pointer) {
+    this.head = this.forward[pointer];
+    this.backward[this.head] = this.backward[pointer];
+  }
+  else if (this.tail === pointer) {
+    this.tail = this.backward[pointer];
+    this.forward[this.tail] = this.forward[pointer];
+  }
+  else {
+    this.backward[this.forward[pointer]] = this.backward[pointer];
+    this.forward[this.backward[pointer]] = this.forward[pointer];
+  }
+  this.backward[pointer] = 0;
+  this.forward[pointer] = 0;
+
+  // Delete key, and update sizes.
+  this.items.delete(key);
+  this.size--;
+  this.removed[this.removedSize++] = pointer;
 };
 
 /**
