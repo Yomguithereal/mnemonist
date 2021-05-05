@@ -175,7 +175,7 @@ LRUCache.prototype.setpop = function(key, value) {
   // The cache is not yet full
   if (this.size < this.capacity) {
     if (this.removedSize > 0) {
-      pointer = this.removed[this.removedSize--];
+      pointer = this.removed[--this.removedSize];
     }
     else {
       pointer = this.size;
