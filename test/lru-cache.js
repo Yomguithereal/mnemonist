@@ -4,7 +4,8 @@
  */
 var assert = require('assert'),
     LRUCache = require('../lru-cache.js'),
-    LRUMap = require('../lru-map.js');
+    LRUMap = require('../lru-map.js'),
+    ObliviousLRUCache = require('../oblivious-lru-cache.js');
 
 function makeTests(Cache, name) {
   describe(name, function() {
@@ -60,7 +61,7 @@ function makeTests(Cache, name) {
       assert.strictEqual(cache.peek('two'), 5);
       assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
-      if (name === 'LRUCache')
+      if (name === 'LRUCache' || name === 'ObliviousLRUCache')
         assert.strictEqual(Object.keys(cache.items).length, 3);
       else
         assert.strictEqual(cache.items.size, 3);
@@ -219,8 +220,52 @@ function makeTests(Cache, name) {
 
       assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
+
+    if (name === 'ObliviousLRUCache') {
+      it('should be possible to delete keys from a LRU cache.', function() {
+        var cache = new Cache(3);
+
+        assert.strictEqual(cache.capacity, 3);
+
+        cache.set('one', 1);
+        cache.set('two', 2);
+        cache.set('three', 3);
+
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
+
+        // Delete head
+        cache.delete('three');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['two', 2], ['one', 1]]);
+
+        cache.set('three', 3);
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['two', 2], ['one', 1]]);
+        // Delete node which is neither head or tail
+        cache.delete('two');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['one', 1]]);
+
+        // Delete tail
+        cache.delete('one');
+        assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3]]);
+
+        // Delete the only key
+        cache.delete('three');
+        assert.strictEqual(cache.capacity, 3);
+        assert.strictEqual(cache.size, 0);
+        assert.strictEqual(cache.head, 0);
+        assert.strictEqual(cache.tail, 0);
+
+        cache.set('one', 1);
+        cache.set('two', 2);
+        cache.set('three', 3);
+        cache.set('two', 6);
+        cache.set('four', 4);
+
+        assert.deepStrictEqual(Array.from(cache.entries()), [['four', 4], ['two', 6], ['three', 3]]);
+      });
+    }
   });
 }
 
 makeTests(LRUCache, 'LRUCache');
 makeTests(LRUMap, 'LRUMap');
+makeTests(ObliviousLRUCache, 'ObliviousLRUCache');
