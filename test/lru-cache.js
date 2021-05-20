@@ -9,10 +9,14 @@ var assert = require('assert'),
 function makeTests(Cache, name) {
   describe(name, function() {
 
-    it('should throw if given an invalid capacity.', function() {
-      assert.throws(function() {
-        new Cache({});
-      }, /capacity/);
+    describe('should throw if given an invalid capacity.', function() {
+      [undefined, {}, -1, true, 1.01, Infinity].forEach(function(capacity) {
+        it('invalid capacity: ' + capacity, function() {
+          assert.throws(function() {
+            new Cache(capacity);
+          }, /capacity/);
+        });
+      });
     });
 
     it('should be possible to create a LRU cache.', function() {
