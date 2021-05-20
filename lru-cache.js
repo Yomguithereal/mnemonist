@@ -39,6 +39,8 @@ function LRUCache(Keys, Values, capacity) {
 
   if (typeof this.capacity !== 'number' || this.capacity <= 0)
     throw new Error('mnemonist/lru-cache: capacity should be positive number.');
+  else if (!isFinite(this.capacity) || Math.floor(this.capacity) !== this.capacity)
+      throw new Error('mnemonist/lru-cache: capacity should be a finite positive integer.');
 
   var PointerArray = typed.getPointerArray(capacity);
 
