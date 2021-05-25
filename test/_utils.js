@@ -13,6 +13,38 @@ describe('utils', function() {
 
   describe('typed-arrays', function() {
 
+    describe('#.getPointerArray', function() {
+      var validatePointerArrayConstructor = function (min, max, expectedCtor) {
+        it(`returns ${expectedCtor} for ${min}`, () => {
+          assert.strictEqual(typed.getPointerArray(min), expectedCtor);
+        });
+        it(`returns ${expectedCtor} for ${(max - min) / 2}`, () => {
+          assert.strictEqual(typed.getPointerArray((max - min) / 2), expectedCtor);
+        });
+        it(`returns ${expectedCtor} for ${max}`, () => {
+          assert.strictEqual(typed.getPointerArray(max), expectedCtor);
+        });
+      };
+
+      describe('returns Uint8Array for capacity <= Math.pow(2, 8)', function() {
+        validatePointerArrayConstructor(0, Math.pow(2, 8), Uint8Array);
+      });
+
+      describe('returns Uint16Array for Math.pow(2, 8) < capacity <= Math.pow(2, 16)', function() {
+        validatePointerArrayConstructor(Math.pow(2, 8) + 1, Math.pow(2, 16), Uint16Array);
+      });
+
+      describe('returns Uint32Array for Math.pow(2, 16) < capacity <= Math.pow(2, 32)', function() {
+        validatePointerArrayConstructor(Math.pow(2, 16) + 1, Math.pow(2, 32), Uint32Array);
+      });
+
+      describe('throws error for capacity > Math.pow(2, 32)', function() {
+        assert.throws(function() {
+          typed.getPointerArray(Math.pow(2, 32) + 1);
+        }, /Pointer Array of size > 4294967295 is not supported/);
+      });
+    });
+
     describe('#.getMinimalRepresentation', function() {
 
       it('should return the correct type.', function() {
