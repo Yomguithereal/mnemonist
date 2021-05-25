@@ -35,7 +35,7 @@ exports.getPointerArray = function(size) {
   if (maxIndex <= MAX_32BIT_INTEGER)
     return Uint32Array;
 
-  return Float64Array;
+  throw new Error('mnemonist: Pointer Array of size > 4294967295 is not supported.');
 };
 
 exports.getSignedPointerArray = function(size) {
