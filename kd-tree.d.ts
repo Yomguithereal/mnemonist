@@ -19,7 +19,7 @@ export default class KDTree<V> {
 
   // Statics
   static from<I>(iterable: Iterable<[I, Array<number>]>, dimensions: number): KDTree<I>;
-  static from(axes: IArrayLike): KDTree<number>;
-  static from<I>(axes: IArrayLike, labels: Array<I>): KDTree<I>;
+  static fromAxes(axes: IArrayLike): KDTree<number>;
+  static fromAxes<I>(axes: IArrayLike, labels: Array<I>): KDTree<I>;
 }
 
