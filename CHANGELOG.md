@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.38.4
+
+* Fixing `KDTree` typings (@clhuang).
+
 ## 0.38.3
 
 * Refactoring `VPTree` memory layout.

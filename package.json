@@ -1,11 +1,10 @@
 {
   "name": "mnemonist",
-  "version": "0.38.3",
+  "version": "0.38.4",
   "description": "Curated collection of data structures for the JavaScript language.",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
-    "prepublish": "npm run lint && npm test && npm run test:types",
-    "prepublishOnly": "npm run prepublish",
+    "prepublishOnly": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
