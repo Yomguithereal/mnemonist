@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.38.5 (provisional)
+## 0.38.5
 
 * Upgrading `obliterator`.
 * Improving performance of iterator methods across the library.
