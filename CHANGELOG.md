@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.38.5 (provisional)
+
+* Upgrading `obliterator`.
+* Improving performance of iterator methods across the library.
+
 ## 0.38.4
 
 * Fixing `KDTree` typings (@clhuang).

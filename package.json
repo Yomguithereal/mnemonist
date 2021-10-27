@@ -1,7 +1,7 @@
 {
   "name": "mnemonist",
   "version": "0.38.4",
-  "description": "Curated collection of data structures for the JavaScript language.",
+  "description": "Curated collection of data structures for the JavaScript/TypeScript.",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
     "prepublishOnly": "npm run lint && npm test && npm run test:types",
@@ -72,7 +72,7 @@
   },
   "homepage": "https://github.com/yomguithereal/mnemonist#readme",
   "dependencies": {
-    "obliterator": "^1.6.1"
+    "obliterator": "^2.0.0"
   },
   "devDependencies": {
     "@yomguithereal/eslint-config": "^4.0.0",
@@ -82,7 +82,7 @@
     "leven": "^3.1.0",
     "lodash": "^4.17.21",
     "matcha": "^0.7.0",
-    "mocha": "^8.3.0",
+    "mocha": "^9.1.3",
     "pandemonium": "^2.0.0",
     "seedrandom": "^3.0.5",
     "static-kdtree": "^1.0.2",
@@ -90,22 +90,6 @@
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
-    "globals": {
-      "Set": true,
-      "Map": true,
-      "WeakMap": true,
-      "Symbol": true,
-      "ArrayBuffer": true,
-      "Uint8Array": true,
-      "Uint8ClampedArray": true,
-      "Uint16Array": true,
-      "Uint32Array": true,
-      "Int8Array": true,
-      "Int16Array": true,
-      "Int32Array": true,
-      "Float32Array": true,
-      "Float64Array": true
-    },
     "parserOptions": {
       "ecmaVersion": 6,
       "ecmaFeatures": {
