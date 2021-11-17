@@ -5,7 +5,8 @@
 var assert = require('assert'),
     LRUCache = require('../lru-cache.js'),
     LRUMap = require('../lru-map.js'),
-    LRUCacheWithDelete = require('../lru-cache-with-delete.js');
+    LRUCacheWithDelete = require('../lru-cache-with-delete.js'),
+    LRUMapWithDelete = require('../lru-map-with-delete.js');
 
 function makeTests(Cache, name) {
   describe(name, function() {
@@ -221,7 +222,7 @@ function makeTests(Cache, name) {
       assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
 
-    if (name === 'LRUCacheWithDelete') {
+    if ((name === 'LRUCacheWithDelete') || (name === 'LRUMapWithDelete')) {
 
       it('should be possible to delete keys from a LRU cache.', function() {
         var cache = new Cache(3);
@@ -301,15 +302,14 @@ function makeTests(Cache, name) {
 
       it('enjoys a healthy workout', function() {
         var cache = new Cache(4);
-        let dead;
         cache.set(0, 'cero'); cache.set(1, 'uno'); cache.set(2, 'dos'); cache.delete(1);
-        cache.set(3, 'tres'); cache.set(4, 'cuatro'); cache.get(2)
+        cache.set(3, 'tres'); cache.set(4, 'cuatro'); cache.get(2);
         assert.deepStrictEqual(Array.from(cache.entries()), [[2, 'dos'], [4, 'cuatro'], [3, 'tres'], [0, 'cero']]);
 
         cache.set(5, 'cinco'); cache.set(6, 'seis'); cache.delete(1); cache.delete(2); cache.set(5, 'cinq');
         assert.deepStrictEqual(Array.from(cache.entries()), [[5, 'cinq'], [6, 'seis'], [4, 'cuatro']]);
 
-        cache.set(7, 'siete'); cache.set(8, 'ocho'); cache.set(9, 'nueve'); cache.delete(8) ; cache.set(10, 'diez');
+        cache.set(7, 'siete'); cache.set(8, 'ocho'); cache.set(9, 'nueve'); cache.delete(8); cache.set(10, 'diez');
         assert.deepStrictEqual(Array.from(cache.entries()), [[10, 'diez'], [9, 'nueve'], [7, 'siete'], [5, 'cinq']]);
 
         cache.set(7, 'sept'); cache.get(5); cache.set(8, 'huit'); cache.set(9, 'neuf'); cache.set(10, 'dix');
@@ -328,3 +328,4 @@ function makeTests(Cache, name) {
 makeTests(LRUCache, 'LRUCache');
 makeTests(LRUMap, 'LRUMap');
 makeTests(LRUCacheWithDelete, 'LRUCacheWithDelete');
+makeTests(LRUMapWithDelete, 'LRUMapWithDelete');

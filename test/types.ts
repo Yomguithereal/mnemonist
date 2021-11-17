@@ -22,6 +22,7 @@ import {
   LRUCache,
   LRUCacheWithDelete,
   LRUMap,
+  LRUMapWithDelete,
   MultiSet,
   MultiMap,
   PassjoinIndex,
@@ -169,6 +170,13 @@ let lrucwdItem: string = lrucwd.get('one')
 let lrumap: LRUMap<string, number> = new LRUMap(10);
 lrumap.set('one', 34);
 let lrumapItem: number = lrumap.get('one');
+
+/**
+ * LRUMapWithDelete
+ */
+let lrumwd: LRUMapWithDelete<string, string> = new LRUMapWithDelete(10);
+lrumwd.set('one', 'uno')
+let lrumwdItem: string = lrumwd.get('one')
 
 /**
  * MultiSet.
