@@ -35,6 +35,7 @@ module.exports = {
   KDTree: require('./kd-tree.js'),
   LinkedList: require('./linked-list.js'),
   LRUCache: require('./lru-cache.js'),
+  LRUCacheWithDelete: require('./lru-cache-with-delete.js'),
   LRUMap: require('./lru-map.js'),
   MultiMap: require('./multi-map.js'),
   MultiSet: require('./multi-set.js'),

@@ -1,5 +1,5 @@
 /**
- * Mnemonist ObliviousLRUCache
+ * Mnemonist LRUCacheWithDelete
  * ===================
  *
  * An extension of LRUCache with delete functionality.
@@ -10,7 +10,7 @@ var LRUCache = require('./lru-cache.js'),
     typed = require('./utils/typed-arrays.js'),
     iterables = require('./utils/iterables.js');
 
-function ObliviousLRUCache(Keys, Values, capacity) {
+function LRUCacheWithDelete(Keys, Values, capacity) {
   if (arguments.length < 2) {
     LRUCache.call(this, Keys);
   }
@@ -22,15 +22,15 @@ function ObliviousLRUCache(Keys, Values, capacity) {
   this.deletedSize = 0;
 }
 
-ObliviousLRUCache.prototype = Object.create(LRUCache.prototype);
-ObliviousLRUCache.prototype.constructor = ObliviousLRUCache;
+LRUCacheWithDelete.prototype = Object.create(LRUCache.prototype);
+LRUCacheWithDelete.prototype.constructor = LRUCacheWithDelete;
 
 /**
  * Method used to clear the structure.
  *
  * @return {undefined}
  */
- ObliviousLRUCache.prototype.clear = function() {
+ LRUCacheWithDelete.prototype.clear = function() {
   LRUCache.prototype.clear.call(this);
   this.deletedSize = 0;
 };
@@ -42,7 +42,7 @@ ObliviousLRUCache.prototype.constructor = ObliviousLRUCache;
  * @param  {any} value - Value.
  * @return {undefined}
  */
-ObliviousLRUCache.prototype.set = function(key, value) {
+LRUCacheWithDelete.prototype.set = function(key, value) {
   this.setpop(key, value);
 };
 
@@ -57,7 +57,7 @@ ObliviousLRUCache.prototype.set = function(key, value) {
  * limited capacity. Return value is null if nothing was evicted or overwritten
  * during the set operation.
  */
-ObliviousLRUCache.prototype.setpop = function(key, value) {
+LRUCacheWithDelete.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
   // The key already exists, we just need to update the value and splay on top
@@ -115,7 +115,7 @@ ObliviousLRUCache.prototype.setpop = function(key, value) {
  * @param  {any} key   - Key.
  * @return {undefined}
  */
- ObliviousLRUCache.prototype.delete = function(key) {
+ LRUCacheWithDelete.prototype.delete = function(key) {
 
   var pointer = this.items[key];
 
@@ -154,9 +154,9 @@ ObliviousLRUCache.prototype.setpop = function(key, value) {
  * @param  {function} Keys     - Array class for storing keys.
  * @param  {function} Values   - Array class for storing values.
  * @param  {number}   capacity - Cache's capacity.
- * @return {ObliviousLRUCache}
+ * @return {LRUCacheWithDelete}
  */
- ObliviousLRUCache.from = function(iterable, Keys, Values, capacity) {
+ LRUCacheWithDelete.from = function(iterable, Keys, Values, capacity) {
   if (arguments.length < 2) {
     capacity = iterables.guessLength(iterable);
 
@@ -169,7 +169,7 @@ ObliviousLRUCache.prototype.setpop = function(key, value) {
     Values = null;
   }
 
-  var cache = new ObliviousLRUCache(Keys, Values, capacity);
+  var cache = new LRUCacheWithDelete(Keys, Values, capacity);
 
   forEach(iterable, function(value, key) {
     cache.set(key, value);
@@ -178,4 +178,4 @@ ObliviousLRUCache.prototype.setpop = function(key, value) {
   return cache;
 };
 
-module.exports = ObliviousLRUCache;
+module.exports = LRUCacheWithDelete;

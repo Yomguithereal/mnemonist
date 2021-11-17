@@ -1,19 +1,19 @@
 /**
- * Mnemonist ObliviousLRUCache Typings
+ * Mnemonist LRUCacheWithDelete Typings
  * ===========================
  */
  import {IArrayLikeConstructor} from './utils/types';
 
- export default class ObliviousLRUCache<K, V> implements Iterable<[K, V]> {
- 
+ export default class LRUCacheWithDelete<K, V> implements Iterable<[K, V]> {
+
    // Members
    capacity: number;
    size: number;
- 
+
    // Constructor
    constructor(capacity: number);
    constructor(KeyArrayClass: IArrayLikeConstructor, ValueArrayClass: IArrayLikeConstructor, capacity: number);
- 
+
    // Methods
    clear(): void;
    set(key: K, value: V): this;
@@ -28,17 +28,17 @@
    entries(): IterableIterator<[K, V]>;
    [Symbol.iterator](): IterableIterator<[K, V]>;
    inspect(): any;
- 
+
    // Statics
    static from<I, J>(
      iterable: Iterable<[I, J]> | {[key: string]: J},
      KeyArrayClass: IArrayLikeConstructor,
      ValueArrayClass: IArrayLikeConstructor,
      capacity?: number
-   ): ObliviousLRUCache<I, J>;
- 
+   ): LRUCacheWithDelete<I, J>;
+
    static from<I, J>(
      iterable: Iterable<[I, J]> | {[key: string]: J},
      capacity?: number
-   ): ObliviousLRUCache<I, J>;
+   ): LRUCacheWithDelete<I, J>;
  }

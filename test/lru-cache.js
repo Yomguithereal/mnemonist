@@ -5,7 +5,7 @@
 var assert = require('assert'),
     LRUCache = require('../lru-cache.js'),
     LRUMap = require('../lru-map.js'),
-    ObliviousLRUCache = require('../oblivious-lru-cache.js');
+    LRUCacheWithDelete = require('../lru-cache-with-delete.js');
 
 function makeTests(Cache, name) {
   describe(name, function() {
@@ -61,7 +61,7 @@ function makeTests(Cache, name) {
       assert.strictEqual(cache.peek('two'), 5);
       assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
-      if (name === 'LRUCache' || name === 'ObliviousLRUCache')
+      if (name === 'LRUCache' || name === 'LRUCacheWithDelete')
         assert.strictEqual(Object.keys(cache.items).length, 3);
       else
         assert.strictEqual(cache.items.size, 3);
@@ -221,7 +221,7 @@ function makeTests(Cache, name) {
       assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
 
-    if (name === 'ObliviousLRUCache') {
+    if (name === 'LRUCacheWithDelete') {
       it('should be possible to delete keys from a LRU cache.', function() {
         var cache = new Cache(3);
 
@@ -268,4 +268,4 @@ function makeTests(Cache, name) {
 
 makeTests(LRUCache, 'LRUCache');
 makeTests(LRUMap, 'LRUMap');
-makeTests(ObliviousLRUCache, 'ObliviousLRUCache');
+makeTests(LRUCacheWithDelete, 'LRUCacheWithDelete');
