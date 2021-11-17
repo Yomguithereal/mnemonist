@@ -10,6 +10,17 @@ var LRUCache = require('./lru-cache.js'),
     typed = require('./utils/typed-arrays.js'),
     iterables = require('./utils/iterables.js');
 
+// The only complication with deleting items is that the LRU's
+// performance depends on having a fixed-size list of pointers; the
+// doubly-linked-list is happy to expand and contract.
+//
+// On delete, we record the position of the former item's pointer in a
+// list of "holes" in the pointer array. On insert, if there is a hole
+// the new pointer slots in to fill the hole; otherwise, it is
+// appended as usual. (Note: we are only talking here about the
+// internal pointer list. set'ing or get'ing an item promotes it
+// to the top of the LRU ranking no matter what came before)
+
 function LRUCacheWithDelete(Keys, Values, capacity) {
   if (arguments.length < 2) {
     LRUCache.call(this, Keys);
@@ -73,9 +84,11 @@ LRUCacheWithDelete.prototype.setpop = function(key, value) {
   // The cache is not yet full
   if (this.size < this.capacity) {
     if (this.deletedSize > 0) {
+      // If there is a "hole" in the pointer list, reuse it
       pointer = this.deleted[--this.deletedSize];
     }
     else {
+      // otherwise append to the pointer list
       pointer = this.size;
     }
     this.size++;
@@ -115,17 +128,23 @@ LRUCacheWithDelete.prototype.setpop = function(key, value) {
  * @param  {any} key   - Key.
  * @return {undefined}
  */
- LRUCacheWithDelete.prototype.delete = function(key) {
+LRUCacheWithDelete.prototype.delete = function(key) {
 
   var pointer = this.items[key];
 
   if (typeof pointer === 'undefined') {
-    return;
+    return undefined;
   }
 
-  if (this.head === pointer && this.tail === pointer) {
-    this.clear();
-    return;
+  const dead = this.V[pointer];
+  delete this.items[key];
+
+  if (this.size === 1) {
+    this.size = 0;
+    this.head = 0;
+    this.tail = 0;
+    this.deletedSize = 0;
+    return dead;
   }
 
   var previous = this.backward[pointer],
@@ -141,9 +160,10 @@ LRUCacheWithDelete.prototype.setpop = function(key, value) {
   this.forward[previous] = next;
   this.backward[next] = previous;
 
-  delete this.items[key];
   this.size--;
   this.deleted[this.deletedSize++] = pointer;
+
+  return dead;
 };
 
 /**

@@ -20,6 +20,7 @@ import {
   InvertedIndex,
   LinkedList,
   LRUCache,
+  LRUCacheWithDelete,
   LRUMap,
   MultiSet,
   MultiMap,
@@ -154,6 +155,13 @@ let linkedlistItem: boolean = linkedlist.shift();
 let lrucache: LRUCache<string, number> = new LRUCache(10);
 lrucache.set('one', 34);
 let lrucacheItem: number = lrucache.get('one');
+
+/**
+ * LRUCacheWithDelete
+ */
+let lrucwd: LRUCacheWithDelete<string, string> = new LRUCacheWithDelete(10);
+lrucwd.set('one', 'uno')
+let lrucwdItem: string = lrucwd.get('one')
 
 /**
  * LRUMap.

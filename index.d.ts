@@ -26,6 +26,7 @@ export {default as InvertedIndex} from './inverted-index';
 export {default as KDTree} from './kd-tree';
 export {default as LinkedList} from './linked-list';
 export {default as LRUCache} from './lru-cache';
+export {default as LRUCacheWithDelete} from './lru-cache-with-delete';
 export {default as LRUMap} from './lru-map';
 export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
