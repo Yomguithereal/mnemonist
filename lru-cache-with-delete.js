@@ -18,7 +18,7 @@ var LRUCache = require('./lru-cache.js'),
 // list of "holes" in the pointer array. On insert, if there is a hole
 // the new pointer slots in to fill the hole; otherwise, it is
 // appended as usual. (Note: we are only talking here about the
-// internal pointer list. set'ing or get'ing an item promotes it
+// internal pointer list. setting or getting an item promotes it
 // to the top of the LRU ranking no matter what came before)
 
 function LRUCacheWithDelete(Keys, Values, capacity) {
@@ -33,8 +33,10 @@ function LRUCacheWithDelete(Keys, Values, capacity) {
   this.deletedSize = 0;
 }
 
-LRUCacheWithDelete.prototype = Object.create(LRUCache.prototype);
-LRUCacheWithDelete.prototype.constructor = LRUCacheWithDelete;
+for (var k in LRUCache.prototype)
+  LRUCacheWithDelete.prototype[k] = LRUCache.prototype[k];
+if (typeof Symbol !== 'undefined')
+  LRUCacheWithDelete.prototype[Symbol.iterator] = LRUCache.prototype[Symbol.iterator];
 
 /**
  * Method used to clear the structure.
@@ -54,7 +56,46 @@ LRUCacheWithDelete.prototype.constructor = LRUCacheWithDelete;
  * @return {undefined}
  */
 LRUCacheWithDelete.prototype.set = function(key, value) {
-  this.setpop(key, value);
+
+  var pointer = this.items[key];
+
+  // The key already exists, we just need to update the value and splay on top
+  if (typeof pointer !== 'undefined') {
+    this.splayOnTop(pointer);
+    this.V[pointer] = value;
+
+    return;
+  }
+
+  // The cache is not yet full
+  if (this.size < this.capacity) {
+    if (this.deletedSize > 0) {
+      // If there is a "hole" in the pointer list, reuse it
+      pointer = this.deleted[--this.deletedSize];
+    }
+    else {
+      // otherwise append to the pointer list
+      pointer = this.size;
+    }
+    this.size++;
+  }
+
+  // Cache is full, we need to drop the last value
+  else {
+    pointer = this.tail;
+    this.tail = this.backward[pointer];
+    delete this.items[this.K[pointer]];
+  }
+
+  // Storing key & value
+  this.items[key] = pointer;
+  this.K[pointer] = key;
+  this.V[pointer] = value;
+
+  // Moving the item at the front of the list
+  this.forward[pointer] = this.head;
+  this.backward[this.head] = pointer;
+  this.head = pointer;
 };
 
 /**
@@ -71,9 +112,10 @@ LRUCacheWithDelete.prototype.set = function(key, value) {
 LRUCacheWithDelete.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
-  // The key already exists, we just need to update the value and splay on top
+
   var pointer = this.items[key];
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
     oldValue = this.V[pointer];
@@ -123,20 +165,64 @@ LRUCacheWithDelete.prototype.setpop = function(key, value) {
 };
 
 /**
- * Method used to delete the value for the given key in the cache.
+ * Method used to delete the entry for the given key in the cache.
  *
  * @param  {any} key   - Key.
- * @return {undefined}
+ * @return {boolean}   - true if the item was present
  */
 LRUCacheWithDelete.prototype.delete = function(key) {
 
   var pointer = this.items[key];
 
   if (typeof pointer === 'undefined') {
-    return undefined;
+    return false;
   }
 
-  const dead = this.V[pointer];
+  delete this.items[key];
+
+  if (this.size === 1) {
+    this.size = 0;
+    this.head = 0;
+    this.tail = 0;
+    this.deletedSize = 0;
+    return true;
+  }
+
+  var previous = this.backward[pointer],
+      next = this.forward[pointer];
+
+  if (this.head === pointer) {
+    this.head = next;
+  }
+  if (this.tail === pointer) {
+    this.tail = previous;
+  }
+
+  this.forward[previous] = next;
+  this.backward[next] = previous;
+
+  this.size--;
+  this.deleted[this.deletedSize++] = pointer;
+
+  return true;
+};
+
+/**
+ * Method used to remove and return the value for the given key in the cache.
+ *
+ * @param  {any} key                 - Key.
+ * @param  {any} [missing=undefined] - Value to return if item is absent
+ * @return {any} The value, if present; the missing indicator if absent
+ */
+LRUCacheWithDelete.prototype.remove = function(key, missing = undefined) {
+
+  var pointer = this.items[key];
+
+  if (typeof pointer === 'undefined') {
+    return missing;
+  }
+
+  var dead = this.V[pointer];
   delete this.items[key];
 
   if (this.size === 1) {

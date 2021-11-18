@@ -18,7 +18,7 @@ var LRUMap = require('./lru-map.js'),
 // list of "holes" in the pointer array. On insert, if there is a hole
 // the new pointer slots in to fill the hole; otherwise, it is
 // appended as usual. (Note: we are only talking here about the
-// internal pointer list. set'ing or get'ing an item promotes it
+// internal pointer list. setting or getting an item promotes it
 // to the top of the LRU ranking no matter what came before)
 
 function LRUMapWithDelete(Keys, Values, capacity) {
@@ -33,8 +33,10 @@ function LRUMapWithDelete(Keys, Values, capacity) {
   this.deletedSize = 0;
 }
 
-LRUMapWithDelete.prototype = Object.create(LRUMap.prototype);
-LRUMapWithDelete.prototype.constructor = LRUMapWithDelete;
+for (var k in LRUMap.prototype)
+  LRUMapWithDelete.prototype[k] = LRUMap.prototype[k];
+if (typeof Symbol !== 'undefined')
+  LRUMapWithDelete.prototype[Symbol.iterator] = LRUMap.prototype[Symbol.iterator];
 
 /**
  * Method used to clear the structure.
@@ -47,41 +49,25 @@ LRUMapWithDelete.prototype.constructor = LRUMapWithDelete;
 };
 
 /**
- * Method used to set the value for the given key in the map.
+ * Method used to set the value for the given key in the cache.
  *
  * @param  {any} key   - Key.
  * @param  {any} value - Value.
  * @return {undefined}
  */
 LRUMapWithDelete.prototype.set = function(key, value) {
-  this.setpop(key, value);
-};
 
-/**
- * Method used to set the value for the given key in the map
- *
- * @param  {any} key   - Key.
- * @param  {any} value - Value.
- * @return {{evicted: boolean, key: any, value: any}} An object containing the
- * key and value of an item that was overwritten or evicted in the set
- * operation, as well as a boolean indicating whether it was evicted due to
- * limited capacity. Return value is null if nothing was evicted or overwritten
- * during the set operation.
- */
-LRUMapWithDelete.prototype.setpop = function(key, value) {
-  var oldValue = null;
-  var oldKey = null;
-  // The key already exists, we just need to update the value and splay on top
   var pointer = this.items.get(key);
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
-    oldValue = this.V[pointer];
     this.V[pointer] = value;
-    return {evicted: false, key: key, value: oldValue};
+
+    return;
   }
 
-  // The map is not yet full
+  // The cache is not yet full
   if (this.size < this.capacity) {
     if (this.deletedSize > 0) {
       // If there is a "hole" in the pointer list, reuse it
@@ -94,7 +80,63 @@ LRUMapWithDelete.prototype.setpop = function(key, value) {
     this.size++;
   }
 
-  // Map is full, we need to drop the last value
+  // Cache is full, we need to drop the last value
+  else {
+    pointer = this.tail;
+    this.tail = this.backward[pointer];
+    this.items.delete(this.K[pointer]);
+  }
+
+  // Storing key & value
+  this.items.set(key, pointer);
+  this.K[pointer] = key;
+  this.V[pointer] = value;
+
+  // Moving the item at the front of the list
+  this.forward[pointer] = this.head;
+  this.backward[this.head] = pointer;
+  this.head = pointer;
+};
+
+/**
+ * Method used to set the value for the given key in the cache
+ *
+ * @param  {any} key   - Key.
+ * @param  {any} value - Value.
+ * @return {{evicted: boolean, key: any, value: any}} An object containing the
+ * key and value of an item that was overwritten or evicted in the set
+ * operation, as well as a boolean indicating whether it was evicted due to
+ * limited capacity. Return value is null if nothing was evicted or overwritten
+ * during the set operation.
+ */
+LRUMapWithDelete.prototype.setpop = function(key, value) {
+  var oldValue = null;
+  var oldKey = null;
+
+  var pointer = this.items.get(key);
+
+  // The key already exists, we just need to update the value and splay on top
+  if (typeof pointer !== 'undefined') {
+    this.splayOnTop(pointer);
+    oldValue = this.V[pointer];
+    this.V[pointer] = value;
+    return {evicted: false, key: key, value: oldValue};
+  }
+
+  // The cache is not yet full
+  if (this.size < this.capacity) {
+    if (this.deletedSize > 0) {
+      // If there is a "hole" in the pointer list, reuse it
+      pointer = this.deleted[--this.deletedSize];
+    }
+    else {
+      // otherwise append to the pointer list
+      pointer = this.size;
+    }
+    this.size++;
+  }
+
+  // Cache is full, we need to drop the last value
   else {
     pointer = this.tail;
     this.tail = this.backward[pointer];
@@ -123,20 +165,64 @@ LRUMapWithDelete.prototype.setpop = function(key, value) {
 };
 
 /**
- * Method used to delete the value for the given key in the map.
+ * Method used to delete the entry for the given key in the cache.
  *
  * @param  {any} key   - Key.
- * @return {undefined}
+ * @return {boolean}   - true if the item was present
  */
 LRUMapWithDelete.prototype.delete = function(key) {
 
   var pointer = this.items.get(key);
 
   if (typeof pointer === 'undefined') {
-    return undefined;
+    return false;
   }
 
-  const dead = this.V[pointer];
+  this.items.delete(key);
+
+  if (this.size === 1) {
+    this.size = 0;
+    this.head = 0;
+    this.tail = 0;
+    this.deletedSize = 0;
+    return true;
+  }
+
+  var previous = this.backward[pointer],
+      next = this.forward[pointer];
+
+  if (this.head === pointer) {
+    this.head = next;
+  }
+  if (this.tail === pointer) {
+    this.tail = previous;
+  }
+
+  this.forward[previous] = next;
+  this.backward[next] = previous;
+
+  this.size--;
+  this.deleted[this.deletedSize++] = pointer;
+
+  return true;
+};
+
+/**
+ * Method used to remove and return the value for the given key in the cache.
+ *
+ * @param  {any} key                 - Key.
+ * @param  {any} [missing=undefined] - Value to return if item is absent
+ * @return {any} The value, if present; the missing indicator if absent
+ */
+LRUMapWithDelete.prototype.remove = function(key, missing = undefined) {
+
+  var pointer = this.items.get(key);
+
+  if (typeof pointer === 'undefined') {
+    return missing;
+  }
+
+  var dead = this.V[pointer];
   this.items.delete(key);
 
   if (this.size === 1) {
@@ -173,7 +259,7 @@ LRUMapWithDelete.prototype.delete = function(key) {
  * @param  {Iterable} iterable - Target iterable.
  * @param  {function} Keys     - Array class for storing keys.
  * @param  {function} Values   - Array class for storing values.
- * @param  {number}   capacity - Map's capacity.
+ * @param  {number}   capacity - Cache's capacity.
  * @return {LRUMapWithDelete}
  */
  LRUMapWithDelete.from = function(iterable, Keys, Values, capacity) {
@@ -189,13 +275,13 @@ LRUMapWithDelete.prototype.delete = function(key) {
     Values = null;
   }
 
-  var map = new LRUMapWithDelete(Keys, Values, capacity);
+  var cache = new LRUMapWithDelete(Keys, Values, capacity);
 
   forEach(iterable, function(value, key) {
-    map.set(key, value);
+    cache.set(key, value);
   });
 
-  return map;
+  return cache;
 };
 
 module.exports = LRUMapWithDelete;

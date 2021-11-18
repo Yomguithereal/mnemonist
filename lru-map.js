@@ -68,9 +68,9 @@ LRUMap.prototype.clear = function() {
  */
 LRUMap.prototype.set = function(key, value) {
 
-  // The key already exists, we just need to update the value and splay on top
   var pointer = this.items.get(key);
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
     this.V[pointer] = value;
@@ -115,9 +115,10 @@ LRUMap.prototype.set = function(key, value) {
 LRUMap.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
-  // The key already exists, we just need to update the value and splay on top
+
   var pointer = this.items.get(key);
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
     oldValue = this.V[pointer];

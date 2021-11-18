@@ -6,6 +6,8 @@
 
  export default class LRUCacheWithDelete<K, V> extends LRUCache<K, V> {
 
-   delete(key: K): V | undefined;
+   delete(key: K): boolean;
+
+   remove<T>(key: K, missing?: T): V | T;
 
 }
