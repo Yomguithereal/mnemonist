@@ -1,6 +1,6 @@
 /**
  * Mnemonist LRUMapWithDelete
- * ===================
+ * ===========================
  *
  * An extension of LRUMap with delete functionality.
  */

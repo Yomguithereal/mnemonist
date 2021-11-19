@@ -1,6 +1,6 @@
 /**
  * Mnemonist LRUMapWithDelete Typings
- * ===========================
+ * ===================================
  */
  import LRUMap from './lru-map';
 

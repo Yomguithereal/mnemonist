@@ -1,6 +1,6 @@
 /**
  * Mnemonist LRUCacheWithDelete
- * ===================
+ * =============================
  *
  * An extension of LRUCache with delete functionality.
  */

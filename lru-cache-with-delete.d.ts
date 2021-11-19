@@ -1,6 +1,6 @@
 /**
  * Mnemonist LRUCacheWithDelete Typings
- * ===========================
+ * =====================================
  */
  import LRUCache from './lru-cache';
 
