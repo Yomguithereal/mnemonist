@@ -16,6 +16,8 @@ This implementation has been designed to work with an ES6 `Map` object. You can 
 
 ```js
 var LRUMap = require('mnemonist/lru-map');
+// If you need deletions
+var LRUMapWithDelete = require('mnemonist/lru-map-with-delete');
 ```
 
 ## Constructor
@@ -59,6 +61,8 @@ var cache = LRUMap.from({one: 1, two: 2}, Array, Uint8Array, 10);
 
 * [#.set](#set)
 * [#.setpop](#setpop)
+* [#.delete](#delete) (only on `LRUMapWithDelete`)
+* [#.remove](#remove) (only on `LRUMapWithDelete`)
 * [#.clear](#clear)
 
 *Read*
@@ -119,12 +123,53 @@ Sets a value for the given key in the cache. If the cache is already full, the l
 
 ```js
 var cache = new LRUMap(1);
-cache.setpop('one', 1)
+cache.setpop('one', 1);
 >>> null
-cache.setpop('one', 10)
+cache.setpop('one', 10);
 >>> {key: 'one', value: 1, evicted: false}
-cache.setpop('two', 2)
+cache.setpop('two', 2);
 >>> {key: 'one', value: 10, evicted: true}
+```
+
+### #.delete
+
+Deletes the given key and returns whether its was actually in the cache before deletion.
+
+Beware, for performance reasons this method is only available on `LRUMapWithDelete`.
+
+`O(1)`
+
+```js
+var cache = new LRUMapWithDelete(1);
+cache.set('one', 1)
+
+cache.delete('one');
+>>> true
+
+cache.delete('one');
+>>> false
+```
+
+### #.remove
+
+Deletes the given key and returns the associated value if the key was actually in the cache or a default value if it was not.
+
+Beware, for performance reasons this method is only available on `LRUMapWithDelete`.
+
+`O(1)`
+
+```js
+var cache = new LRUMapWithDelete(1);
+cache.set('one', 1)
+
+cache.remove('one');
+>>> 1
+
+cache.remove('one');
+>>> undefined
+
+cache.remove('one', 'not-found');
+>>> 'not-found'
 ```
 
 ### #.clear

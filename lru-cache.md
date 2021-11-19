@@ -13,9 +13,10 @@ For more information, you can check [this](https://en.wikipedia.org/wiki/Cache_r
 
 This implementation has been designed to work with a javascript raw object. You can alternatively find an implementation relying on ES6's `Map` object [here]({{ site.baseurl }}/lru-map). Depending on the precise use case (string keys, integer keys etc.), one or the other might be faster depending on js engine magic.
 
-
 ```js
 var LRUCache = require('mnemonist/lru-cache');
+// If you need deletions
+var LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
 ```
 
 ## Constructor
@@ -59,6 +60,8 @@ var cache = LRUCache.from({one: 1, two: 2}, Array, Uint8Array, 10);
 
 * [#.set](#set)
 * [#.setpop](#setpop)
+* [#.delete](#delete) (only on `LRUCacheWithDelete`)
+* [#.remove](#remove) (only on `LRUCacheWithDelete`)
 * [#.clear](#clear)
 
 *Read*
@@ -119,12 +122,53 @@ Sets a value for the given key in the cache. If the cache is already full, the l
 
 ```js
 var cache = new LRUCache(1);
-cache.setpop('one', 1)
+cache.setpop('one', 1);
 >>> null
-cache.setpop('one', 10)
+cache.setpop('one', 10);
 >>> {key: 'one', value: 1, evicted: false}
-cache.setpop('two', 2)
+cache.setpop('two', 2);
 >>> {key: 'one', value: 10, evicted: true}
+```
+
+### #.delete
+
+Deletes the given key and returns whether its was actually in the cache before deletion.
+
+Beware, for performance reasons this method is only available on `LRUCacheWithDelete`.
+
+`O(1)`
+
+```js
+var cache = new LRUCacheWithDelete(1);
+cache.set('one', 1)
+
+cache.delete('one');
+>>> true
+
+cache.delete('one');
+>>> false
+```
+
+### #.remove
+
+Deletes the given key and returns the associated value if the key was actually in the cache or a default value if it was not.
+
+Beware, for performance reasons this method is only available on `LRUCacheWithDelete`.
+
+`O(1)`
+
+```js
+var cache = new LRUCacheWithDelete(1);
+cache.set('one', 1)
+
+cache.remove('one');
+>>> 1
+
+cache.remove('one');
+>>> undefined
+
+cache.remove('one', 'not-found');
+>>> 'not-found'
 ```
 
 ### #.clear
