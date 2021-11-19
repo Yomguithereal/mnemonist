@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Yomguithereal/mnemonist.svg)](https://travis-ci.org/Yomguithereal/mnemonist)
+[![Build Status](https://github.com/Yomguithereal/mnemonist/workflows/Tests/badge.svg)](https://github.com/Yomguithereal/mnemonist/actions)
 
 # Mnemonist
 
