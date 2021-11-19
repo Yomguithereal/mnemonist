@@ -72,13 +72,13 @@
   },
   "homepage": "https://github.com/yomguithereal/mnemonist#readme",
   "dependencies": {
-    "obliterator": "^2.0.0"
+    "obliterator": "^2.0.1"
   },
   "devDependencies": {
-    "@yomguithereal/eslint-config": "^4.0.0",
+    "@yomguithereal/eslint-config": "^4.4.0",
     "asciitree": "^1.0.2",
-    "damerau-levenshtein": "^1.0.6",
-    "eslint": "^7.21.0",
+    "damerau-levenshtein": "^1.0.7",
+    "eslint": "^8.2.0",
     "leven": "^3.1.0",
     "lodash": "^4.17.21",
     "matcha": "^0.7.0",
@@ -86,7 +86,7 @@
     "pandemonium": "^2.0.0",
     "seedrandom": "^3.0.5",
     "static-kdtree": "^1.0.2",
-    "typescript": "^4.2.2"
+    "typescript": "^4.5.2"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
