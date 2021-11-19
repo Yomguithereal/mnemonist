@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.39.0 (provisional)
+## 0.39.0
 
 * Adding `LRUCacheWithDelete` & `LRUMapWithDelete` (@trivikr & @mrflip).
 
