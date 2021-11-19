@@ -108,9 +108,9 @@ LRUCache.prototype.splayOnTop = function(pointer) {
  */
 LRUCache.prototype.set = function(key, value) {
 
-  // The key already exists, we just need to update the value and splay on top
   var pointer = this.items[key];
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
     this.V[pointer] = value;
@@ -155,9 +155,10 @@ LRUCache.prototype.set = function(key, value) {
 LRUCache.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
-  // The key already exists, we just need to update the value and splay on top
+
   var pointer = this.items[key];
 
+  // The key already exists, we just need to update the value and splay on top
   if (typeof pointer !== 'undefined') {
     this.splayOnTop(pointer);
     oldValue = this.V[pointer];

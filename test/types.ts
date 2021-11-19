@@ -20,7 +20,9 @@ import {
   InvertedIndex,
   LinkedList,
   LRUCache,
+  LRUCacheWithDelete,
   LRUMap,
+  LRUMapWithDelete,
   MultiSet,
   MultiMap,
   PassjoinIndex,
@@ -156,11 +158,31 @@ lrucache.set('one', 34);
 let lrucacheItem: number = lrucache.get('one');
 
 /**
+ * LRUCacheWithDelete
+ */
+let lrucwd: LRUCacheWithDelete<string, string> = new LRUCacheWithDelete(10);
+lrucwd.set('one', 'uno');
+let lrucwdItem: string = lrucwd.get('one');
+lrucwdItem = lrucwd.remove('one');
+let lrucwdDead: string | null = lrucwd.remove('one', null);
+let lrucwdWasRemoved: boolean = lrucwd.delete('one');
+
+/**
  * LRUMap.
  */
 let lrumap: LRUMap<string, number> = new LRUMap(10);
 lrumap.set('one', 34);
 let lrumapItem: number = lrumap.get('one');
+
+/**
+ * LRUMapWithDelete
+ */
+let lrumwd: LRUMapWithDelete<string, string> = new LRUMapWithDelete(10);
+lrumwd.set('one', 'uno');
+let lrumwdItem: string = lrumwd.get('one');
+lrumwdItem = lrumwd.remove('one');
+let lrumwdDead: string | null = lrumwd.remove('one', null);
+let lrumwdWasRemoved: boolean = lrumwd.delete('one');
 
 /**
  * MultiSet.
