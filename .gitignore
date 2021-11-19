@@ -1,5 +1,6 @@
 .sass-cache
 .jekyll-metadata
+.jekyll-cache
 .DS_Store
 s3_website.yml
 _site
