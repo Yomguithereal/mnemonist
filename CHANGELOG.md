@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.0 (provisional)
+
+* Adding `LRUCacheWithDelete` & `LRUMapWithDelete` (@trivikr & @mrflip).
+
 ## 0.38.5
 
 * Upgrading `obliterator`.
