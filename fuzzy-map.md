@@ -47,8 +47,8 @@ var map = new FuzzyMap([
 ]);
 
 // FuzzyMaping several movies
-map.add({name: 'Great movie', year: 1999});
-map.add({name: 'Bad movie', year: 2001});
+map.add({title: 'Great movie', year: 1999});
+map.add({title: 'Bad movie', year: 2001});
 
 // Querying the index
 map.get('bad Movie');
