@@ -52,7 +52,7 @@ map.add({title: 'Bad movie', year: 2001});
 
 // Querying the index
 map.get('bad Movie');
->>> {name: 'Bad movie', year: 2001}
+>>> {title: 'Bad movie', year: 2001}
 
 map.get('boring movie');
 >>> undefined
