@@ -48,6 +48,12 @@ export class MinHeap<T> {
   toArray(): Array<T>;
   consume(): Array<T>;
   inspect(): any;
+  
+  // Statics
+  static from<I>(
+    iterable: Iterable<I> | {[key: string] : I},
+    comparator?: HeapComparator<I>
+  ): Heap<I>;
 }
 
 export class MaxHeap<T> {
@@ -68,6 +74,12 @@ export class MaxHeap<T> {
   toArray(): Array<T>;
   consume(): Array<T>;
   inspect(): any;
+  
+  // Statics
+  static from<I>(
+    iterable: Iterable<I> | {[key: string] : I},
+    comparator?: HeapComparator<I>
+  ): Heap<I>;
 }
 
 // Static helpers
