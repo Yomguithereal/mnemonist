@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.1
+
+* Fixing `Heap` type declarations (@em-ctc).
+
 ## 0.39.0
 
 * Adding `LRUCacheWithDelete` & `LRUMapWithDelete` (@trivikr & @mrflip).

@@ -1,6 +1,6 @@
 {
   "name": "mnemonist",
-  "version": "0.39.0",
+  "version": "0.39.1",
   "description": "Curated collection of data structures for the JavaScript/TypeScript.",
   "scripts": {
     "lint": "eslint ./*.js ./utils ./test",
