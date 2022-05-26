@@ -23,7 +23,7 @@ export default class CircularBuffer<T> implements Iterable<T> {
   peekLast(): T | undefined;
   get(index: number): T | undefined;
   forEach(callback: (item: T, index: number, buffer: this) => void, scope?: any): void;
-  toArray(): Iterable<T>;
+  toArray(): Array<T>;
   values(): IterableIterator<T>;
   entries(): IterableIterator<[number, T]>;
   [Symbol.iterator](): IterableIterator<T>;
