@@ -19,7 +19,7 @@ export default class FixedReverseHeap<T> {
   // Methods
   clear(): void;
   push(item: T): number;
-  consume(): Array<T>;
-  toArray(): Array<T>;
+  consume(): Array<T> | TypedArray<T>;
+  toArray(): Array<T> | TypedArray<T>;
   inspect(): any;
 }
