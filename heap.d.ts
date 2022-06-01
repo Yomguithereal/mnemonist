@@ -17,15 +17,15 @@ export default class Heap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
-  replace(item: T): T | undefined;
-  pushpop(item: T): T | undefined;
+  replace(item: T): T | undefined;
+  pushpop(item: T): T | undefined;
   toArray(): Array<T>;
   consume(): Array<T>;
   inspect(): any;
 
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     comparator?: HeapComparator<I>
   ): Heap<I>;
 }
@@ -43,15 +43,15 @@ export class MinHeap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
-  replace(item: T): T | undefined;
-  pushpop(item: T): T | undefined;
+  replace(item: T): T | undefined;
+  pushpop(item: T): T | undefined;
   toArray(): Array<T>;
   consume(): Array<T>;
   inspect(): any;
-  
+
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     comparator?: HeapComparator<I>
   ): Heap<I>;
 }
@@ -69,15 +69,15 @@ export class MaxHeap<T> {
   push(item: T): number;
   peek(): T | undefined;
   pop(): T | undefined;
-  replace(item: T): T | undefined;
-  pushpop(item: T): T | undefined;
+  replace(item: T): T | undefined;
+  pushpop(item: T): T | undefined;
   toArray(): Array<T>;
   consume(): Array<T>;
   inspect(): any;
-  
+
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     comparator?: HeapComparator<I>
   ): Heap<I>;
 }

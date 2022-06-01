@@ -2,7 +2,7 @@
  * Mnemonist FixedDeque Typings
  * =============================
  */
-import {IArrayLikeConstructor} from './utils/types';
+import {IArrayLikeConstructor, TypedArray} from './utils/types';
 
 export default class FixedDeque<T> implements Iterable<T> {
 
@@ -23,7 +23,7 @@ export default class FixedDeque<T> implements Iterable<T> {
   peekLast(): T | undefined;
   get(index: number): T | undefined;
   forEach(callback: (item: T, index: number, buffer: this) => void, scope?: any): void;
-  toArray(): Array<T> | TypedArray<T>;
+  toArray(): Array<T> | TypedArray;
   values(): IterableIterator<T>;
   entries(): IterableIterator<[number, T]>;
   [Symbol.iterator](): IterableIterator<T>;
