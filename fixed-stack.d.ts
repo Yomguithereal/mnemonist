@@ -2,7 +2,7 @@
  * Mnemonist FixedStack Typings
  * =============================
  */
-import {IArrayLikeConstructor} from './utils/types';
+import {IArrayLikeConstructor, TypedArray} from './utils/types';
 
 export default class FixedStack<T> implements Iterable<T> {
 
@@ -19,7 +19,7 @@ export default class FixedStack<T> implements Iterable<T> {
   pop(): T | undefined;
   peek(): T | undefined;
   forEach(callback: (item: T, index: number, stack: this) => void, scope?: any): void;
-  toArray(): Iterable<T>;
+  toArray(): Array<T> | TypedArray;
   values(): IterableIterator<T>;
   entries(): IterableIterator<[number, T]>;
   [Symbol.iterator](): IterableIterator<T>;
@@ -29,7 +29,7 @@ export default class FixedStack<T> implements Iterable<T> {
 
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     ArrayClass: IArrayLikeConstructor,
     capacity?: number
   ): FixedStack<I>;

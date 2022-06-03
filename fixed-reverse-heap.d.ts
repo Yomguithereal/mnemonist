@@ -2,7 +2,7 @@
  * Mnemonist FixedReverseHeap Typings
  * ===================================
  */
-import {IArrayLikeConstructor} from './utils/types';
+import {IArrayLikeConstructor, TypedArray} from './utils/types';
 
 type HeapComparator<T> = (a: T, b: T) => number;
 
@@ -19,7 +19,7 @@ export default class FixedReverseHeap<T> {
   // Methods
   clear(): void;
   push(item: T): number;
-  consume(): Iterable<T>;
-  toArray(): Iterable<T>;
+  consume(): Array<T> | TypedArray;
+  toArray(): Array<T> | TypedArray;
   inspect(): any;
 }
