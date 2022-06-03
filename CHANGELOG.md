@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.2
+
+* Fixing typings of low-level structure consuming methods (@jerome-benoit).
+
 ## 0.39.1
 
 * Fixing `Heap` type declarations (@em-ctc).
