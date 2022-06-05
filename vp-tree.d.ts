@@ -21,7 +21,7 @@ export default class VPTree<T> {
 
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     distance: DistanceFunction<I>
   ): VPTree<I>;
 }

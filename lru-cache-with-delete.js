@@ -43,7 +43,7 @@ if (typeof Symbol !== 'undefined')
  *
  * @return {undefined}
  */
- LRUCacheWithDelete.prototype.clear = function() {
+LRUCacheWithDelete.prototype.clear = function() {
   LRUCache.prototype.clear.call(this);
   this.deletedSize = 0;
 };
@@ -262,7 +262,7 @@ LRUCacheWithDelete.prototype.remove = function(key, missing = undefined) {
  * @param  {number}   capacity - Cache's capacity.
  * @return {LRUCacheWithDelete}
  */
- LRUCacheWithDelete.from = function(iterable, Keys, Values, capacity) {
+LRUCacheWithDelete.from = function(iterable, Keys, Values, capacity) {
   if (arguments.length < 2) {
     capacity = iterables.guessLength(iterable);
 

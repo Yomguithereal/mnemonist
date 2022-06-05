@@ -22,6 +22,6 @@ export default class Queue<T> implements Iterable<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): Queue<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}): Queue<I>;
   static of<I>(...items: Array<I>): Queue<I>;
 }

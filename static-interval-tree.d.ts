@@ -18,7 +18,7 @@ export default class StaticIntervalTree<T> {
   intervalsContainingPoint(point: number): Array<T>;
   intervalsOverlappingInterval(interval: T): Array<T>;
   inspect(): any;
-  
+
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): StaticIntervalTree<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}): StaticIntervalTree<I>;
 }

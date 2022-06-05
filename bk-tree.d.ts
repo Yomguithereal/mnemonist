@@ -5,7 +5,7 @@
 type DistanceFunction<T> = (a: T, b: T) => number;
 
 export default class BKTree<T> {
-  
+
   // Members
   distance: DistanceFunction<T>;
   size: number;
@@ -20,5 +20,5 @@ export default class BKTree<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}, distance: DistanceFunction<I>): BKTree<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}, distance: DistanceFunction<I>): BKTree<I>;
 }

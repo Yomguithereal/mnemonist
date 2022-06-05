@@ -5,7 +5,7 @@
 import {ArrayLike} from './utils/types';
 
 export default class StaticDisjointSet {
-  
+
   // Members
   dimension: number;
   size: number;

@@ -40,7 +40,7 @@ function LRUCache(Keys, Values, capacity) {
   if (typeof this.capacity !== 'number' || this.capacity <= 0)
     throw new Error('mnemonist/lru-cache: capacity should be positive number.');
   else if (!isFinite(this.capacity) || Math.floor(this.capacity) !== this.capacity)
-      throw new Error('mnemonist/lru-cache: capacity should be a finite positive integer.');
+    throw new Error('mnemonist/lru-cache: capacity should be a finite positive integer.');
 
   var PointerArray = typed.getPointerArray(capacity);
 
@@ -235,12 +235,12 @@ LRUCache.prototype.get = function(key) {
  * @return {any}
  */
 LRUCache.prototype.peek = function(key) {
-    var pointer = this.items[key];
+  var pointer = this.items[key];
 
-    if (typeof pointer === 'undefined')
-        return;
+  if (typeof pointer === 'undefined')
+    return;
 
-    return this.V[pointer];
+  return this.V[pointer];
 };
 
 /**

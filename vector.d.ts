@@ -37,7 +37,7 @@ export default class Vector implements Iterable<number> {
   toJSON(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}, ArrayClass: IArrayLikeConstructor, capacity?: number): Vector;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}, ArrayClass: IArrayLikeConstructor, capacity?: number): Vector;
 }
 
 declare class TypedVector implements Iterable<number> {
@@ -67,7 +67,7 @@ declare class TypedVector implements Iterable<number> {
   toJSON(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}, capacity?: number): TypedVector;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}, capacity?: number): TypedVector;
 }
 
 export class Int8Vector extends TypedVector {}

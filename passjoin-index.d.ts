@@ -23,7 +23,7 @@ export default class PassjoinIndex<T> implements Iterable<T> {
 
   // Statics
   static from<I>(
-    iterable: Iterable<I> | {[key: string] : I},
+    iterable: Iterable<I> | {[key: string]: I},
     levenshtein: LevenshteinDistanceFunction<I>,
     k: number
   ): PassjoinIndex<I>;

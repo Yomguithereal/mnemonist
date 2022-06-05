@@ -3,7 +3,7 @@
  * ==============================
  */
 export default class SuffixArray {
-  
+
   // Members
   array: Array<number>;
   length: number;
