@@ -43,7 +43,7 @@ if (typeof Symbol !== 'undefined')
  *
  * @return {undefined}
  */
- LRUMapWithDelete.prototype.clear = function() {
+LRUMapWithDelete.prototype.clear = function() {
   LRUMap.prototype.clear.call(this);
   this.deletedSize = 0;
 };
@@ -262,7 +262,7 @@ LRUMapWithDelete.prototype.remove = function(key, missing = undefined) {
  * @param  {number}   capacity - Cache's capacity.
  * @return {LRUMapWithDelete}
  */
- LRUMapWithDelete.from = function(iterable, Keys, Values, capacity) {
+LRUMapWithDelete.from = function(iterable, Keys, Values, capacity) {
   if (arguments.length < 2) {
     capacity = iterables.guessLength(iterable);
 

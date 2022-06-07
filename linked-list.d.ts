@@ -25,5 +25,5 @@ export default class LinkedList<T> implements Iterable<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string] : I}): LinkedList<I>;
+  static from<I>(iterable: Iterable<I> | {[key: string]: I}): LinkedList<I>;
 }
