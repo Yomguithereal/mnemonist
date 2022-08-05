@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.3
+
+* Adding `#isEqual` to Set helpers.
+
 ## 0.39.2
 
 * Fixing typings of low-level structure consuming methods (@jerome-benoit).
