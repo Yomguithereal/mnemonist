@@ -35,8 +35,21 @@ function LRUCacheWithDelete(Keys, Values, capacity) {
 
 for (var k in LRUCache.prototype)
   LRUCacheWithDelete.prototype[k] = LRUCache.prototype[k];
-if (typeof Symbol !== 'undefined')
+
+/**
+ * If possible, attaching the
+ * * #.entries method to Symbol.iterator (allowing `for (const foo of cache) { ... }`)
+ * * the summaryString method to Symbol.toStringTag (allowing `\`${cache}\`` to work)
+ * * the inspect method to Symbol.for('nodejs.util.inspect.custom') (making `console.log(cache)` liveable)
+ */
+if (typeof Symbol !== 'undefined') {
   LRUCacheWithDelete.prototype[Symbol.iterator] = LRUCache.prototype[Symbol.iterator];
+  Object.defineProperty(LRUCacheWithDelete.prototype, Symbol.toStringTag, {
+    get: function () { return `${this.constructor.name}:${this.size}/${this.capacity}`; },
+  });
+  LRUCacheWithDelete.prototype[Symbol.for('nodejs.util.inspect.custom')] = LRUCache.prototype.inspect;
+}
+Object.defineProperty(LRUCacheWithDelete.prototype, 'summary', Object.getOwnPropertyDescriptor(LRUCache.prototype, 'summary'));
 
 /**
  * Method used to clear the structure.
