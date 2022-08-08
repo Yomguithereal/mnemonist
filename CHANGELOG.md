@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.0
+
+* Adding `#isEqual` to Set helpers (@mrflip). (provisional)
+
 ## 0.39.2
 
 * Fixing typings of low-level structure consuming methods (@jerome-benoit).
