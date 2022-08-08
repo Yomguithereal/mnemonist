@@ -181,6 +181,33 @@ exports.isSubset = function(A, B) {
   return true;
 };
 
+
+/**
+ * Function returning whether A equals B (same size and B has all elements of A)
+ *
+ * @param  {Set} A - First set.
+ * @param  {Set} B - Second set.
+ * @return {boolean}
+ */
+exports.isEqual = function(A, B) {
+  var iterator = A.values(),
+      step;
+
+  // Shortcuts
+  if (A === B)
+    return true;
+
+  if (A.size !== B.size)
+    return false;
+
+  while ((step = iterator.next(), !step.done)) {
+    if (!B.has(step.value))
+      return false;
+  }
+
+  return true;
+};
+
 /**
  * Function returning whether A is a superset of B.
  *

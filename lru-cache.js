@@ -18,7 +18,8 @@
 var Iterator = require('obliterator/iterator'),
     forEach = require('obliterator/foreach'),
     typed = require('./utils/typed-arrays.js'),
-    iterables = require('./utils/iterables.js');
+    iterables = require('./utils/iterables.js'),
+    {snipToLast} = require('./utils/snip.js');
 
 /**
  * LRUCache.
@@ -369,28 +370,58 @@ LRUCache.prototype.entries = function() {
 };
 
 /**
- * Attaching the #.entries method to Symbol.iterator if possible.
+ * Return a short string for interpolation: `LRUCache:size/capacity`
  */
-if (typeof Symbol !== 'undefined')
-  LRUCache.prototype[Symbol.iterator] = LRUCache.prototype.entries;
+Object.defineProperty(LRUCache.prototype, 'summary', {
+  get: function() { return `${this.constructor.name}:${this.size}/${this.capacity}`; },
+});
 
 /**
- * Convenience known methods.
+ * Attaching the #.entries method to Symbol.iterator if possible.
  */
-LRUCache.prototype.inspect = function() {
+if (typeof Symbol !== 'undefined') {
+  LRUCache.prototype[Symbol.iterator] = LRUCache.prototype.entries;
+  Object.defineProperty(LRUCache.prototype, Symbol.toStringTag, {
+    get: function () { return this.summary; },
+  });
+}
+
+LRUCache.defaultMaxToDump = 20;
+
+/**
+ * Provide a reasonably-sized view of the object.
+ *
+ * @param  {number}   [depth]   - When < 0, only the toString() summary is returned
+ * @param  {object}   [options = {}]  - settings for output
+ * @param  {boolean}  [options.all = false] - When true, returns the object with all properties, ignoring limits
+ * @param  {number}   [options.maxToDump = 20] - When size > maxToDump, lists only the
+ *                      youngest `maxToDump - 2`, a placeholder with the number
+ *                      omitted, and the single oldest item. The secret variable
+ *                      LRUCache.defaultMaxToDump determines the default limit.
+ * @return {Map}
+ *
+ */
+LRUCache.prototype.inspect = function(depth, options = {}) {
+  if (arguments.length <= 1) { options = depth || {}; depth = 2; }
+  if (options.all) { var ret = {}; Object.assign(ret, this); return ret; }
+  if (depth < 0) { return this.toString(); }
+  var maxToDump = options.maxToDump || LRUCache.defaultMaxToDump;
   var proxy = new Map();
 
-  var iterator = this.entries(),
-      step;
+  var last = [this.K[this.tail], this.V[this.tail]];
+  snipToLast(this.entries(), proxy, {maxToDump, size: this.size, last});
 
-  while ((step = iterator.next(), !step.done))
-    proxy.set(step.value[0], step.value[1]);
-
-  // Trick so that node displays the name of the constructor
+  // Trick so that node displays the name of the constructor (does not work in modern node)
   Object.defineProperty(proxy, 'constructor', {
     value: LRUCache,
     enumerable: false
   });
+  if (typeof Symbol !== 'undefined') {
+    var self = this;
+    Object.defineProperty(proxy, Symbol.toStringTag, {
+      get: function () { return `${self.constructor.name}:${self.size}/${self.capacity}`; },
+    });
+  }
 
   return proxy;
 };

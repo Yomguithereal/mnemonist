@@ -35,8 +35,21 @@ function LRUMapWithDelete(Keys, Values, capacity) {
 
 for (var k in LRUMap.prototype)
   LRUMapWithDelete.prototype[k] = LRUMap.prototype[k];
-if (typeof Symbol !== 'undefined')
+
+/**
+ * If possible, attaching the
+ * * #.entries method to Symbol.iterator (allowing `for (const foo of cache) { ... }`)
+ * * the summaryString method to Symbol.toStringTag (allowing `\`${cache}\`` to work)
+ * * the inspect method to Symbol.for('nodejs.util.inspect.custom') (making `console.log(cache)` liveable)
+ */
+if (typeof Symbol !== 'undefined') {
   LRUMapWithDelete.prototype[Symbol.iterator] = LRUMap.prototype[Symbol.iterator];
+  Object.defineProperty(LRUMapWithDelete.prototype, Symbol.toStringTag, {
+    get: function () { return `${this.constructor.name}:${this.size}/${this.capacity}`; },
+  });
+  LRUMapWithDelete.prototype[Symbol.for('nodejs.util.inspect.custom')] = LRUMap.prototype.inspect;
+}
+Object.defineProperty(LRUMapWithDelete.prototype, 'summary', Object.getOwnPropertyDescriptor(LRUMap.prototype, 'summary'));
 
 /**
  * Method used to clear the structure.
