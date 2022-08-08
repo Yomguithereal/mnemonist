@@ -14,14 +14,14 @@ describe('utils', function() {
   describe('typed-arrays', function() {
 
     describe('#.getPointerArray', function() {
-      var validatePointerArrayConstructor = function (min, max, expectedCtor) {
-        it(`returns ${expectedCtor} for ${min}`, () => {
+      var validatePointerArrayConstructor = function(min, max, expectedCtor) {
+        it(`returns ${expectedCtor} for ${min}`, function() {
           assert.strictEqual(typed.getPointerArray(min), expectedCtor);
         });
-        it(`returns ${expectedCtor} for ${(max - min) / 2}`, () => {
+        it(`returns ${expectedCtor} for ${(max - min) / 2}`, function() {
           assert.strictEqual(typed.getPointerArray((max - min) / 2), expectedCtor);
         });
-        it(`returns ${expectedCtor} for ${max}`, () => {
+        it(`returns ${expectedCtor} for ${max}`, function() {
           assert.strictEqual(typed.getPointerArray(max), expectedCtor);
         });
       };

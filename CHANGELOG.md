@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.39.3
+## 0.40.0
 
-* Adding `#isEqual` to Set helpers.
+* Adding `#isEqual` to Set helpers (@mrflip). (provisional)
 
 ## 0.39.2
 
