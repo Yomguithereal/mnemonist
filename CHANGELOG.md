@@ -2,7 +2,10 @@
 
 ## 0.40.0
 
+* LRU Cache with Time-To-Keep expiration (@mrflip). (provisional)
+*
 * Adding `#isEqual` to Set helpers (@mrflip). (provisional)
+* Improvements in test and benchmark ergonomics (@mrflip).
 
 ## 0.39.2
 
