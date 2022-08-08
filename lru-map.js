@@ -212,6 +212,8 @@ LRUMap.prototype.keys = LRUCache.prototype.keys;
 LRUMap.prototype.values = LRUCache.prototype.values;
 LRUMap.prototype.entries = LRUCache.prototype.entries;
 LRUMap.prototype.summaryString = LRUCache.prototype.summaryString;
+LRUMap.prototype.expire = LRUCache.prototype.expire;
+LRUMap.prototype.investigate = LRUCache.prototype.investigate;
 
 /**
  * Inherit methods

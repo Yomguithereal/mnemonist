@@ -370,6 +370,11 @@ LRUCache.prototype.entries = function() {
 };
 
 /**
+ * No-op for compatibility with time-expirable caches
+ */
+LRUCache.prototype.expire = function () { /**/ };
+
+/**
  * Return a short string for interpolation: `LRUCache:size/capacity`
  */
 Object.defineProperty(LRUCache.prototype, 'summary', {

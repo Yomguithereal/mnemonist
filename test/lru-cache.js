@@ -6,7 +6,9 @@ var assert = require('assert'),
     LRUCache = require('../lru-cache.js'),
     LRUMap = require('../lru-map.js'),
     LRUCacheWithDelete = require('../lru-cache-with-delete.js'),
-    LRUMapWithDelete = require('../lru-map-with-delete.js');
+    LRUMapWithDelete = require('../lru-map-with-delete.js'),
+    LRUCacheWithExpiry = require('../lru-cache-with-expiry.js');
+//
 var NodeUtil = require('util');
 
 function makeTests(Cache, name) {
@@ -502,7 +504,7 @@ function makeTests(Cache, name) {
       }
 
       it('toString() states the name size and capacity', function () {
-        var cache = new Cache(null, null, 200);
+        var cache = new Cache(null, null, 200, {ttk: 900000});
         cache.set(0, 'cero'); cache.set(1, 'uno');
         assert.deepStrictEqual(cache.toString(), `[object ${name}:2/200]`);
         if (typeof Symbol !== 'undefined') {
@@ -612,3 +614,4 @@ makeTests(LRUCache, 'LRUCache');
 makeTests(LRUMap, 'LRUMap');
 makeTests(LRUCacheWithDelete, 'LRUCacheWithDelete');
 makeTests(LRUMapWithDelete, 'LRUMapWithDelete');
+makeTests(LRUCacheWithExpiry, 'LRUCacheWithExpiry');
