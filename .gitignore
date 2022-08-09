@@ -5,3 +5,6 @@ build
 .eslintcache
 .DS_Store
 TODO.md
+isolate-*.log
+isolate-*.prof.txt
+prof/**/*.stack.txt
