@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint --cache ./*.js ./utils ./test",
     "lint:fix": "eslint --cache --fix ./*.js ./utils ./test",
-    "prepublishOnly": "npm run lint && npm test && npm run test:types",
+    "prepublishOnly": "npm run lint && npm test && npm run test:types && echo 'Success! All checks passed!'",
     "test": "mocha",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
@@ -80,6 +80,7 @@
     "asciitree": "^1.0.2",
     "damerau-levenshtein": "^1.0.7",
     "eslint": "^8.2.0",
+    "eslint-plugin-mocha": "^10.1.0",
     "leven": "^3.1.0",
     "lodash": "^4.17.21",
     "matcha": "^0.7.0",
@@ -90,7 +91,10 @@
     "typescript": "^4.5.2"
   },
   "eslintConfig": {
-    "extends": "@yomguithereal/eslint-config",
+    "extends": [
+      "plugin:mocha/recommended",
+      "@yomguithereal/eslint-config"
+    ],
     "parserOptions": {
       "ecmaVersion": 6,
       "ecmaFeatures": {
@@ -98,6 +102,8 @@
       }
     },
     "rules": {
+      "mocha/no-identical-title": 0,
+      "mocha/no-setup-in-describe": 0,
       "no-new": 0
     }
   }

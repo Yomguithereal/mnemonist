@@ -211,17 +211,29 @@ LRUMap.prototype.forEach = LRUCache.prototype.forEach;
 LRUMap.prototype.keys = LRUCache.prototype.keys;
 LRUMap.prototype.values = LRUCache.prototype.values;
 LRUMap.prototype.entries = LRUCache.prototype.entries;
+LRUMap.prototype.summaryString = LRUCache.prototype.summaryString;
+LRUMap.prototype.expire = LRUCache.prototype.expire;
+LRUMap.prototype.investigate = LRUCache.prototype.investigate;
 
 /**
- * Attaching the #.entries method to Symbol.iterator if possible.
- */
-if (typeof Symbol !== 'undefined')
-  LRUMap.prototype[Symbol.iterator] = LRUMap.prototype.entries;
-
-/**
- * Convenience known methods.
+ * Inherit methods
  */
 LRUMap.prototype.inspect = LRUCache.prototype.inspect;
+
+/**
+ * If possible, attaching the
+ * * #.entries method to Symbol.iterator (allowing `for (const foo of cache) { ... }`)
+ * * the summaryString method to Symbol.toStringTag (allowing `\`${cache}\`` to work)
+ * * the inspect method to Symbol.for('nodejs.util.inspect.custom') (making `console.log(cache)` liveable)
+ */
+if (typeof Symbol !== 'undefined') {
+  LRUMap.prototype[Symbol.iterator] = LRUMap.prototype.entries;
+  Object.defineProperty(LRUMap.prototype, Symbol.toStringTag, {
+    get: function () { return `${this.constructor.name}:${this.size}/${this.capacity}`; },
+  });
+  LRUMap.prototype[Symbol.for('nodejs.util.inspect.custom')] = LRUCache.prototype.inspect;
+}
+Object.defineProperty(LRUMap.prototype, 'summary', Object.getOwnPropertyDescriptor(LRUCache.prototype, 'summary'));
 
 /**
  * Static @.from function taking an arbitrary iterable & converting it into

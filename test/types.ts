@@ -21,6 +21,7 @@ import {
   LinkedList,
   LRUCache,
   LRUCacheWithDelete,
+  LRUCacheWithExpiry,
   LRUMap,
   LRUMapWithDelete,
   MultiSet,
@@ -166,6 +167,17 @@ let lrucwdItem: string = lrucwd.get('one');
 lrucwdItem = lrucwd.remove('one');
 let lrucwdDead: string | null = lrucwd.remove('one', null);
 let lrucwdWasRemoved: boolean = lrucwd.delete('one');
+
+/**
+ * LRUCacheWithExpiry
+ */
+let lrucwe: LRUCacheWithExpiry<string, string> = new LRUCacheWithExpiry(10);
+lrucwe.set('one', 'uno');
+let lrucweItem: string = lrucwe.get('one');
+lrucweItem = lrucwe.remove('one');
+let lrucweDead: string | null = lrucwe.remove('one', null);
+let lrucweWasRemoved: boolean = lrucwe.delete('one');
+lrucwe.expire();
 
 /**
  * LRUMap.

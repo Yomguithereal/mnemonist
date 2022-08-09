@@ -36,6 +36,7 @@ module.exports = {
   LinkedList: require('./linked-list.js'),
   LRUCache: require('./lru-cache.js'),
   LRUCacheWithDelete: require('./lru-cache-with-delete.js'),
+  LRUCacheWithExpiry: require('./lru-cache-with-expiry.js'),
   LRUMap: require('./lru-map.js'),
   LRUMapWithDelete: require('./lru-map-with-delete.js'),
   MultiMap: require('./multi-map.js'),

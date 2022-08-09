@@ -27,6 +27,7 @@ export {default as KDTree} from './kd-tree';
 export {default as LinkedList} from './linked-list';
 export {default as LRUCache} from './lru-cache';
 export {default as LRUCacheWithDelete} from './lru-cache-with-delete';
+export {default as LRUCacheWithExpiry} from './lru-cache-with-expiry';
 export {default as LRUMap} from './lru-map';
 export {default as LRUMapWithDelete} from './lru-map-with-delete';
 export {default as MultiMap} from './multi-map';

@@ -6,7 +6,10 @@ var assert = require('assert'),
     LRUCache = require('../lru-cache.js'),
     LRUMap = require('../lru-map.js'),
     LRUCacheWithDelete = require('../lru-cache-with-delete.js'),
-    LRUMapWithDelete = require('../lru-map-with-delete.js');
+    LRUMapWithDelete = require('../lru-map-with-delete.js'),
+    LRUCacheWithExpiry = require('../lru-cache-with-expiry.js');
+//
+var NodeUtil = require('util');
 
 function makeTests(Cache, name) {
   describe(name, function() {
@@ -62,7 +65,7 @@ function makeTests(Cache, name) {
       assert.strictEqual(cache.peek('two'), 5);
       assert.deepStrictEqual(Array.from(cache.entries()), [['three', 3], ['four', 4], ['two', 5]]);
 
-      if (name === 'LRUCache' || name === 'LRUCacheWithDelete')
+      if (/LRUCache/.test(name))
         assert.strictEqual(Object.keys(cache.items).length, 3);
       else
         assert.strictEqual(cache.items.size, 3);
@@ -222,7 +225,7 @@ function makeTests(Cache, name) {
       assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
 
-    if ((name === 'LRUCacheWithDelete') || (name === 'LRUMapWithDelete')) {
+    if (/With/.test(name)) {
 
       it('should be possible to delete keys from a LRU cache.', function() {
         var cache = new Cache(3);
@@ -302,6 +305,7 @@ function makeTests(Cache, name) {
         assert.equal(dead, missingMarker);
 
         cache.set('one', 'uno');
+
         cache.set('two', 'dos');
         cache.set('three', 'tres');
 
@@ -488,6 +492,121 @@ function makeTests(Cache, name) {
       });
 
     }
+
+    describe('inspection', function() {
+      function makeExercisedCache(capacity) {
+        var cache = new Cache(capacity), ii;
+        cache.set(1, 'a'); cache.set(2, 'b'); cache.set('too old', 'c'); cache.set('oldest', 'd');
+        for (ii = 0; ii < capacity - 3; ii++) { cache.set(ii * 2, ii * 2); }
+        cache.set(4, 'D'); cache.set(2, 'B'); cache.get(1);
+        cache.set(5, 'e'); cache.set(6, 'f');
+        return cache;
+      }
+
+      it('toString() states the name size and capacity', function () {
+        var cache = new Cache(null, null, 200, {ttk: 900000});
+        cache.set(0, 'cero'); cache.set(1, 'uno');
+        assert.deepStrictEqual(cache.toString(), `[object ${name}:2/200]`);
+        if (typeof Symbol !== 'undefined') {
+          assert.deepStrictEqual(cache[Symbol.toStringTag], `${name}:2/200`);
+        }
+        assert.deepStrictEqual(cache.summary, `${name}:2/200`);
+        cache.set(2, 'dos'); cache.set(3, 'tres');
+        assert.deepStrictEqual(cache.toString(), `[object ${name}:4/200]`);
+        cache = makeExercisedCache(200);
+        assert.deepStrictEqual(cache.toString(), `[object ${name}:200/200]`);
+      });
+
+      if (typeof Symbol !== 'undefined') {
+        it('registers its inspect method for the console.log and friends to use', function () {
+          var cache = makeExercisedCache(7);
+          assert.deepStrictEqual(cache[Symbol.for('nodejs.util.inspect.custom')], cache.inspect);
+        });
+
+        it('attaches the summary getter to the magic [Symbol.toStringTag] property', function () {
+          var cache = makeExercisedCache(7);
+          assert.deepStrictEqual(cache[Symbol.toStringTag], cache.summary);
+        });
+      }
+
+      it('accepts limits on what inspect returns', function () {
+        var cache = new Cache(15), inspectedItems;
+        // empty
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, []);
+        //
+        cache.set(1, 'a');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[1, 'a']]);
+        //
+        cache.set(2, 'b');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[2, 'b'], [1, 'a']]);
+        //
+        cache.set(3, 'c');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[3, 'c'], [2, 'b'], [1, 'a']]);
+        //
+        cache.set(4, 'd');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[4, 'd'], [3, 'c'], [2, 'b'], [1, 'a']]);
+        //
+        cache.set(5, 'e');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[5, 'e'], [4, 'd'], [3, 'c'], [2, 'b'], [1, 'a']]);
+        //
+        cache.set(6, 'f');
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[6, 'f'], [5, 'e'], [4, 'd'], ['_...', 2], [1, 'a']]);
+        //
+        var ii;
+        for (ii = 0; ii < 20; ii++) { cache.set(ii * 2, ii * 2); }
+        inspectedItems = Array.from(cache.inspect({maxToDump: 5}).entries());
+        assert.deepStrictEqual(inspectedItems, [[38, 38], [36, 36], [34, 34], ['_...', 11], [10, 10]]);
+      });
+
+      it('puts a reasonable limit on what the console will show (large)', function () {
+        var cache = makeExercisedCache(600);
+        var asSeenInConsole = NodeUtil.inspect(cache);
+        // we're trying not to depend on what a given version of node actually serializes
+        var itemsDumped = /6 => 'f',\s*5 => 'e',\s*1 => 'a',(.|\n)+1168 => 1168,\s*'_\.\.\.' => 581,\s*'oldest' => 'd'/;
+        assert.deepStrictEqual(itemsDumped.test(asSeenInConsole), true);
+        assert.deepStrictEqual(new RegExp(`${name}:\[600/600\]`).test(asSeenInConsole), true);
+        assert.deepStrictEqual(asSeenInConsole.length < 800, true);
+      });
+
+      it('puts a reasonable limit on what the console will show (small)', function () {
+        var cache = makeExercisedCache(7);
+        var asSeenInConsole = NodeUtil.inspect(cache);
+        var itemsDumped = /6 => 'f',\s*5 => 'e',\s*1 => 'a',\s*2 => 'B',\s*4 => 'D',\s*0 => 0,\s*'oldest' => 'd'/;
+        assert.deepStrictEqual(itemsDumped.test(asSeenInConsole), true);
+        assert.deepStrictEqual(new RegExp(`${name}:7/7`).test(asSeenInConsole), true);
+      });
+
+      it('listens to advice about maximum inspection depth', function () {
+        var cache = makeExercisedCache(7);
+        var asSeenInConsole = NodeUtil.inspect({foo: {bar: cache}});
+        var itemsDumped = /6 => 'f',\s*5 => 'e',\s*1 => 'a',\s*2 => 'B',\s*4 => 'D',\s*0 => 0,\s*'oldest' => 'd'/;
+        assert.deepStrictEqual(itemsDumped.test(asSeenInConsole), true);
+        assert.deepStrictEqual(asSeenInConsole.length > 150, true);
+        // Cannot depend on this existing in older versions.
+        // asSeenInConsole = NodeUtil.inspect({foo: {bar: [cache]}});
+        // deepStrictEqual(asSeenInConsole.length < 70, true);
+        // deepStrictEqual(new RegExp(`\\[ \\[object ${name}:7/7\\] \\]`).test(asSeenInConsole), true);
+      });
+
+      it('allows inspection of the raw item if "all" is given', function () {
+        var cache = makeExercisedCache(250);
+        var inspected = cache.inspect({maxToDump: 8, all: true});
+        var kk;
+        for (kk of ['items', 'K', 'V', 'size', 'capacity']) {
+          assert.deepStrictEqual(inspected[kk] === cache[kk], true);
+        }
+        assert.deepStrictEqual(Object.keys(cache), Object.keys(inspected));
+      });
+
+    });
+
   });
 }
 
@@ -495,3 +614,4 @@ makeTests(LRUCache, 'LRUCache');
 makeTests(LRUMap, 'LRUMap');
 makeTests(LRUCacheWithDelete, 'LRUCacheWithDelete');
 makeTests(LRUMapWithDelete, 'LRUMapWithDelete');
+makeTests(LRUCacheWithExpiry, 'LRUCacheWithExpiry');
