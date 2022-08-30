@@ -81,7 +81,7 @@ var data = [
   ['five', [7, 2]]
 ];
 
-var tree = new KDTree(data, 2);
+var tree = KDTree.from(data, 2);
 
 tree.size
 >>> 6
@@ -101,7 +101,7 @@ var data = [
   ['five', [7, 2]]
 ];
 
-var tree = new KDTree(data, 2);
+var tree = KDTree.from(data, 2);
 
 tree.dimensions
 >>> 2
@@ -121,7 +121,7 @@ var data = [
   ['five', [7, 2]]
 ];
 
-var tree = new KDTree(data, 2);
+var tree = KDTree.from(data, 2);
 
 tree.nearestNeighbor([2, 4]);
 >>> 'zero'
@@ -141,7 +141,7 @@ var data = [
   ['five', [7, 2]]
 ];
 
-var tree = new KDTree(data, 2);
+var tree = KDTree.from(data, 2);
 
 tree.kNearestNeighbors(2, [2, 4]);
 >>> ['zero', 'one']
