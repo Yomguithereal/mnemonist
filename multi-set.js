@@ -175,15 +175,20 @@ MultiSet.prototype.remove = function(item, count) {
   if (typeof count !== 'number')
     throw new Error('mnemonist/multi-set.remove: given count should be a number.');
 
-  var currentCount = this.multiplicity(item),
-      newCount = Math.max(0, currentCount - count);
+  var currentCount = this.items.get(item);
+
+  if (typeof currentCount === 'undefined') return;
+
+  var newCount = Math.max(0, currentCount - count);
 
   if (newCount === 0) {
-    this.delete(item);
+    this.items.delete(item);
+    this.size -= currentCount;
+    this.dimension--;
   }
   else {
     this.items.set(item, newCount);
-    this.size -= (currentCount - newCount);
+    this.size -= count;
   }
 
   return;

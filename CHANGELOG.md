@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.3 (provisional)
+
+* Fixing `NaN` size issue with `MultiSet.remove` when removing non-existent keys.
+
 ## 0.39.2
 
 * Fixing typings of low-level structure consuming methods (@jerome-benoit).

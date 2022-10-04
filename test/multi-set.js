@@ -311,6 +311,23 @@ describe('MultiSet', function() {
     assert.deepStrictEqual(top, [['i', 7]]);
   });
 
+  it('size should remain consistent (issue #197).', function() {
+    var set = new MultiSet();
+
+    set.add('one');
+    set.add('one');
+    set.remove('one');
+    set.remove('one');
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.dimension, 0);
+
+    set.remove('one');
+
+    assert.strictEqual(set.size, 0);
+    assert.strictEqual(set.dimension, 0);
+  });
+
   describe('helpers', function() {
 
     it('#.isSuperset', function() {
