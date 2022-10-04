@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.39.3 (provisional)
+## 0.39.3
 
 * Fixing `NaN` size issue with `MultiSet.remove` when removing non-existent keys.
 
