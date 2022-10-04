@@ -190,7 +190,7 @@ function convert(target) {
   }
 
   // Padding the array
-  for (; i < paddingOffset; i++)
+  for (i = length; i < length + paddingOffset; i++)
     array[i] = 0;
 
   return array;

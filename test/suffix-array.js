@@ -87,4 +87,27 @@ describe('GeneralizedSuffixArray', function() {
       ['the', 'mouse']
     );
   });
+
+  it.skip('should work with int values (issue #196).', function() {
+    var suffixArray = new GeneralizedSuffixArray([
+      '1234',
+      '234',
+      '1234'
+    ]);
+
+    var result = suffixArray.longestCommonSubsequence();
+
+    assert.deepStrictEqual(result, '234');
+
+    // TODO: fix sentinel to be lower than anything else in the token case
+    suffixArray = new GeneralizedSuffixArray([
+      [1, 2, 3, 4],
+      [2, 3, 4],
+      [1, 2, 3, 4]
+    ]);
+
+    result = suffixArray.longestCommonSubsequence();
+
+    assert.deepStrictEqual(result, [2, 3, 4]);
+  });
 });
