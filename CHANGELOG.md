@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.4
+
+* Fixing `BiMap.get` and `InverseMap.get` types (@rubenferreira97).
+
 ## 0.39.3
 
 * Fixing `NaN` size issue with `MultiSet.remove` when removing non-existent keys.
