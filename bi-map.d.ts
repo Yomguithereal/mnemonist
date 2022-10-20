@@ -13,7 +13,7 @@ export class InverseMap<K, V> implements Iterable<[K, V]> {
   set(key: K, value: V): this;
   delete(key: K): boolean;
   has(key: K): boolean;
-  get(key: K): V;
+  get(key: K): V | undefined;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
   keys(): IterableIterator<K>;
   values(): IterableIterator<V>;
@@ -33,7 +33,7 @@ export default class BiMap<K, V> implements Iterable<[K, V]> {
   set(key: K, value: V): this;
   delete(key: K): boolean;
   has(key: K): boolean;
-  get(key: K): V;
+  get(key: K): V | undefined;
   forEach(callback: (value: V, key: K, map: this) => void, scope?: any): void;
   keys(): IterableIterator<K>;
   values(): IterableIterator<V>;
