@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.5
+
+* Adding partial type declarations for undocumented `utils/typed-arrays`.
+
 ## 0.39.4
 
 * Fixing `BiMap.get` and `InverseMap.get` types (@rubenferreira97).
