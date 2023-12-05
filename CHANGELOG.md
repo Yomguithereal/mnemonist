@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.6
+
+* Fixing type declarations of `FibonacciHeap`, `StaticIntervalTree` & `Vector` (@Macil).
+
 ## 0.39.5
 
 * Adding partial type declarations for undocumented `utils/typed-arrays`.
