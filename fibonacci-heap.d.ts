@@ -42,7 +42,10 @@ export class MinFibonacciHeap<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string]: I}): FibonacciHeap<I>;
+  static from<I>(
+    iterable: Iterable<I> | {[key: string]: I},
+    comparator?: FibonacciHeapComparator<I>
+  ): FibonacciHeap<I>;
 }
 
 export class MaxFibonacciHeap<T> {
@@ -61,5 +64,8 @@ export class MaxFibonacciHeap<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string]: I}): FibonacciHeap<I>;
+  static from<I>(
+    iterable: Iterable<I> | {[key: string]: I},
+    comparator?: FibonacciHeapComparator<I>
+  ): FibonacciHeap<I>;
 }
