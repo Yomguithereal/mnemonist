@@ -20,5 +20,8 @@ export default class StaticIntervalTree<T> {
   inspect(): any;
 
   // Statics
-  static from<I>(iterable: Iterable<I> | {[key: string]: I}): StaticIntervalTree<I>;
+  static from<I>(
+    iterable: Iterable<I> | {[key: string]: I},
+    getters?: StaticIntervalTreeGettersTuple<I>
+  ): StaticIntervalTree<I>;
 }
