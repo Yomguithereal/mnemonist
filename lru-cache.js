@@ -177,7 +177,7 @@ LRUCache.prototype.setpop = function(key, value) {
     this.tail = this.backward[pointer];
     oldValue = this.V[pointer];
     oldKey = this.K[pointer];
-    delete this.items[this.K[pointer]];
+    delete this.items[oldKey];
   }
 
   // Storing key & value

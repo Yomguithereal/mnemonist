@@ -137,7 +137,7 @@ LRUMap.prototype.setpop = function(key, value) {
     this.tail = this.backward[pointer];
     oldValue = this.V[pointer];
     oldKey = this.K[pointer];
-    this.items.delete(this.K[pointer]);
+    this.items.delete(oldKey);
   }
 
   // Storing key & value

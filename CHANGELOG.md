@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.7 (provisional)
+
+* Slight performance optimization of LRU classes `#.setpop` method.
+
 ## 0.39.6
 
 * Fixing type declarations of `FibonacciHeap`, `StaticIntervalTree` & `Vector` (@Macil).
