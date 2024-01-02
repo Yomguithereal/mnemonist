@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.39.7 (provisional)
+## 0.39.7
 
 * Slight performance optimization of LRU classes `#.setpop` method.
+* Adding missing constructors in TypeScript declarations (@jerome-benoit).
 
 ## 0.39.6
 
