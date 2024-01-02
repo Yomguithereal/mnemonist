@@ -8,6 +8,9 @@ export default class MultiSet<K> implements Iterable<K> {
   dimension: number;
   size: number;
 
+  // Constructor
+  constructor();
+
   // Methods
   clear(): void;
   add(key: K, count?: number): this;

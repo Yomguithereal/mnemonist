@@ -28,6 +28,9 @@ export default class BiMap<K, V> implements Iterable<[K, V]> {
   size: number;
   inverse: InverseMap<V, K>;
 
+  // Constructor
+  constructor();
+
   // Methods
   clear(): void;
   set(key: K, value: V): this;

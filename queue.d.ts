@@ -7,6 +7,9 @@ export default class Queue<T> implements Iterable<T> {
   // Members
   size: number;
 
+  // Constructor
+  constructor();
+
   // Methods
   clear(): void;
   enqueue(item: T): number;

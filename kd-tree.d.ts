@@ -11,6 +11,9 @@ export default class KDTree<V> {
   size: number;
   visited: number;
 
+  // Constructor
+  private constructor(dimensions: number, build: any);
+
   // Methods
   nearestNeighbor(point: Array<number>): V;
   kNearestNeighbors(k: number, point: Array<number>): Array<V>;
