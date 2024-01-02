@@ -7,6 +7,9 @@ export default class LinkedList<T> implements Iterable<T> {
   // Members
   size: number;
 
+  // Constructor
+  constructor();
+
   // Methods
   clear(): void;
   first(): T | undefined;

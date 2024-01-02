@@ -7,6 +7,9 @@ export default class Stack<T> implements Iterable<T> {
   // Members
   size: number;
 
+  // Constructor
+  constructor();
+
   // Methods
   clear(): void;
   push(item: T): number;
