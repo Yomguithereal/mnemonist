@@ -3,19 +3,27 @@
   "version": "0.39.7",
   "description": "Curated collection of data structures for the JavaScript/TypeScript.",
   "scripts": {
-    "lint": "eslint --cache ./*.js ./utils ./test",
-    "lint:fix": "eslint --cache --fix ./*.js ./utils ./test",
+    "lint": "eslint --cache ./*.js ./*.mjs ./utils ./test",
+    "lint:fix": "eslint --cache --fix ./*.js ./*.mjs ./utils ./test",
     "prepublishOnly": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "import": "./index.mjs"
+    }
+  },
   "files": [
     "sort",
     "utils",
     "*.d.ts",
-    "*.js"
+    "*.js",
+    "*.mjs"
   ],
   "repository": {
     "type": "git",
@@ -95,7 +103,8 @@
       "ecmaVersion": 6,
       "ecmaFeatures": {
         "forOf": true
-      }
+      },
+      "sourceType": "module"
     },
     "rules": {
       "no-new": 0
