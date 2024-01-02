@@ -4,6 +4,8 @@
  *
  * Exporting every data structure through a unified endpoint.
  */
+import * as set from './set.js';
+
 export {default as BiMap} from './bi-map.js';
 export {default as BitSet} from './bit-set.js';
 export {default as BitVector} from './bit-vector.js';
@@ -35,7 +37,7 @@ export {default as Queue} from './queue.js';
 export {default as FixedStack} from './fixed-stack.js';
 export {default as Stack} from './stack.js';
 export {default as SuffixArray, GeneralizedSuffixArray} from './suffix-array.js';
-export * from './set.js';
+export {set};
 export {default as SparseQueueSet} from './sparse-queue-set.js';
 export {default as SparseMap} from './sparse-map.js';
 export {default as SparseSet} from './sparse-set.js';

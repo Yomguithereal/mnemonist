@@ -4,6 +4,8 @@
  *
  * Gathering the library's typings.
  */
+import * as set from './set';
+
 export {default as BiMap, InverseMap} from './bi-map';
 export {default as BitSet} from './bit-set';
 export {default as BitVector} from './bit-vector';
@@ -31,7 +33,7 @@ export {default as MultiMap} from './multi-map';
 export {default as MultiSet} from './multi-set';
 export {default as PassjoinIndex} from './passjoin-index';
 export {default as Queue} from './queue';
-export * from './set';
+export {set};
 export {default as SparseQueueSet} from './sparse-queue-set';
 export {default as SparseMap} from './sparse-map';
 export {default as SparseSet} from './sparse-set';
