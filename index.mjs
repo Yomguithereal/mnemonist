@@ -6,7 +6,7 @@
  */
 import * as set from './set.js';
 
-export {default as BiMap} from './bi-map.js';
+export {default as BiMap, InverseMap} from './bi-map.js';
 export {default as BitSet} from './bit-set.js';
 export {default as BitVector} from './bit-vector.js';
 export {default as BloomFilter} from './bloom-filter.js';
