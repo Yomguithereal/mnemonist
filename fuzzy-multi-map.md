@@ -100,8 +100,10 @@ map.set(movie.title, movie);
 Alternatively, one can build a `FuzzyMultiMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-const map = FuzzyMultiMap.from(list, hashFunction [, useSet=false]);
-const map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
+const map = FuzzyMultiMap.from(list, hashFunctions);
+```
+```js
+const map = FuzzyMultiMap.from(list, hashFunctions, Container);
 ```
 
 ## Members
