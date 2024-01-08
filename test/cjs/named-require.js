@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 /**
  * Mnemonist ESM Import Testing
  * ========================
