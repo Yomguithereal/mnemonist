@@ -12,7 +12,7 @@ It is a "reverse" heap because internally, the heap will store the values you gi
 It is therefore impossible to pop or peek this heap and you can only push new values and consume the heap when the job is done.
 
 ```js
-var FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
+const FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
 ```
 
 ## Use case
@@ -22,9 +22,9 @@ Let's say we want to retrieve the 10 largest elements of a binary tree during a 
 Then the `FixedReverseHeap` is the right tool for the job.
 
 ```js
-var heap = new FixedReverseHeap(10);
+const heap = new FixedReverseHeap(10);
 
-var stack = [binaryTree.root],
+const stack = [binaryTree.root],
     node;
 
 while (stack.length) {
@@ -38,7 +38,7 @@ while (stack.length) {
 }
 
 // Consuming our heap to get our top 10
-var top10 = heap.consume();
+const top10 = heap.consume();
 ```
 
 Note that if you just want to retrieve the n largest/smallest values from an iterable, check the [nlargest]({{ site.baseurl }}/heap#nlargest) & [nsmallest]({{ site.baseurl }}/heap#nsmallest) functions from the [Heap]({{ site.baseurl }}/heap) module instead.
@@ -62,10 +62,10 @@ function compare(a, b) {
 }
 
 // Instantiating a heap that can store 15 items in a Uint8Array
-var heap = new FixedReverseHeap(Uint8Array, comparator, 15);
+const heap = new FixedReverseHeap(Uint8Array, comparator, 15);
 
 // Comparator can be omitted if you just want to compare numbers
-var heap = new FixedReverseHeap(Uint8Array, 15);
+const heap = new FixedReverseHeap(Uint8Array, 15);
 ```
 
 ## Members
@@ -91,7 +91,7 @@ var heap = new FixedReverseHeap(Uint8Array, 15);
 Maximum number of values that can be stored by the heap.
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 heap.capacity
 >>> 3
 ```
@@ -101,7 +101,7 @@ heap.capacity
 Number of values currently in the heap.
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 heap.size
 >>> 0
 ```
@@ -113,7 +113,7 @@ Pushes a value into the heap.
 `O(log n)`
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 heap.push(34);
 ```
 
@@ -122,7 +122,7 @@ heap.push(34);
 Fully consume the heap and return its items as a sorted array.
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 
 heap.push(45);
 heap.push(-3);
@@ -140,7 +140,7 @@ heap.size
 Completely clears the heap.
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 
 heap.push(34);
 heap.clear();
@@ -155,7 +155,7 @@ Returns the worst item currently stored in the heap.
 `O(1)`
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 
 heap.push(4);
 heap.push(34);
@@ -174,7 +174,7 @@ This method is mostly used for debugging purposes.
 `O(n log n)`
 
 ```js
-var heap = new FixedReverseHeap(Array, 3);
+const heap = new FixedReverseHeap(Array, 3);
 
 heap.push(4);
 heap.push(34);

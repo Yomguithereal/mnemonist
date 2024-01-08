@@ -38,7 +38,7 @@ But the real purpose of mnemonist's `SuffixArray` class is that it uses *Karkkai
 For more information about the Suffix Array, you can head [here](https://en.wikipedia.org/wiki/Suffix_array).
 
 ```js
-var SuffixArray = require('mnemonist/suffix-array');
+const SuffixArray = require('mnemonist/suffix-array');
 ```
 
 ## Constructor
@@ -46,10 +46,11 @@ var SuffixArray = require('mnemonist/suffix-array');
 The `SuffixArray` class simply takes a single string or arbitrary array of string tokens as its only argument:
 
 ```js
-var suffixArray = new SuffixArray('banana');
-
+const suffixArray = new SuffixArray('banana');
+```
+```js
 // Also works with arbitrary sequences of tokens
-var suffixArray = new SuffixArray(['the', 'cat', 'eats', 'the', 'mouse']);
+const suffixArray = new SuffixArray(['the', 'cat', 'eats', 'the', 'mouse']);
 ```
 
 Note that if you pass an arbitrary array of tokens, computation time for the suffix array is approximately `O(n log n)`, which is obviously slower than for a simple string.
@@ -65,7 +66,7 @@ Note that if you pass an arbitrary array of tokens, computation time for the suf
 The computed suffix array.
 
 ```js
-var suffixArray = new SuffixArray('banana');
+const suffixArray = new SuffixArray('banana');
 suffixArray.array
 >>> [5, 3, 1, 0, 4, 2]
 ```
@@ -75,7 +76,7 @@ suffixArray.array
 The length of the array.
 
 ```js
-var suffixArray = new SuffixArray('banana');
+const suffixArray = new SuffixArray('banana');
 suffixArray.length
 >>> 6
 ```
@@ -85,7 +86,7 @@ suffixArray.length
 The stored string.
 
 ```js
-var suffixArray = new SuffixArray('banana');
+const suffixArray = new SuffixArray('banana');
 suffixArray.string
 >>> 'banana'
 ```

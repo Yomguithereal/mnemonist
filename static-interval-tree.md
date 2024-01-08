@@ -19,7 +19,7 @@ Under the hood, this structure is implemented as an augmented binary search tree
 **Important note n°3**: for optimization reasons, this implementation currently only handles numbers. You can go around this limitation by converting your points to number through getters (dates can easily be converted to timestamps, for instance).
 
 ```js
-var StaticIntervalTree = require('mnemonist/static-interval-tree');
+const StaticIntervalTree = require('mnemonist/static-interval-tree');
 ```
 
 ## Use case
@@ -29,7 +29,7 @@ Let's say we have a large database of historical figures and we want to be able 
 The naive way would be to iterate over all our figures to find suitable ones.
 
 ```js
-var figures = [
+const figures = [
  {name: 'John II of Cyprus', birth: 1418, death: 1458},
  {name: 'Helena Palaiologina', birth: 1428, death: 1458},
  {name: 'Ashikaga Yoshikatsu', birth: 1434, death: 1443},
@@ -52,7 +52,7 @@ This is where the `StaticIntervalTree` can help you.
 
 ```js
 // Building our tree, using custom getters for start & end of intervals
-var tree = StaticIntervalTree.from(figures, [
+const tree = StaticIntervalTree.from(figures, [
   f => f.birth,
   f => f.death
 ]);
@@ -76,16 +76,16 @@ You can build a `StaticIntervalTree` from an arbitrary iterable.
 Alternatively, you can provide some customized start and end getters if you want to represent your intervals differently than an array.
 
 ```js
-var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
+const tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
 // Using specialized getters
-var figures = [
+const figures = [
  {name: 'John II of Cyprus', birth: 1418, death: 1458},
  {name: 'Helena Palaiologina', birth: 1428, death: 1458},
  {name: 'Ashikaga Yoshikatsu', birth: 1434, death: 1443}
 ];
 
-var tree = StaticIntervalTree.from(figures, [
+const tree = StaticIntervalTree.from(figures, [
   f => f.birth,
   f => f.death
 ]);
@@ -110,7 +110,7 @@ The tree is built in `O(n log n)` time.
 Height of the underlying binary search tree.
 
 ```js
-var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
+const tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
 tree.height
 >>> 3
@@ -121,7 +121,7 @@ tree.height
 Number of stored intervals.
 
 ```js
-var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
+const tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
 tree.size
 >>> 2
@@ -132,7 +132,7 @@ tree.size
 Retrieves an array of intervals containing the given point.
 
 ```js
-var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
+const tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
 tree.intervalsContainingPoint(1);
 >>> [[0, 1]]
@@ -143,7 +143,7 @@ tree.intervalsContainingPoint(1);
 Retrieves an array of intervals overlapping with the given interval.
 
 ```js
-var tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
+const tree = StaticIntervalTree.from([[0, 1], [20, 34]]);
 
 tree.intervalsOverlappingInterval([5, 24]);
 >>> [[20, 34]]

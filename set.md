@@ -10,7 +10,7 @@ However, it direly lacks of some typical helpers such as functions computing the
 That's what the `mnemonist/set` module provides.
 
 ```js
-var helpers = require('mnemonist/set');
+const helpers = require('mnemonist/set');
 ```
 
 ## Functions
@@ -46,14 +46,14 @@ var helpers = require('mnemonist/set');
 Returns the intersection of the given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.intersection(A, B);
 >>> Set {2, 3}
 
 // You can intersect as many sets as you want:
-var C = new Set([1, 2]);
+const C = new Set([1, 2]);
 
 helpers.intersection(A, B, C);
 >>> Set {2}
@@ -64,14 +64,14 @@ helpers.intersection(A, B, C);
 Returns the union of the given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
+const A = new Set([1, 2, 3]),
     B = new Set([2, 3, 4]);
 
 helpers.union(A, B);
 >>> Set {1, 2, 3, 4}
 
 // You can unite as many sets as you want:
-var C = new Set([1, 2]);
+const C = new Set([1, 2]);
 
 helpers.union(A, B, C);
 >>> Set {1, 2, 3, 4}
@@ -82,8 +82,8 @@ helpers.union(A, B, C);
 Returns the difference of the given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.difference(A, B);
 >>> Set {1}
@@ -94,8 +94,8 @@ helpers.difference(A, B);
 Returns the symmetric difference (disjunction) of the given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.symmetricDifference(A, B);
 >>> Set {1, 4}
@@ -106,9 +106,9 @@ helpers.symmetricDifference(A, B);
 Returns whether the first set is a subset of the second one.
 
 ```js
-var A = new Set([1, 2]),
-    B = new Set([1, 2, 3]),
-    C = new Set([1, 4]);
+const A = new Set([1, 2]);
+const B = new Set([1, 2, 3]);
+const C = new Set([1, 4]);
 
 helpers.isSubset(A, B);
 >>> true
@@ -122,9 +122,9 @@ helpers.isSubset(A, C);
 Returns whether the first set is a superset of the second one.
 
 ```js
-var A = new Set([1, 2]),
-    B = new Set([1, 2, 3]),
-    C = new Set([1, 4]);
+const A = new Set([1, 2]);
+const B = new Set([1, 2, 3]);
+const C = new Set([1, 4]);
 
 helpers.isSuperset(B, A);
 >>> true
@@ -138,7 +138,7 @@ helpers.isSuperset(A, C);
 Adds the items of the second set to the first one in-place.
 
 ```js
-var A = new Set([1, 2]);
+const A = new Set([1, 2]);
 
 helpers.add(A, new Set([2, 3]));
 
@@ -151,7 +151,7 @@ helpers.add(A, new Set([2, 3]));
 Subtracts the items of the second set from the first one in-place.
 
 ```js
-var A = new Set([1, 2, 3, 4]);
+const A = new Set([1, 2, 3, 4]);
 
 helpers.subtract(A, new Set([1, 2]));
 
@@ -164,8 +164,8 @@ helpers.subtract(A, new Set([1, 2]));
 Mutates the first set to become the intersection of both given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.intersect(A, B);
 
@@ -178,8 +178,8 @@ helpers.intersect(A, B);
 Mutates the first set to become the disjunction (symmetric difference) of both given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.disjunct(A, B);
 
@@ -192,8 +192,8 @@ helpers.disjunct(A, B);
 Returns the size of the intersection of both given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.intersectionSize(A, B);
 >>> 2
@@ -207,8 +207,8 @@ helpers.intersection(A, B).size;
 Returns the size of the union of both given sets.
 
 ```js
-var A = new Set([1, 2, 3]),
-    B = new Set([2, 3, 4]);
+const A = new Set([1, 2, 3]);
+const B = new Set([2, 3, 4]);
 
 helpers.unionSize(A, B);
 >>> 4
@@ -222,8 +222,8 @@ helpers.union(A, B).size;
 Returns the [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index) or similarity (i.e. intersection divided by union) between both given sets.
 
 ```js
-var contact = new Set('contact'),
-    context = new Set('context');
+const contact = new Set('contact');
+const context = new Set('context');
 
 helpers.jaccard(contact, context);
 >>> 4 / 7
@@ -234,8 +234,8 @@ helpers.jaccard(contact, context);
 Returns the [overlap coefficient](https://en.wikipedia.org/wiki/Overlap_coefficient) (i.e. intersection divided by min size) between both given sets.
 
 ```js
-var contact = new Set('contact'),
-    context = new Set('context');
+const contact = new Set('contact');
+const context = new Set('context');
 
 helpers.overlap(contact, context);
 >>> 4 / 5

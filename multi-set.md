@@ -8,7 +8,7 @@ A `MultiSet` is like a `Set` excepts it is able to store items more than once an
 For more information about the MultiSet, you can head [here](https://en.wikipedia.org/wiki/Multiset).
 
 ```js
-var MultiSet = require('mnemonist/multi-set');
+const MultiSet = require('mnemonist/multi-set');
 ```
 
 ## Constructor
@@ -20,7 +20,7 @@ The `MultiSet` takes no argument.
 Alternatively, one can build a `MultiSet` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var set = MultiSet.from([1, 2, 3]);
+const set = MultiSet.from([1, 2, 3]);
 ```
 
 ## Members
@@ -69,7 +69,7 @@ Static methods dealing with multisets.
 Number of distinct items in the set.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
@@ -83,7 +83,7 @@ set.dimension
 Total number of items in the set.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
@@ -103,7 +103,7 @@ Adding an item a negative number of times will remove items.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 
@@ -120,7 +120,7 @@ Setting the multiplicity of an item to be 0 or a negative number will remove sai
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.set('hello', 4);
 set.multiplicity('hello');
@@ -138,7 +138,7 @@ Removing an item a negative number of times will add items.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello', 3);
 
@@ -158,7 +158,7 @@ Removes all the occurrences of the given item from the set.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
@@ -175,7 +175,7 @@ Edit an item to become another one. If the item does not exist in the set, this 
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('a');
 set.add('b');
@@ -196,7 +196,7 @@ set.multiplicity('b');
 Completly clears the set of all its items.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.clear();
@@ -216,7 +216,7 @@ Returns the frequency of the given item in the set.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('apple', 5);
 set.add('pear', 2);
@@ -233,7 +233,7 @@ Returns whether the given item is found in the set.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.has('hello');
@@ -254,7 +254,7 @@ Returns the number of times the given item is found in the set.
 `O(1)`
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.multiplicity('hello');
@@ -270,7 +270,7 @@ Retrieves the top k items with their assorted count in sorted order.
 `O(k)` memory
 
 ```js
-var set = MultiSet.from('So-many-letters-in-this-boring-string.');
+const set = MultiSet.from('So-many-letters-in-this-boring-string.');
 set.top(3);
 >>> [['-', 6], ['t', 4], ['n', 4]]
 ```
@@ -280,7 +280,7 @@ set.top(3);
 Iterates over each of the items stored by the set.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
@@ -297,7 +297,7 @@ set.forEach(function(value) {
 Iterates over each of the multiplicities stored by the set.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
@@ -315,12 +315,12 @@ set.forEachMultiplicity(function(count, key) {
 Returns an iterator over the set's keys, i.e. the set's unique values.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello', 4);
 set.add('world', 5);
 
-var iterator = set.keys();
+const iterator = set.keys();
 
 iterator.next().value
 >>> 'hello'
@@ -333,12 +333,12 @@ iterator.next().value
 Returns an iterator over the set's repeated values.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello', 2);
 set.add('world');
 
-var iterator = set.values();
+const iterator = set.values();
 
 iterator.next().value
 >>> 'hello'
@@ -351,12 +351,12 @@ iterator.next().value
 Returns an iterator over the set's multiplicities.
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
 
-var iterator = set.multiplicities();
+const iterator = set.multiplicities();
 
 iterator.next().value
 >>> ['hello', 2]
@@ -367,12 +367,12 @@ iterator.next().value
 Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
 
 ```js
-var set = new MultiSet();
+const set = new MultiSet();
 
 set.add('hello');
 set.add('hello');
 
-for (var value of set) {
+for (const value of set) {
   console.log(value);
 }
 ```
@@ -386,8 +386,8 @@ for (var value of set) {
 Static method returning whether the first multiset is a subset of the second.
 
 ```js
-var letters = MultiSet.from('aaabbc');
-var lessLetters = MultiSet.from('aab');
+const letters = MultiSet.from('aaabbc');
+const lessLetters = MultiSet.from('aab');
 
 MultiSet.isSubset(lessLetters, letters);
 >>> true
@@ -398,8 +398,8 @@ MultiSet.isSubset(lessLetters, letters);
 Static method returning whether the first multiset is a superset of the second.
 
 ```js
-var letters = MultiSet.from('aaabbc');
-var lessLetters = MultiSet.from('aab');
+const letters = MultiSet.from('aaabbc');
+const lessLetters = MultiSet.from('aab');
 
 MultiSet.isSuperset(letters, lessLetters);
 >>> true

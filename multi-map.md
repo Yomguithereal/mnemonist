@@ -8,7 +8,7 @@ A `MultiMap` is like a `Map` except it can store multiple values with the same k
 For more information about the MultiMap, you can head [here](https://en.wikipedia.org/wiki/Multimap).
 
 ```js
-var MultiMap = require('mnemonist/multi-map');
+const MultiMap = require('mnemonist/multi-map');
 ```
 
 ## Constructor
@@ -16,10 +16,11 @@ var MultiMap = require('mnemonist/multi-map');
 The `MultiMap` takes an optional argument being the container to use. By default, the container is an array.
 
 ```js
-var map = new MultiMap();
-
+const map = new MultiMap();
+```
+```js
 // Using a set as container
-var map = new MultiMap(Set);
+const map = new MultiMap(Set);
 ```
 
 ### Static #.from
@@ -27,7 +28,7 @@ var map = new MultiMap(Set);
 Alternatively, one can build a `MultiMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var map = MultiMap.from([1, 2, 3], container);
+const map = MultiMap.from([1, 2, 3], container);
 ```
 
 ## Members
@@ -67,7 +68,7 @@ var map = MultiMap.from([1, 2, 3], container);
 Number of containers stored by the map.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('hello', 'world');
 
@@ -80,7 +81,7 @@ map.dimension
 Total number of items stored by the map.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('J', 'John');
 map.set('J', 'Jack');
@@ -99,7 +100,7 @@ Adds an item to the multimap using the provided key.
 `O(1)`
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set(key, value);
 ```
@@ -111,7 +112,7 @@ Removes every items stored using the provided key.
 `O(1)`
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('J', 'John');
 map.set('J', 'Jack');
@@ -135,7 +136,7 @@ Note that it will remove only one such value from array-like containers.
 `O(n)` for Array containers.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('one', 'Hello');
 
@@ -150,7 +151,7 @@ map.get('one');
 Completely clears the multimap of every item.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('J', 'John');
 map.set('J', 'Jack');
@@ -172,7 +173,7 @@ Returns whether the map holds a container at the given key.
 `O(1)`
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John'});
 
@@ -187,7 +188,7 @@ Returns the number of times the given key is set in the map. Or more simply said
 `O(1)`
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.multiplicity('hello');
 >>> 0
@@ -204,7 +205,7 @@ Returns the container at the given key or `undefined`.
 `O(1)`
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John'});
 
@@ -217,7 +218,7 @@ map.get('john');
 Iterates over each of the entries of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
@@ -234,7 +235,7 @@ map.forEach(function(value, key) {
 Iterates over each of the associations (key, container) of the multimap.
 
 ```js
-var map = new Multimap();
+const map = new Multimap();
 
 map.set(1, 1);
 map.set(1, 2);
@@ -252,12 +253,12 @@ map.forEachAssociation(function(container, key) {
 Returns an iterator over the keys of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.keys();
+const iterator = map.keys();
 
 iterator.next().value
 >>> 'john'
@@ -268,12 +269,12 @@ iterator.next().value
 Returns an iterator over the values of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.values();
+const iterator = map.values();
 
 iterator.next().value
 >>> {name: 'John', surname: 'Doe'}
@@ -284,12 +285,12 @@ iterator.next().value
 Returns an iterator over the entries of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.entries();
+const iterator = map.entries();
 
 iterator.next().value
 >>> ['john', {name: 'John', surname: 'Doe'}]
@@ -300,12 +301,12 @@ iterator.next().value
 Returns an iterator over the containers of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.containers();
+const iterator = map.containers();
 
 iterator.next().value
 >>> [
@@ -319,12 +320,12 @@ iterator.next().value
 Returns an iterator over the associations (key, container) of the multimap.
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-var iterator = map.associations();
+const iterator = map.associations();
 
 iterator.next().value
 >>> [
@@ -341,12 +342,12 @@ iterator.next().value
 Alternatively, you can iterate over a list's entries using ES2015 `for...of` protocol:
 
 ```js
-var map = new MultiMap();
+const map = new MultiMap();
 
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-for (var entry of map) {
+for (const entry of map) {
   console.log(entry);
 }
 ```

@@ -11,7 +11,7 @@ It is however a very memory-efficient way to solve some issues such as finding c
 
 
 ```js
-var StaticDisjointSet = require('mnemonist/static-disjoint-set');
+const StaticDisjointSet = require('mnemonist/static-disjoint-set');
 ```
 
 ## Constructor
@@ -19,7 +19,7 @@ var StaticDisjointSet = require('mnemonist/static-disjoint-set');
 The `StaticDisjointSet` takes an initial size at instantiation time (i.e. the total number of items we are going to handle, the number of nodes in your graph, for instance).
 
 ```js
-var sets = new StaticDisjointSet(size);
+const sets = new StaticDisjointSet(size);
 ```
 
 ## Members
@@ -44,7 +44,7 @@ var sets = new StaticDisjointSet(size);
 Total number of sets known by the disjoint set (obviously less than or equal to the size).
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 sets.union(1, 2);
 sets.union(1, 3);
@@ -60,7 +60,7 @@ set.dimension;
 Total number of stored items.
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 set.size;
 >>> 4
@@ -73,7 +73,7 @@ set.size;
 Perform the union of two items. If they belong to different sets, their respective sets will be merged into a single one.
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 sets.union(1, 2);
 sets.union(1, 3);
@@ -86,7 +86,7 @@ sets.union(1, 3);
 Compile the disjoint sets into an array of arrays.
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 sets.union(1, 2);
 sets.union(1, 3);
@@ -103,7 +103,7 @@ sets.compile();
 Returns the root item of the given item's current set.
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 sets.union(1, 2);
 sets.union(1, 3);
@@ -119,7 +119,7 @@ sets.find(2);
 Returns an array whose values are the id of the item's set.
 
 ```js
-var sets = new StaticDisjointSet(4);
+const sets = new StaticDisjointSet(4);
 
 sets.union(1, 2);
 sets.union(1, 3);

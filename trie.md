@@ -8,7 +8,7 @@ The trie - pronounced like in *re•trie•val* - is a kind tree very useful to 
 For more information about the Trie, you can head [here](https://en.wikipedia.org/wiki/Trie).
 
 ```js
-var Trie = require('mnemonist/trie');
+const Trie = require('mnemonist/trie');
 ```
 
 ## Use case
@@ -16,7 +16,7 @@ var Trie = require('mnemonist/trie');
 Let's say we have a list of strings and we want to be able to find them by a given prefix:
 
 ```js
-var words = [
+const words = [
   'roman',
   'romanesque',
   'romanesco',
@@ -40,10 +40,10 @@ A trie, on the contrary, is able to answer this kind of query more efficiently:
 
 ```js
 // Let's create a trie from our words
-var trie = Trie.from(words);
+const trie = Trie.from(words);
 
 // Now let's query our trie
-var wordsWithMatchingPrefix = trie.find(query);
+const wordsWithMatchingPrefix = trie.find(query);
 ```
 
 ## Constructor
@@ -52,10 +52,11 @@ The `Trie` optionally takes as single argument the type of sequence you are goin
 
 ```
 // For a trie containing string prefixes
-var trie = new Trie();
-
+const trie = new Trie();
+```
+```js
 // For a trie containing arbitrary sequences fed as arrays
-var trie = new Trie(Array);
+const trie = new Trie(Array);
 ```
 
 ### Static #.from
@@ -63,7 +64,7 @@ var trie = new Trie(Array);
 Alternatively, one can build a `Trie` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = Trie.from(['roman', 'romanesque']);
+const list = Trie.from(['roman', 'romanesque']);
 ```
 
 ## Members
@@ -94,7 +95,7 @@ var list = Trie.from(['roman', 'romanesque']);
 Number of prefixes in the trie.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.size
 >>> 0
 ```
@@ -106,7 +107,7 @@ Adds a prefix into the Trie. If the prefix is a string, it will be split into ch
 `O(m)`, m being the size of the inserted string.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.add('hello');
 
 trie.has('hello');
@@ -123,7 +124,7 @@ Deletes a prefix from the Trie. Returns `true` if the prefix was deleted & `fals
 `O(m)`, m being the size of the deleted string.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.add('hello');
 
 trie.delete('hello');
@@ -138,7 +139,7 @@ trie.delete('world');
 Completely clears the trie.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.add('hello');
 trie.add('roman');
 
@@ -155,7 +156,7 @@ Returns whether the given prefix exists in the trie.
 `O(m)`, m being the size of the searched string.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.add('hello');
 
 trie.has('hello');
@@ -172,7 +173,7 @@ Returns an array of every prefixes found in the trie with the given prefix.
 `O(m + n)`, m being the size of the query, n being the cumulated size of the matched prefixes.
 
 ```js
-var trie = new Trie();
+const trie = new Trie();
 trie.add('roman');
 trie.add('romanesque');
 trie.add('greek');
@@ -196,9 +197,9 @@ Alias of [#.prefixes](#prefixes).
 Returns an iterator over the trie's prefixes (note that the order on which the trie will iterate over its prefixes is arbitrary).
 
 ```js
-var trie = Trie.from(['roman', 'romanesque']);
+const trie = Trie.from(['roman', 'romanesque']);
 
-var iterator = trie.prefixes();
+const iterator = trie.prefixes();
 
 iterator.next().value
 >>> 'roman'
@@ -209,9 +210,9 @@ iterator.next().value
 Alternatively, you can iterate over a trie's prefixes using ES2015 `for...of` protocol:
 
 ```js
-var trie = Trie.from(['roman', 'romanesque']);
+const trie = Trie.from(['roman', 'romanesque']);
 
-for (var prefix of trie) {
+for (const prefix of trie) {
   console.log(prefix);
 }
 ```

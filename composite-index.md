@@ -8,7 +8,7 @@ The `CompositeIndex` is an abstraction over the [`Index`]({{ site.baseurl }}/ind
 It basically store the given items in various subindices in order to be able to query them using different methods.
 
 ```js
-var CompositeIndex = require('mnemonist/composite-index');
+const CompositeIndex = require('mnemonist/composite-index');
 ```
 
 ## Use case
@@ -23,27 +23,19 @@ Therefore, we want an index able to store & query our organizations using variou
 // Let's create an index that using two different hashing methods:
 // 1. Lowercase organization name
 // 2. Uppercase organization acronym
-var index = new CompositeIndex([
+const index = new CompositeIndex([
   {
     name: 'name',
     hash: [
-      function(org) {
-        return org.name.toLowerCase();
-      },
-      function(query) {
-        return query.toLowerCase();
-      }
+      (org) => org.name.toLowerCase(),
+      (query) => query.toLowerCase(),
     ]
   },
   {
     name: 'acronym',
     hash: [
-      function(org) {
-        return org.acronym.toUpperCase();
-      },
-      function(query) {
-        return query.toUpperCase();
-      }
+      (org) => org.acronym.toUpperCase(),
+      (query) => query.toUpperCase(),
     ]
   }
 ]);
@@ -72,10 +64,10 @@ index.get('WHO');
 >>> undefined
 
 // Now, let's say we have the following entry, with a year for NATO
-var entry = {acronym: 'nato', year: 1947}
+const entry = {acronym: 'nato', year: 1947}
 
 // We will be able to find it in the index & be able to merge information
-var match = index.get(entry.acronym);
+const match = index.get(entry.acronym);
 match.year = entry.year;
 ```
 
@@ -87,9 +79,7 @@ The `CompositeIndex` takes as single argument a list of subindices descriptors.
 // A descriptor must have a name & either a single hash function
 {
   name: 'acronym',
-  hash: function(string) {
-    return string.toUpperCase();
-  }
+  hash: (string) => string.toUpperCase(),
 }
 
 // Or a descriptor can have two hash functions
@@ -97,12 +87,8 @@ The `CompositeIndex` takes as single argument a list of subindices descriptors.
 {
   name: 'acronym',
   hash: [
-    function(item) {
-      return item.acronym.toUpperCase();
-    },
-    function(query) {
-      return query.toUpperCase();
-    }
+    (item) => item.acronym.toUpperCase(),
+    (query) => query.toUpperCase(),
   ]
 }
 ```
@@ -110,16 +96,14 @@ The `CompositeIndex` takes as single argument a list of subindices descriptors.
 **Warning!**: the index will not consider any falsy key processed by its hash functions.
 
 ```js
-var index = new Index([
+const index = new Index([
   {
     name: 'lowercase',
-    hash: function(item) {
-      return item.title && item.title.toLowerCase();
-    }  
+    hash: (item) => item.title && item.title.toLowerCase(),
   }
 ]);
 
-var movie = {year: 1999};
+const movie = {year: 1999};
 
 // This will not be indexed on `undefined`
 index.set(movie.title, movie);
@@ -130,7 +114,7 @@ index.set(movie.title, movie);
 Alternatively, one can build a `CompositeIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = CompositeIndex.from(list, descriptors [, useSet=false]);
+const index = CompositeIndex.from(list, descriptors [, useSet=false]);
 ```
 
 ## Members
@@ -160,27 +144,19 @@ var index = CompositeIndex.from(list, descriptors [, useSet=false]);
 Number of distinct items stored in the index.
 
 ```js
-var index = new CompositeIndex([
+const index = new CompositeIndex([
   {
     name: 'lowercase',
     hash: [
-      function(item) {
-        return item.title.toLowerCase();
-      },
-      function(query) {
-        return query.toLowerCase();
-      }
+      (item) => item.title.toLowerCase(),
+      (query) => query.toLowerCase(),
     ]
   },
   {
     name: 'uppercase',
     hash: [
-      function(item) {
-        return item.title.toUpperCase();
-      },
-      function(query) {
-        return query.toUpperCase();
-      }
+      (item) => item.title.toUpperCase(),
+      (query) => query.toUpperCase(),
     ]
   }
 ]);
@@ -198,22 +174,18 @@ index.size
 Hashes the given item to produce its keys using the relevant function then sets this item in each of the subindices for which the hashed key is not falsy.
 
 ```js
-var index = new CompositeIndex({
+const index = new CompositeIndex({
   name: 'lowercase',
   hash: [
-    function(item) {
-      return item.title.toLowerCase();
-    },
-    function(query) {
-      return query.toLowerCase();
-    }
+    (item) => item.title.toLowerCase(),
+    (query) => query.toLowerCase(),
   ]
 });
 
 index.add({title: 'Great movie', year: 1999});
 
 // In fact, same as doing
-var movie = {title: 'Great movie', year: 1999};
+const movie = {title: 'Great movie', year: 1999};
 index.set(movie, movie);
 ```
 
@@ -222,14 +194,12 @@ index.set(movie, movie);
 Hashes the given key using the relevant function then sets the given item in each of the subindices for which the hashed key is not falsy.
 
 ```js
-var index = new CompositeIndex({
+const index = new CompositeIndex({
   name: 'lowercase',
-  hash: function(string) {
-    return string.toLowerCase();
-  }
+  hash: (string) => string.toLowerCase()
 });
 
-var movie = {title: 'Great movie', year: 1999};
+const movie = {title: 'Great movie', year: 1999};
 
 index.set(movie.title, movie);
 ```
@@ -239,7 +209,7 @@ index.set(movie.title, movie);
 Completely clears the index of its items.
 
 ```js
-var index = new CompositeIndex(...);
+const index = new CompositeIndex(...);
 index.add(item);
 index.clear();
 
@@ -252,24 +222,18 @@ index.size
 Retrieves an item in the index by testing each of the subindices, or a subset of the subindices that you can test in an arbitrary order.
 
 ```js
-var index = new CompositeIndex([
+const index = new CompositeIndex([
   {
     name: 'lowercase',
-    hash: function(string) {
-      return string.toLowerCase();
-    }
+    hash: (string) => string.toLowerCase()
   },
   {
     name: 'firstLetter',
-    hash: function(string) {
-      return string[0].toLowerCase();
-    }
+    hash: (string) => string[0].toLowerCase()
   },
   {
     name: 'lastLetter',
-    hash: function(string) {
-      return string[string.length - 1].toLowerCase();
-    }
+    hash: (string) => string[string.length - 1].toLowerCase()
   }
 ]);
 
@@ -289,19 +253,15 @@ index.has(['firstLetter', 'lowercase'], 'r');
 Iterates over the items stored in the index.
 
 ```js
-var index = new CompositeIndex({
+const index = new CompositeIndex({
   name: 'lowercase',
-  hash: function(string) {
-    return string.toLowerCase();
-  }
+   hash: (string) => string.toLowerCase()
 });
 
 index.set('Hello', {name: 'hello'});
 index.set('World', {name: 'world'});
 
-index.forEach(function(value) {
-  console.log(value);
-});
+index.forEach((value) => console.log(value));
 >>> {name: 'hello'}
 >>> {name: 'world'}
 ```
@@ -311,17 +271,15 @@ index.forEach(function(value) {
 Creates an iterator over the index's values.
 
 ```js
-var index = new CompositeIndex({
+const index = new CompositeIndex({
   name: 'lowercase',
-  hash: function(string) {
-    return string.toLowerCase();
-  }
+  hash: (string) => string.toLowerCase()
 });
 
 index.set('Hello', {name: 'hello'});
 index.set('World', {name: 'world'});
 
-var iterator = index.values();
+const iterator = index.values();
 iterator.next().value();
 >>> {name: 'hello'}
 ```
@@ -331,17 +289,15 @@ iterator.next().value();
 Alternatively, you can iterate over an index' values using ES2015 `for...of` protocol:
 
 ```js
-var index = new CompositeIndex({
+const index = new CompositeIndex({
   name: 'lowercase',
-  hash: function(string) {
-    return string.toLowerCase();
-  }
+  hash: (string) => string.toLowerCase()
 });
 
 index.set('Hello', {name: 'hello'});
 index.set('World', {name: 'world'});
 
-for (var value of index) {
+for (const value of index) {
   console.log(value);
 }
 ```

@@ -10,11 +10,11 @@ For more information about the Heap, you can head [here](https://en.wikipedia.or
 By default, the provided `Heap` is a min heap and the `MaxHeap` is just some sugar that will reverse the provided comparator for you.
 
 ```js
-var Heap = require('mnemonist/heap');
+const Heap = require('mnemonist/heap');
 
 // To access min/max heap
-var MinHeap = require('mnemonist/heap').MinHeap;
-var MaxHeap = require('mnemonist/heap').MaxHeap;
+const { MinHeap } = require('mnemonist/heap');
+const { MaxHeap } = require('mnemonist/heap');
 ```
 
 If you know the maximum number of items you will store and need a more performant implementation, check out the [`FixedReverseHeap`]({{ site.baseurl }}/fixed-reverse-heap).
@@ -28,7 +28,7 @@ In such cases, a `Heap` can help you tremendously by keeping the items you give 
 ```js
 // Let's give a comparator function to our Heap
 // to be able to tell which tasks are the most urgent
-var heap = new Heap(function(a, b) {
+const heap = new Heap((a, b) => {
   if (a.priority > b.priority)
     return -1;
   if (a.priority < b.priority)
@@ -47,7 +47,7 @@ heap.peek().task;
 
 // Let's perform our tasks
 while (heap.size) {
-  var task = heap.pop().task;
+  const task = heap.pop().task;
   console.log('Doing:', task);
 }
 ```
@@ -58,7 +58,7 @@ The `Heap` takes a single optional argument being the comparator function to be 
 
 ```js
 // Providing a comparator to handle custom objects
-var heap = new Heap(function(a, b) {
+const heap = new Heap((a, b) => {
   if (a.value < b.value)
     return -1;
   if (a.value > b.value)
@@ -78,7 +78,7 @@ heap.peek();
 Alternatively, one can build a `Heap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var heap = Heap.from([1, 2, 3], comparator);
+const heap = Heap.from([1, 2, 3], comparator);
 ```
 
 The construction is done in linear time.
@@ -124,7 +124,7 @@ If you need to find the n smallest/largest elements from arbitrary iterables eff
 Number of items in the heap.
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 heap.size
 >>> 0
 ```
@@ -136,7 +136,7 @@ Pushes an item into the heap.
 `O(log n)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 heap.push(34);
 ```
 
@@ -147,7 +147,7 @@ Retrieve & remove the min item of the heap (or the max item in case of a `MaxHea
 `O(log n)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(4);
 heap.push(34);
@@ -171,7 +171,7 @@ This is more efficient than doing `pop` then `push` and does not change the leng
 `O(log n)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(1);
 heap.replace(2);
@@ -193,7 +193,7 @@ This is more efficient than doing `push` than `pop` and does not change the leng
 `O(log n)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(1);
 heap.pushpop(2);
@@ -211,7 +211,7 @@ heap.pop();
 Fully consume the heap and return its items as a sorted array.
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(45);
 heap.push(-3);
@@ -229,7 +229,7 @@ heap.size
 Completely clears the heap.
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(34);
 heap.clear();
@@ -244,7 +244,7 @@ Retrieves the min item of the heap (or the max item in case of a `MaxHeap`).
 `O(1)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(4);
 heap.push(34);
@@ -263,7 +263,7 @@ This method is mostly used for debugging purposes.
 `O(n log n)`
 
 ```js
-var heap = new Heap();
+const heap = new Heap();
 
 heap.push(4);
 heap.push(34);
@@ -284,7 +284,7 @@ Converts the given array into a heap in linear time.
 `O(n)`
 
 ```js
-var array = [4, 1, -5, 10];
+const array = [4, 1, -5, 10];
 
 Heap.heapify(comparator, array);
 // You array has been heapified!
@@ -297,7 +297,7 @@ Push a new item into the heap.
 `O(log n)`
 
 ```js
-var array = [];
+const array = [];
 
 Heap.push(comparator, array, 4);
 Heap.push(comparator, array, 3);
@@ -314,7 +314,7 @@ Pop the heap.
 `O(log n)`
 
 ```js
-var array = [];
+const array = [];
 
 Heap.push(comparator, array, 4);
 Heap.push(comparator, array, 3);
@@ -335,7 +335,7 @@ This is more efficient than doing `pop` then `push` and does not change the leng
 `O(log n)`
 
 ```js
-var array = [];
+const array = [];
 
 Heap.push(comparator, array, 1);
 Heap.replace(comparator, array, 2);
@@ -358,7 +358,7 @@ This is more efficient than doing `push` than `pop` and does not change the leng
 `O(log n)`
 
 ```js
-var array = [];
+const array = [];
 
 Heap.push(comparator, array, 1);
 Heap.pushpop(comparator, array, 2);
@@ -378,7 +378,7 @@ Completely consumes the heap and returns all its items in a sorted array.
 `O(n log n)`
 
 ```js
-var array = [4, 1, 3];
+const array = [4, 1, 3];
 
 Heap.heapify(comparator, array);
 Heap.consume(comparator, array);

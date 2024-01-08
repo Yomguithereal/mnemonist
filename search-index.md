@@ -8,7 +8,7 @@ The `SearchIndex` is the name this library gives to an [`InvertedIndex`]({{ site
 Furthermore, the `SearchIndex` is able to compute some metrics such as TF/IDF to help you score the results.
 
 ```js
-var SearchIndex = require('mnemonist/search-index');
+const SearchIndex = require('mnemonist/search-index');
 ```
 
 ## Constructor
@@ -19,7 +19,7 @@ The `SearchIndex` either takes a single argument being a tokenizer function that
 
 ```js
 // Let's create an index using a single hash function:
-var index = new SearchIndex(function(value) {
+const index = new SearchIndex(function(value) {
   return words(value);
 });
 
@@ -32,7 +32,7 @@ index.get(queryTitle);
 
 ```js
 // Let's create an index using two different hash functions:
-var index = new Index([
+const index = new Index([
   
   // Tokenizer function for inserted items:
   function(movie) {
@@ -55,8 +55,10 @@ index.get(queryTitle);
 Alternatively, one can build an `SearchIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = SearchIndex.from(list, tokenizer [, useSet=false]);
-var index = SearchIndex.from(list, tokenizers [, useSet=false]);
+const index = SearchIndex.from(list, tokenizer [, useSet=false]);
+```
+```js
+const index = SearchIndex.from(list, tokenizers [, useSet=false]);
 ```
 
 ## Members
@@ -82,7 +84,7 @@ var index = SearchIndex.from(list, tokenizers [, useSet=false]);
 Number of documents stored in the index.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
 index.add('The cat eats the mouse.');
 
@@ -95,7 +97,7 @@ index.size
 Tokenize the given document using the relevant function and adds it to the index.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
 index.add('The cat eats the mouse.');
 ```
@@ -105,9 +107,9 @@ index.add('The cat eats the mouse.');
 Tokenize the given key using the relevant function and add the given document to the index.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
-var doc = {text: 'The cat eats the mouse.', id: 34}
+const doc = {text: 'The cat eats the mouse.', id: 34}
 
 index.set(doc.text, doc);
 ```
@@ -117,7 +119,7 @@ index.set(doc.text, doc);
 Completely clears the index of its documents.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
 index.add('The cat eats the mouse.');
 index.clear();
@@ -133,7 +135,7 @@ index.size
 Tokenize the query using the relevant function, then retrieves the intersection of documents containing the resulting tokens.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
@@ -152,7 +154,7 @@ index.get('cat mouse');
 Tokenize the query using the relevant function, then retrieves the union of documents containing the resulting tokens.
 
 ```js
-var index = new SearchIndex(words);
+const index = new SearchIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');

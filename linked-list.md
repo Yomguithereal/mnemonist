@@ -12,7 +12,7 @@ However, and this is where this structure shine, a linked list is able to modify
 For more information about the Linked List, you can head [here](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list).
 
 ```js
-var LinkedList = require('mnemonist/linked-list');
+const LinkedList = require('mnemonist/linked-list');
 ```
 
 ## Constructor
@@ -24,7 +24,7 @@ The `LinkedList` takes no argument.
 Alternatively, one can build a `LinkedList` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = LinkedList.from([1, 2, 3]);
+const list = LinkedList.from([1, 2, 3]);
 ```
 
 ## Members
@@ -58,7 +58,7 @@ var list = LinkedList.from([1, 2, 3]);
 Number of items in the list.
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 list.size
 >>> 0
 ```
@@ -70,7 +70,7 @@ Adds an item at the end of the list.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.push(1);
 ```
@@ -82,7 +82,7 @@ Adds an item at the beginning of the list.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.unshift(1);
 ```
@@ -94,7 +94,7 @@ Remove & retrieves the first item of the list.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.unshift(1);
 list.shift();
@@ -108,7 +108,7 @@ Completely clears the list of its items.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.unshift(1);
 list.clear();
@@ -123,7 +123,7 @@ Retrieves the first item of the list.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.unshift(1);
 list.first();
@@ -137,7 +137,7 @@ Retrieves the last item of the list.
 `O(1)`
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.push(1);
 list.push(2);
@@ -150,7 +150,7 @@ list.last();
 Iterates over the list by applying the callback on every item.
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.push(1);
 list.push(2);
@@ -165,7 +165,7 @@ list.forEach(function(item, index, list) {
 Converts the list into a JavaScript array.
 
 ```js
-var list = new LinkedList();
+const list = new LinkedList();
 
 list.push(1);
 list.push(2);
@@ -179,9 +179,9 @@ list.toArray();
 Returns an iterator over the list's values.
 
 ```js
-var list = LinkedList.from([1, 2, 3]);
+const list = LinkedList.from([1, 2, 3]);
 
-var iterator = list.values();
+const iterator = list.values();
 
 iteraror.next().value
 >>> 1
@@ -192,9 +192,9 @@ iteraror.next().value
 Returns an iterator over the list's entries.
 
 ```js
-var list = LinkedList.from([1, 2, 3]);
+const list = LinkedList.from([1, 2, 3]);
 
-var iterator = list.entries();
+const iterator = list.entries();
 
 iterator.next().value
 >>> [0, 1]
@@ -205,9 +205,9 @@ iterator.next().value
 Alternatively, you can iterate over a list's values using ES2015 `for...of` protocol:
 
 ```js
-var list = LinkedList.from([1, 2, 3]);
+const list = LinkedList.from([1, 2, 3]);
 
-for (var item of list) {
+for (const item of list) {
   console.log(item);
 }
 ```

@@ -12,7 +12,7 @@ However, one should keep in mind that a `VPTree` has worst cases - mostly due to
 For more information about the `VPTree`, you can head [here](https://en.wikipedia.org/wiki/Vantage-point_tree).
 
 ```js
-var VPTree = require('mnemonist/vp-tree');
+const VPTree = require('mnemonist/vp-tree');
 ```
 
 ## Constructor
@@ -26,7 +26,7 @@ You need two things to be able to build a `VPTree`: a list of items to index and
 Note that the provided metric distance must be a [true metric](https://en.wikipedia.org/wiki/Metric_(mathematics)) else the tree cannot work properly.
 
 ```js
-var tree = VPTree.from(['hello', 'mello'], distance);
+const tree = VPTree.from(['hello', 'mello'], distance);
 ```
 
 The tree is built in `O(n log n)` time.
@@ -47,7 +47,7 @@ The tree is built in `O(n log n)` time.
 Total number of items stored in the tree.
 
 ```js
-var tree = new VPTree(distance, ['hello']);
+const tree = new VPTree(distance, ['hello']);
 
 tree.size
 >>> 1
@@ -60,7 +60,7 @@ Returns the k nearest neighbors of the given query. Note that the resulting arra
 `O(log n + m)`, m being the number of matches.
 
 ```js
-var words = [
+const words = [
   'book',
   'back',
   'bock',
@@ -70,7 +70,7 @@ var words = [
   'ephemeral'
 ];
 
-var tree = new VPTree(levenshtein, words);
+const tree = new VPTree(levenshtein, words);
 
 // Retrieving the 2 nearest neighbors of "look"
 tree.nearestNeighbors(2, 'look');
@@ -87,7 +87,7 @@ Return all the neighbors of the given query for the given radius. Note that the 
 `O(log n + m)`, m being the number of matches.
 
 ```js
-var words = [
+const words = [
   'book',
   'back',
   'bock',
@@ -97,7 +97,7 @@ var words = [
   'ephemeral'
 ];
 
-var tree = new VPTree(levenshtein, words);
+const tree = new VPTree(levenshtein, words);
 
 // Retrieving all the neighbors of "look" at a maximum distance of 2
 tree.neighbors(2, 'look');

@@ -6,7 +6,7 @@ title: Inverted Index
 An `InvertedIndex` is an index that considers the inserted documents as a set of tokens that are all keys that one can use to retrieve the documents.
 
 ```js
-var InvertedIndex = require('mnemonist/inverted-index');
+const InvertedIndex = require('mnemonist/inverted-index');
 ```
 
 ## Use case
@@ -22,16 +22,16 @@ Let's see how we could search for documents using a very naive word tokenizer:
 
 ```js
 // The `words` function from lodash is pretty good, for instance
-var words = require('lodash/words');
+const words = require('lodash/words');
 
-var documents = [
+const documents = [
   'The mouse is a gentle animal',
   'The cats eats the mouse',
   'The mouse eats cheese'
 ];
 
 // Creating our inverted index with our `words` tokenizer function
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 // Now we can query it
 index.get('mouse');
@@ -57,7 +57,7 @@ The `InvertedIndex` either takes a single argument being a tokenizer function th
 
 ```js
 // Let's create an index using a single hash function:
-var index = new InvertedIndex(function(value) {
+const index = new InvertedIndex(function(value) {
   return words(value);
 });
 
@@ -69,7 +69,7 @@ index.query('cheese');
 
 ```js
 // Let's create an index using two different hash functions:
-var index = new Index([
+const index = new Index([
   
   // Tokenizer function for inserted documents:
   function(doc) {
@@ -92,8 +92,10 @@ index.query('mouse');
 Alternatively, one can build an `InvertedIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = InvertedIndex.from(list, tokenizer);
-var index = InvertedIndex.from(list, tokenizers);
+const index = InvertedIndex.from(list, tokenizer);
+```
+```js
+const index = InvertedIndex.from(list, tokenizers);
 ```
 
 ## Members
@@ -124,7 +126,7 @@ var index = InvertedIndex.from(list, tokenizers);
 Number of documents stored in the index.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 
@@ -137,7 +139,7 @@ index.size
 Number of distinct tokens stored in the index (size of the dictionary, if you will).
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 
@@ -152,7 +154,7 @@ Tokenize the given document using the relevant function and adds it to the index
 `O(t)`, t being the number of tokens.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 ```
@@ -162,7 +164,7 @@ index.add('The cat eats the mouse.');
 Completely clears the index of its documents.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.clear();
@@ -178,7 +180,7 @@ Tokenize the query using the relevant function, then retrieves the intersection 
 `O(t)`, t being the number of tokens.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
@@ -200,7 +202,7 @@ index.get('cat mouse');
 Iterates over the index by applying the callback to every stored document.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
@@ -215,12 +217,12 @@ index.forEach(function(doc) {
 Returns an iterator over the index's documents.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-var iterator = index.documents();
+const iterator = index.documents();
 
 iteraror.next().value
 >>> 'The cat eats the mouse.'
@@ -231,12 +233,12 @@ iteraror.next().value
 Returns an iterator over the index's tokens.
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-var iterator = index.tokens();
+const iterator = index.tokens();
 
 iterator.next().value
 >>> 'The'
@@ -247,12 +249,12 @@ iterator.next().value
 Alternatively, you can iterate over an index's documents using ES2015 `for...of` protocol:
 
 ```js
-var index = new InvertedIndex(words);
+const index = new InvertedIndex(words);
 
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-for (var doc of index) {
+for (const doc of index) {
   console.log(doc);
 }
 ```

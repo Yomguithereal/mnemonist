@@ -12,7 +12,7 @@ However, it really shines when you want the max edit distance between your queri
 For more information, you can head toward [this](http://blog.faroo.com/2015/03/24/fast-approximate-string-matching-with-large-edit-distances/) seminal blog post.
 
 ```js
-var SymSpell = require('mnemonist/symspell');
+const SymSpell = require('mnemonist/symspell');
 ```
 
 ## Use case
@@ -24,7 +24,7 @@ When the user inputs a string, we are going to search for every term we know bei
 The naive method would be to "brute-force" the list of terms likewise:
 
 ```js
-var suggestions = terms.filter(term => {
+const suggestions = terms.filter(term => {
   return levenshtein(term, query) <= 2;
 });
 ```
@@ -34,10 +34,10 @@ But, even if this works with few terms, it will soon become hard to compute if t
 SymSpell indexes solves this problem by indexing the list of terms such as it becomes efficient to query them in a fuzzy way.
 
 ```js
-var index = SymSpell.from(terms);
+const index = SymSpell.from(terms);
 
 // We can now query the index easily:
-var suggestions = index.search(query);
+const suggestions = index.search(query);
 ```
 
 ## Constructor
@@ -45,13 +45,13 @@ var suggestions = index.search(query);
 The `SymSpell` takes a single optional argument being some options.
 
 ```js
-var index = new SymSpell(options);
+const index = new SymSpell(options);
 ```
 
 *Example with a higher max distance*
 
 ```js
-var index = new SymSpell({
+const index = new SymSpell({
   maxDistance: 3
 });
 ```
@@ -69,7 +69,7 @@ var index = new SymSpell({
 Alternatively, one can build a `SymSpell` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = SymSpell.from(['hello', 'mello'], options);
+const index = SymSpell.from(['hello', 'mello'], options);
 ```
 
 ## Members
@@ -92,7 +92,7 @@ var index = SymSpell.from(['hello', 'mello'], options);
 Total number of items stored in the index.
 
 ```js
-var index = new SymSpell();
+const index = new SymSpell();
 
 index.add('hello');
 
@@ -105,7 +105,7 @@ index.size
 Adds a single item to the index.
 
 ```js
-var index = new SymSpell();
+const index = new SymSpell();
 
 index.add('hello');
 ```
@@ -115,7 +115,7 @@ index.add('hello');
 Completely clears the index of its items.
 
 ```js
-var index = new SymSpell();
+const index = new SymSpell();
 
 index.add('hello');
 index.clear();
@@ -129,7 +129,7 @@ index.size
 Returns every item relevant to the given query.
 
 ```js
-var index = new SymSpell();
+const index = new SymSpell();
 
 index.add('hello');
 index.add('mello');

@@ -9,13 +9,13 @@ Note that if you need a `BitSet` whose size is able to grow dynamically if requi
 
 
 ```js
-var BitSet = require('mnemonist/bit-set');
+const BitSet = require('mnemonist/bit-set');
 ```
 
 ## Constructor
 
 ```js
-var set = new BitSet(length);
+const set = new BitSet(length);
 ```
 
 ## Members
@@ -52,7 +52,7 @@ var set = new BitSet(length);
 The underlying `Uint8Array`.
 
 ```js
-var set = new BitSet(19);
+const set = new BitSet(19);
 
 set.array;
 >>> Uint8Array [0, 0, 0]
@@ -63,7 +63,7 @@ set.array;
 Length of the set, that is to say the number of bits stored by the set.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.length;
 >>> 4
@@ -74,7 +74,7 @@ set.length;
 Number of bits set, that is to say the total number of ones stored by the set.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.size;
 >>> 0
@@ -92,7 +92,7 @@ Sets the bit at the given index. Optionally you can indicate (`0` or `1` obvious
 `O(1)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(3);
 set.test(3);
@@ -110,7 +110,7 @@ Resets the bit at the given index, meaning setting it to `0`.
 `O(1)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(3);
 set.reset(3);
@@ -125,7 +125,7 @@ Toggles the bit at the given index.
 `O(1)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.flip(3);
 set.test(3);
@@ -140,7 +140,7 @@ set.test(3);
 Resets every bit stored by the set.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 set.set(3);
@@ -157,7 +157,7 @@ Returns the bit at the given index.
 `O(1)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 
@@ -175,7 +175,7 @@ Returns the number of bits set to 1 up to (but not including) the provided index
 `O(i)`, i being the provided index.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 set.set(2);
@@ -193,7 +193,7 @@ Returns the index of the nth bit set to 1 in the set.
 `O(n)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(0);
 set.set(2);
@@ -211,7 +211,7 @@ Test the bit at the given index, returning a boolean.
 `O(1)`
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 
@@ -227,7 +227,7 @@ set.test(3);
 Iterates over the set's bits.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 
@@ -241,11 +241,11 @@ set.forEach(function(bit, i) {
 Returns an iterator over the set's values.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(1);
 
-var iterator = set.values()
+const iterator = set.values()
 
 iteraror.next().value
 >>> 0
@@ -256,11 +256,11 @@ iteraror.next().value
 Returns an iterator over the set's entries.
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
 set.set(0);
 
-var iterator = set.entries()
+const iterator = set.entries()
 
 iteraror.next().value
 >>> [0, 1]
@@ -274,9 +274,9 @@ iterator.next().value
 Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
 
 ```js
-var set = new BitSet(4);
+const set = new BitSet(4);
 
-for (var bit of set) {
+for (const bit of set) {
   console.log(bit);
 }
 ```

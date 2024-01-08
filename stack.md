@@ -12,7 +12,7 @@ For more information about the Stack, you can head [here](https://en.wikipedia.o
 Note that if you know the maximum size your stack will have and if you want a more performant stack implementation, you can check the [`FiniteStack`]({{ site.baseurl }}/finite-stack).
 
 ```js
-var Stack = require('mnemonist/stack');
+const Stack = require('mnemonist/stack');
 ```
 
 ## Use case
@@ -20,11 +20,11 @@ var Stack = require('mnemonist/stack');
 A stack is really useful to perform, for instance, the depth-first traversal of a tree:
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 stack.push(tree.root);
 
 while (stack.size) {
-  var node = stack.pop();
+  const node = stack.pop();
   console.log('Traversed node:', node);
 
   node.children.forEach(function(child) {
@@ -42,7 +42,7 @@ The `Stack` takes no argument.
 Alternatively, one can build a `Stack` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var stack = Stack.from([1, 2, 3]);
+const stack = Stack.from([1, 2, 3]);
 ```
 
 ### Static #.of
@@ -50,7 +50,7 @@ var stack = Stack.from([1, 2, 3]);
 You can also build a `Stack` from an arbitrary set of arguments:
 
 ```js
-var stack = Stack.of(1, 2, 3);
+const stack = Stack.of(1, 2, 3);
 ```
 
 ## Members
@@ -82,7 +82,7 @@ var stack = Stack.of(1, 2, 3);
 Number of items in the stack.
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 stack.size
 >>> 0
 ```
@@ -94,7 +94,7 @@ Adds an item to the stack.
 `O(1)`
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 ```
@@ -106,7 +106,7 @@ Retrieve & remove the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 stack.pop();
@@ -120,7 +120,7 @@ Completely clears the stack.
 `O(1)`
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 stack.clear();
@@ -135,7 +135,7 @@ Retrieves the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 stack.peek();
@@ -147,7 +147,7 @@ stack.peek();
 Iterates over the stack in LIFO order.
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 stack.push(2);
@@ -162,7 +162,7 @@ stack.forEach(function(item, index, stack) {
 Converts the stack into a LIFO JavaScript array.
 
 ```js
-var stack = new Stack();
+const stack = new Stack();
 
 stack.push(1);
 stack.push(2);
@@ -176,9 +176,9 @@ stack.toArray();
 Returns an iterator over the stack's values.
 
 ```js
-var stack = Stack.from([1, 2, 3]);
+const stack = Stack.from([1, 2, 3]);
 
-var iterator = stack.values();
+const iterator = stack.values();
 
 iterator.next().value
 >>> 3
@@ -189,9 +189,9 @@ iterator.next().value
 Returns an iterator over the stack's entries.
 
 ```js
-var stack = Stack.from([1, 2, 3]);
+const stack = Stack.from([1, 2, 3]);
 
-var iterator = stack.entries();
+const iterator = stack.entries();
 
 iterator.next().value
 >>> [0, 3]
@@ -202,9 +202,9 @@ iterator.next().value
 Alternatively, you can iterate over a stack's values using ES2015 `for...of` protocol:
 
 ```js
-var stack = Stack.from([1, 2, 3]);
+const stack = Stack.from([1, 2, 3]);
 
-for (var item of stack) {
+for (const item of stack) {
   console.log(item);
 }
 ```

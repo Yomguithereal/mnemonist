@@ -12,7 +12,7 @@ For more information about the Queue, you can head [here](https://en.wikipedia.o
 If you know the maximum number of items your queue will need to store, you should check the [`CircularBuffer`]({{ site.baseurl }}/circular-buffer) structure for better performance. 
 
 ```js
-var Queue = require('mnemonist/queue');
+const Queue = require('mnemonist/queue');
 ```
 
 ## Use case
@@ -20,11 +20,11 @@ var Queue = require('mnemonist/queue');
 A queue is really useful to perform, for instance, the breadth-first traversal of a tree:
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 queue.enqueue(tree.root);
 
 while (queue.size) {
-  var node = queue.dequeue();
+  const node = queue.dequeue();
   console.log('Traversed node:', node);
 
   node.children.forEach(function(child) {
@@ -42,7 +42,7 @@ The `Queue` takes no argument.
 Alternatively, one can build a `Queue` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var list = Queue.from([1, 2, 3]);
+const list = Queue.from([1, 2, 3]);
 ```
 
 ### Static #.of
@@ -50,7 +50,7 @@ var list = Queue.from([1, 2, 3]);
 You can also build a `Queue` from an arbitrary set of arguments:
 
 ```js
-var queue = Queue.of(1, 2, 3);
+const queue = Queue.of(1, 2, 3);
 ```
 
 ## Members
@@ -82,7 +82,7 @@ var queue = Queue.of(1, 2, 3);
 Number of items in the queue.
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 queue.size
 >>> 0
 ```
@@ -94,7 +94,7 @@ Adds an item to the queue.
 `O(1)`
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 ```
@@ -106,7 +106,7 @@ Retrieve & remove the next item of the queue.
 `O(1) amortized`
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 queue.dequeue();
@@ -118,7 +118,7 @@ queue.dequeue();
 Completely clears the queue.
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 queue.clear();
@@ -133,7 +133,7 @@ Retrieves the next item of the queue.
 `O(1)`
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 queue.peek();
@@ -145,7 +145,7 @@ queue.peek();
 Iterates over the queue in FIFO order.
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 queue.enqueue(2);
@@ -160,7 +160,7 @@ queue.forEach(function(item, index, queue) {
 Converts the queue into a FIFO JavaScript array.
 
 ```js
-var queue = new Queue();
+const queue = new Queue();
 
 queue.enqueue(1);
 queue.enqueue(2);
@@ -174,9 +174,9 @@ queue.toArray();
 Returns an iterator over the queue's values.
 
 ```js
-var queue = Queue.from([1, 2, 3]);
+const queue = Queue.from([1, 2, 3]);
 
-var iterator = queue.values();
+const iterator = queue.values();
 
 iterator.next().value
 >>> 1
@@ -187,9 +187,9 @@ iterator.next().value
 Returns an iterator over the queue's entries.
 
 ```js
-var queue = Queue.from([1, 2, 3]);
+const queue = Queue.from([1, 2, 3]);
 
-var iterator = queue.entries();
+const iterator = queue.entries();
 
 iterator.next().value
 >>> [0, 1]
@@ -200,9 +200,9 @@ iterator.next().value
 Alternatively, you can iterate over a queue's values using ES2015 `for...of` protocol:
 
 ```js
-var queue = Queue.from([1, 2, 3]);
+const queue = Queue.from([1, 2, 3]);
 
-for (var item of queue) {
+for (const item of queue) {
   console.log(item);
 }
 ```

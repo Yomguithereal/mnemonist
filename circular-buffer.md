@@ -12,7 +12,7 @@ For more information about the circular buffer, you can head [here](https://en.w
 Note, that contrary to the [`FixedDeque`]({{ site.baseurl }}/fixed-deque), the `CircularBuffer` will overwrite old values when overflowing capacity.
 
 ```js
-var CircularBuffer = require('mnemonist/circular-buffer');
+const CircularBuffer = require('mnemonist/circular-buffer');
 ```
 
 ## Constructor
@@ -20,10 +20,11 @@ var CircularBuffer = require('mnemonist/circular-buffer');
 The `CircularBuffer` takes two arguments: a array class to use, and the desired capacity.
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
-
+const buffer = new CircularBuffer(Array, 10);
+```
+```js
 // Using byte arrays
-var buffer = new CircularBuffer(Int8Array, 10);
+const buffer = new CircularBuffer(Int8Array, 10);
 ```
 
 ### Static #.from
@@ -32,10 +33,11 @@ Alternatively, one can build a `CircularBuffer` from an arbitrary JavaScript ite
 
 ```js
 // Attempting the guess the given iterable's length/size
-var buffer = CircularBuffer.from([1, 2, 3], Int8Array);
-
+const buffer = CircularBuffer.from([1, 2, 3], Int8Array);
+```
+```js
 // Providing the desired capacity
-var buffer = CircularBuffer.from([1, 2, 3], Int8Array, 10);
+const buffer = CircularBuffer.from([1, 2, 3], Int8Array, 10);
 ```
 
 ## Members
@@ -71,7 +73,7 @@ var buffer = CircularBuffer.from([1, 2, 3], Int8Array, 10);
 Maximum number of items the buffer is able to store.
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 buffer.capacity
 >>> 10
 ```
@@ -81,7 +83,7 @@ buffer.capacity
 Number of items in the buffer.
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 buffer.size
 >>> 0
 ```
@@ -95,7 +97,7 @@ Will overwrite first value when the buffer's capacity is exceeded.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 ```
@@ -109,7 +111,7 @@ Will overwrite the last value when the buffer's capacity is exceeded.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.unshift(1);
 ```
@@ -121,7 +123,7 @@ Retrieve & remove the last item of the buffer.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -136,7 +138,7 @@ Retrieve & remove the first item of the buffer.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -151,7 +153,7 @@ Completely clears the buffer.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.clear();
@@ -166,7 +168,7 @@ Retrieves the first item of the buffer.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -181,7 +183,7 @@ Retrieves the last item of the buffer.
 `O(1)`
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -194,7 +196,7 @@ buffer.peekLast();
 Iterates over the buffer's values.
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -211,7 +213,7 @@ Converts the buffer into a JavaScript array.
 Note that the resulting array will be instantiated using the provided class.
 
 ```js
-var buffer = new CircularBuffer(Array, 10);
+const buffer = new CircularBuffer(Array, 10);
 
 buffer.push(1);
 buffer.push(2);
@@ -225,9 +227,9 @@ buffer.toArray();
 Returns an iterator over the buffer's values.
 
 ```js
-var buffer = CircularBuffer.from([1, 2, 3], Array);
+const buffer = CircularBuffer.from([1, 2, 3], Array);
 
-var iterator = buffer.values();
+const iterator = buffer.values();
 
 iterator.next().value
 >>> 1
@@ -238,9 +240,9 @@ iterator.next().value
 Returns an iterator over the buffer's entries.
 
 ```js
-var buffer = CircularBuffer.from([1, 2, 3], Array);
+const buffer = CircularBuffer.from([1, 2, 3], Array);
 
-var iterator = buffer.entries();
+const iterator = buffer.entries();
 
 iterator.next().value
 >>> [0, 1]
@@ -251,9 +253,9 @@ iterator.next().value
 Alternatively, you can iterate over a buffer's values using ES2015 `for...of` protocol:
 
 ```js
-var buffer = CircularBuffer.from([1, 2, 3], Array);
+const buffer = CircularBuffer.from([1, 2, 3], Array);
 
-for (var item of buffer) {
+for (const item of buffer) {
   console.log(item);
 }
 ```

@@ -18,7 +18,7 @@ This is very good because its performance mostly depends on `k` being low, which
 Note that the real complexity is very hard to assess and depends on your dataset's substring clustering etc. so your mileage may vary.
 
 ```js
-var PassjoinIndex = require('mnemonist/passjoin-index');
+const PassjoinIndex = require('mnemonist/passjoin-index');
 ```
 
 **References**
@@ -36,9 +36,7 @@ When the user inputs a string, we are going to search for every term we know bei
 The naive method would be to "brute-force" the list of terms likewise:
 
 ```js
-var suggestions = terms.filter(term => {
-  return levenshtein(term, query) <= 2;
-});
+const suggestions = terms.filter((term) => levenshtein(term, query) <= 2);
 ```
 
 But, even if this works with few terms, it will soon become hard to compute if the list of terms grows too much.
@@ -46,10 +44,10 @@ But, even if this works with few terms, it will soon become hard to compute if t
 A `PassjoinIndex` solves this problem by indexing the list of terms such as it becomes efficient to query them:
 
 ```js
-var tree = PassjoinIndex.from(terms, levenshtein, 2);
+const tree = PassjoinIndex.from(terms, levenshtein, 2);
 
 // We can now search the index easily:
-var suggestions = tree.search(query);
+const suggestions = tree.search(query);
 ```
 
 
@@ -77,7 +75,7 @@ If `k` is 1, we recommend the following specialized library:
 Alternatively, one can build a `PassjoinIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var index = PassjoinIndex.from(['roman', 'roma'], levenshtein, 2);
+const index = PassjoinIndex.from(['roman', 'roma'], levenshtein, 2);
 ```
 
 ## Members
@@ -106,7 +104,7 @@ var index = PassjoinIndex.from(['roman', 'roma'], levenshtein, 2);
 Number of items in the index.
 
 ```js
-var index = new PassjoinIndex(levenshtein, 1);
+const index = new PassjoinIndex(levenshtein, 1);
 index.size
 >>> 0
 
@@ -122,7 +120,7 @@ Adds a string to the index.
 `O(kn)`
 
 ```js
-var index = new PassjoinIndex(levenshtein, 1);
+const index = new PassjoinIndex(levenshtein, 1);
 
 index.add('roman');
 ```
@@ -132,7 +130,7 @@ index.add('roman');
 Completely clears the index.
 
 ```js
-var index = new PassjoinIndex(levenshtein, 1);
+const index = new PassjoinIndex(levenshtein, 1);
 
 index.add('roman');
 index.clear();
@@ -148,7 +146,7 @@ Returns the set of every string matching the query in the index, i.e. every stri
 `~O(k^3)`
 
 ```js
-var index = new PassjoinIndex(levenshtein, 1);
+const index = new PassjoinIndex(levenshtein, 1);
 
 index.add('flailed');
 index.add('roman');
@@ -162,7 +160,7 @@ index.search('failed');
 Iterates over the indexed strings.
 
 ```js
-var index = new PassjoinIndex(levenshtein, 1);
+const index = new PassjoinIndex(levenshtein, 1);
 
 index.add('roman');
 index.add('flailed');
@@ -177,9 +175,9 @@ index.forEach(function(string) {
 Returns an iterator over the indexed values.
 
 ```js
-var index = PassjoinIndex.from(['roman', 'flailed']);
+const index = PassjoinIndex.from(['roman', 'flailed']);
 
-var iterator = index.values();
+const iterator = index.values();
 
 iterator.next().value
 >>> 'roman'
@@ -190,9 +188,9 @@ iterator.next().value
 Alternatively, you can iterate over indexed values using ES2015 `for...of` protocol:
 
 ```js
-var index = PassjoinIndex.from(['roman', 'flailed']);
+const index = PassjoinIndex.from(['roman', 'flailed']);
 
-for (var string of index) {
+for (const string of index) {
   console.log(string);
 }
 ```
