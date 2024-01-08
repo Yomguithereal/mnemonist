@@ -370,4 +370,14 @@ Vector.Float32Vector = subClass(Float32Array);
 Vector.Float64Vector = subClass(Float64Array);
 Vector.PointerVector = subClass(pointerArrayFactory);
 
+exports.Int8Vector = Vector.Int8Vector;
+exports.Uint8Vector = Vector.Uint8Vector;
+exports.Uint8ClampedVector = Vector.Uint8ClampedVector;
+exports.Int16Vector = Vector.Int16Vector;
+exports.Uint16Vector = Vector.Uint16Vector;
+exports.Int32Vector = Vector.Int32Vector;
+exports.Uint32Vector = Vector.Uint32Vector;
+exports.Float32Vector = Vector.Float32Vector;
+exports.Float64Vector = Vector.Float64Vector;
+exports.PointerVector = Vector.PointerVector;
 module.exports = Vector;

@@ -1,46 +1,45 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 /**
- * Mnemonist ESM Named Import Testing
+ * Mnemonist CommonJS Default Require Testing
  * ========================
  */
-import {
-  BiMap,
-  BitSet,
-  BitVector,
-  BKTree,
-  BloomFilter,
-  CircularBuffer,
-  DefaultMap,
-  FibonacciHeap,
-  FixedReverseHeap,
-  FixedStack,
-  FuzzyMap,
-  FuzzyMultiMap,
-  HashedArrayTree,
-  Heap,
-  InvertedIndex,
-  LinkedList,
-  LRUCache,
-  LRUCacheWithDelete,
-  LRUMap,
-  LRUMapWithDelete,
-  MultiSet,
-  MultiMap,
-  PassjoinIndex,
-  Queue,
-  set,
-  SparseSet,
-  Stack,
-  StaticDisjointSet,
-  StaticIntervalTree,
-  GeneralizedSuffixArray,
-  SymSpell,
-  Trie,
-  TrieMap,
-  Vector, Uint16Vector,
-  VPTree
-} from 'mnemonist';
+const BiMap = require('mnemonist/bi-map');
+const BitSet = require('mnemonist/bit-set');
+const BitVector = require('mnemonist/bit-vector');
+const BKTree = require('mnemonist/bk-tree');
+const BloomFilter = require('mnemonist/bloom-filter');
+const CircularBuffer = require('mnemonist/circular-buffer');
+const DefaultMap = require('mnemonist/default-map');
+const FibonacciHeap = require('mnemonist/fibonacci-heap');
+const FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
+const FixedStack = require('mnemonist/fixed-stack');
+const FuzzyMap = require('mnemonist/fuzzy-map');
+const FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
+const HashedArrayTree = require('mnemonist/hashed-array-tree');
+const Heap = require('mnemonist/heap');
+const InvertedIndex = require('mnemonist/inverted-index');
+const LinkedList = require('mnemonist/linked-list');
+const LRUCache = require('mnemonist/lru-cache');
+const LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
+const LRUMap = require('mnemonist/lru-map');
+const LRUMapWithDelete = require('mnemonist/lru-map-with-delete');
+const MultiMap = require('mnemonist/multi-map');
+const MultiSet = require('mnemonist/multi-set');
+const PassjoinIndex = require('mnemonist/passjoin-index');
+const Queue = require('mnemonist/queue');
+const set = require('mnemonist/set');
+const SparseSet = require('mnemonist/sparse-set');
+const Stack = require('mnemonist/stack');
+const StaticDisjointSet = require('mnemonist/static-disjoint-set');
+const StaticIntervalTree = require('mnemonist/static-interval-tree');
+const {GeneralizedSuffixArray} = require('mnemonist/suffix-array');
+const SymSpell = require('mnemonist/symspell');
+const Trie = require('mnemonist/trie');
+const TrieMap = require('mnemonist/trie-map');
+const Vector = require('mnemonist/vector');
+const {Uint16Vector} = require('mnemonist/vector');
+const VPTree = require('mnemonist/vp-tree');
 
 /**
  * BiMap.

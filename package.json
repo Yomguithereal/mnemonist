@@ -7,7 +7,7 @@
     "lint:fix": "eslint --cache --fix --ext .js,.mjs ./*.js ./*.mjs ./utils ./test",
     "prepublishOnly": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
-    "test:cjs": "cd test/cjs && npm i && node named-require.js",
+    "test:cjs": "cd test/cjs && npm i && node default-require.js && node named-require.js",
     "test:esm": "cd test/esm && npm i && node import.mjs",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
@@ -19,6 +19,126 @@
       "types": "./index.d.ts",
       "require": "./index.js",
       "import": "./index.mjs"
+    },
+    "./bi-map": {
+      "require": "./bi-map.js"
+    },
+    "./bit-set": {
+      "require": "./bit-set.js"
+    },
+    "./bit-vector": {
+      "require": "./bit-vector.js"
+    },
+    "./bk-tree": {
+      "require": "./bk-tree.js"
+    },
+    "./bloom-filter": {
+      "require": "./bloom-filter.js"
+    },
+    "./circular-buffer": {
+      "require": "./circular-buffer.js"
+    },
+    "./default-map": {
+      "require": "./default-map.js"
+    },
+    "./default-weak-map": {
+      "require": "./default-weak-map.js"
+    },
+    "./fibonacci-heap": {
+      "require": "./fibonacci-heap.js"
+    },
+    "./fixed-deque": {
+      "require": "./fixed-deque.js"
+    },
+    "./fixed-reverse-heap": {
+      "require": "./fixed-reverse-heap.js"
+    },
+    "./fixed-stack": {
+      "require": "./fixed-stack.js"
+    },
+    "./fuzzy-map": {
+      "require": "./fuzzy-map.js"
+    },
+    "./fuzzy-multi-map": {
+      "require": "./fuzzy-multi-map.js"
+    },
+    "./hashed-array-tree": {
+      "require": "./hashed-array-tree.js"
+    },
+    "./heap": {
+      "require": "./heap.js"
+    },
+    "./inverted-index": {
+      "require": "./inverted-index.js"
+    },
+    "./kd-tree": {
+      "require": "./kd-tree.js"
+    },
+    "./linked-list": {
+      "require": "./linked-list.js"
+    },
+    "./lru-cache-with-delete": {
+      "require": "./lru-cache-with-delete.js"
+    },
+    "./lru-cache": {
+      "require": "./lru-cache.js"
+    },
+    "./lru-map-with-delete": {
+      "require": "./lru-map-with-delete.js"
+    },
+    "./lru-map": {
+      "require": "./lru-map.js"
+    },
+    "./multi-map": {
+      "require": "./multi-map.js"
+    },
+    "./multi-set": {
+      "require": "./multi-set.js"
+    },
+    "./passjoin-index": {
+      "require": "./passjoin-index.js"
+    },
+    "./queue": {
+      "require": "./queue.js"
+    },
+    "./set": {
+      "require": "./set.js"
+    },
+    "./sparse-map": {
+      "require": "./sparse-map.js"
+    },
+    "./sparse-queue-set": {
+      "require": "./sparse-queue-set.js"
+    },
+    "./sparse-set": {
+      "require": "./sparse-set.js"
+    },
+    "./stack": {
+      "require": "./stack.js"
+    },
+    "./static-disjoint-set": {
+      "require": "./static-disjoint-set.js"
+    },
+    "./static-interval-tree": {
+      "require": "./static-interval-tree.js"
+    },
+    "./suffix-array": {
+      "require": "./suffix-array.js"
+    },
+    "./symspell": {
+      "require": "./symspell.js"
+    },
+    "./trie-map": {
+      "require": "./trie-map.js"
+    },
+    "./trie": {
+      "require": "./trie.js"
+    },
+    "./vector": {
+      "require": "./vector.js"
+    },
+    "./vp-tree": {
+      "require": "./vp-tree.js"
     }
   },
   "files": [

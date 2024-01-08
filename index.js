@@ -8,12 +8,10 @@
 var Heap = require('./heap.js'),
     FibonacciHeap = require('./fibonacci-heap.js'),
     SuffixArray = require('./suffix-array.js'),
-    BiMap = require('./bi-map.js'),
     Vector = require('./vector.js');
 
 module.exports = {
-  BiMap: BiMap,
-  InverseMap: BiMap.InverseMap,
+  BiMap: require('./bi-map.js'),
   BitSet: require('./bit-set.js'),
   BitVector: require('./bit-vector.js'),
   BloomFilter: require('./bloom-filter.js'),

@@ -87,7 +87,7 @@ defaultMap.get('one').push(1);
 /**
  * FibonacciHeap.
  */
-let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
+let fibonacciHeap: FibonacciHeap<string> | MinFibonacciHeap<string> = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
 
@@ -274,7 +274,7 @@ let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1]
 /**
  * SuffixArray.
  */
-let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
+let generalizedSuffixArray: GeneralizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
 let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
 
 /**

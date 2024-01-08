@@ -1,18 +1,18 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 /**
- * Mnemonist ESM Import Testing
+ * Mnemonist CommonJS Named Require Testing
  * ========================
  */
 const {
-  BiMap, InverseMap,
+  BiMap,
   BitSet,
   BitVector,
   BKTree,
   BloomFilter,
   CircularBuffer,
   DefaultMap,
-  FibonacciHeap, MinFibonacciHeap, MaxFibonacciHeap,
+  FibonacciHeap,
   FixedReverseHeap,
   FixedStack,
   FuzzyMap,
@@ -34,7 +34,7 @@ const {
   Stack,
   StaticDisjointSet,
   StaticIntervalTree,
-  SuffixArray, GeneralizedSuffixArray,
+  GeneralizedSuffixArray,
   SymSpell,
   Trie,
   TrieMap,

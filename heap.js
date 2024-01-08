@@ -573,4 +573,6 @@ Heap.nlargest = nlargest;
 Heap.MinHeap = Heap;
 Heap.MaxHeap = MaxHeap;
 
+exports.MinHeap = Heap;
+exports.MaxHeap = MaxHeap;
 module.exports = Heap;
