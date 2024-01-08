@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /**
  * Mnemonist CommonJS Default Require Testing
- * ========================
+ * ===========================================
  */
 const BiMap = require('mnemonist/bi-map');
 const BitSet = require('mnemonist/bit-set');

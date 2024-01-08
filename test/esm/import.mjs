@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /**
  * Mnemonist ESM Named Import Testing
- * ========================
+ * ===================================
  */
 import {
   BiMap,
@@ -13,6 +13,7 @@ import {
   CircularBuffer,
   DefaultMap,
   FibonacciHeap,
+  MinFibonacciHeap,
   FixedReverseHeap,
   FixedStack,
   FuzzyMap,
@@ -92,6 +93,9 @@ defaultMap.get('one').push(1);
 let fibonacciHeap = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+let minFibonacciHeap = new MinFibonacciHeap();
+minFibonacciHeap.push('hello');
+minFibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.

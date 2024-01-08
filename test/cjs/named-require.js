@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /**
  * Mnemonist CommonJS Named Require Testing
- * ========================
+ * =========================================
  */
 const {
   BiMap,
@@ -13,12 +13,13 @@ const {
   CircularBuffer,
   DefaultMap,
   FibonacciHeap,
+  MinFibonacciHeap,
   FixedReverseHeap,
   FixedStack,
   FuzzyMap,
   FuzzyMultiMap,
   HashedArrayTree,
-  Heap, MaxHeap,
+  Heap,
   InvertedIndex,
   LinkedList,
   LRUCache,
@@ -92,6 +93,9 @@ defaultMap.get('one').push(1);
 let fibonacciHeap = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+let minFibonacciHeap = new MinFibonacciHeap();
+minFibonacciHeap.push('hello');
+minFibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.
