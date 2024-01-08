@@ -8,7 +8,8 @@
 var Heap = require('./heap.js'),
     FibonacciHeap = require('./fibonacci-heap.js'),
     SuffixArray = require('./suffix-array.js'),
-    BiMap = require('./bi-map.js');
+    BiMap = require('./bi-map.js'),
+    Vector = require('./vector.js');
 
 module.exports = {
   BiMap: BiMap,
@@ -55,6 +56,16 @@ module.exports = {
   SymSpell: require('./symspell.js'),
   Trie: require('./trie.js'),
   TrieMap: require('./trie-map.js'),
-  Vector: require('./vector.js'),
+  Vector: Vector,
+  Uint8Vector: Vector.Uint8Vector,
+  Uint8ClampedVector: Vector.Uint8ClampedVector,
+  Int8Vector: Vector.Int8Vector,
+  Uint16Vector: Vector.Uint16Vector,
+  Int16Vector: Vector.Int16Vector,
+  Uint32Vector: Vector.Uint32Vector,
+  Int32Vector: Vector.Int32Vector,
+  Float32Vector: Vector.Float32Vector,
+  Float64Vector: Vector.Float64Vector,
+  PointerVector: Vector.PointerVector,
   VPTree: require('./vp-tree.js')
 };

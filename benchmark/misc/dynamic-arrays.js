@@ -1,4 +1,4 @@
-var SIZE = 100000
+var SIZE = 100000;
 
 function Wrapper() {
   this.array = new Float64Array(SIZE);

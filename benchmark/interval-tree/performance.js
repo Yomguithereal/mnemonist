@@ -22,7 +22,7 @@ console.log('Intervals:', SIZE);
 console.time('StaticIntervalTree.from');
 var tree = StaticIntervalTree.from(INTERVALS);
 console.timeEnd('StaticIntervalTree.from');
-console.log('Tree height: ' + tree.height)
+console.log('Tree height: ' + tree.height);
 
 p = random(0, MAX);
 

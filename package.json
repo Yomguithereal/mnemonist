@@ -3,11 +3,11 @@
   "version": "0.39.7",
   "description": "Curated collection of data structures for the JavaScript/TypeScript.",
   "scripts": {
-    "lint": "eslint --cache ./*.js ./*.mjs ./utils ./test",
-    "lint:fix": "eslint --cache --fix ./*.js ./*.mjs ./utils ./test",
+    "lint": "eslint --cache --ext .js,.mjs ./*.js ./*.mjs ./utils ./test",
+    "lint:fix": "eslint --cache --fix --ext .js,.mjs ./*.js ./*.mjs ./utils ./test",
     "prepublishOnly": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
-    "test:cjs": "cd test/cjs && npm i && node require.js",
+    "test:cjs": "cd test/cjs && npm i && node named-require.js",
     "test:esm": "cd test/esm && npm i && node import.mjs",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },

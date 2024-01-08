@@ -44,5 +44,5 @@ export {default as SparseSet} from './sparse-set.js';
 export {default as SymSpell} from './symspell.js';
 export {default as Trie} from './trie.js';
 export {default as TrieMap} from './trie-map.js';
-export {default as Vector, Uint8Vector, Uint8ClampedVector, Int8Vector, Uint16Vector, Int16Vector, Uint32Vector, Int32Vector, Float32Vector, Float64Array} from './vector.js';
+export {default as Vector, Uint8Vector, Uint8ClampedVector, Int8Vector, Uint16Vector, Int16Vector, Uint32Vector, Int32Vector, Float32Vector, Float64Vector} from './vector.js';
 export {default as VPTree} from './vp-tree.js';

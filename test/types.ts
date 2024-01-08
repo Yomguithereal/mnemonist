@@ -124,7 +124,8 @@ fuzzymultimapadd.add({title: 'Hello', n: 45});
  * HashedArrayTree.
  */
 let hashedArrayTree: HashedArrayTree<number> = new HashedArrayTree(Int8Array, 34);
-hashedArrayTree.set(3, 4);
+hashedArrayTree.push(1);
+hashedArrayTree.set(0, 4);
 
 /**
  * Heap.
@@ -308,7 +309,8 @@ arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
  * Vector.
  */
 let vector = new Vector(Uint32Array, 10);
-vector.set(45, 2);
+vector.push(1);
+vector.set(0, 2);
 
 let uint16vector = Uint16Vector.from([1, 2, 3]);
 uint16vector.pop();
