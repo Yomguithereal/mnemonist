@@ -57,9 +57,7 @@ The `InvertedIndex` either takes a single argument being a tokenizer function th
 
 ```js
 // Let's create an index using a single hash function:
-const index = new InvertedIndex(function(value) {
-  return words(value);
-});
+const index = new InvertedIndex((value) => words(value));
 
 index.add('The mouse likes cheese.');
 index.query('cheese');
@@ -72,14 +70,10 @@ index.query('cheese');
 const index = new Index([
   
   // Tokenizer function for inserted documents:
-  function(doc) {
-    return words(doc.text);
-  },
+  (doc) => words(doc.text),
 
   // Tokenizer function for queries
-  function(query) {
-    return words(query);
-  }
+  (query) => words(query),
 ]);
 
 // Then you'll probably use #.add to insert items
@@ -207,7 +201,7 @@ const index = new InvertedIndex(words);
 index.add('The cat eats the mouse.');
 index.add('The mouse eats cheese.');
 
-index.forEach(function(doc) {
+index.forEach((doc) => {
   console.log(doc);
 });
 ```

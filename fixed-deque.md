@@ -199,7 +199,7 @@ const deque = new FixedDeque(Array, 10);
 deque.push(1);
 deque.push(2);
 
-deque.forEach(function(item, index, deque) {
+deque.forEach((item, index, deque) => {
   console.log(index, item);
 });
 ```

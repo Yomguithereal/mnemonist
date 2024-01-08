@@ -150,7 +150,7 @@ const stack = new FixedStack(Array, 10);
 stack.push(1);
 stack.push(2);
 
-stack.forEach(function(item, index, stack) {
+stack.forEach((item, index, stack) => {
   console.log(index, item);
 });
 ```

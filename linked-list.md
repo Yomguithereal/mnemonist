@@ -155,7 +155,7 @@ const list = new LinkedList();
 list.push(1);
 list.push(2);
 
-list.forEach(function(item, index, list) {
+list.forEach((item, index, list)=> {
   console.log(index, item);
 });
 ```

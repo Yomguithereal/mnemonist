@@ -37,9 +37,7 @@ const figures = [
 ];
 
 // Searching for figures living in 1456
-figures.filter(function(figure) {
-  return figure.death >= 1456 && figure.birth <= 1456;
-});
+figures.filter((figure) => figure.death >= 1456 && figure.birth <= 1456);
 >>> [
  {name: 'John II of Cyprus', birth: 1418, death: 1458},
  {name: 'Helena Palaiologina', birth: 1428, death: 1458},

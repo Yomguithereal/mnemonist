@@ -231,7 +231,7 @@ const set = new BitSet(4);
 
 set.set(1);
 
-set.forEach(function(bit, i) {
+set.forEach((bit, i) => {
   console.log(bit, i);
 });
 ```

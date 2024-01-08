@@ -201,7 +201,7 @@ const buffer = new CircularBuffer(Array, 10);
 buffer.push(1);
 buffer.push(2);
 
-buffer.forEach(function(item, index, buffer) {
+buffer.forEach((item, index, buffer) => {
   console.log(index, item);
 });
 ```

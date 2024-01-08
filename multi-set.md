@@ -285,7 +285,7 @@ const set = new MultiSet();
 set.add('hello');
 set.add('hello');
 
-set.forEach(function(value) {
+set.forEach((value) => {
   console.log(value);
 });
 >>> 'hello'
@@ -303,7 +303,7 @@ set.add('hello');
 set.add('hello');
 set.add('world');
 
-set.forEachMultiplicity(function(count, key) {
+set.forEachMultiplicity((count, key) => {
   console.log(key, count);
 });
 >>> 'hello', 2

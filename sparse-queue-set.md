@@ -141,7 +141,7 @@ const queue = new SparseQueueSet(4);
 
 queue.enqueue(1);
 
-queue.forEach(function(number) {
+queue.forEach((number) => {
   console.log(number);
 });
 ```

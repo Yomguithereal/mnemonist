@@ -261,7 +261,9 @@ const index = new CompositeIndex({
 index.set('Hello', {name: 'hello'});
 index.set('World', {name: 'world'});
 
-index.forEach((value) => console.log(value));
+index.forEach((value) => {
+  console.log(value)
+});
 >>> {name: 'hello'}
 >>> {name: 'world'}
 ```

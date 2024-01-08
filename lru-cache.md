@@ -246,7 +246,7 @@ const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.set('two', 2);
 
-cache.forEach(function(value, key, cache) {
+cache.forEach((value, key, cache) => {
   console.log(key, value);
 });
 ```

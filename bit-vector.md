@@ -331,7 +331,7 @@ const vector = new BitVector(4);
 
 vector.set(1);
 
-vector.forEach(function(bit, i) {
+vector.forEach((bit, i) => {
   console.log(bit, i);
 });
 ```

@@ -165,7 +165,7 @@ const index = new PassjoinIndex(levenshtein, 1);
 index.add('roman');
 index.add('flailed');
 
-index.forEach(function(string) {
+index.forEach((string) => {
   console.log(string);
 });
 ```

@@ -29,9 +29,7 @@ const vector = new Vector(ArrayClass, initialCapacity);
 const vector = new Vector(ArrayClass, {
   initialCapacity: 10,
   initialLength: 3,
-  policy: function(capacity) {
-    return Math.ceil(capacity * 2.5);
-  }
+  policy: (capacity) => Math.ceil(capacity * 2.5)  
 });
 ```
 Subclasses for each of JS typed array also exists as a convenience.
@@ -277,7 +275,7 @@ const vector = new Vector(Array, 10);
 stack.push(1);
 stack.push(2);
 
-stack.forEach(function(item, index, stack) {
+stack.forEach((item, index, stack) => {
   console.log(index, item);
 });
 ```

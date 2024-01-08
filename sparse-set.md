@@ -140,7 +140,7 @@ const set = new SparseSet(4);
 
 set.add(1);
 
-set.forEach(function(number) {
+set.forEach((number) => {
   console.log(number);
 });
 ```

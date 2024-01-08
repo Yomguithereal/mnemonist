@@ -166,7 +166,7 @@ const map = new BiMap();
 map.set('one', 'hello');
 map.set('two', 'world');
 
-map.forEach(function(value, key) {
+map.forEach((value, key) => {
   console.log(key, value);
 });
 >>> 'one', 'hello'

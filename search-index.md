@@ -19,9 +19,7 @@ The `SearchIndex` either takes a single argument being a tokenizer function that
 
 ```js
 // Let's create an index using a single hash function:
-const index = new SearchIndex(function(value) {
-  return words(value);
-});
+const index = new SearchIndex((value) => words(value));
 
 // Then you'll probably use #.set to insert items
 index.set(movie.title, movie);
@@ -35,14 +33,11 @@ index.get(queryTitle);
 const index = new Index([
   
   // Tokenizer function for inserted items:
-  function(movie) {
-    return words(movie.title);
-  },
+  (movie) => words(movie.title),
 
   // Tokenizer function for queries
-  function(query) {
-    return words(query);
-  }
+  (query) => words(query),
+
 ]);
 
 // Then you'll probably use #.add to insert items

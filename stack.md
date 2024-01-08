@@ -27,7 +27,7 @@ while (stack.size) {
   const node = stack.pop();
   console.log('Traversed node:', node);
 
-  node.children.forEach(function(child) {
+  node.children.forEach((child) => {
     stack.push(child);
   });
 }
@@ -152,7 +152,7 @@ const stack = new Stack();
 stack.push(1);
 stack.push(2);
 
-stack.forEach(function(item, index, stack) {
+stack.forEach((item, index, stack) => {
   console.log(index, item);
 });
 ```

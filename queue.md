@@ -27,7 +27,7 @@ while (queue.size) {
   const node = queue.dequeue();
   console.log('Traversed node:', node);
 
-  node.children.forEach(function(child) {
+  node.children.forEach((child) => {
     queue.enqueue(child);
   });
 }
@@ -150,7 +150,7 @@ const queue = new Queue();
 queue.enqueue(1);
 queue.enqueue(2);
 
-queue.forEach(function(item, index, queue) {
+queue.forEach((item, index, queue) => {
   console.log(index, item);
 });
 ```

@@ -223,7 +223,7 @@ const map = new MultiMap();
 map.set('john', {name: 'John', surname: 'Doe'});
 map.set('john', {name: 'John', surname: 'Watson'});
 
-map.forEach(function(value, key) {
+map.forEach((value, key) => {
   console.log(key, value);
 });
 >>> 'john', {name: 'John', surname: 'Doe'}
@@ -241,7 +241,7 @@ map.set(1, 1);
 map.set(1, 2);
 map.set(2, 1);
 
-map.forEachAssociation(function(container, key) {
+map.forEachAssociation((container, key) => {
   console.log(key, container);
 });
 >>> 1, [1, 2]

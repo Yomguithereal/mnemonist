@@ -28,7 +28,7 @@ const words = [
 A naive approach would be to compare each of our strings with the given prefix to find the matching ones:
 
 ```js
-words.forEach(function(word) {
+words.forEach((word) => {
   if (word.startsWith(query))
     console.log('Matching prefix!', word);
 });

@@ -164,7 +164,7 @@ const map = new SparseMap(4);
 
 map.set(1, 23);
 
-map.forEach(function(value, key) {
+map.forEach((value, key) => {
   console.log(key, value);
 });
 ```
