@@ -50,10 +50,10 @@ index.get(queryTitle);
 Alternatively, one can build an `SearchIndex` from an arbitrary JavaScript iterable likewise:
 
 ```js
-const index = SearchIndex.from(list, tokenizer [, useSet=false]);
+const index = InvertedIndex.from(list, tokenizer);
 ```
 ```js
-const index = SearchIndex.from(list, tokenizers [, useSet=false]);
+const index = InvertedIndex.from(list, tokenizers);
 ```
 
 ## Members
