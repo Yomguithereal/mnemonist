@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "description": "",
+  "type": "module",
+  "version": "0.1.0",
+  "dependencies": {
+    "mnemonist": "file:../.."
+  }
+}

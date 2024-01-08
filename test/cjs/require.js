@@ -1,8 +1,8 @@
 /**
- * Mnemonist Types Testing
+ * Mnemonist ESM Import Testing
  * ========================
  */
-import {
+const {
   BiMap, InverseMap,
   BitSet,
   BitVector,
@@ -38,14 +38,14 @@ import {
   TrieMap,
   Vector, Uint16Vector,
   VPTree
-} from '../index';
+} = require('mnemonist');
 
 /**
  * BiMap.
  */
-let bimap = new BiMap<string, number>();
+let bimap = new BiMap();
 bimap.set('one', 1);
-let inversemap: InverseMap<number, string> = bimap.inverse;
+let inversemap = bimap.inverse;
 inversemap.get(1);
 
 /**
@@ -63,130 +63,130 @@ bitvector.set(3);
 /**
  * BKTree.
  */
-let bktree: BKTree<string> = BKTree.from(['one', 'two'], (a, b) => 4.0);
+let bktree = BKTree.from(['one', 'two'], (a, b) => 4.0);
 bktree.search(2, 'three');
 
 /**
  * BloomFilter.
  */
-let bloomfilter: BloomFilter = new BloomFilter(45);
+let bloomfilter = new BloomFilter(45);
 bloomfilter.add('hello');
 
 /**
  * CircularBuffer.
  */
-let circularbuffer: CircularBuffer<string> = new CircularBuffer(Array, 4);
+let circularbuffer = new CircularBuffer(Array, 4);
 circularbuffer.push('test');
 
 /**
  * DefaultMap.
  */
-let defaultMap: DefaultMap<string, Array<number>> = new DefaultMap(() => []);
+let defaultMap = new DefaultMap(() => []);
 defaultMap.get('one').push(1);
 
 /**
  * FibonacciHeap.
  */
-let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
+let fibonacciHeap = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.
  */
-let fixedReverseHeap: FixedReverseHeap<number> = new FixedReverseHeap(Uint16Array, 3);
+let fixedReverseHeap = new FixedReverseHeap(Uint16Array, 3);
 fixedReverseHeap.push(34);
 
 /**
  * FixedStack.
  */
-let fixedStack: FixedStack<number> = new FixedStack(Uint8Array, 4);
+let fixedStack = new FixedStack(Uint8Array, 4);
 fixedStack.push(4);
 fixedStack.pop();
 
 /**
  * FuzzyMap.
  */
-let fuzzymap: FuzzyMap<{title: string}, number> = new FuzzyMap(o => o.title);
+let fuzzymap = new FuzzyMap(o => o.title);
 fuzzymap.set({title: 'Hello'}, 45);
-let fuzzymapadd: FuzzyMap<number, {title: string; n: number}> = new FuzzyMap(o => o.n);
+let fuzzymapadd = new FuzzyMap(o => o.n);
 fuzzymapadd.add({title: 'Hello', n: 45});
 
 /**
  * FuzzyMultiMap.
  */
-let fuzzymultimap: FuzzyMultiMap<{title: string}, number> = new FuzzyMultiMap(o => o.title);
+let fuzzymultimap = new FuzzyMultiMap(o => o.title);
 fuzzymultimap.set({title: 'Hello'}, 45);
-let fuzzymultimapadd: FuzzyMultiMap<number, {title: string; n: number}> = new FuzzyMultiMap(o => o.n);
+let fuzzymultimapadd = new FuzzyMultiMap(o => o.n);
 fuzzymultimapadd.add({title: 'Hello', n: 45});
 
 /**
  * HashedArrayTree.
  */
-let hashedArrayTree: HashedArrayTree<number> = new HashedArrayTree(Int8Array, 34);
+let hashedArrayTree = new HashedArrayTree(Int8Array, 34);
 hashedArrayTree.set(3, 4);
 
 /**
  * Heap.
  */
-let heap: Heap<string> = new Heap((a: string, b: string) => +a - +b);
+let heap = new Heap((a, b) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap: MaxHeap<number> = new Heap();
+let maxHeap = new Heap();
 maxHeap.push(45);
 
 /**
  * InvertedIndex.
  */
-let invertedIndex: InvertedIndex<number> = new InvertedIndex(n => ['one', 'two']);
+let invertedIndex = new InvertedIndex(n => ['one', 'two']);
 invertedIndex.add(45);
 
 /**
  * LinkedList.
  */
-let linkedlist: LinkedList<boolean> = new LinkedList();
+let linkedlist = new LinkedList();
 linkedlist.push(true);
-let linkedlistItem: boolean = linkedlist.shift();
+let linkedlistItem = linkedlist.shift();
 
 /**
  * LRUCache.
  */
-let lrucache: LRUCache<string, number> = new LRUCache(10);
+let lrucache = new LRUCache(10);
 lrucache.set('one', 34);
-let lrucacheItem: number = lrucache.get('one');
+let lrucacheItem = lrucache.get('one');
 
 /**
  * LRUCacheWithDelete
  */
-let lrucwd: LRUCacheWithDelete<string, string> = new LRUCacheWithDelete(10);
+let lrucwd = new LRUCacheWithDelete(10);
 lrucwd.set('one', 'uno');
-let lrucwdItem: string = lrucwd.get('one');
+let lrucwdItem = lrucwd.get('one');
 lrucwdItem = lrucwd.remove('one');
-let lrucwdDead: string | null = lrucwd.remove('one', null);
-let lrucwdWasRemoved: boolean = lrucwd.delete('one');
+let lrucwdDead = lrucwd.remove('one', null);
+let lrucwdWasRemoved = lrucwd.delete('one');
 
 /**
  * LRUMap.
  */
-let lrumap: LRUMap<string, number> = new LRUMap(10);
+let lrumap = new LRUMap(10);
 lrumap.set('one', 34);
-let lrumapItem: number = lrumap.get('one');
+let lrumapItem = lrumap.get('one');
 
 /**
  * LRUMapWithDelete
  */
-let lrumwd: LRUMapWithDelete<string, string> = new LRUMapWithDelete(10);
+let lrumwd = new LRUMapWithDelete(10);
 lrumwd.set('one', 'uno');
-let lrumwdItem: string = lrumwd.get('one');
+let lrumwdItem = lrumwd.get('one');
 lrumwdItem = lrumwd.remove('one');
-let lrumwdDead: string | null = lrumwd.remove('one', null);
-let lrumwdWasRemoved: boolean = lrumwd.delete('one');
+let lrumwdDead = lrumwd.remove('one', null);
+let lrumwdWasRemoved = lrumwd.delete('one');
 
 /**
  * MultiSet.
  */
-let multiset: MultiSet<number> = new MultiSet();
+let multiset = new MultiSet();
 multiset.add(45);
 multiset = MultiSet.from([1, 2, 3]);
 multiset = MultiSet.from({'one': 1});
@@ -194,10 +194,10 @@ multiset = MultiSet.from({'one': 1});
 /**
  * MultiMap.
  */
-let multimap: MultiMap<number, string, Set<string>> = new MultiMap(Set);
+let multimap = new MultiMap(Set);
 multimap.set(45, 'test');
 multimap.get(45).has('test');
-let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
+let stringMultimap = MultiMap.from({one: 1});
 stringMultimap.get('one').indexOf(1);
 for (const _ of multimap) { }
 for (const _ of multimap.keys()) { }
@@ -209,17 +209,17 @@ for (const _ of multimap.associations()) { }
 /**
  * PassjoinIndex.
  */
-const passjoinIndex: PassjoinIndex<string> = new PassjoinIndex((a: string, b: string) => 0, 1);
+const passjoinIndex = new PassjoinIndex((a, b) => 0, 1);
 
-let passjoinResults: Set<string> = passjoinIndex.search('hello');
+let passjoinResults = passjoinIndex.search('hello');
 
 /**
  * Queue.
  */
-let queue = new Queue<number>();
+let queue = new Queue();
 
 queue.enqueue(45);
-let queueitem: number = queue.dequeue();
+let queueitem = queue.dequeue();
 
 queue.enqueue(45);
 queue.enqueue(34);
@@ -227,7 +227,7 @@ queue.enqueue(34);
 queue = Queue.from([1, 2, 3]);
 queue = Queue.from({0: 1});
 
-let queueIterator: Iterator<number> = queue.values();
+let queueIterator = queue.values();
 
 /**
  * set.
@@ -239,16 +239,16 @@ let unionOfSets = set.union(setA, setB);
 /**
  * SparseSet.
  */
-let sparseSet: SparseSet = new SparseSet(45);
+let sparseSet = new SparseSet(45);
 sparseSet.add(3);
 
 /**
  * Stack.
  */
-let stack = new Stack<number>();
+let stack = new Stack();
 
 stack.push(45);
-let stackitem: number = stack.pop();
+let stackitem = stack.pop();
 
 stack.push(45);
 stack.push(34);
@@ -256,52 +256,51 @@ stack.push(34);
 stack = Stack.from([1, 2, 3]);
 stack = Stack.from({0: 1});
 
-let stackIterator: Iterator<number> = stack.values();
+let stackIterator = stack.values();
 
 /**
  * StaticDisjointSet.
  */
-let disjointSet: StaticDisjointSet = new StaticDisjointSet(45);
+let disjointSet = new StaticDisjointSet(45);
 disjointSet.union(3, 5);
 
 /**
  * StaticIntervalTree.
  */
-type Interval = [number, number];
-let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1] as Interval, [3, 4] as Interval]);
+let intervalTree = StaticIntervalTree.from([[0, 1], [3, 4]]);
 
 /**
  * SuffixArray.
  */
 let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
-let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
+let suffixArrayLCS = generalizedSuffixArray.longestCommonSubsequence();
 
 /**
  * SymSpell.
  */
 let symspell = SymSpell.from(['one', 'two'], {verbosity: 2});
-let symspellMatches: Array<any> = symspell.search('three');
+let symspellMatches = symspell.search('three');
 
 /**
  * Trie.
  */
-let trie = new Trie<string>();
+let trie = new Trie();
 trie.add('roman');
 
-let trieMatches: Array<string> = trie.find('rom');
+let trieMatches = trie.find('rom');
 
 /**
  * TrieMap.
  */
-let trieMap = new TrieMap<string, number>();
+let trieMap = new TrieMap();
 trieMap.set('roman', 45);
 
-let trieMapMatches: Array<[string, number]> = trieMap.find('rom');
+let trieMapMatches = trieMap.find('rom');
 
 trieMap = TrieMap.from(new Map([['roman', 45]]));
 trieMap = TrieMap.from({roman: 45});
 
-let arrayTrieMap = new TrieMap<string[], number>(Array);
+let arrayTrieMap = new TrieMap(Array);
 arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
 
 /**
@@ -316,4 +315,4 @@ uint16vector.pop();
 /**
  * VPTree.
  */
-let vptree: VPTree<string> = VPTree.from(['hello'], (a: string, b: string) => 1);
+let vptree = VPTree.from(['hello'], (a, b) => 1);

@@ -7,6 +7,8 @@
     "lint:fix": "eslint --cache --fix ./*.js ./*.mjs ./utils ./test",
     "prepublishOnly": "npm run lint && npm test && npm run test:types",
     "test": "mocha",
+    "test:cjs": "cd test/cjs && npm i && node require.js",
+    "test:esm": "cd test/esm && npm i && node import.mjs",
     "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
   },
   "main": "./index.js",
