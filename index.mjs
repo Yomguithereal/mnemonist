@@ -1,6 +1,6 @@
 /**
  * Mnemonist Library Endpoint (ESM)
- * ================================
+ * =================================
  *
  * Exporting every data structure through a unified endpoint.
  */
