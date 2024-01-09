@@ -10,11 +10,10 @@ jobs:
         # npm will not run under 10.x or earlier and so they cannot be tested
         node-version:
             - 12.x
-            - 13.x
             - 14.x
-            - 15.x
             - 16.x
             - 18.x
+            - 20.x
             - latest
 
     runs-on: ubuntu-latest
