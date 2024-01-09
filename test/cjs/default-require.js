@@ -12,6 +12,7 @@ const BloomFilter = require('mnemonist/bloom-filter');
 const CircularBuffer = require('mnemonist/circular-buffer');
 const DefaultMap = require('mnemonist/default-map');
 const FibonacciHeap = require('mnemonist/fibonacci-heap');
+const {MinFibonacciHeap} = require('mnemonist/fibonacci-heap');
 const FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
 const FixedStack = require('mnemonist/fixed-stack');
 const FuzzyMap = require('mnemonist/fuzzy-map');
@@ -92,6 +93,9 @@ defaultMap.get('one').push(1);
 let fibonacciHeap = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+let minFibonacciHeap = new MinFibonacciHeap();
+minFibonacciHeap.push('hello');
+minFibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.
