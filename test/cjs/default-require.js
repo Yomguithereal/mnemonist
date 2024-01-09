@@ -18,6 +18,7 @@ const FuzzyMap = require('mnemonist/fuzzy-map');
 const FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
 const HashedArrayTree = require('mnemonist/hashed-array-tree');
 const Heap = require('mnemonist/heap');
+const {MaxHeap} = require('mnemonist/heap');
 const InvertedIndex = require('mnemonist/inverted-index');
 const LinkedList = require('mnemonist/linked-list');
 const LRUCache = require('mnemonist/lru-cache');
@@ -135,7 +136,7 @@ let heap = new Heap((a, b) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap = new Heap();
+let maxHeap = new MaxHeap();
 maxHeap.push(45);
 
 /**

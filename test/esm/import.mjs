@@ -19,7 +19,7 @@ import {
   FuzzyMap,
   FuzzyMultiMap,
   HashedArrayTree,
-  Heap,
+  Heap, MaxHeap,
   InvertedIndex,
   LinkedList,
   LRUCache,
@@ -140,7 +140,7 @@ let heap = new Heap((a, b) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap = new Heap();
+let maxHeap = new MaxHeap();
 maxHeap.push(45);
 
 /**

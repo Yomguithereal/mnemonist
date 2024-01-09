@@ -130,11 +130,11 @@ hashedArrayTree.set(0, 4);
 /**
  * Heap.
  */
-let heap: Heap<string> = new Heap((a: string, b: string) => +a - +b);
+let heap: Heap<string> | MaxHeap<number> = new Heap((a: string, b: string) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap: MaxHeap<number> = new Heap();
+let maxHeap: MaxHeap<number> = new MaxHeap();
 maxHeap.push(45);
 
 /**
