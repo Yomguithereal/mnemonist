@@ -32,7 +32,7 @@ const vector = new Vector(ArrayClass, {
   policy: (capacity) => Math.ceil(capacity * 2.5)  
 });
 ```
-Subclasses for each of JS typed array also exists as a convenience.
+Subclasses for each of JS [typed array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray#typedarray_objects) also exists as a convenience.
 ```js
 const int8vector    = new Vector.Int8Vector(initialCapacity);
 const uint8vector   = new Vector.Uint8Vector(initialCapacity);
