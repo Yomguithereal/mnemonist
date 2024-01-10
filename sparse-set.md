@@ -10,13 +10,13 @@ Contrary to the [`BitSet`]({{ site.baseurl }}/bit-set), the `SparseSet` is very 
 If you also need to associate values to the set's members, take a look to [`SparseMap`]({{ site.baseurl }}/sparse-map) instead.
 
 ```js
-var SparseSet = require('mnemonist/sparse-set');
+const SparseSet = require('mnemonist/sparse-set');
 ```
 
 ## Constructor
 
 ```js
-var set = new SparseSet(length);
+const set = new SparseSet(length);
 ```
 
 ## Members
@@ -47,7 +47,7 @@ var set = new SparseSet(length);
 Length of the set, that is to say the maximum number one can expect to store in this set minus one.
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.length;
 >>> 4
@@ -58,7 +58,7 @@ set.length;
 Number of items currently in the set.
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.size;
 >>> 0
@@ -76,7 +76,7 @@ Adds a number to the set.
 `O(1)`
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.add(2);
 set.has(2);
@@ -90,7 +90,7 @@ Deletes the given number from the set.
 `O(1)`
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.add(2);
 set.delete(2);
@@ -103,7 +103,7 @@ set.has(2);
 Resets every number stored by the set.
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.set(1);
 set.set(3);
@@ -120,7 +120,7 @@ Returns whether the given number exists in the set.
 `O(1)`
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.has(3);
 >>> false
@@ -136,11 +136,11 @@ set.has(3);
 Iterates over the set's numbers.
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.add(1);
 
-set.forEach(function(number) {
+set.forEach((number) => {
   console.log(number);
 });
 ```
@@ -150,11 +150,11 @@ set.forEach(function(number) {
 Returns an iterator over the set's number.
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
 set.add(2);
 
-var iterator = set.values()
+const iterator = set.values()
 
 iteraror.next().value
 >>> 2
@@ -165,9 +165,9 @@ iteraror.next().value
 Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
 
 ```js
-var set = new SparseSet(4);
+const set = new SparseSet(4);
 
-for (var number of set) {
+for (const number of set) {
   console.log(number);
 }
 ```

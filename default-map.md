@@ -8,7 +8,7 @@ A `DefaultMap` is simply a `Map` that will use the given factory to automaticall
 It's basically the same thing as python's renowned [defaultdict](https://docs.python.org/3.7/library/collections.html#collections.defaultdict).
 
 ```js
-var DefaultMap = require('mnemonist/default-map');
+const DefaultMap = require('mnemonist/default-map');
 ```
 
 ## Use case
@@ -20,7 +20,7 @@ This is the exact problem `DefaultMap` tries to address.
 Let's say we want to have keys pointing to arrays of values:
 
 ```js
-var personsToGroup = {
+const personsToGroup = {
   John: 1,
   Martha: 2,
   Philip: 1,
@@ -35,10 +35,10 @@ var personsToGroup = {
 // }
 
 // Using a Map
-var map = new Map();
+const map = new Map();
 
-for (var person in personsToGroup) {
-  var group = personsToGroup[person];
+for (const person in personsToGroup) {
+  const group = personsToGroup[person];
 
   // This is tedious & leads to more lookups if written carelessly
   if (!map.has(group))
@@ -48,10 +48,10 @@ for (var person in personsToGroup) {
 }
 
 // Using a DefaultMap
-var map = new DefaultMap(() => []);
+const map = new DefaultMap(() => []);
 
-for (var person in personsToGroup) {
-  var group = personsToGroup[person];
+for (const person in personsToGroup) {
+  const group = personsToGroup[person];
 
   map.get(group).push(person);
 }
@@ -61,10 +61,11 @@ But there are plenty of other use cases. Why not use the `DefaultMap` with more 
 
 ```js
 // Maps K => <V, number>
-var map = new DefaultMap(() => new MultiSet());
-
+const map = new DefaultMap(() => new MultiSet());
+```
+```js
 // Let's be creative :)
-var map = new DefaultMap(() => new DefaultMap(() => []));
+const map = new DefaultMap(() => new DefaultMap(() => []));
 ```
 
 ## Constructor
@@ -72,12 +73,12 @@ var map = new DefaultMap(() => new DefaultMap(() => []));
 The `DefaultMap` takes a factory function as single argument.
 
 ```js
-var map = new DefaultMap(() => []);
+const map = new DefaultMap(() => []);
 
 map.get('unknown').push(45);
 
 // The factory takes the name of the key and the current size of the map
-var map = new DefaultMap((key, size) => `${key}-${size}`);
+const map = new DefaultMap((key, size) => `${key}-${size}`);
 ```
 
 ## Members & Methods
@@ -91,7 +92,7 @@ The `DefaultMap` has the exact same interface as JavaScript's [`Map`](https://de
 Same as `#.get` except that it won't create a value using the provided factory if key is not found.
 
 ```js
-var map = new DefaultMap(() => []);
+const map = new DefaultMap(() => []);
 
 map.peek('one');
 >>> undefined
@@ -108,7 +109,7 @@ map.size
 A factory that will create a new incremental key for each unseen key.
 
 ```js
-var map = new DefaultMap(DefaultMap.autoIncrement());
+const map = new DefaultMap(DefaultMap.autoIncrement());
 
 map.get('unknown-one');
 >>> 0

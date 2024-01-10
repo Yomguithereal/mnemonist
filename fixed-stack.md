@@ -10,7 +10,7 @@ This means, however, that you must know beforehand the maximum size your stack w
 What's more, the `FixedStack` is able to rely on byte arrays and can therefore be very memory-efficient.
 
 ```js
-var FixedStack = require('mnemonist/fixed-stack');
+const FixedStack = require('mnemonist/fixed-stack');
 ```
 
 ## Constructor
@@ -18,10 +18,11 @@ var FixedStack = require('mnemonist/fixed-stack');
 The `FixedStack` takes two arguments: a array class to use, and the desired capacity.
 
 ```js
-var stack = new FixedStack(Array, 10);
-
+const stack = new FixedStack(Array, 10);
+```
+```js
 // Using byte arrays
-var stack = new FixedStack(Int8Array, 10);
+const stack = new FixedStack(Int8Array, 10);
 ```
 
 ### Static #.from
@@ -30,10 +31,11 @@ Alternatively, one can build a `FixedStack` from an arbitrary JavaScript iterabl
 
 ```js
 // Attempting the guess the given iterable's length/size
-var stack = FixedStack.from([1, 2, 3], Int8Array);
-
+const stack = FixedStack.from([1, 2, 3], Int8Array);
+```
+```js
 // Providing the desired capacity
-var stack = FixedStack.from([1, 2, 3], Int8Array, 10);
+const stack = FixedStack.from([1, 2, 3], Int8Array, 10);
 ```
 
 ## Members
@@ -66,7 +68,7 @@ var stack = FixedStack.from([1, 2, 3], Int8Array, 10);
 Maximum number of items the stack is able to store.
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 stack.capacity
 >>> 10
 ```
@@ -76,7 +78,7 @@ stack.capacity
 Number of items in the stack.
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 stack.size
 >>> 0
 ```
@@ -90,7 +92,7 @@ Will throw if the stack's capacity is exceeded.
 `O(1)`
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 ```
@@ -102,7 +104,7 @@ Retrieve & remove the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.pop();
@@ -116,7 +118,7 @@ Completely clears the stack.
 `O(1)`
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.clear();
@@ -131,7 +133,7 @@ Retrieves the next item of the stack.
 `O(1)`
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.peek();
@@ -143,12 +145,12 @@ stack.peek();
 Iterates over the stack in LIFO order.
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.push(2);
 
-stack.forEach(function(item, index, stack) {
+stack.forEach((item, index, stack) => {
   console.log(index, item);
 });
 ```
@@ -160,7 +162,7 @@ Converts the stack into a LIFO JavaScript array.
 Note that the resulting array will be instantiated using the provided class.
 
 ```js
-var stack = new FixedStack(Array, 10);
+const stack = new FixedStack(Array, 10);
 
 stack.push(1);
 stack.push(2);
@@ -174,9 +176,9 @@ stack.toArray();
 Returns an iterator over the stack's values.
 
 ```js
-var stack = FixedStack.from([1, 2, 3], Array);
+const stack = FixedStack.from([1, 2, 3], Array);
 
-var iterator = stack.values();
+const iterator = stack.values();
 
 iterator.next().value
 >>> 3
@@ -187,9 +189,9 @@ iterator.next().value
 Returns an iterator over the stack's entries.
 
 ```js
-var stack = FixedStack.from([1, 2, 3], Array);
+const stack = FixedStack.from([1, 2, 3], Array);
 
-var iterator = stack.entries();
+const iterator = stack.entries();
 
 iterator.next().value
 >>> [0, 3]
@@ -200,9 +202,9 @@ iterator.next().value
 Alternatively, you can iterate over a stack's values using ES2015 `for...of` protocol:
 
 ```js
-var stack = FixedStack.from([1, 2, 3], Array);
+const stack = FixedStack.from([1, 2, 3], Array);
 
-for (var item of stack) {
+for (const item of stack) {
   console.log(item);
 }
 ```

@@ -6,7 +6,7 @@ title: Fuzzy MultiMap
 The `FuzzyMultiMap` is basically a [`FuzzyMap`]({{ site.baseurl }}/fuzzy-map) that accepts more than one value per key and stores the colliding items in buckets.
 
 ```js
-var FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
+const FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
 ```
 
 ## Use case
@@ -22,17 +22,17 @@ function fuzzyTitle(title) {
 }
 
 // Creating our index
-var map = new FuzzyMultiMap(fuzzyTitle);
+const map = new FuzzyMultiMap(fuzzyTitle);
 
 // Adding some universities
-var universities = [
+const universities = [
   {name: 'University of Carolina'},
   {name: 'Carolina, university of.'},
   {name: 'Harvard university'}
 ];
 
-universities.forEach(function(university) {
-  map.set(university.name, university);
+universities.forEach((university) => {
+  map.set(university.name, university)
 });
 
 // Now we can query the index
@@ -53,9 +53,7 @@ As with the [MultiMap]({{ site.baseurl }}/multi-map), the `FuzzyMultiMap` can al
 
 ```js
 // Let's create an index using a single hash function:
-var map = new FuzzyMultiMap(function(value) {
-  return value.toUpperCase();
-});
+const map = new FuzzyMultiMap((value) => value.toUpperCase());
 
 // Then you'll probably use #.set to insert items
 map.set(movie.title, movie);
@@ -66,17 +64,13 @@ map.get(queryTitle);
 
 ```js
 // Let's create an index using two different hash functions:
-var map = new FuzzyMultiMap([
+const map = new FuzzyMultiMap([
   
   // Hash function for inserted items:
-  function(movie) {
-    return movie.title.toLowerCase();
-  },
+  (movie) => movie.title.toLowerCase(),
 
   // Hash function for queries
-  function(query) {
-    return query.toLowerCase();
-  }
+  (query) => query.toLowerCase(),
 ]);
 
 // Then you'll probably use #.add to insert items
@@ -87,19 +81,15 @@ map.get(queryTitle);
 *Example with Set containers*
 
 ```js
-var map = new FuzzyMultiMap(function(value) {
-  return value.toUpperCase(); 
-}, Set);
+const map = new FuzzyMultiMap((value) => value.toUpperCase(), Set);
 ```
 
 **Warning!**: the index will not consider any falsy key processed by its hash functions.
 
 ```js
-var map = new FuzzyMultiMap(function(item) {
-  return item.title && item.title.toLowerCase();
-});
+const map = new FuzzyMultiMap((item) => item.title && item.title.toLowerCase());
 
-var movie = {year: 1999};
+const movie = {year: 1999};
 
 // This will not be indexed on `undefined`
 map.set(movie.title, movie);
@@ -110,8 +100,10 @@ map.set(movie.title, movie);
 Alternatively, one can build a `FuzzyMultiMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var map = FuzzyMultiMap.from(list, hashFunction [, useSet=false]);
-var map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
+const map = FuzzyMultiMap.from(list, hashFunctions);
+```
+```js
+const map = FuzzyMultiMap.from(list, hashFunctions, Container);
 ```
 
 ## Members
@@ -143,7 +135,7 @@ var map = FuzzyMultiMap.from(list, hashFunction [, Container, useSet=false]);
 Number of item containers stored in the map.
 
 ```js
-var map = new FuzzyMultiMap();
+const map = new FuzzyMultiMap();
 map.set('hello', 3);
 map.set('hello', 4);
 
@@ -158,7 +150,7 @@ map.dimension
 Number of items stored in the map.
 
 ```js
-var map = new FuzzyMultiMap();
+const map = new FuzzyMultiMap();
 map.add({title: 'Hello World!'});
 
 map.size
@@ -172,12 +164,12 @@ Computes the item's key by hashing the given item using the relevant function th
 `O(1)`
 
 ```js
-var map = new FuzzyMultiMap();
+const map = new FuzzyMultiMap();
 
 map.add({title: 'Great movie', year: 1999});
 
 // In fact, same as doing
-var movie = {title: 'Great movie', year: 1999};
+const movie = {title: 'Great movie', year: 1999};
 map.set(movie, movie);
 ```
 
@@ -188,8 +180,8 @@ Adds an item to the map using the provided key that will be processed by the rel
 `O(1)`
 
 ```js
-var map = new FuzzyMultiMap();
-var movie = {title: 'Great movie', year: 1999};
+const map = new FuzzyMultiMap();
+const movie = {title: 'Great movie', year: 1999};
 
 map.set(movie.title, movie);
 ```
@@ -199,7 +191,7 @@ map.set(movie.title, movie);
 Completely clears the map of its items.
 
 ```js
-var map = new FuzzyMultiMap();
+const map = new FuzzyMultiMap();
 map.add(item);
 map.clear();
 
@@ -214,9 +206,7 @@ Hash the given key using the relevant function then returns the set of items sto
 `O(1)`
 
 ```js
-var map = new FuzzyMultiMap(function(string) {
-  return string.toLowerCase();
-});
+const map = new FuzzyMultiMap((string) => string.toLowerCase());
 map.set('John', {name: 'John', surname: 'Williams'});
 map.set('John', {name: 'John', surname: 'Ableton'});
 
@@ -234,9 +224,7 @@ Test whether the provided key, processed by the relevant hash function, would re
 `O(1)`
 
 ```js
-var map = new FuzzyMultiMap(function(string) {
-  return string.toLowerCase();
-});
+const map = new FuzzyMultiMap((string) => string.toLowerCase());
 map.set('John', {name: 'John', surname: 'Williams'});
 map.set('John', {name: 'John', surname: 'Ableton'});
 
@@ -249,14 +237,12 @@ map.get('john');
 Iterates over the values stored in the map.
 
 ```js
-var map = new FuzzyMultiMap(function(string) {
-  return string.toLowerCase();
-});
+const map = new FuzzyMultiMap((string) => string.toLowerCase());
 
 map.set('John', {name: 'John', surname: 'Williams'});
 map.set('John', {name: 'John', surname: 'Ableton'});
 
-map.forEach(function(value) {
+map.forEach((value) => {
   console.log(value);
 });
 >>> {name: 'John', surname: 'Williams'}
@@ -268,14 +254,12 @@ map.forEach(function(value) {
 Creates an iterator over the map's values.
 
 ```js
-var map = new FuzzyMultiMap(function(string) {
-  return string.toLowerCase();
-});
+const map = new FuzzyMultiMap((string) => string.toLowerCase());
 
 map.set('John', {name: 'John', surname: 'Williams'});
 map.set('John', {name: 'John', surname: 'Ableton'});
 
-var iterator = map.values();
+const iterator = map.values();
 iterator.next().value();
 >>> {name: 'John', surname: 'Williams'}
 ```
@@ -285,14 +269,12 @@ iterator.next().value();
 Alternatively, you can iterate over an map' values using ES2015 `for...of` protocol:
 
 ```js
-var map = new FuzzyMultiMap(function(string) {
-  return string.toLowerCase();
-});
+const map = new FuzzyMultiMap((string) => string.toLowerCase());
 
 map.set('John', {name: 'John', surname: 'Williams'});
 map.set('John', {name: 'John', surname: 'Ableton'});
 
-for (var value of map) {
+for (const  value of map) {
   console.log(value);
 }
 ```

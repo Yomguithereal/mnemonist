@@ -14,7 +14,7 @@ Also, dynamic arrays are faster than JavaScript's `Array` (else, all this would 
 Just keep in mind that even if a `Int8Vector` really is faster, a `Float64Vector` won't give you an edge because this is often how an `Array` containing number would be optimized under the hood by most JavaScript engines.
 
 ```js
-var Vector = require('mnemonist/vector');
+const Vector = require('mnemonist/vector');
 ```
 
 ## Constructor
@@ -22,27 +22,26 @@ var Vector = require('mnemonist/vector');
 The `Vector` takes a typed array class as first argument and an initial capacity or alternatively more complex options as second argument.
 
 ```js
-var vector = new Vector(ArrayClass, initialCapacity);
-
+const vector = new Vector(ArrayClass, initialCapacity);
+```
+```js
 // If you need to pass options such as a custom growth policy
-var vector = new Vector(ArrayClass, {
+const vector = new Vector(ArrayClass, {
   initialCapacity: 10,
   initialLength: 3,
-  policy: function(capacity) {
-    return Math.ceil(capacity * 2.5);
-  }
+  policy: (capacity) => Math.ceil(capacity * 2.5)  
 });
-
-// Subclasses for each of JS typed array also exists as a convenience
-var vector = new Vector.Int8Vector(initialCapacity);
-var vector = new Vector.Uint8Vector(initialCapacity);
-var vector = new Vector.Uint8Vector(initialCapacity);
-var vector = new Vector.Int16Vector(initialCapacity);
-var vector = new Vector.Uint16Vector(initialCapacity);
-var vector = new Vector.Int32Vector(initialCapacity);
-var vector = new Vector.Uint32Vector(initialCapacity);
-var vector = new Vector.Float32Vector(initialCapacity);
-var vector = new Vector.Float64Vector(initialCapacity);
+```
+Subclasses for each of JS [typed array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray#typedarray_objects) also exists as a convenience.
+```js
+const int8vector    = new Vector.Int8Vector(initialCapacity);
+const uint8vector   = new Vector.Uint8Vector(initialCapacity);
+const int16vector   = new Vector.Int16Vector(initialCapacity);
+const uint16vector  = new Vector.Uint16Vector(initialCapacity);
+const int32vector   = new Vector.Int32Vector(initialCapacity);
+const uint32vector  = new Vector.Uint32Vector(initialCapacity);
+const float32vector = new Vector.Float32Vector(initialCapacity);
+const float64vector = new Vector.Float64Vector(initialCapacity);
 ```
 
 ### Static #.from
@@ -51,13 +50,15 @@ Alternatively, one can build a `Vector` from an arbitrary JavaScript iterable li
 
 ```js
 // Attempting the guess the given iterable's length/size
-var vector = Vector.from([1, 2, 3], Int8Array);
-
+const vector = Vector.from([1, 2, 3], Int8Array);
+```
+```js
 // Providing the desired capacity
-var vector = Vector.from([1, 2, 3], Int8Array, 10);
-
+const vector = Vector.from([1, 2, 3], Int8Array, 10);
+```
+```js
 // Subclasses also have a static #.from
-var vector = Vector.Uint16Vector.from([1, 2, 3]);
+const vector = Vector.Uint16Vector.from([1, 2, 3]);
 ```
 
 ## Members
@@ -93,7 +94,7 @@ var vector = Vector.Uint16Vector.from([1, 2, 3]);
 The underlying typed array, if you need it for any reason (probably performance, in some precise use cases).
 
 ```js
-var vector = new Vector(Uint8Array, 4);
+const vector = new Vector(Uint8Array, 4);
 
 vector.push(1);
 vector.push(2);
@@ -103,7 +104,7 @@ vector.array
 
 // BEWARE: don't keep a reference of this array
 // it can be swapped by the implementation when growing!
-var underlyingArray = vector.array;
+const underlyingArray = vector.array;
 // ^ this could result in unexpected behaviors
 // if you expand the array later on
 // Example:
@@ -122,7 +123,7 @@ vector.array
 Real length of the underlying array, i.e. the maximum number of items the array can hold before needing to resize. Not to be confused with [#.length](#length).
 
 ```js
-var vector = new Vector(Uint8Array, 10);
+const vector = new Vector(Uint8Array, 10);
 
 vector.push(1);
 vector.push(2);
@@ -136,7 +137,7 @@ vector.capacity
 Current length of the vector, that is to say the last set index plus one.
 
 ```js
-var vector = new Vector(Uint8Array, 10);
+const vector = new Vector(Uint8Array, 10);
 
 vector.push(1);
 vector.push(2);
@@ -152,7 +153,7 @@ Applies the growing policy once and reallocates the underlying array.
 If given a number, will run the growing policy until we attain a suitable capacity.
 
 ```js
-var vector = new Vector(Uint8Array, 3);
+const vector = new Vector(Uint8Array, 3);
 
 vector.grow();
 
@@ -165,7 +166,7 @@ vector.grow(100);
 Sets the value at the given index.
 
 ```js
-var vector = new Vector(Uint8Array, 2);
+const vector = new Vector(Uint8Array, 2);
 
 vector.set(1, 45);
 
@@ -178,7 +179,7 @@ vector.get(1);
 Removes & returns the last value of the vector.
 
 ```js
-var vector = new Vector(Uint8Array, 2);
+const vector = new Vector(Uint8Array, 2);
 
 vector.push(1);
 vector.push(2);
@@ -195,7 +196,7 @@ vector.length
 Pushes a new value in the vector.
 
 ```js
-var vector = new Vector(Uint8Array, 2);
+const vector = new Vector(Uint8Array, 2);
 
 vector.push(1);
 vector.push(2);
@@ -214,7 +215,7 @@ vector.get(1);
 Reallocates the underlying array and truncates length if needed.
 
 ```js
-var vector = new Vector(Uint8Array, 3);
+const vector = new Vector(Uint8Array, 3);
 
 vector.reallocate(10);
 
@@ -231,7 +232,7 @@ Resize the vector's length. Will reallocate if current capacity is insufficient.
 Note that it won't deallocate if the given length is inferior to the current one. You can use [#.reallocate](#reallocate) for that.
 
 ```js
-var vector = new Vector(Uint8Array, {initialLength: 10});
+const vector = new Vector(Uint8Array, {initialLength: 10});
 
 vector.resize(5);
 vector.length;
@@ -252,7 +253,7 @@ vector.capacity;
 Retrieves the value stored at the given index.
 
 ```js
-var vector = new Vector(Uint8Array, 2);
+const vector = new Vector(Uint8Array, 2);
 
 vector.push(1);
 vector.push(2);
@@ -268,12 +269,12 @@ vector.get(1);
 Iterates over the vector's items.
 
 ```js
-var vector = new Vector(Array, 10);
+const vector = new Vector(Array, 10);
 
 stack.push(1);
 stack.push(2);
 
-stack.forEach(function(item, index, stack) {
+stack.forEach((item, index, stack) => {
   console.log(index, item);
 });
 ```
@@ -283,9 +284,9 @@ stack.forEach(function(item, index, stack) {
 Returns an iterator over the vector's values.
 
 ```js
-var vector = Vector.from([1, 2, 3], Uint8Array);
+const vector = Vector.from([1, 2, 3], Uint8Array);
 
-var iterator = vector.values();
+const iterator = vector.values();
 
 iterator.next().value
 >>> 3
@@ -296,9 +297,9 @@ iterator.next().value
 Returns an iterator over the vector's entries.
 
 ```js
-var vector = Vector.from([1, 2, 3], Uint8Array);
+const vector = Vector.from([1, 2, 3], Uint8Array);
 
-var iterator = vector.entries();
+const iterator = vector.entries();
 
 iterator.next().value
 >>> [0, 3]
@@ -309,9 +310,9 @@ iterator.next().value
 Alternatively, you can iterate over a vector's values using ES2015 `for...of` protocol:
 
 ```js
-var vector = Vector.from([1, 2, 3], Uint8Array);
+const vector = Vector.from([1, 2, 3], Uint8Array);
 
-for (var item of vector) {
+for (const item of vector) {
   console.log(item);
 }
 ```

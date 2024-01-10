@@ -10,7 +10,7 @@ For more information about the deque, you can head [here](https://en.wikipedia.o
 Note that, contrary to the [`CircularBuffer`]({{ site.baseurl }}/circular-buffer), the `FixedDeque` will throw when overflowing capacity.
 
 ```js
-var FixedDeque = require('mnemonist/fixed-deque');
+const FixedDeque = require('mnemonist/fixed-deque');
 ```
 
 ## Constructor
@@ -18,10 +18,11 @@ var FixedDeque = require('mnemonist/fixed-deque');
 The `FixedDeque` takes two arguments: a array class to use, and the desired capacity.
 
 ```js
-var deque = new FixedDeque(Array, 10);
-
+const deque = new FixedDeque(Array, 10);
+```
+```js
 // Using byte arrays
-var deque = new FixedDeque(Int8Array, 10);
+const deque = new FixedDeque(Int8Array, 10);
 ```
 
 ### Static #.from
@@ -30,10 +31,11 @@ Alternatively, one can build a `FixedDeque` from an arbitrary JavaScript iterabl
 
 ```js
 // Attempting the guess the given iterable's length/size
-var deque = FixedDeque.from([1, 2, 3], Int8Array);
-
+const deque = FixedDeque.from([1, 2, 3], Int8Array);
+```
+```js
 // Providing the desired capacity
-var deque = FixedDeque.from([1, 2, 3], Int8Array, 10);
+const deque = FixedDeque.from([1, 2, 3], Int8Array, 10);
 ```
 
 ## Members
@@ -69,7 +71,7 @@ var deque = FixedDeque.from([1, 2, 3], Int8Array, 10);
 Maximum number of items the deque is able to store.
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 deque.capacity
 >>> 10
 ```
@@ -79,7 +81,7 @@ deque.capacity
 Number of items in the deque.
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 deque.size
 >>> 0
 ```
@@ -93,7 +95,7 @@ Will throw if the deque's capacity is exceeded.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 ```
@@ -107,7 +109,7 @@ Will throw if the deque's capacity is exceeded.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.unshift(1);
 ```
@@ -119,7 +121,7 @@ Retrieve & remove the last item of the deque.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
@@ -134,7 +136,7 @@ Retrieve & remove the first item of the deque.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
@@ -149,7 +151,7 @@ Completely clears the deque.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.clear();
@@ -164,7 +166,7 @@ Retrieves the first item of the deque.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
@@ -179,7 +181,7 @@ Retrieves the last item of the deque.
 `O(1)`
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
@@ -192,12 +194,12 @@ deque.peekLast();
 Iterates over the deque's values.
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
 
-deque.forEach(function(item, index, deque) {
+deque.forEach((item, index, deque) => {
   console.log(index, item);
 });
 ```
@@ -209,7 +211,7 @@ Converts the deque into a JavaScript array.
 Note that the resulting array will be instantiated using the provided class.
 
 ```js
-var deque = new FixedDeque(Array, 10);
+const deque = new FixedDeque(Array, 10);
 
 deque.push(1);
 deque.push(2);
@@ -223,9 +225,9 @@ deque.toArray();
 Returns an iterator over the deque's values.
 
 ```js
-var deque = FixedDeque.from([1, 2, 3], Array);
+const deque = FixedDeque.from([1, 2, 3], Array);
 
-var iterator = deque.values();
+const iterator = deque.values();
 
 iterator.next().value
 >>> 1
@@ -236,9 +238,9 @@ iterator.next().value
 Returns an iterator over the deque's entries.
 
 ```js
-var deque = FixedDeque.from([1, 2, 3], Array);
+const deque = FixedDeque.from([1, 2, 3], Array);
 
-var iterator = deque.entries();
+const iterator = deque.entries();
 
 iterator.next().value
 >>> [0, 1]
@@ -249,9 +251,9 @@ iterator.next().value
 Alternatively, you can iterate over a deque's values using ES2015 `for...of` protocol:
 
 ```js
-var deque = FixedDeque.from([1, 2, 3], Array);
+const deque = FixedDeque.from([1, 2, 3], Array);
 
-for (var item of deque) {
+for (const item of deque) {
   console.log(item);
 }
 ```

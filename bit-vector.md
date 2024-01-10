@@ -6,13 +6,13 @@ title: BitVector
 The `BitVector` is the same thing as the [`BitSet`]({{ site.baseurl }}/bit-set), except it can grow dynamically if required.
 
 ```js
-var BitVector = require('mnemonist/bit-set');
+const BitVector = require('mnemonist/bit-set');
 ```
 
 ## Constructor
 
 ```js
-var vector = new BitVector(length);
+const vector = new BitVector(length);
 ```
 
 ## Members
@@ -55,7 +55,7 @@ var vector = new BitVector(length);
 The underlying `Uint8Array`.
 
 ```js
-var vector = new BitVector(19);
+const vector = new BitVector(19);
 
 vector.array;
 >>> Uint8Array [0, 0, 0]
@@ -68,7 +68,7 @@ Number of bits that can be stored by the vector before needing to reallocate mem
 Note that since bits are stored on the bytes of a `Uint32Array`, capacity will snap at the nearest multiple of 32.
 
 ```js
-var vector = new BitVector(53);
+const vector = new BitVector(53);
 
 vector.capacity
 >>> 64
@@ -79,7 +79,7 @@ vector.capacity
 Length of the set, that is to say the number of bits stored by the vector.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.length;
 >>> 4
@@ -90,7 +90,7 @@ vector.length;
 Number of bits set, that is to say the total number of ones stored by the vector.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.size;
 >>> 0
@@ -108,7 +108,7 @@ Applies the growing policy once and reallocates the underlying vector.
 If given a number, will run the growing policy until we attain a suitable capacity.
 
 ```js
-var vector = new BitVector();
+const vector = new BitVector();
 
 vector.grow();
 
@@ -125,7 +125,7 @@ Note that this method won't deallocate memory. You can use [#.reallocate](#reall
 `O(1)`
 
 ```js
-var vector = new BitVector();
+const vector = new BitVector();
 
 vector.push(1);
 vector.push(1);
@@ -141,7 +141,7 @@ Push a bit into the vector.
 `O(1) amortized`
 
 ```js
-var vector = new BitVector();
+const vector = new BitVector();
 
 vector.push(1);
 vector.push(false);
@@ -154,7 +154,7 @@ Sets the bit at the given index. Optionally you can indicate the bit's value (`0
 `O(1)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(3);
 vector.test(3);
@@ -170,7 +170,7 @@ vector.test(3);
 Reallocates the underlying array and truncates length if needed.
 
 ```js
-var vector = new BitVector();
+const vector = new BitVector();
 
 vector.reallocate(75);
 
@@ -187,7 +187,7 @@ Resets the bit at the given index, meaning setting it to `0`.
 `O(1)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(3);
 vector.reset(3);
@@ -202,7 +202,7 @@ Resize the vector's length. Will reallocate if current capacity is insufficient.
 Note that it won't deallocate if the given length is inferior to the current one. You can use [#.reallocate](#reallocate) for that.
 
 ```js
-var vector = new BitVector(10);
+const vector = new BitVector(10);
 
 vector.resize(5);
 vector.length;
@@ -225,7 +225,7 @@ Toggles the bit at the given index.
 `O(1)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.flip(3);
 vector.test(3);
@@ -240,7 +240,7 @@ vector.test(3);
 Resets every bit stored by the vector.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 vector.set(3);
@@ -257,7 +257,7 @@ Returns the bit at the given index.
 `O(1)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 
@@ -275,7 +275,7 @@ Returns the number of bits set to 1 up to (but not including) the provided index
 `O(i)`, i being the provided index.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 vector.set(2);
@@ -293,7 +293,7 @@ Returns the index of the nth bit set to 1 in the vector.
 `O(n)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(0);
 vector.set(2);
@@ -311,7 +311,7 @@ Test the bit at the given index, returning a boolean.
 `O(1)`
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 
@@ -327,11 +327,11 @@ vector.test(3);
 Iterates over the set's bits.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 
-vector.forEach(function(bit, i) {
+vector.forEach((bit, i) => {
   console.log(bit, i);
 });
 ```
@@ -341,11 +341,11 @@ vector.forEach(function(bit, i) {
 Returns an iterator over the set's values.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(1);
 
-var iterator = vector.values()
+const iterator = vector.values()
 
 iteraror.next().value
 >>> 0
@@ -356,11 +356,11 @@ iteraror.next().value
 Returns an iterator over the set's entries.
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
 vector.set(0);
 
-var iterator = vector.entries()
+const iterator = vector.entries()
 
 iteraror.next().value
 >>> [0, 1]
@@ -374,9 +374,9 @@ iterator.next().value
 Alternatively, you can iterate over a set's values using ES2015 `for...of` protocol:
 
 ```js
-var vector = new BitVector(4);
+const vector = new BitVector(4);
 
-for (var bit of vector) {
+for (const bit of vector) {
   console.log(bit);
 }
 ```

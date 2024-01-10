@@ -8,13 +8,13 @@ A `SparseQueueSet` is a very time-efficient set structure used to store a range 
 The `SparseQueueSet` is to be used as a queue where elements cannot exist more than once.
 
 ```js
-var SparseQueueSet = require('mnemonist/sparse-queue-set');
+const SparseQueueSet = require('mnemonist/sparse-queue-set');
 ```
 
 ## Constructor
 
 ```js
-var queue = new SparseQueueSet(length);
+const queue = new SparseQueueSet(length);
 ```
 
 ## Members
@@ -45,7 +45,7 @@ var queue = new SparseQueueSet(length);
 Capacity of the set, that is to say the maximum number one can expect to store in this set minus one.
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.capacity;
 >>> 4
@@ -56,7 +56,7 @@ queue.capacity;
 Number of items currently in the queue.
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.size;
 >>> 0
@@ -74,7 +74,7 @@ Adds a number to the queue.
 `O(1)`
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.enqueue(2);
 queue.has(2);
@@ -88,7 +88,7 @@ Removes and retrieves the first item stored in the queue or `undefined`.
 `O(1)`
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.enqueue(2);
 queue.enqueue(0);
@@ -104,7 +104,7 @@ queue.has(2)
 Removes every number stored in the queue.
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.enqueue(1);
 queue.enqueue(3);
@@ -121,7 +121,7 @@ Returns whether the given number exists in the queue.
 `O(1)`
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.has(3);
 >>> false
@@ -137,11 +137,11 @@ queue.has(3);
 Iterates over the queue's numbers.
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.enqueue(1);
 
-queue.forEach(function(number) {
+queue.forEach((number) => {
   console.log(number);
 });
 ```
@@ -151,11 +151,11 @@ queue.forEach(function(number) {
 Returns an iterator over the queue's number.
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
 queue.enqueue(2);
 
-var iterator = queue.values()
+const iterator = queue.values()
 
 iteraror.next().value
 >>> 2
@@ -166,9 +166,9 @@ iteraror.next().value
 Alternatively, you can iterate over a queue's values using ES2015 `for...of` protocol:
 
 ```js
-var queue = new SparseQueueSet(4);
+const queue = new SparseQueueSet(4);
 
-for (var number of queue) {
+for (const number of queue) {
   console.log(number);
 }
 ```

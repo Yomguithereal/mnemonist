@@ -14,7 +14,7 @@ Moreover, because it stores information on byte arrays, a `BloomFilter` cannot h
 For more information about the `BloomFilter`, you can head [here](https://en.wikipedia.org/wiki/Bloom_filter).
 
 ```js
-var BloomFilter = require('mnemonist/bloom-filter');
+const BloomFilter = require('mnemonist/bloom-filter');
 ```
 
 Note that by default, this implementation uses `murmurhash3` and is designed to store strings only.
@@ -27,10 +27,12 @@ Alternatively, you can provide a configuration object if you also need to tweaks
 
 ```js
 // Creating a bloom filter that can hold 50 items
-var filter = new BloomFilter(50);
+const filter = new BloomFilter(50);
+```
 
+```js
 // Passing custom options
-var filter = new BloomFilter({
+const filter = new BloomFilter({
   capacity: 2500,
   errorRate: .05
 });
@@ -41,7 +43,7 @@ var filter = new BloomFilter({
 Alternatively, one can build a `BloomFilter` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var filter = BloomFilter.from([1, 2, 3], options);
+const filter = BloomFilter.from([1, 2, 3], options);
 ```
 
 ## Members
@@ -66,7 +68,7 @@ var filter = BloomFilter.from([1, 2, 3], options);
 Total number of items the filter is able to store.
 
 ```js
-var filter = new BloomFilter(5);
+const filter = new BloomFilter(5);
 
 filter.capacity
 >>> 5
@@ -77,7 +79,7 @@ filter.capacity
 Error rate of the filter. Defaults to `0.005`.
 
 ```js
-var filter = new BloomFilter(5);
+const filter = new BloomFilter(5);
 
 filter.errorRate
 >>> 0.005
@@ -88,7 +90,7 @@ filter.errorRate
 Number of hash functions.
 
 ```js
-var filter = new BloomFilter(3);
+const filter = new BloomFilter(3);
 
 filter.hashFunctions
 >>> 7
@@ -101,7 +103,7 @@ Add the given item to the filter.
 `O(k)`, k being the number of hash functions.
 
 ```js
-var filter = new BloomFilter(5);
+const filter = new BloomFilter(5);
 filter.add('hello');
 ```
 
@@ -110,7 +112,7 @@ filter.add('hello');
 Completely clears the filter of its items.
 
 ```js
-var filter = new BloomFilter(5);
+const filter = new BloomFilter(5);
 filter.add('hello');
 filter.clear();
 
@@ -125,7 +127,7 @@ Will return `false` if the item is not present in the filter and `true` if the i
 `O(k)`, k being the number of hash functions.
 
 ```js
-var filter = new BloomFilter(5);
+const filter = new BloomFilter(5);
 filter.add('hello');
 
 filter.test('world');

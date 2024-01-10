@@ -10,7 +10,7 @@ Its main use is to be able to compute the longest common subsequence of the inpu
 For more information about the Generalized Suffix Array, you can head [here](https://en.wikipedia.org/wiki/Suffix_array).
 
 ```js
-var GeneralizedSuffixArray = require('mnemonist/suffix-array').GeneralizedSuffixArray;
+const { GeneralizedSuffixArray } = require('mnemonist/suffix-array');
 ```
 
 ## Constructor
@@ -18,13 +18,13 @@ var GeneralizedSuffixArray = require('mnemonist/suffix-array').GeneralizedSuffix
 The `GeneralizedSuffixArray` class simply takes an array of strings or an array of arbitrary arrays of string tokens as its only argument:
 
 ```js
-var suffixArray = new GeneralizedSuffixArray([
+const suffixArray = new GeneralizedSuffixArray([
   'banana',
   'ananas'
 ]);
 
 // Also works with arbitrary sequences of tokens
-var suffixArray = new GeneralizedSuffixArray([
+const suffixArray = new GeneralizedSuffixArray([
   ['the', 'cat', 'eats', 'the', 'mouse'],
   ['the', 'mouse', 'eats', 'cheese']
 ]);
@@ -47,7 +47,7 @@ Note that if you pass an array of arbitrary arrays of tokens, computation time f
 The computed suffix array.
 
 ```js
-var suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
+const suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
 suffixArray.array
 >>> [6, 5, 3, 1, 7, 9, 11, 0, 4, 2, 8, 10, 12]
 ```
@@ -57,7 +57,7 @@ suffixArray.array
 The length of the array.
 
 ```js
-var suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
+const suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
 suffixArray.length
 >>> 13
 ```
@@ -67,7 +67,7 @@ suffixArray.length
 The number of elements stored.
 
 ```js
-var suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
+const suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
 suffixArray.size
 >>> 2
 ```
@@ -79,12 +79,13 @@ Retrieves the longest common subsequence of the array.
 `O(n)`
 
 ```js
-var suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
+const suffixArray = new GeneralizedSuffixArray(['banana', 'ananas']);
 
 suffixArray.longestCommonSubsequence();
 >>> 'anana'
-
-var suffixArray = new GeneralizedSuffixArray([
+```
+```js
+const suffixArray = new GeneralizedSuffixArray([
   ['the', 'cat', 'eats', 'the', 'mouse'],
   ['the', 'mouse', 'eats', 'cheese']
 ]);

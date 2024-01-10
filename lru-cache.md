@@ -14,9 +14,9 @@ For more information, you can check [this](https://en.wikipedia.org/wiki/Cache_r
 This implementation has been designed to work with a javascript raw object. You can alternatively find an implementation relying on ES6's `Map` object [here]({{ site.baseurl }}/lru-map). Depending on the precise use case (string keys, integer keys etc.), one or the other might be faster depending on js engine magic.
 
 ```js
-var LRUCache = require('mnemonist/lru-cache');
+const LRUCache = require('mnemonist/lru-cache');
 // If you need deletions
-var LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
+const LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
 ```
 
 ## Constructor
@@ -24,14 +24,14 @@ var LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
 The `LRUCache` takes a single argument: the desired capacity.
 
 ```js
-var cache = new LRUCache(1000);
+const cache = new LRUCache(1000);
 ```
 
 Optionally, you can type the used keys & values in order to be more memory-efficient:
 
 ```js
 // First argument will be instantiated for keys, second one for values
-var cache = new LRUCache(Uint32Array, Float32Array, 1000);
+const cache = new LRUCache(Uint32Array, Float32Array, 1000);
 ```
 
 ### Static #.from
@@ -40,13 +40,15 @@ Alternatively, one can build a `LRUCache` from an arbitrary JavaScript iterable 
 
 ```js
 // Attempting the guess the given iterable's length/size
-var cache = LRUCache.from({one: 1, two: 2});
-
+const cache = LRUCache.from({one: 1, two: 2});
+```
+```js
 // Providing the desired capacity
-var cache = LRUCache.from({one: 1, two: 2}, 10);
-
+const cache = LRUCache.from({one: 1, two: 2}, 10);
+```
+```js
 // Typing the cache
-var cache = LRUCache.from({one: 1, two: 2}, Array, Uint8Array, 10);
+const cache = LRUCache.from({one: 1, two: 2}, Array, Uint8Array, 10);
 ```
 
 ## Members
@@ -83,7 +85,7 @@ var cache = LRUCache.from({one: 1, two: 2}, Array, Uint8Array, 10);
 Maximum number of items the cache is able to store.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.capacity
 >>> 10
 ```
@@ -93,7 +95,7 @@ cache.capacity
 Number of items actually in the cache.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.size
 >>> 0
 cache.set('one', 1);
@@ -108,7 +110,7 @@ Sets a value for the given key in the cache. If the cache is already full, the l
 `O(1)`
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.has('one');
 >>> true
@@ -121,7 +123,7 @@ Sets a value for the given key in the cache. If the cache is already full, the l
 `O(1)`
 
 ```js
-var cache = new LRUCache(1);
+const cache = new LRUCache(1);
 cache.setpop('one', 1);
 >>> null
 cache.setpop('one', 10);
@@ -139,7 +141,7 @@ Beware, for performance reasons this method is only available on `LRUCacheWithDe
 `O(1)`
 
 ```js
-var cache = new LRUCacheWithDelete(1);
+const cache = new LRUCacheWithDelete(1);
 cache.set('one', 1)
 
 cache.delete('one');
@@ -158,7 +160,7 @@ Beware, for performance reasons this method is only available on `LRUCacheWithDe
 `O(1)`
 
 ```js
-var cache = new LRUCacheWithDelete(1);
+const cache = new LRUCacheWithDelete(1);
 cache.set('one', 1)
 
 cache.remove('one');
@@ -178,7 +180,7 @@ Completely clears the cache.
 `O(1)`
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.clear();
 
@@ -197,7 +199,7 @@ If the key is found, the key is moved to the front of the underlying list to be 
 `O(1)`
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.get('one');
 >>> 1
@@ -212,7 +214,7 @@ Unlike [`#.get`](#get), it does not modify the underlying list.
 `O(1)`
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.peek('one');
 >>> 1
@@ -225,7 +227,7 @@ Retrieves whether the given key exists in the cache.
 `O(1)`
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 cache.set('one', 1);
 cache.has('one');
 >>> true
@@ -239,12 +241,12 @@ cache.has('two');
 Iterates over the cache from the most to the least recently used key-value pair.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
 
-cache.forEach(function(value, key, cache) {
+cache.forEach((value, key, cache) => {
   console.log(key, value);
 });
 ```
@@ -254,12 +256,12 @@ cache.forEach(function(value, key, cache) {
 Returns an iterator over the cache's keys from the most to the least recently used key.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
 
-var iterator = cache.keys();
+const iterator = cache.keys();
 
 iterator.next().value
 >>> 'two'
@@ -270,12 +272,12 @@ iterator.next().value
 Returns an iterator over the cache's values from the most to the least recently used value.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
 
-var iterator = cache.values();
+const iterator = cache.values();
 
 iterator.next().value
 >>> 2
@@ -286,12 +288,12 @@ iterator.next().value
 Returns an iterator over the cache's entries from the most to the least recently used entry.
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
 
-var iterator = cache.entries();
+const iterator = cache.entries();
 
 iterator.next().value
 >>> ['two', 2]
@@ -302,12 +304,12 @@ iterator.next().value
 Alternatively, you can iterate over a cache's entries using ES2015 `for...of` protocol:
 
 ```js
-var cache = new LRUCache(10);
+const cache = new LRUCache(10);
 
 cache.set('one', 1);
 cache.set('two', 2);
 
-for (var [key, value] of cache) {
+for (const [key, value] of cache) {
   console.log(key, value);
 }
 ```

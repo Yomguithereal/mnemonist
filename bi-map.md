@@ -14,13 +14,13 @@ Here are the three conflicting cases you need to keep in mind:
 3. If the `{A,B}` and `{C,D}` relation exists in the `BiMap` and you add the `{A,D}` one, you will delete both former ones (both key & value conflict).
 
 ```js
-var BiMap = require('mnemonist/bi-map');
+const BiMap = require('mnemonist/bi-map');
 ```
 
 ## Constructor
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 ```
 
 ### Static #.from
@@ -28,7 +28,7 @@ var map = new BiMap();
 Alternatively, one can build a `BiMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-var map = BiMap.from({one: 'hello', two: 'world'});
+const map = BiMap.from({one: 'hello', two: 'world'});
 ```
 
 ## Members
@@ -62,7 +62,7 @@ var map = BiMap.from({one: 'hello', two: 'world'});
 You can access the inverse map through this member.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.inverse.get('hello');
@@ -74,7 +74,7 @@ map.inverse.get('hello');
 Total number of items stored by the map.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 
@@ -89,7 +89,7 @@ Creates a relation in the bimap between key and value.
 `O(1) amortized`
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set(key, item);
 ```
@@ -101,7 +101,7 @@ map.set(key, item);
 Removes the relation associated with the given key.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 
@@ -115,7 +115,7 @@ map.size
 Completely clears the bimap of its relations.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
@@ -133,7 +133,7 @@ Returns whether the map has the given key.
 `O(1) amortized`
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 
@@ -148,7 +148,7 @@ Returns the value stored at the given key.
 `O(1) amortized`
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 
@@ -161,12 +161,12 @@ map.get('one');
 Iterates over each of the entries of the bimap.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
 
-map.forEach(function(value, key) {
+map.forEach((value, key) => {
   console.log(key, value);
 });
 >>> 'one', 'hello'
@@ -178,12 +178,12 @@ map.forEach(function(value, key) {
 Returns an iterator over the keys of the bimap.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
 
-var iterator = map.keys();
+const iterator = map.keys();
 
 iterator.next().value
 >>> 'one'
@@ -194,12 +194,12 @@ iterator.next().value
 Returns an iterator over the values of the bimap.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
 
-var iterator = map.values();
+const iterator = map.values();
 
 iterator.next().value
 >>> 'hello'
@@ -210,12 +210,12 @@ iterator.next().value
 Returns an iterator over the entries of the bimap.
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
 
-var iterator = map.entries();
+const iterator = map.entries();
 
 iterator.next().value
 >>> ['one', 'hello']
@@ -226,12 +226,12 @@ iterator.next().value
 Alternatively, you can iterate over a list's entries using ES2015 `for...of` protocol:
 
 ```js
-var map = new BiMap();
+const map = new BiMap();
 
 map.set('one', 'hello');
 map.set('two', 'world');
 
-for (var entry of map) {
+for (const entry of map) {
   console.log(entry);
 }
 ```

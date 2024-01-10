@@ -6,7 +6,7 @@ title: HashedArrayTree
 The `HashedArrayTree` is an abstract class representing a JavaScript typed array, such as the `Int32Array`, but able to grow dynamically.
 
 ```js
-var HashedArrayTree = require('mnemonist/hashed-array-tree');
+const HashedArrayTree = require('mnemonist/hashed-array-tree');
 ```
 
 ## Constructor
@@ -14,10 +14,11 @@ var HashedArrayTree = require('mnemonist/hashed-array-tree');
 The `HashedArrayTree` takes a typed array class as first argument and an initial length or alternatively more complex options as second argument.
 
 ```js
-var array = new HashedArrayTree(ArrayClass, initialCapacity);
-
+const array = new HashedArrayTree(ArrayClass, initialCapacity);
+```
+```js
 // If you need to pass options such as a custom block size
-var array = new HashedArrayTree(ArrayClass, {
+const array = new HashedArrayTree(ArrayClass, {
   initialCapacity: 10,
   initialLength: 3,
   blockSize: 8 // Defaults to 1024. Must be a power of two!
@@ -49,7 +50,7 @@ var array = new HashedArrayTree(ArrayClass, {
 Size of the byte array blocks.
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.blockSize;
 >>> 1024
@@ -60,7 +61,7 @@ array.blockSize;
 Number of items the array can accomodate without needing to add further blocks.
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.push(1);
 array.push(2);
@@ -74,7 +75,7 @@ array.capacity
 Current length of the array, that is to say the last set index plus one.
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.push(1);
 array.push(2);
@@ -90,7 +91,7 @@ Add a single block to the array.
 If given a number, will add as many new blocks as needed to accomodate target capacity.
 
 ```js
-var array = new HashedArrayTree(Uint8Array, {blockSize: 8});
+const array = new HashedArrayTree(Uint8Array, {blockSize: 8});
 
 array.grow();
 array.capacity;
@@ -109,7 +110,7 @@ Sets the value at the given index.
 `O(1)`
 
 ```js
-var array = new HashedArrayTree(Uint8Array, 2);
+const array = new HashedArrayTree(Uint8Array, 2);
 
 array.set(1, 45);
 
@@ -124,7 +125,7 @@ Removes & returns the last value of the array.
 `O(1)`
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.push(1);
 array.push(2);
@@ -143,7 +144,7 @@ Pushes a new value in the array.
 `O(1) amortized`
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.push(1);
 array.push(2);
@@ -164,7 +165,7 @@ Resize the array's length. Will add new blocks if current blocks are insufficien
 Note that it won't deallocate anything would the given length be inferior to the current one.
 
 ```js
-var array = new HashedArrayTree(Uint8Array, {initialLength: 10, blockSize: 8});
+const array = new HashedArrayTree(Uint8Array, {initialLength: 10, blockSize: 8});
 
 array.resize(5);
 array.length;
@@ -187,7 +188,7 @@ Retrieves the value stored at the given index.
 `O(1)`
 
 ```js
-var array = new HashedArrayTree(Uint8Array);
+const array = new HashedArrayTree(Uint8Array);
 
 array.push(1);
 array.push(2);

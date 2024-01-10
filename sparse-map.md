@@ -10,7 +10,7 @@ Contrary to the [`BitSet`]({{ site.baseurl }}/bit-set), the `SparseMap` is very 
 If you don't need to associate values to your numbers, take a look to [`SparseSet`]({{ site.baseurl }}/sparse-set) instead.
 
 ```js
-var SparseMap = require('mnemonist/sparse-map');
+const SparseMap = require('mnemonist/sparse-map');
 ```
 
 ## Constructor
@@ -18,10 +18,11 @@ var SparseMap = require('mnemonist/sparse-map');
 The `SparseMap` takes a maximum length to store as well as, optionally, a constructor for the array that will store the map's values. This can be useful when storing, say, small positive integers and you want to save memory.
 
 ```js
-var map = new SparseMap(length);
-
+const map = new SparseMap(length);
+```
+```js
 // If you know your values type:
-var map = new SparseMap(Uint8Array, length);
+const map = new SparseMap(Uint8Array, length);
 ```
 
 ## Members
@@ -55,7 +56,7 @@ var map = new SparseMap(Uint8Array, length);
 Length of the map, that is to say the maximum number one can expect to store in this set minus one.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.length;
 >>> 4
@@ -66,7 +67,7 @@ map.length;
 Number of items currently in the map.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.size;
 >>> 0
@@ -84,7 +85,7 @@ Associates a value to the given number in the map.
 `O(1)`
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(2, 34);
 map.get(2);
@@ -98,7 +99,7 @@ Deletes the given number from the map.
 `O(1)`
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(2, 34);
 map.delete(2);
@@ -111,7 +112,7 @@ map.has(2);
 Resets every number stored by the map.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(1);
 map.set(3);
@@ -128,7 +129,7 @@ Returns whether the given number exists in the map.
 `O(1)`
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.has(3);
 >>> false
@@ -143,7 +144,7 @@ map.has(3);
 Returns the value currently associated to the given number in the map.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.get(3);
 >>> undefined
@@ -159,11 +160,11 @@ map.get(3);
 Iterates over the map's entries.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(1, 23);
 
-map.forEach(function(value, key) {
+map.forEach((value, key) => {
   console.log(key, value);
 });
 ```
@@ -173,11 +174,11 @@ map.forEach(function(value, key) {
 Returns an iterator over the map's keys.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(2, 15);
 
-var iterator = map.keys();
+const iterator = map.keys();
 
 iteraror.next().value
 >>> 2
@@ -188,11 +189,11 @@ iteraror.next().value
 Returns an iterator over the set's values.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(2, 15);
 
-var iterator = map.values();
+const iterator = map.values();
 
 iteraror.next().value
 >>> 15
@@ -203,11 +204,11 @@ iteraror.next().value
 Returns an iterator over the set's entries.
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
 map.set(2, 15);
 
-var iterator = map.entries();
+const iterator = map.entries();
 
 iteraror.next().value
 >>> [2, 15]
@@ -218,9 +219,9 @@ iteraror.next().value
 Alternatively, you can iterate over a map's entries using ES2015 `for...of` protocol:
 
 ```js
-var map = new SparseMap(4);
+const map = new SparseMap(4);
 
-for (var [key, value] of map) {
+for (const [key, value] of map) {
   console.log(key, value);
 }
 ```
