@@ -44,10 +44,10 @@ But, even if this works with few terms, it will soon become hard to compute if t
 A `PassjoinIndex` solves this problem by indexing the list of terms such as it becomes efficient to query them:
 
 ```js
-const tree = PassjoinIndex.from(terms, levenshtein, 2);
+const index = PassjoinIndex.from(terms, levenshtein, 2);
 
 // We can now search the index easily:
-const suggestions = tree.search(query);
+const suggestions = index.search(query);
 ```
 
 

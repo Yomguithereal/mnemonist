@@ -17,6 +17,7 @@ The `TrieMap` optionally takes as single argument the type of sequence you are g
 // For a trie containing string prefixes
 const trie = new TrieMap();
 ```
+
 ```js
 // For a trie containing arbitrary sequences fed as arrays
 const trie = new TrieMap(Array);
@@ -27,7 +28,7 @@ const trie = new TrieMap(Array);
 Alternatively, one can build a `TrieMap` from an arbitrary JavaScript iterable likewise:
 
 ```js
-const list = TrieMap.from({
+const trie = TrieMap.from({
   roman: 1,
   romanesque: 2
 });

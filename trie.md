@@ -50,10 +50,11 @@ const wordsWithMatchingPrefix = trie.find(query);
 
 The `Trie` optionally takes as single argument the type of sequence you are going to feed it.
 
-```
+```js
 // For a trie containing string prefixes
 const trie = new Trie();
 ```
+
 ```js
 // For a trie containing arbitrary sequences fed as arrays
 const trie = new Trie(Array);
@@ -64,7 +65,7 @@ const trie = new Trie(Array);
 Alternatively, one can build a `Trie` from an arbitrary JavaScript iterable likewise:
 
 ```js
-const list = Trie.from(['roman', 'romanesque']);
+const trie = Trie.from(['roman', 'romanesque']);
 ```
 
 ## Members
