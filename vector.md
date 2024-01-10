@@ -34,15 +34,14 @@ const vector = new Vector(ArrayClass, {
 ```
 Subclasses for each of JS typed array also exists as a convenience.
 ```js
-vector = new Vector.Int8Vector(initialCapacity);
-vector = new Vector.Uint8Vector(initialCapacity);
-vector = new Vector.Uint8Vector(initialCapacity);
-vector = new Vector.Int16Vector(initialCapacity);
-vector = new Vector.Uint16Vector(initialCapacity);
-vector = new Vector.Int32Vector(initialCapacity);
-vector = new Vector.Uint32Vector(initialCapacity);
-vector = new Vector.Float32Vector(initialCapacity);
-vector = new Vector.Float64Vector(initialCapacity);
+const int8vector    = new Vector.Int8Vector(initialCapacity);
+const uint8vector   = new Vector.Uint8Vector(initialCapacity);
+const int16vector   = new Vector.Int16Vector(initialCapacity);
+const uint16vector  = new Vector.Uint16Vector(initialCapacity);
+const int32vector   = new Vector.Int32Vector(initialCapacity);
+const uint32vector  = new Vector.Uint32Vector(initialCapacity);
+const float32vector = new Vector.Float32Vector(initialCapacity);
+const float64vector = new Vector.Float64Vector(initialCapacity);
 ```
 
 ### Static #.from
