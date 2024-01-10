@@ -11,6 +11,8 @@ This structure is very useful to cache the result of costly operations when one 
 
 For more information, you can check [this](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)) Wikipedia page.
 
+For a detailed explanation of how this cache is implemented, you can also read [this](https://yomguithereal.github.io/posts/lru-cache) blog post.
+
 This implementation has been designed to work with a javascript raw object. You can alternatively find an implementation relying on ES6's `Map` object [here]({{ site.baseurl }}/lru-map). Depending on the precise use case (string keys, integer keys etc.), one or the other might be faster depending on js engine magic.
 
 ```js
