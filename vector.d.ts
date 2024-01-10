@@ -2,7 +2,7 @@
  * Mnemonist Vector Typings
  * =========================
  */
-import {IArrayLikeConstructor} from './utils/types';
+import { IArrayLikeConstructor } from './utils/types';
 
 type VectorOptions = {
   initialLength?: number;

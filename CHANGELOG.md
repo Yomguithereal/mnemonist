@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.39.8 (provisional)
+
+* Fixing `Float64Vector` TS exports (@atombrenner).
+
 ## 0.39.7
 
 * Slight performance optimization of LRU classes `#.setpop` method.
