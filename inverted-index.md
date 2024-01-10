@@ -67,7 +67,7 @@ index.query('cheese');
 
 ```js
 // Let's create an index using two different hash functions:
-const index = new Index([
+const index = new InvertedIndex([
   
   // Tokenizer function for inserted documents:
   (doc) => words(doc.text),
