@@ -1,6 +1,6 @@
 /**
- * Mnemonist Exports Testing
- * ==========================
+ * Mnemonist Types and Named Exports Testing
+ * ==========================================
  */
 import {
   BiMap, InverseMap,
