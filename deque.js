@@ -39,6 +39,7 @@ Deque.prototype.first = function() {
   return this.head ? this.head.item : undefined;
 };
 Deque.prototype.peek = Deque.prototype.first;
+Deque.prototype.peekFirst = Deque.prototype.first;
 
 /**
  * Method used to get the last item of the deque.
@@ -48,6 +49,7 @@ Deque.prototype.peek = Deque.prototype.first;
 Deque.prototype.last = function() {
   return this.tail ? this.tail.item : undefined;
 };
+Deque.prototype.peekLast = Deque.prototype.last;
 
 /**
  * Method used to add an item at the end of the deque.
