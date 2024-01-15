@@ -18,7 +18,7 @@ function Deque() {
 }
 
 /**
- * Method used to clear the list.
+ * Method used to clear the deque.
  *
  * @return {undefined}
  */
@@ -31,7 +31,7 @@ Deque.prototype.clear = function() {
 };
 
 /**
- * Method used to get the first item of the list.
+ * Method used to get the first item of the deque.
  *
  * @return {any}
  */
@@ -41,7 +41,7 @@ Deque.prototype.first = function() {
 Deque.prototype.peek = Deque.prototype.first;
 
 /**
- * Method used to get the last item of the list.
+ * Method used to get the last item of the deque.
  *
  * @return {any}
  */
@@ -50,7 +50,7 @@ Deque.prototype.last = function() {
 };
 
 /**
- * Method used to add an item at the end of the list.
+ * Method used to add an item at the end of the deque.
  *
  * @param  {any}    item - The item to add.
  * @return {number}
@@ -73,7 +73,7 @@ Deque.prototype.push = function(item) {
 };
 
 /**
- * Method used to add an item at the beginning of the list.
+ * Method used to add an item at the beginning of the deque.
  *
  * @param  {any}    item - The item to add.
  * @return {number}
@@ -98,7 +98,7 @@ Deque.prototype.unshift = function(item) {
 };
 
 /**
- * Method used to retrieve & remove the first item of the list.
+ * Method used to retrieve & remove the first item of the deque.
  *
  * @return {any}
  */
@@ -115,7 +115,7 @@ Deque.prototype.shift = function() {
 };
 
 /**
- * Method used to iterate over the list.
+ * Method used to iterate over the deque.
  *
  * @param  {function}  callback - Function to call for each item.
  * @param  {object}    scope    - Optional scope.
@@ -138,7 +138,7 @@ Deque.prototype.forEach = function(callback, scope) {
 };
 
 /**
- * Method used to convert the list into an array.
+ * Method used to convert the deque into an array.
  *
  * @return {array}
  */
@@ -157,7 +157,7 @@ Deque.prototype.toArray = function() {
 };
 
 /**
- * Method used to create an iterator over a list's values.
+ * Method used to create an iterator over a deque's values.
  *
  * @return {Iterator}
  */
@@ -181,7 +181,7 @@ Deque.prototype.values = function() {
 };
 
 /**
- * Method used to create an iterator over a list's entries.
+ * Method used to create an iterator over a deque's entries.
  *
  * @return {Iterator}
  */
@@ -240,7 +240,7 @@ if (typeof Symbol !== 'undefined')
 
 /**
  * Static @.from function taking an arbitrary iterable & converting it into
- * a list.
+ * a deque.
  *
  * @param  {Iterable} iterable   - Target iterable.
  * @return {Deque}
