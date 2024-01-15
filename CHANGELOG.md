@@ -3,7 +3,7 @@
 ## Unreleased
 
 * Adding ESM named exports support (@jerome-benoit).
-* Fixing `Set` operations CommonJS named export collision by renaming it to ``set` (@jerome-benoit).
+* Fixing `Set` operations CommonJS named export collision by renaming it to `set` (@jerome-benoit).
 * Fixing missing `Uint8Vector`, `Uint8ClampedVector`, `Int8Vector`, `Uint16Vector`, `Int16Vector`, `Uint32Vector`, `Int32Vector`, `Float32Vector`, `Float64Vector`, `PointerVector` CommonJS named exports (@jerome-benoit).
 * Fixing `Float64Vector` TS exports (@atombrenner).
 
