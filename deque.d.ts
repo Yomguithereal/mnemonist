@@ -17,8 +17,8 @@ export default class Deque<T> implements Iterable<T> {
   last(): T | undefined;
   peek(): T | undefined;
   push(value: T): number;
-  shift(): T | undefined;
   unshift(value: T): number;
+  shift(): T | undefined;
   forEach(callback: (value: T, index: number, list: this) => void, scope?: any): void;
   toArray(): Array<T>;
   values(): IterableIterator<T>;
