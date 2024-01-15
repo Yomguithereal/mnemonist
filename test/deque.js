@@ -7,13 +7,32 @@ var assert = require('assert'),
 
 describe('Deque', function() {
 
-  it('should be possible to push values.', function() {
+  it('should be possible to push and pop values.', function() {
     var deque = new Deque();
 
     deque.push('test');
 
     assert.strictEqual(deque.size, 1);
+
+    var item = deque.pop();
+
+    assert.strictEqual(item, 'test');
+    assert.strictEqual(deque.size, 0);
   });
+
+  it('should be possible to unshift and shift values.', function() {
+    var deque = new Deque();
+
+    deque.unshift('test');
+
+    assert.strictEqual(deque.size, 1);
+
+    var item = deque.shift();
+
+    assert.strictEqual(item, 'test');
+    assert.strictEqual(deque.size, 0);
+  });
+
 
   it('should be possible to add values at the beginning & the end of the deque.', function() {
     var deque = new Deque();

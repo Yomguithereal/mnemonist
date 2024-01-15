@@ -2,8 +2,8 @@
  * Mnemonist Deque
  * ================
  *
- * Implemented with a singly linked list using raw JavaScript objects as nodes
- * as benchmarks proved it was the fastest thing to do.
+ * Double-ended queue implemented with a doubly linked list
+ * using raw JavaScript objects as nodes as benchmarks proved it was the fastest thing to do.
  */
 var Iterator = require('obliterator/iterator'),
     forEach = require('obliterator/foreach');
@@ -58,15 +58,13 @@ Deque.prototype.peekLast = Deque.prototype.last;
  * @return {number}
  */
 Deque.prototype.push = function(item) {
-  var node = {item: item, next: null};
+  var node = {item, prev: null, next: null};
 
-  if (!this.head) {
-    this.head = node;
-    this.tail = node;
-  }
-  else {
-    this.tail.next = node;
-    this.tail = node;
+  if (!this.tail) {
+    this.head = this.tail = node;
+  } else {
+    node.prev = this.tail;
+    this.tail = this.tail.next = node;
   }
 
   this.size++;
@@ -81,22 +79,41 @@ Deque.prototype.push = function(item) {
  * @return {number}
  */
 Deque.prototype.unshift = function(item) {
-  var node = {item: item, next: null};
+  var node = {item, prev: null, next: null};
 
   if (!this.head) {
-    this.head = node;
-    this.tail = node;
-  }
-  else {
-    if (!this.head.next)
-      this.tail = this.head;
+    this.head = this.tail = node;
+  } else {
     node.next = this.head;
-    this.head = node;
+    this.head = this.head.prev = node;
   }
 
   this.size++;
 
   return this.size;
+};
+
+/**
+ * Method used to retrieve & remove the last item of the deque.
+ *
+ * @return {any}
+ */
+Deque.prototype.pop = function() {
+  if (!this.size)
+    return undefined;
+
+  var node = this.tail;
+
+  this.tail = node.prev;
+  if (!this.tail) {
+    this.head = null;
+  } else {
+    this.tail.next = null;
+  }
+
+  this.size--;
+
+  return node.item;
 };
 
 /**
@@ -111,6 +128,12 @@ Deque.prototype.shift = function() {
   var node = this.head;
 
   this.head = node.next;
+  if (!this.head) {
+    this.tail = null;
+  } else {
+    this.head.prev = null;
+  }
+
   this.size--;
 
   return node.item;
