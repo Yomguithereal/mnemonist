@@ -20,7 +20,7 @@ const {
   HashedArrayTree,
   Heap, MaxHeap,
   InvertedIndex,
-  LinkedList,
+  Deque,
   LRUCache,
   LRUCacheWithDelete,
   LRUMap,
@@ -149,11 +149,11 @@ let invertedIndex = new InvertedIndex(n => ['one', 'two']);
 invertedIndex.add(45);
 
 /**
- * LinkedList.
+ * Deque.
  */
-let linkedlist = new LinkedList();
-linkedlist.push(true);
-let linkedlistItem = linkedlist.shift();
+let deque = new Deque();
+deque.push(true);
+let dequeItem = deque.shift();
 
 /**
  * LRUCache.
