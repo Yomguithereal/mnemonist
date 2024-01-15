@@ -1,46 +1,44 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 /**
- * Mnemonist CommonJS Named Require Testing
- * =========================================
+ * Mnemonist CommonJS Default Exports Testing
+ * ===========================================
  */
-const {
-  BiMap,
-  BitSet,
-  BitVector,
-  BKTree,
-  BloomFilter,
-  CircularBuffer,
-  DefaultMap,
-  FibonacciHeap, MinFibonacciHeap,
-  FixedReverseHeap,
-  FixedStack,
-  FuzzyMap,
-  FuzzyMultiMap,
-  HashedArrayTree,
-  Heap, MaxHeap,
-  InvertedIndex,
-  Deque,
-  LRUCache,
-  LRUCacheWithDelete,
-  LRUMap,
-  LRUMapWithDelete,
-  MultiSet,
-  MultiMap,
-  PassjoinIndex,
-  Queue,
-  set,
-  SparseSet,
-  Stack,
-  StaticDisjointSet,
-  StaticIntervalTree,
-  GeneralizedSuffixArray,
-  SymSpell,
-  Trie,
-  TrieMap,
-  Vector, Uint16Vector,
-  VPTree
-} = require('mnemonist');
+const BiMap = require('mnemonist/bi-map');
+const BitSet = require('mnemonist/bit-set');
+const BitVector = require('mnemonist/bit-vector');
+const BKTree = require('mnemonist/bk-tree');
+const BloomFilter = require('mnemonist/bloom-filter');
+const CircularBuffer = require('mnemonist/circular-buffer');
+const DefaultMap = require('mnemonist/default-map');
+const FibonacciHeap = require('mnemonist/fibonacci-heap');
+const FixedReverseHeap = require('mnemonist/fixed-reverse-heap');
+const FixedStack = require('mnemonist/fixed-stack');
+const FuzzyMap = require('mnemonist/fuzzy-map');
+const FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
+const HashedArrayTree = require('mnemonist/hashed-array-tree');
+const Heap = require('mnemonist/heap');
+const InvertedIndex = require('mnemonist/inverted-index');
+const Deque = require('mnemonist/deque');
+const LRUCache = require('mnemonist/lru-cache');
+const LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
+const LRUMap = require('mnemonist/lru-map');
+const LRUMapWithDelete = require('mnemonist/lru-map-with-delete');
+const MultiMap = require('mnemonist/multi-map');
+const MultiSet = require('mnemonist/multi-set');
+const PassjoinIndex = require('mnemonist/passjoin-index');
+const Queue = require('mnemonist/queue');
+const set = require('mnemonist/set');
+const SparseSet = require('mnemonist/sparse-set');
+const Stack = require('mnemonist/stack');
+const StaticDisjointSet = require('mnemonist/static-disjoint-set');
+const StaticIntervalTree = require('mnemonist/static-interval-tree');
+const SuffixArray = require('mnemonist/suffix-array');
+const SymSpell = require('mnemonist/symspell');
+const Trie = require('mnemonist/trie');
+const TrieMap = require('mnemonist/trie-map');
+const Vector = require('mnemonist/vector');
+const VPTree = require('mnemonist/vp-tree');
 
 /**
  * BiMap.
@@ -92,9 +90,13 @@ defaultMap.get('one').push(1);
 let fibonacciHeap = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
-let minFibonacciHeap = new MinFibonacciHeap();
+let minFibonacciHeap = new FibonacciHeap.MinFibonacciHeap();
 minFibonacciHeap.push('hello');
 minFibonacciHeap.pop();
+let maxFibonacciHeap = new FibonacciHeap.MaxFibonacciHeap();
+maxFibonacciHeap.push('hello');
+maxFibonacciHeap.pop();
+
 
 /**
  * FixedReverseHeap.
@@ -139,7 +141,7 @@ let heap = new Heap((a, b) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap = new MaxHeap();
+let maxHeap = new Heap.MaxHeap();
 maxHeap.push(45);
 
 /**
@@ -278,7 +280,8 @@ let intervalTree = StaticIntervalTree.from([[0, 1], [3, 4]]);
 /**
  * SuffixArray.
  */
-let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
+let suffixArray = new SuffixArray('test');
+let generalizedSuffixArray = new SuffixArray.GeneralizedSuffixArray(['test', 'hello']);
 let suffixArrayLCS = generalizedSuffixArray.longestCommonSubsequence();
 
 /**
@@ -316,7 +319,7 @@ let vector = new Vector(Uint32Array, 10);
 vector.push(1);
 vector.set(0, 2);
 
-let uint16vector = Uint16Vector.from([1, 2, 3]);
+let uint16vector = Vector.Uint16Vector.from([1, 2, 3]);
 uint16vector.pop();
 
 /**

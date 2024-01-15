@@ -1,6 +1,6 @@
 /**
- * Mnemonist Types Testing
- * ========================
+ * Mnemonist Types and Named Exports Testing
+ * ==========================================
  */
 import {
   BiMap, InverseMap,
@@ -38,7 +38,7 @@ import {
   TrieMap,
   Vector, Uint16Vector,
   VPTree
-} from '../index';
+} from 'mnemonist';
 
 /**
  * BiMap.
@@ -90,6 +90,9 @@ defaultMap.get('one').push(1);
 let fibonacciHeap: FibonacciHeap<string> | MinFibonacciHeap<string> = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+let maxFibonacciHeap: MaxFibonacciHeap<string> = new MaxFibonacciHeap();
+maxFibonacciHeap.push('hello');
+maxFibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.
@@ -274,6 +277,7 @@ let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1]
 /**
  * SuffixArray.
  */
+let suffixArray: SuffixArray = new SuffixArray('test');
 let generalizedSuffixArray: GeneralizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
 let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
 
