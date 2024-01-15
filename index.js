@@ -6,9 +6,9 @@
  * of this library should prefer the modular access though.
  */
 var Heap = require('./heap.js'),
-  FibonacciHeap = require('./fibonacci-heap.js'),
-  SuffixArray = require('./suffix-array.js'),
-  Vector = require('./vector.js');
+    FibonacciHeap = require('./fibonacci-heap.js'),
+    SuffixArray = require('./suffix-array.js'),
+    Vector = require('./vector.js');
 
 module.exports = {
   BiMap: require('./bi-map.js'),
