@@ -31,6 +31,4 @@ jobs:
           npm i
           npm run lint
           npm test
-          npm run test:cjs
-          npm run test:esm
-          npm run test:types
+          npm run test:exports

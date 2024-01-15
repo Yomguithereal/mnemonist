@@ -5,11 +5,9 @@
   "scripts": {
     "lint": "eslint --cache --ext .js,.mjs ./*.js ./*.mjs ./utils ./test",
     "lint:fix": "eslint --cache --fix --ext .js,.mjs ./*.js ./*.mjs ./utils ./test",
-    "prepublishOnly": "npm run lint && npm test && npm run test:cjs && npm run test:esm && npm run test:types",
+    "prepublishOnly": "npm run lint && npm test && npm run test:exports",
     "test": "mocha",
-    "test:cjs": "cd test/cjs && npm i && node default-require.js && node named-require.js",
-    "test:esm": "cd test/esm && npm i && node import.mjs",
-    "test:types": "tsc --target es2015 --noEmit --noImplicitAny --noImplicitReturns ./test/types.ts"
+    "test:exports": "cd test/exports && npm i && npm run test"
   },
   "main": "./index.js",
   "module": "./index.mjs",
