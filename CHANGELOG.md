@@ -1,7 +1,10 @@
 # Changelog
 
-## 0.39.8 (provisional)
+## Unreleased
 
+* Adding ESM named exports support (@jerome-benoit).
+* Fixing `Set` operations CommonJS named export collision with `Set` (@jerome-benoit).
+* Fixing missing `Uint8Vector`, `Uint8ClampedVector`, `Int8Vector`, `Uint16Vector`, `Int16Vector`, `Uint32Vector`, `Int32Vector`, `Float32Vector`, `Float64Vector`, `PointerVector` CommonJS named exports (@jerome-benoit).
 * Fixing `Float64Vector` TS exports (@atombrenner).
 
 ## 0.39.7
