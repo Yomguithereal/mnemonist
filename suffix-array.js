@@ -349,5 +349,5 @@ if (typeof Symbol !== 'undefined')
  * Exporting.
  */
 SuffixArray.GeneralizedSuffixArray = GeneralizedSuffixArray;
-exports.GeneralizedSuffixArray = GeneralizedSuffixArray;
+
 module.exports = SuffixArray;
