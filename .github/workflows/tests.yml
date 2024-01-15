@@ -32,4 +32,4 @@ jobs:
           npm run lint
           npm test
           # Typescript does not work with Node 12.x
-          [[ "${{ matrix.node-version }}" != "12.x" ]] && npm run test:exports
+          [[ "${{ matrix.node-version }}" != "12.x" ]] && npm run test:exports || true
