@@ -2,8 +2,8 @@
  * Mnemonist Deque
  * ================
  *
- * Double-ended queue implemented with a doubly linked list
- * using raw JavaScript objects as nodes as benchmarks proved it was the fastest thing to do.
+ * Double-ended queue implemented with a doubly linked list using raw JavaScript objects
+ * as nodes as benchmarks proved it was the fastest thing to do.
  */
 var Iterator = require('obliterator/iterator'),
     forEach = require('obliterator/foreach');
