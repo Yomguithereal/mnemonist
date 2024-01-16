@@ -90,7 +90,7 @@
   },
   "homepage": "https://github.com/yomguithereal/mnemonist#readme",
   "dependencies": {
-    "obliterator": "^2.0.1"
+    "obliterator": "^2.0.4"
   },
   "devDependencies": {
     "@yomguithereal/eslint-config": "^4.4.0",
