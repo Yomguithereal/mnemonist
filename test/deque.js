@@ -60,32 +60,48 @@ describe('Deque', function() {
   it('should be possible to get the first & last items of the deque.', function() {
     var deque = new Deque();
 
-    assert.strictEqual(deque.first(), undefined);
-    assert.strictEqual(deque.last(), undefined);
+    assert.strictEqual(deque.peekFirst(), undefined);
+    assert.strictEqual(deque.peekLast(), undefined);
 
     deque.push('hello');
 
-    assert.strictEqual(deque.first(), 'hello');
-    assert.strictEqual(deque.first(), deque.last());
+    assert.strictEqual(deque.peekFirst(), 'hello');
+    assert.strictEqual(deque.peekFirst(), deque.peekLast());
 
     deque.push('world');
 
-    assert.strictEqual(deque.first(), 'hello');
-    assert.strictEqual(deque.last(), 'world');
+    assert.strictEqual(deque.peekFirst(), 'hello');
+    assert.strictEqual(deque.peekLast(), 'world');
 
-    assert.strictEqual(deque.first(), deque.peek());
+    assert.strictEqual(deque.peek(), deque.peekFirst());
+    assert.strictEqual(deque.first(), deque.peekFirst());
+    assert.strictEqual(deque.last(), deque.peekLast());
   });
 
-  it('should be possible to shift the deque.', function() {
+  it('should be possible to pop the deque.', function() {
     var deque = new Deque();
 
     deque.push(1);
     deque.push(2);
     deque.push(3);
 
-    assert.strictEqual(deque.shift(), 1);
-    assert.strictEqual(deque.shift(), 2);
+    assert.strictEqual(deque.pop(), 3);
+    assert.strictEqual(deque.pop(), 2);
+    assert.strictEqual(deque.pop(), 1);
+    assert.strictEqual(deque.pop(), undefined);
+  });
+
+
+  it('should be possible to shift the deque.', function() {
+    var deque = new Deque();
+
+    deque.unshift(1);
+    deque.unshift(2);
+    deque.unshift(3);
+
     assert.strictEqual(deque.shift(), 3);
+    assert.strictEqual(deque.shift(), 2);
+    assert.strictEqual(deque.shift(), 1);
     assert.strictEqual(deque.shift(), undefined);
   });
 

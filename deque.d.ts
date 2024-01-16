@@ -13,11 +13,14 @@ export default class Deque<T> implements Iterable<T> {
 
   // Methods
   clear(): void;
-  first(): T | undefined;
   peekFirst(): T | undefined;
-  last(): T | undefined;
-  peek(): T | undefined;
+  /** @deprecated: use peekFirst() instead. */
+  first(): T | undefined;
   peekLast(): T | undefined;
+  /** @deprecated: use peekLast() instead. */
+  peek(): T | undefined;
+  /** @deprecated: use peekLast() instead. */
+  last(): T | undefined;
   push(value: T): number;
   unshift(value: T): number;
   pop(): T | undefined;

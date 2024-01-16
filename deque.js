@@ -35,21 +35,30 @@ Deque.prototype.clear = function() {
  *
  * @return {any}
  */
-Deque.prototype.first = function() {
+Deque.prototype.peekFirst = function() {
   return this.head ? this.head.item : undefined;
 };
-Deque.prototype.peek = Deque.prototype.first;
-Deque.prototype.peekFirst = Deque.prototype.first;
+/**
+ * @deprecated: use peekFirst() instead.
+ */
+Deque.prototype.peek = Deque.prototype.peekFirst;
+/**
+ * @deprecated: use peekFirst() instead.
+ */
+Deque.prototype.first = Deque.prototype.peekFirst;
 
 /**
  * Method used to get the last item of the deque.
  *
  * @return {any}
  */
-Deque.prototype.last = function() {
+Deque.prototype.peekLast = function() {
   return this.tail ? this.tail.item : undefined;
 };
-Deque.prototype.peekLast = Deque.prototype.last;
+/**
+ * @deprecated: use peekLast() instead.
+ */
+Deque.prototype.last = Deque.prototype.peekLast;
 
 /**
  * Method used to add an item at the end of the deque.
