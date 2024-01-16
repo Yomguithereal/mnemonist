@@ -85,10 +85,14 @@ describe('Deque', function() {
     deque.push(2);
     deque.push(3);
 
+    assert.strictEqual(deque.size, 3);
+
     assert.strictEqual(deque.pop(), 3);
     assert.strictEqual(deque.pop(), 2);
     assert.strictEqual(deque.pop(), 1);
     assert.strictEqual(deque.pop(), undefined);
+
+    assert.strictEqual(deque.size, 0);
   });
 
 
@@ -99,10 +103,14 @@ describe('Deque', function() {
     deque.unshift(2);
     deque.unshift(3);
 
+    assert.strictEqual(deque.size, 3);
+
     assert.strictEqual(deque.shift(), 3);
     assert.strictEqual(deque.shift(), 2);
     assert.strictEqual(deque.shift(), 1);
     assert.strictEqual(deque.shift(), undefined);
+
+    assert.strictEqual(deque.size, 0);
   });
 
   it('should be possible to iterate over the deque.', function() {
