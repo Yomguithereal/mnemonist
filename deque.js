@@ -39,11 +39,11 @@ Deque.prototype.peekFirst = function() {
   return this.head ? this.head.item : undefined;
 };
 /**
- * @deprecated: use peekFirst() instead.
+ * @deprecated: use #.peekFirst() instead.
  */
 Deque.prototype.peek = Deque.prototype.peekFirst;
 /**
- * @deprecated: use peekFirst() instead.
+ * @deprecated: use #.peekFirst() instead.
  */
 Deque.prototype.first = Deque.prototype.peekFirst;
 
@@ -56,7 +56,7 @@ Deque.prototype.peekLast = function() {
   return this.tail ? this.tail.item : undefined;
 };
 /**
- * @deprecated: use peekLast() instead.
+ * @deprecated: use #.peekLast() instead.
  */
 Deque.prototype.last = Deque.prototype.peekLast;
 
