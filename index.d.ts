@@ -44,5 +44,5 @@ export {default as SuffixArray, GeneralizedSuffixArray} from './suffix-array';
 export {default as SymSpell} from './symspell';
 export {default as Trie} from './trie';
 export {default as TrieMap} from './trie-map';
-export {default as Vector, Uint8Vector, Uint8ClampedVector, Int8Vector, Uint16Vector, Int16Vector, Uint32Vector, Int32Vector, Float32Vector, Float64Vector} from './vector';
+export {default as Vector, Uint8Vector, Uint8ClampedVector, Int8Vector, Uint16Vector, Int16Vector, Uint32Vector, Int32Vector, Float32Vector, Float64Vector, PointerVector} from './vector';
 export {default as VPTree} from './vp-tree';
