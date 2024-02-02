@@ -45,15 +45,24 @@ if (typeof Symbol !== 'undefined')
  * @return {number}      - Returns the new size of the buffer.
  */
 CircularBuffer.prototype.push = function(item) {
-  var index = (this.start + this.size) % this.capacity;
+  var index = this.start + this.size;
+
+  if (index >= this.capacity)
+    index -= this.capacity;
 
   this.items[index] = item;
 
   // Overwriting?
   if (this.size === this.capacity) {
+    index++;
 
-    // If start is at the end, we wrap around the buffer
-    this.start = (index + 1) % this.capacity;
+    // Wrapping around?
+    if (index >= this.capacity) {
+      this.start = 0;
+    }
+    else {
+      this.start = index;
+    }
 
     return this.size;
   }

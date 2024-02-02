@@ -88,12 +88,12 @@ FixedDeque.prototype.pop = function() {
   if (this.size === 0)
     return;
 
-  var index = this.start + this.size - 1;
-
-  if (index > this.capacity)
-    index -= this.capacity;
-
   this.size--;
+
+  var index = this.start + this.size;
+
+  if (index >= this.capacity)
+    index -= this.capacity;
 
   return this.items[index];
 };
@@ -141,7 +141,7 @@ FixedDeque.prototype.peekLast = function() {
 
   var index = this.start + this.size - 1;
 
-  if (index > this.capacity)
+  if (index >= this.capacity)
     index -= this.capacity;
 
   return this.items[index];
@@ -154,12 +154,12 @@ FixedDeque.prototype.peekLast = function() {
  * @return {any}
  */
 FixedDeque.prototype.get = function(index) {
-  if (this.size === 0)
+  if (this.size === 0 || index >= this.capacity)
     return;
 
   index = this.start + index;
 
-  if (index > this.capacity)
+  if (index >= this.capacity)
     index -= this.capacity;
 
   return this.items[index];

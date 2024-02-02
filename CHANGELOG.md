@@ -4,6 +4,7 @@
 
 * Fixing `Float64Vector` TS exports (@atombrenner).
 * Improving performance of `FixedDeque` `#.push` & `#.pop` methods (@jerome-benoit).
+* Fixing some `FixedDeque` & `CircularBuffer` methods.
 
 ## 0.39.7
 
