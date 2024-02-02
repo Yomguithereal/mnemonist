@@ -1,6 +1,6 @@
 /**
- * Mnemonist Types Testing
- * ========================
+ * Mnemonist Types and Named Exports Testing
+ * ==========================================
  */
 import {
   BiMap, InverseMap,
@@ -38,7 +38,7 @@ import {
   TrieMap,
   Vector, Uint16Vector,
   VPTree
-} from '../index';
+} from 'mnemonist';
 
 /**
  * BiMap.
@@ -46,7 +46,6 @@ import {
 let bimap = new BiMap<string, number>();
 bimap.set('one', 1);
 let inversemap: InverseMap<number, string> = bimap.inverse;
-
 inversemap.get(1);
 
 /**
@@ -88,9 +87,12 @@ defaultMap.get('one').push(1);
 /**
  * FibonacciHeap.
  */
-let fibonacciHeap: FibonacciHeap<string> = new FibonacciHeap();
+let fibonacciHeap: FibonacciHeap<string> | MinFibonacciHeap<string> = new FibonacciHeap();
 fibonacciHeap.push('hello');
 fibonacciHeap.pop();
+let maxFibonacciHeap: MaxFibonacciHeap<string> = new MaxFibonacciHeap();
+maxFibonacciHeap.push('hello');
+maxFibonacciHeap.pop();
 
 /**
  * FixedReverseHeap.
@@ -125,16 +127,17 @@ fuzzymultimapadd.add({title: 'Hello', n: 45});
  * HashedArrayTree.
  */
 let hashedArrayTree: HashedArrayTree<number> = new HashedArrayTree(Int8Array, 34);
-hashedArrayTree.set(3, 4);
+hashedArrayTree.push(1);
+hashedArrayTree.set(0, 4);
 
 /**
  * Heap.
  */
-let heap: Heap<string> = new Heap((a: string, b: string) => +a - +b);
+let heap: Heap<string> | MaxHeap<number> = new Heap((a: string, b: string) => +a - +b);
 heap.push('hello');
 heap.pop();
 
-let maxHeap: MaxHeap<number> = new Heap();
+let maxHeap: MaxHeap<number> = new MaxHeap();
 maxHeap.push(45);
 
 /**
@@ -274,7 +277,8 @@ let intervalTree: StaticIntervalTree<Interval> = StaticIntervalTree.from([[0, 1]
 /**
  * SuffixArray.
  */
-let generalizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
+let suffixArray: SuffixArray = new SuffixArray('test');
+let generalizedSuffixArray: GeneralizedSuffixArray = new GeneralizedSuffixArray(['test', 'hello']);
 let suffixArrayLCS: string = generalizedSuffixArray.longestCommonSubsequence() as string;
 
 /**
@@ -309,7 +313,8 @@ arrayTrieMap.set(['the', 'cat', 'eats', 'the', 'mouse'], 45);
  * Vector.
  */
 let vector = new Vector(Uint32Array, 10);
-vector.set(45, 2);
+vector.push(1);
+vector.set(0, 2);
 
 let uint16vector = Uint16Vector.from([1, 2, 3]);
 uint16vector.pop();

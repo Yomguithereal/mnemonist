@@ -55,21 +55,21 @@ function exponentialSearch(array, key) {
   return -1;
 }
 
-function interpolationSearch(arrayToSearch, valueToSearch){
+function interpolationSearch(arrayToSearch, valueToSearch) {
   var length = arrayToSearch.length;
   var low = 0;
-  var high = length-1;
+  var high = length - 1;
   var position = -1;
   var delta = -1;
-  while(low <= high
+  while (low <= high
         && valueToSearch >= arrayToSearch[low]
-        && valueToSearch <= arrayToSearch[high]){
-    delta = (valueToSearch-arrayToSearch[low])/(arrayToSearch[high]-arrayToSearch[low]);
-    position = low + Math.floor((high-low)*delta);
-    if (arrayToSearch[position] == valueToSearch){
+        && valueToSearch <= arrayToSearch[high]) {
+    delta = (valueToSearch - arrayToSearch[low]) / (arrayToSearch[high] - arrayToSearch[low]);
+    position = low + Math.floor((high - low) * delta);
+    if (arrayToSearch[position] == valueToSearch) {
       return position;
     }
-    if (arrayToSearch[position] < valueToSearch){
+    if (arrayToSearch[position] < valueToSearch) {
       low = position + 1;
     } else {
       high = position - 1;
@@ -104,7 +104,7 @@ function optimized(array, value, lo, hi) {
   }
 
   return -1;
-};
+}
 
 function better(array, key) {
   var mid = -1;
@@ -123,7 +123,7 @@ function better(array, key) {
     else if (key > current)
       lo = mid + 1;
     else
-      return mid
+      return mid;
   }
 
   return -1;
@@ -145,7 +145,7 @@ function PerfectMap(strings) {
 PerfectMap.prototype.set = function(key, value) {
   var index = binarySearch(this.hashes, fnv32a(key));
   this.values[index] = value;
-}
+};
 
 PerfectMap.prototype.get = function(key, value) {
   var index = binarySearch(this.hashes, fnv32a(key));
@@ -159,7 +159,7 @@ var map = new Map();
 var sorted = words.slice().sort();
 
 perfect.set('hello', 36);
-console.log(perfect.get('hello'))
+console.log(perfect.get('hello'));
 
 console.time('Perfect set');
 for (var i = 0; i < words.length; i++)
@@ -217,9 +217,9 @@ function hash(str) {
   'use asm';
 
   var h = 5381,
-      i    = str.length;
+      i = str.length;
 
-  while(i) {
+  while (i) {
     h *= 33;
     h ^= str.charCodeAt(--i);
   }
@@ -298,7 +298,7 @@ console.timeEnd('Get');
 
 console.time('GetObject');
 for (var w = 0, y = words.length; w < y; w++)
-  v = ob[words[w]]
+  v = ob[words[w]];
 console.timeEnd('GetObject');
 
 console.time('GetMap');
@@ -313,7 +313,7 @@ console.timeEnd('GetMap');
 
 console.time('MissesObject');
 for (var w = 0, y = words.length; w < y; w++)
-  v = ob[randomString(4, 10)]
+  v = ob[randomString(4, 10)];
 console.timeEnd('MissesObject');
 
 console.time('MissesMap');

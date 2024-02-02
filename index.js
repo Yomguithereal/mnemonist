@@ -1,13 +1,14 @@
 /**
- * Mnemonist Library Endpoint
- * ===========================
+ * Mnemonist Library Endpoint (CommonJS)
+ * ======================================
  *
  * Exporting every data structure through a unified endpoint. Consumers
  * of this library should prefer the modular access though.
  */
 var Heap = require('./heap.js'),
     FibonacciHeap = require('./fibonacci-heap.js'),
-    SuffixArray = require('./suffix-array.js');
+    SuffixArray = require('./suffix-array.js'),
+    Vector = require('./vector.js');
 
 module.exports = {
   BiMap: require('./bi-map.js'),
@@ -46,13 +47,23 @@ module.exports = {
   Stack: require('./stack.js'),
   SuffixArray: SuffixArray,
   GeneralizedSuffixArray: SuffixArray.GeneralizedSuffixArray,
-  Set: require('./set.js'),
+  set: require('./set.js'),
   SparseQueueSet: require('./sparse-queue-set.js'),
   SparseMap: require('./sparse-map.js'),
   SparseSet: require('./sparse-set.js'),
   SymSpell: require('./symspell.js'),
   Trie: require('./trie.js'),
   TrieMap: require('./trie-map.js'),
-  Vector: require('./vector.js'),
+  Vector: Vector,
+  Uint8Vector: Vector.Uint8Vector,
+  Uint8ClampedVector: Vector.Uint8ClampedVector,
+  Int8Vector: Vector.Int8Vector,
+  Uint16Vector: Vector.Uint16Vector,
+  Int16Vector: Vector.Int16Vector,
+  Uint32Vector: Vector.Uint32Vector,
+  Int32Vector: Vector.Int32Vector,
+  Float32Vector: Vector.Float32Vector,
+  Float64Vector: Vector.Float64Vector,
+  PointerVector: Vector.PointerVector,
   VPTree: require('./vp-tree.js')
 };

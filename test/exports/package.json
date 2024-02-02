@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "description": "",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "build:cjs": "tsc --target es2022 --module commonjs --noImplicitAny --noImplicitReturns --outDir dist/cjs exports-named-test.ts && mv dist/cjs/exports-named-test.js dist/cjs/exports-named-test.cjs",
+    "build:esm": "tsc --target es2022 --module node16 --noImplicitAny --noImplicitReturns --outDir dist/esm exports-named-test.ts",
+    "build": "npm run build:cjs && npm run build:esm",
+    "test": "npm run build && node dist/cjs/exports-named-test.cjs && node dist/esm/exports-named-test.js && node exports-default-test.cjs"
+  },
+  "dependencies": {
+    "mnemonist": "file:../.."
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.4",
+    "typescript": "^5.3.3"
+  }
+}

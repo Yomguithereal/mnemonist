@@ -2,7 +2,7 @@
  * Mnemonist Vector Typings
  * =========================
  */
-import { IArrayLikeConstructor } from './utils/types';
+import {IArrayLikeConstructor} from './utils/types';
 
 type VectorOptions = {
   initialLength?: number;
@@ -79,3 +79,4 @@ export class Int32Vector extends TypedVector {}
 export class Uint32Vector extends TypedVector {}
 export class Float32Vector extends TypedVector {}
 export class Float64Vector extends TypedVector {}
+export class PointerVector extends TypedVector {}

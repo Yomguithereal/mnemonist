@@ -102,7 +102,7 @@ function criticalGt(a, b) {
 }
 
 function InternalNode(critical) {
-  this.critical = critical
+  this.critical = critical;
   this.left = null;
   this.right = null;
 }
@@ -270,7 +270,7 @@ CritBitTree.prototype.delete = function(key) {
 
   var node = this.root,
       parent = null,
-      wentRightForParent = false
+      wentRightForParent = false;
       grandparent = null,
       wentRightForGranparent = false;
 
@@ -358,7 +358,7 @@ function log(tree) {
 
   const title = printNode;
 
-  const children = node => (node instanceof ExternalNode ? null : [node.left , node.right]);
+  const children = node => (node instanceof ExternalNode ? null : [node.left, node.right]);
 
   console.log(asciitree(tree.root, title, children));
 }

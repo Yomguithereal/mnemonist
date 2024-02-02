@@ -317,4 +317,5 @@ MaxFibonacciHeap.from = function(iterable, comparator) {
  */
 FibonacciHeap.MinFibonacciHeap = FibonacciHeap;
 FibonacciHeap.MaxFibonacciHeap = MaxFibonacciHeap;
+
 module.exports = FibonacciHeap;
