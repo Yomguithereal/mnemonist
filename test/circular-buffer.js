@@ -126,6 +126,22 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.get(3), undefined);
   });
 
+  it('peekLast should not be subject to one-off errors (#223).', function() {
+    var buffer = new CircularBuffer(Array, 2);
+
+    buffer.push(true);
+    buffer.push(true);
+    buffer.push(true);
+
+    buffer.push(false);
+    buffer.push(true);
+
+    assert.deepStrictEqual(buffer.toArray(), [false, true]);
+    assert.strictEqual(buffer.peekFirst(), false);
+    assert.strictEqual(buffer.peekLast(), true);
+    assert.strictEqual(buffer.get(1), true);
+  });
+
   it('should be possible to pop the buffer.', function() {
     var buffer = new CircularBuffer(Array, 3);
 
