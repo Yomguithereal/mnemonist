@@ -48,7 +48,9 @@ FixedDeque.prototype.push = function(item) {
   if (this.size === this.capacity)
     throw new Error('mnemonist/fixed-deque.push: deque capacity (' + this.capacity + ') exceeded!');
 
-  var index = (this.start + this.size) % this.capacity;
+  var index = this.start + this.size;
+  if (index >= this.capacity)
+    index -= this.capacity;
 
   this.items[index] = item;
 
@@ -85,7 +87,9 @@ FixedDeque.prototype.pop = function() {
   if (this.size === 0)
     return;
 
-  const index = (this.start + this.size - 1) % this.capacity;
+  var index = this.start + this.size - 1;
+  if (index > this.capacity)
+    index -= this.capacity;
 
   this.size--;
 
