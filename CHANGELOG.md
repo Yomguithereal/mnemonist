@@ -3,6 +3,7 @@
 ## 0.39.8 (provisional)
 
 * Fixing `Float64Vector` TS exports (@atombrenner).
+* Improving performance of `FixedDeque` `#.push` & `#.pop` methods (@jerome-benoit).
 
 ## 0.39.7
 
