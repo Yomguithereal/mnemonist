@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.39.8 (provisional)
+## 0.39.8
 
 * Fixing `Float64Vector` TS exports (@atombrenner).
 * Improving performance of `FixedDeque` `#.push` & `#.pop` methods (@jerome-benoit).
