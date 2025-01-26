@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.40.0 (provisional)
+## 0.40.0
 
 * Adding ESM named exports support (@jerome-benoit).
 * Fixing `Set` operations CommonJS named export collision by renaming it to `set` (@jerome-benoit).
