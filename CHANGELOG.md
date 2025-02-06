@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.1 (provisional)
+
+* Fixing `SparseMap` constructor overloads in type declarations.
+
 ## 0.40.0
 
 * Adding ESM named exports support (@jerome-benoit).

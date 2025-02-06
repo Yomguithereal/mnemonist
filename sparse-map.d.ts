@@ -2,6 +2,8 @@
  * Mnemonist SparseMap Typings
  * ============================
  */
+import {IArrayLikeConstructor} from './utils/types';
+
 export default class SparseMap<V> implements Iterable<[number, V]> {
 
   // Members
@@ -10,6 +12,7 @@ export default class SparseMap<V> implements Iterable<[number, V]> {
 
   // Constructor
   constructor(length: number);
+  constructor(values: IArrayLikeConstructor, length: number);
 
   // Methods
   clear(): void;
