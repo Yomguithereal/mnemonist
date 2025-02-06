@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.40.1 (provisional)
+## 0.40.1
 
 * Fixing `SparseMap` constructor overloads in type declarations.
 
