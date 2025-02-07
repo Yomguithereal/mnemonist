@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.2
+
+* Fixing `BloomFilter.from` type declaration (@jmezzacappa).
+
 ## 0.40.1
 
 * Fixing `SparseMap` constructor overloads in type declarations.
