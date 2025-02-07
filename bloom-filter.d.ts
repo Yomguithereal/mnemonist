@@ -25,5 +25,5 @@ export default class BloomFilter {
   toJSON(): Uint8Array;
 
   // Statics
-  from(iterable: Iterable<string>, options?: number | BloomFilterOptions): BloomFilter;
+  static from(iterable: Iterable<string>, options?: number | BloomFilterOptions): BloomFilter;
 }
