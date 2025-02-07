@@ -50,6 +50,47 @@ LinkedList.prototype.last = function() {
 };
 
 /**
+ * Method used to get the first node that contains the specified item
+ *
+ * @param  {any}            item - The item to locate.
+ * @return {Node|undefined}
+ */
+LinkedList.prototype.find = function(item) {
+  var n = this.head;
+
+  while (n) {
+    if (n.item === item) {
+      break;
+    }
+
+    n = n.next;
+  }
+
+  return n || undefined;
+};
+
+/**
+ * Method used to get the last node that contains the specified item
+ *
+ * @param  {any}            item - The item to locate.
+ * @return {Node|undefined}
+ */
+LinkedList.prototype.findLast = function(item) {
+  var n = this.head,
+      last = null;
+
+  while (n) {
+    if (n.item === item) {
+      last = n;
+    }
+
+    n = n.next;
+  }
+
+  return last || undefined;
+};
+
+/**
  * Method used to add an item at the end of the list.
  *
  * @param  {any}    item - The item to add.
@@ -112,6 +153,64 @@ LinkedList.prototype.shift = function() {
   this.size--;
 
   return node.item;
+};
+
+/**
+ * Method used to add the specified new item after the specified existing item
+ *
+ * @param  {any}    item    - The item after which to add `newItem`
+ * @param  {any}    newItem - The item to be added after `item`
+ * @return {number} The size of the list
+ */
+LinkedList.prototype.addAfter = function(item, newItem) {
+  var node = this.find(item),
+      newNode,
+      tempNode;
+
+  if (node === null) {
+    return this.size;
+  }
+
+  newNode = {item: newItem, next: null};
+  tempNode = node.next;
+  node.next = newNode;
+  newNode.next = tempNode;
+
+  if (node === this.tail) {
+    this.tail = newNode;
+  }
+  this.size++;
+
+  return this.size;
+};
+
+/**
+ * Method used to add the specified new item before the specified existing item
+ *
+ * @param  {any}    item    - The item before which to add `newItem`
+ * @param  {any}    newItem - The item to be added before `item`
+ * @return {number} The size of the list
+ */
+LinkedList.prototype.addBefore = function(item, newItem) {
+  var parent = this.head,
+      newNode = {item: newItem, next: null};
+
+  if (parent.item === item) {
+    return this.unshift(newItem);
+  }
+
+  while (parent.next) {
+    if (parent.next.item === item) {
+      newNode.next = parent.next;
+      parent.next = newNode;
+      this.size++;
+      break;
+    }
+
+    parent = parent.next;
+  }
+
+  return this.size;
 };
 
 /**
