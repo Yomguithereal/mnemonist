@@ -27,6 +27,7 @@
       "require": "./*.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "sort",
     "utils",
