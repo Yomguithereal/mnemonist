@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.3
+
+* Adding `sideEffects: false` to `package.json` (@blowery).
+
 ## 0.40.2
 
 * Fixing `BloomFilter.from` type declaration (@jmezzacappa).
