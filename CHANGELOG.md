@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.4
+
+* Fixing `LRUMap.setpop` & `LRUCache.setpop` type declaration (@richardgarnier).
+
 ## 0.40.3
 
 * Adding `sideEffects: false` to `package.json` (@blowery).
