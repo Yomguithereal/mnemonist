@@ -13,6 +13,7 @@ type VectorOptions = {
 export default class Vector implements Iterable<number> {
 
   // Members
+  array: ArrayBufferLike;
   capacity: number;
   length: number;
   size: number;
@@ -70,13 +71,31 @@ declare class TypedVector implements Iterable<number> {
   static from<I>(iterable: Iterable<I> | {[key: string]: I}, capacity?: number): TypedVector;
 }
 
-export class Int8Vector extends TypedVector {}
-export class Uint8Vector extends TypedVector {}
-export class Uint8ClampedVector extends TypedVector {}
-export class Int16Vector extends TypedVector {}
-export class Uint16Vector extends TypedVector {}
-export class Int32Vector extends TypedVector {}
-export class Uint32Vector extends TypedVector {}
-export class Float32Vector extends TypedVector {}
-export class Float64Vector extends TypedVector {}
+export class Int8Vector extends TypedVector {
+  array: Int8Array;
+}
+export class Uint8Vector extends TypedVector {
+  array: Uint8Array;
+}
+export class Uint8ClampedVector extends TypedVector {
+  array: Uint8ClampedArray;
+}
+export class Int16Vector extends TypedVector {
+  array: Int16Array;
+}
+export class Uint16Vector extends TypedVector {
+  array: Uint16Array;
+}
+export class Int32Vector extends TypedVector {
+  array: Int32Array;
+}
+export class Uint32Vector extends TypedVector {
+  array: Uint32Array;
+}
+export class Float32Vector extends TypedVector {
+  array: Float32Array;
+}
+export class Float64Vector extends TypedVector {
+  array: Float64Array;
+}
 export class PointerVector extends TypedVector {}
