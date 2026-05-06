@@ -22,7 +22,7 @@ function FixedDeque(ArrayClass, capacity) {
 
   this.ArrayClass = ArrayClass;
   this.capacity = capacity;
-  this.items = new ArrayClass(this.capacity);
+  // clear instantiates a new backing array
   this.clear();
 }
 
@@ -33,6 +33,8 @@ function FixedDeque(ArrayClass, capacity) {
  */
 FixedDeque.prototype.clear = function() {
 
+  // Re-create the backing array so anything stored in it can be GC'd
+  this.items = new this.ArrayClass(this.capacity);
   // Properties
   this.start = 0;
   this.size = 0;
@@ -95,7 +97,9 @@ FixedDeque.prototype.pop = function() {
   if (index >= this.capacity)
     index -= this.capacity;
 
-  return this.items[index];
+  var item = this.items[index];
+  this.items[index] = undefined;
+  return item;
 };
 
 /**
@@ -115,7 +119,9 @@ FixedDeque.prototype.shift = function() {
   if (this.start === this.capacity)
     this.start = 0;
 
-  return this.items[index];
+  var item = this.items[index];
+  this.items[index] = undefined;
+  return item;
 };
 
 /**

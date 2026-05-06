@@ -22,7 +22,7 @@ function CircularBuffer(ArrayClass, capacity) {
 
   this.ArrayClass = ArrayClass;
   this.capacity = capacity;
-  this.items = new ArrayClass(this.capacity);
+  // clear instantiates a new backing array
   this.clear();
 }
 
