@@ -26,7 +26,6 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Classics**
 
 * [Heap](https://yomguithereal.github.io/mnemonist/heap)
-* [Linked List](https://yomguithereal.github.io/mnemonist/linked-list)
 * [LRUCache](https://yomguithereal.github.io/mnemonist/lru-cache), [LRUMap](https://yomguithereal.github.io/mnemonist/lru-map)
 * [MultiMap](https://yomguithereal.github.io/mnemonist/multi-map)
 * [MultiSet](https://yomguithereal.github.io/mnemonist/multi-set)
@@ -39,6 +38,7 @@ Full documentation for the library can be found [here](https://yomguithereal.git
 **Low-level & structures for very specific use cases**
 
 * [Circular Buffer](https://yomguithereal.github.io/mnemonist/circular-buffer)
+* [Deque](https://yomguithereal.github.io/mnemonist/linked-list)
 * [Fixed Deque](https://yomguithereal.github.io/mnemonist/fixed-deque)
 * [Fibonacci Heap](https://yomguithereal.github.io/mnemonist/fibonacci-heap)
 * [Fixed Reverse Heap](https://yomguithereal.github.io/mnemonist/fixed-reverse-heap)
