@@ -70,6 +70,64 @@ describe('LinkedList', function() {
     assert.strictEqual(list.shift(), undefined);
   });
 
+  it('should be possible to find the first node that contains a specified value', function() {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.push(2);
+
+    assert.strictEqual(list.find(1).item, list.first());
+    assert.strictEqual(list.find(2).next, list.find(3));
+    assert.strictEqual(list.find(5), undefined);
+  });
+
+  it('should be possible to find the last node that contains a specified value', function () {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.push(2);
+
+    assert.strictEqual(list.findLast(1).item, list.first());
+    assert.strictEqual(list.findLast(2).item, list.last());
+    assert.strictEqual(list.findLast(2).next, null);
+    assert.strictEqual(list.findLast(5), undefined);
+  });
+
+  it('should be possible to add an item after a specified item', function() {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    assert.strictEqual(list.addAfter(3, 4), 4);
+    assert.strictEqual(list.addAfter(2, 10), 5);
+    assert.strictEqual(list.find(2).next, list.find(10));
+    assert.strictEqual(list.find(3).next, list.find(4));
+    assert.strictEqual(list.last(), 4);
+  });
+
+  it('should be possible to add an item before a specified item', function() {
+    var list = new LinkedList();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    assert.strictEqual(list.addBefore(3, 4), 4);
+    assert.strictEqual(list.addBefore(4, 5), 5);
+    assert.strictEqual(list.addBefore(1, 6), 6);
+    assert.strictEqual(list.addBefore(10, 5), 6);
+    assert.strictEqual(list.first(), 6);
+    assert.strictEqual(list.find(2).next, list.find(5));
+    assert.strictEqual(list.find(5).next, list.find(4));
+    assert.strictEqual(list.last(), 3);
+  });
+
   it('should be possible to iterate over the list.', function() {
     var list = new LinkedList();
 
