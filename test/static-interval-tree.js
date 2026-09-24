@@ -88,8 +88,30 @@ describe('StaticIntervalTree', function() {
 
     assert.deepStrictEqual(intervals, [{start: 0, end: 1}]);
 
-    intervals = tree.intervalsOverlappingInterval({start: -34, end: 4});
+    intervals = tree.intervalsOverlappingInterval([-34, 4]);
 
     assert.deepStrictEqual(intervals, [{start: 0, end: 1}, {start: 3, end: 41}]);
+  });
+
+  it('should be possible to query by interval using distinct start/end keys from the getters.', function() {
+    var startGetter = function(x) {
+      return x.birth;
+    };
+
+    var endGetter = function(x) {
+      return x.death;
+    };
+
+    var FIGURES = [
+      {name: 'John II of Cyprus', birth: 1418, death: 1458},
+      {name: 'Helena Palaiologina', birth: 1428, death: 1458},
+      {name: 'Ashikaga Yoshikatsu', birth: 1434, death: 1443}
+    ];
+
+    var tree = StaticIntervalTree.from(FIGURES, [startGetter, endGetter]);
+
+    var intervals = tree.intervalsOverlappingInterval([1420, 1430]);
+
+    assert.deepStrictEqual(intervals, [FIGURES[1], FIGURES[0]]);
   });
 });
