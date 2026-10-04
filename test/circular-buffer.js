@@ -336,4 +336,35 @@ describe('CircularBuffer', function() {
     assert.strictEqual(buffer.unshift(5), 4);
     assert.strictEqual(buffer.peekFirst(), 5);
   });
+
+  describe('should not retain items', function () {
+    var zero = { zero: 0 }, one = { one: 1 }, two = { two: 2 };
+
+    var buffer, uint8buffer;
+    beforeEach(function() {
+      buffer = CircularBuffer.from([zero, one, two], Array);
+      uint8buffer = CircularBuffer.from([0, 1, 2], Uint8Array);
+    });
+
+    it('on shift.', function() {
+      assert.strictEqual(buffer.shift(), zero);
+      assert.deepEqual(buffer.items, [undefined, one, two]);
+      assert.strictEqual(uint8buffer.shift(), 0);
+      assert.deepEqual(uint8buffer.items, Uint8Array.from([0, 1, 2]));
+    });
+
+    it('on pop.', function() {
+      assert.strictEqual(buffer.pop(), two);
+      assert.deepEqual(buffer.items, [zero, one, undefined]);
+      assert.strictEqual(uint8buffer.pop(), 2);
+      assert.deepEqual(uint8buffer.items, Uint8Array.from([0, 1, 0]));
+    });
+
+    it('on clear.', function() {
+      buffer.clear();
+      assert.deepEqual(buffer.items, new Array(3));
+      uint8buffer.clear();
+      assert.deepEqual(uint8buffer.items, Uint8Array.from([0, 0, 0]));
+    });
+  });
 });
