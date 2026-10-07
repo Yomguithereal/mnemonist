@@ -194,12 +194,15 @@ LRUCacheWithDelete.prototype.delete = function(key) {
   if (this.head === pointer) {
     this.head = next;
   }
+  else {
+    this.forward[previous] = next;
+  }
   if (this.tail === pointer) {
     this.tail = previous;
   }
-
-  this.forward[previous] = next;
-  this.backward[next] = previous;
+  else {
+    this.backward[next] = previous;
+  }
 
   this.size--;
   this.deleted[this.deletedSize++] = pointer;
@@ -239,12 +242,15 @@ LRUCacheWithDelete.prototype.remove = function(key, missing = undefined) {
   if (this.head === pointer) {
     this.head = next;
   }
+  else {
+    this.forward[previous] = next;
+  }
   if (this.tail === pointer) {
     this.tail = previous;
   }
-
-  this.forward[previous] = next;
-  this.backward[next] = previous;
+  else {
+    this.backward[next] = previous;
+  }
 
   this.size--;
   this.deleted[this.deletedSize++] = pointer;

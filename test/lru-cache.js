@@ -351,6 +351,28 @@ function makeTests(Cache, name) {
 
       });
 
+      ['delete', 'remove'].forEach(function(method) {
+        it('should preserve iteration after ' + method + ' of a promoted head.', function() {
+          var cache = new Cache(3);
+
+          cache.set('a', 1);
+          cache.set('b', 2);
+          cache.set('c', 3);
+          cache.get('b');
+
+          assert.strictEqual(cache[method]('b'), method === 'delete' ? true : 2);
+          assert.strictEqual(cache.size, 2);
+          assert.strictEqual(cache.has('b'), false);
+          assert.deepStrictEqual(Array.from(cache.entries()), [['c', 3], ['a', 1]]);
+
+          cache.set('d', 4);
+          assert.deepStrictEqual(Array.from(cache.entries()), [['d', 4], ['c', 3], ['a', 1]]);
+
+          assert.deepStrictEqual(cache.setpop('e', 5), {evicted: true, key: 'a', value: 1});
+          assert.deepStrictEqual(Array.from(cache.entries()), [['e', 5], ['d', 4], ['c', 3]]);
+        });
+      });
+
       it('sets and removes falsy values gracefully', function() {
         var cache = new Cache(3);
         let ret;
