@@ -222,6 +222,19 @@ function makeTests(Cache, name) {
       assert.deepStrictEqual(entries, Array.from(cache.entries()));
     });
 
+    it('should report eviction when the evicted key is falsy.', function() {
+      var cache = new Cache(2);
+
+      cache.set(0, 'a');
+      cache.set(1, 'b');
+
+      assert.deepStrictEqual(cache.setpop(2, 'c'), {
+        evicted: true,
+        key: 0,
+        value: 'a'
+      });
+    });
+
     if ((name === 'LRUCacheWithDelete') || (name === 'LRUMapWithDelete')) {
 
       it('should be possible to delete keys from a LRU cache.', function() {
@@ -373,7 +386,7 @@ function makeTests(Cache, name) {
         });
       });
 
-      it('sets and removes falsy values gracefully', function() {
+      it('sets and removes falsy values gracefully.', function() {
         var cache = new Cache(3);
         let ret;
         var arr = [];
@@ -392,7 +405,7 @@ function makeTests(Cache, name) {
         assert.strictEqual(ret, undefined);
       });
 
-      it('allows a custom missing indicator', function() {
+      it('allows a custom missing indicator.', function() {
         var cache = new Cache(3);
         let ret;
         var missingMarker = 'ABSENT';
@@ -406,7 +419,7 @@ function makeTests(Cache, name) {
         assert.equal(ret, missingMarker);
       });
 
-      it('maintains LRU order regardless of deletions', function() {
+      it('maintains LRU order regardless of deletions.', function() {
         var cache = new Cache(5);
         let wasDeleted;
 
@@ -436,7 +449,7 @@ function makeTests(Cache, name) {
       });
 
 
-      it('maintains LRU order regardless of removals', function() {
+      it('maintains LRU order regardless of removals.', function() {
         var cache = new Cache(5);
         let dead;
 
@@ -465,7 +478,7 @@ function makeTests(Cache, name) {
           [['eight', 'ocho'], ['seven', 'siete'], ['one', 'rast'], ['six', 'seis'], ['four', 'cuatro']]);
       });
 
-      it('enjoys a healthy workout of deletions', function() {
+      it('enjoys a healthy workout of deletions.', function() {
         var cache = new Cache(4);
         cache.set(0, 'cero'); cache.set(1, 'uno'); cache.set(2, 'dos'); cache.delete(1);
         cache.set(3, 'tres'); cache.set(4, 'cuatro'); cache.get(2);
@@ -487,7 +500,7 @@ function makeTests(Cache, name) {
         assert.deepStrictEqual(Array.from(cache.entries()), [[3, 'tri'], [1, 'rast'], [2, 'dva'], [8, 'huit']]);
       });
 
-      it('enjoys a healthy workout of removals', function() {
+      it('enjoys a healthy workout of removals.', function() {
         var cache = new Cache(4);
         cache.set(0, 'cero'); cache.set(1, 'uno'); cache.set(2, 'dos'); cache.remove(1);
         cache.set(3, 'tres'); cache.set(4, 'cuatro'); cache.get(2);
@@ -508,7 +521,6 @@ function makeTests(Cache, name) {
         cache.remove(2); cache.remove(9); cache.get(1); cache.set(2, 'dva'); cache.get(1); cache.set(3, 'tri');
         assert.deepStrictEqual(Array.from(cache.entries()), [[3, 'tri'], [1, 'rast'], [2, 'dva'], [8, 'huit']]);
       });
-
     }
   });
 }

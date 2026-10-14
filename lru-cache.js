@@ -155,6 +155,7 @@ LRUCache.prototype.set = function(key, value) {
 LRUCache.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
+  var evicted = false;
 
   var pointer = this.items[key];
 
@@ -178,6 +179,7 @@ LRUCache.prototype.setpop = function(key, value) {
     oldValue = this.V[pointer];
     oldKey = this.K[pointer];
     delete this.items[oldKey];
+    evicted = true;
   }
 
   // Storing key & value
@@ -191,7 +193,7 @@ LRUCache.prototype.setpop = function(key, value) {
   this.head = pointer;
 
   // Return object if eviction took place, otherwise return null
-  if (oldKey) {
+  if (evicted) {
     return {evicted: true, key: oldKey, value: oldValue};
   }
   else {

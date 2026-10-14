@@ -112,6 +112,7 @@ LRUMapWithDelete.prototype.set = function(key, value) {
 LRUMapWithDelete.prototype.setpop = function(key, value) {
   var oldValue = null;
   var oldKey = null;
+  var evicted = false;
 
   var pointer = this.items.get(key);
 
@@ -143,6 +144,7 @@ LRUMapWithDelete.prototype.setpop = function(key, value) {
     oldValue = this.V[pointer];
     oldKey = this.K[pointer];
     this.items.delete(oldKey);
+    evicted = true;
   }
 
   // Storing key & value
@@ -156,7 +158,7 @@ LRUMapWithDelete.prototype.setpop = function(key, value) {
   this.head = pointer;
 
   // Return object if eviction took place, otherwise return null
-  if (oldKey) {
+  if (evicted) {
     return {evicted: true, key: oldKey, value: oldValue};
   }
   else {
