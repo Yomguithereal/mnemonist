@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.6 (provisional)
+
+* Fixing `LRUCacheWithDelete` & `LRUMapWithDelete` bugs related to deletion (@bompus).
+
 ## 0.40.5
 
 * Fixing `MultiSet.top` heap size not being clamped to the set's dimension (@haoran3160-afk).
