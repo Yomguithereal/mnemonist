@@ -18,7 +18,7 @@ import {
   HashedArrayTree,
   Heap, MaxHeap,
   InvertedIndex,
-  LinkedList,
+  Deque,
   LRUCache,
   LRUCacheWithDelete,
   LRUMap,
@@ -147,11 +147,11 @@ let invertedIndex: InvertedIndex<number> = new InvertedIndex(n => ['one', 'two']
 invertedIndex.add(45);
 
 /**
- * LinkedList.
+ * Deque.
  */
-let linkedlist: LinkedList<boolean> = new LinkedList();
-linkedlist.push(true);
-let linkedlistItem: boolean = linkedlist.shift();
+let deque: Deque<boolean> = new Deque();
+deque.push(true);
+let dequeItem: boolean = deque.shift();
 
 /**
  * LRUCache.

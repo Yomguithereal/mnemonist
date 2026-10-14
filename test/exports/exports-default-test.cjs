@@ -19,7 +19,7 @@ const FuzzyMultiMap = require('mnemonist/fuzzy-multi-map');
 const HashedArrayTree = require('mnemonist/hashed-array-tree');
 const Heap = require('mnemonist/heap');
 const InvertedIndex = require('mnemonist/inverted-index');
-const LinkedList = require('mnemonist/linked-list');
+const Deque = require('mnemonist/deque');
 const LRUCache = require('mnemonist/lru-cache');
 const LRUCacheWithDelete = require('mnemonist/lru-cache-with-delete');
 const LRUMap = require('mnemonist/lru-map');
@@ -151,11 +151,11 @@ let invertedIndex = new InvertedIndex(n => ['one', 'two']);
 invertedIndex.add(45);
 
 /**
- * LinkedList.
+ * Deque.
  */
-let linkedlist = new LinkedList();
-linkedlist.push(true);
-let linkedlistItem = linkedlist.shift();
+let deque = new Deque();
+deque.push(true);
+let dequeItem = deque.shift();
 
 /**
  * LRUCache.

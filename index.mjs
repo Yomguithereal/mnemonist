@@ -45,6 +45,7 @@ export {default as StaticIntervalTree} from './static-interval-tree.js';
 export {default as InvertedIndex} from './inverted-index.js';
 export {default as KDTree} from './kd-tree.js';
 export {default as LinkedList} from './linked-list.js';
+export {default as Deque} from './deque.js';
 export {default as LRUCache} from './lru-cache.js';
 export {default as LRUCacheWithDelete} from './lru-cache-with-delete.js';
 export {default as LRUMap} from './lru-map.js';

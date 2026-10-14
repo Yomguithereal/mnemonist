@@ -25,6 +25,7 @@ export {default as Heap, MinHeap, MaxHeap} from './heap';
 export {default as InvertedIndex} from './inverted-index';
 export {default as KDTree} from './kd-tree';
 export {default as LinkedList} from './linked-list';
+export {default as Deque} from './deque';
 export {default as LRUCache} from './lru-cache';
 export {default as LRUCacheWithDelete} from './lru-cache-with-delete';
 export {default as LRUMap} from './lru-map';
