@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.40.6 (provisional)
+## 0.40.6
 
 * Fixing `LRUCacheWithDelete` & `LRUMapWithDelete` bugs related to deletion (@bompus).
 * Fixing `LRUCache`, `LRUMap`, `LRUCacheWithDelete` & `LRUMapWithDelete` `setpop` not correctly returning eviction information when dealing with falsey keys.
