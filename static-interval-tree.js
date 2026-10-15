@@ -287,8 +287,8 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
  * @return {array}
  */
 StaticIntervalTree.prototype.intervalsOverlappingInterval = function(interval) {
-  var intervalStart = this.startGetter ? this.startGetter(interval) : interval[0],
-      intervalEnd = this.endGetter ? this.endGetter(interval) : interval[1];
+  var intervalStart = interval[0],
+      intervalEnd = interval[1];
 
   var matches = [];
 
