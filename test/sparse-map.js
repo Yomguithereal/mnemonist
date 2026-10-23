@@ -76,6 +76,78 @@ describe('SparseMap', function() {
     assert.strictEqual(map.get(3), 28);
   });
 
+  [Array, Uint8Array, Float64Array].forEach(function(Values) {
+    it('should preserve values when compacting ' + Values.name + ' storage.', function() {
+      var map = new SparseMap(Values, 10);
+
+      map.set(1, 11).set(2, 22).set(3, 33).set(4, 44);
+
+      assert.strictEqual(map.delete(2), true);
+      assert.deepStrictEqual(Array.from(map.entries()), [[1, 11], [4, 44], [3, 33]]);
+      assert.deepStrictEqual(Array.from(map.values()), [11, 44, 33]);
+      assert.strictEqual(map.get(4), 44);
+
+      assert.strictEqual(map.delete(1), true);
+      assert.deepStrictEqual(Array.from(map.entries()), [[3, 33], [4, 44]]);
+
+      map.set(3, 35).set(2, 25);
+      assert.strictEqual(map.delete(2), true);
+      assert.strictEqual(map.delete(2), false);
+      assert.deepStrictEqual(Array.from(map.entries()), [[3, 35], [4, 44]]);
+
+      var entries = [];
+
+      map.forEach(function(value, key) {
+        entries.push([key, value]);
+      });
+
+      assert.deepStrictEqual(entries, [[3, 35], [4, 44]]);
+    });
+
+    it('should match Map through mixed operations with ' + Values.name + ' storage.', function() {
+      var map = new SparseMap(Values, 32),
+          reference = new Map(),
+          seed = 17;
+
+      for (var i = 0; i < 1000; i++) {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+
+        var key = (seed >>> 8) % 32,
+            value = (seed >>> 16) % 256;
+
+        if (i % 97 === 0) {
+          map.clear();
+          reference.clear();
+        }
+        else if (seed % 3 === 0) {
+          assert.strictEqual(map.delete(key), reference.delete(key));
+        }
+        else {
+          map.set(key, value);
+          reference.set(key, value);
+        }
+
+        assert.strictEqual(map.size, reference.size);
+        assert.deepStrictEqual(new Map(map), reference);
+
+        for (var j = 0; j < 32; j++) {
+          assert.strictEqual(map.has(j), reference.has(j));
+          assert.strictEqual(map.get(j), reference.get(j));
+        }
+      }
+    });
+  });
+
+  it('should preserve object values when deleting another member.', function() {
+    var map = new SparseMap(10),
+        first = {},
+        last = {};
+
+    map.set(1, first).set(2, last);
+    assert.strictEqual(map.delete(1), true);
+    assert.strictEqual(map.get(2), last);
+  });
+
   it('should be possible to clear the map.', function() {
     var map = new SparseMap(10);
 
