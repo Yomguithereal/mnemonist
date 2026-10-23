@@ -104,6 +104,7 @@ SparseMap.prototype.delete = function(member) {
   if (index >= this.size || this.dense[index] !== member)
     return false;
 
+  this.vals[index] = this.vals[this.size - 1];
   index = this.dense[this.size - 1];
   this.dense[this.sparse[member]] = index;
   this.sparse[index] = this.sparse[member];
