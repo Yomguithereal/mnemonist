@@ -55,7 +55,7 @@ SparseQueueSet.prototype.has = function(member) {
       index < this.start + this.size
     ) ||
     (
-      index < ((this.start + this.size) % this.capacity)
+      index < (this.start + this.size - this.capacity)
     )
   );
 
@@ -82,7 +82,7 @@ SparseQueueSet.prototype.enqueue = function(member) {
         index < this.start + this.size
       ) ||
       (
-        index < ((this.start + this.size) % this.capacity)
+        index < (this.start + this.size - this.capacity)
       )
     );
 
