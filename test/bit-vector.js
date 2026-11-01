@@ -163,6 +163,61 @@ describe('BitVector', function() {
     assert.deepStrictEqual(obliterator.take(vector.entries()), indexedArray);
   });
 
+  describe('iteration within logical length', function() {
+    [0, 1, 31, 32, 33, 64, 65].forEach(function(length) {
+      it('should ignore spare capacity at length ' + length + '.', function() {
+        var vector = new BitVector(96);
+
+        for (var i = 0; i < vector.length; i++)
+          vector.set(i, i % 2);
+
+        vector.resize(length);
+
+        var expected = Array.from({length: length}, function(_, j) {
+          return j % 2;
+        });
+        var entries = expected.map(function(bit, j) {
+          return [j, bit];
+        });
+        var visited = [],
+            scope = {};
+
+        vector.forEach(function(bit, j) {
+          assert.strictEqual(this, scope);
+          visited.push([j, bit]);
+        }, scope);
+
+        assert.deepStrictEqual(visited, entries);
+        assert.deepStrictEqual(obliterator.take(vector.values()), expected);
+        assert.deepStrictEqual(obliterator.take(vector.entries()), entries);
+        assert.deepStrictEqual(Array.from(vector), expected);
+      });
+    });
+
+    it('should ignore spare capacity after automatic growth.', function() {
+      var vector = new BitVector();
+
+      for (var i = 0; i < 161; i++)
+        vector.push(i % 2);
+
+      var expected = Array.from({length: 161}, function(_, j) {
+        return j % 2;
+      });
+      var visited = [];
+
+      vector.forEach(function(bit) {
+        visited.push(bit);
+      });
+
+      assert.deepStrictEqual(visited, expected);
+      assert.deepStrictEqual(obliterator.take(vector.values()), expected);
+      assert.deepStrictEqual(obliterator.take(vector.entries()), expected.map(function(bit, j) {
+        return [j, bit];
+      }));
+      assert.deepStrictEqual(Array.from(vector), expected);
+    });
+  });
+
   it('length divisible by 32 iteration, issue #117.', function() {
     var set = new BitVector(64);
 
