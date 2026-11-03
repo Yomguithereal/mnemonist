@@ -94,6 +94,72 @@ describe('BitVector', function() {
     assert.strictEqual(vector.get(1), 0);
   });
 
+  [31, 63, 95].forEach(function(high) {
+    it('should keep size and queries correct when resetting bits near ' + high, function() {
+      var set = new BitVector(96),
+          low = high - 31;
+
+      set.set(high);
+
+      for (var i = 0; i < 3; i++) {
+        assert.strictEqual(set.reset(low), set);
+        assert.strictEqual(set.get(low), 0);
+        assert.strictEqual(set.get(high), 1);
+        assert.strictEqual(set.size, 1);
+        assert.strictEqual(set.rank(high), 0);
+        assert.strictEqual(set.rank(high + 1), 1);
+        if (high === 31)
+          assert.strictEqual(set.select(1), high);
+      }
+
+      set.set(low);
+      assert.strictEqual(set.size, 2);
+      set.reset(low);
+      assert.strictEqual(set.size, 1);
+      assert.strictEqual(set.get(low), 0);
+      if (high === 31)
+        assert.strictEqual(set.select(1), high);
+
+      set.flip(low);
+      assert.strictEqual(set.size, 2);
+      set.flip(low);
+      set.reset(low);
+      assert.strictEqual(set.size, 1);
+      assert.strictEqual(set.rank(96), 1);
+
+      set.reset(high);
+      set.reset(high);
+      assert.strictEqual(set.size, 0);
+      assert.strictEqual(set.get(high), 0);
+      assert.strictEqual(set.rank(96), 0);
+      assert.strictEqual(set.select(1), -1);
+    });
+  });
+
+  it('should keep reset cardinality correct after growing across words.', function() {
+    var vector = new BitVector();
+
+    for (var i = 0; i < 96; i++)
+      vector.push(i % 32 === 31 ? 1 : 0);
+
+    [0, 32, 64].forEach(function(index) {
+      vector.reset(index);
+      vector.reset(index);
+    });
+
+    assert.strictEqual(vector.size, 3);
+    assert.strictEqual(vector.rank(96), 3);
+    assert.strictEqual(vector.select(1), 31);
+    assert.strictEqual(vector.select(2), 63);
+    assert.strictEqual(vector.select(3), 95);
+
+    vector.reset(63);
+    assert.strictEqual(vector.size, 2);
+    assert.strictEqual(vector.rank(96), 2);
+    assert.strictEqual(vector.get(63), 0);
+    assert.strictEqual(vector.get(95), 1);
+  });
+
   it('should be possible to use the rank operator.', function() {
     var vector = new BitVector(8010); // Using 8010 not to have a perfect 32bits seq
 
