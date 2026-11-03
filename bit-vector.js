@@ -405,7 +405,7 @@ BitVector.prototype.forEach = function(callback, scope) {
       bit,
       b = 32;
 
-  for (var i = 0, l = this.array.length; i < l; i++) {
+  for (var i = 0, l = Math.ceil(length / 32); i < l; i++) {
     byte = this.array[i];
 
     if (i === l - 1)
@@ -430,7 +430,7 @@ BitVector.prototype.values = function() {
       byte,
       bit,
       array = this.array,
-      l = array.length,
+      l = Math.ceil(length / 32),
       i = 0,
       j = -1,
       b = 32;
@@ -478,7 +478,7 @@ BitVector.prototype.entries = function() {
       bit,
       array = this.array,
       index,
-      l = array.length,
+      l = Math.ceil(length / 32),
       i = 0,
       j = -1,
       b = 32;

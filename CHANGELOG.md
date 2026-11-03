@@ -6,6 +6,7 @@
 * Fixing `SparseQueueSet` wrt uint overflow.
 * Fixing `MultiSet.set`.
 * Fixing `BitSet` & `BitVector`.
+* Fixing `BitVector` iteration when shrunk.
 
 ## 0.40.6
 
