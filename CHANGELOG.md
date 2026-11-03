@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.40.7 (provisional)
+## 0.40.7
 
 * Fixing `SparseMap.delete` wrt edge cases.
 * Fixing `SparseQueueSet` wrt uint overflow.
