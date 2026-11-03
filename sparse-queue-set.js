@@ -40,7 +40,7 @@ SparseQueueSet.prototype.clear = function() {
  * Method used to check the existence of a member in the queue.
  *
  * @param  {number} member - Member to test.
- * @return {SparseQueueSet}
+ * @return {boolean}
  */
 SparseQueueSet.prototype.has = function(member) {
   if (this.size === 0)

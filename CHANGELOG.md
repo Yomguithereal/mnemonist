@@ -3,6 +3,7 @@
 ## 0.40.7 (provisional)
 
 * Fixing `SparseMap.delete` wrt edge cases.
+* Fixing `SparseQueueSet` wrt uint overflow.
 
 ## 0.40.6
 
