@@ -99,14 +99,7 @@ MultiSet.prototype.set = function(item, count) {
 
   // Setting an item to 0 or to a negative number means deleting it from the set
   if (count <= 0) {
-    currentCount = this.items.get(item);
-
-    if (typeof currentCount !== 'undefined') {
-      this.size -= currentCount;
-      this.dimension--;
-    }
-
-    this.items.delete(item);
+    this.delete(item);
     return this;
   }
 
@@ -114,15 +107,14 @@ MultiSet.prototype.set = function(item, count) {
 
   currentCount = this.items.get(item);
 
-  if (typeof currentCount === 'number') {
-    this.items.set(item, currentCount + count);
-  }
-  else {
+  if (typeof currentCount === 'undefined') {
     this.dimension++;
-    this.items.set(item, count);
+    this.size += count;
+  } else {
+    this.size += count - currentCount;
   }
 
-  this.size += count;
+  this.items.set(item, count);
 
   return this;
 };

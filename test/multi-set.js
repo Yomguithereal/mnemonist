@@ -149,6 +149,12 @@ describe('MultiSet', function() {
     assert.strictEqual(set.dimension, 1);
     assert.strictEqual(set.multiplicity('hello'), 4);
 
+    set.set('hello', 3);
+
+    assert.strictEqual(set.size, 3);
+    assert.strictEqual(set.dimension, 1);
+    assert.strictEqual(set.multiplicity('hello'), 3);
+
     set.set('hello', 0);
 
     assert.strictEqual(set.size, 0);

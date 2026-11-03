@@ -4,6 +4,7 @@
 
 * Fixing `SparseMap.delete` wrt edge cases.
 * Fixing `SparseQueueSet` wrt uint overflow.
+* Fixing `MultiSet.set`.
 
 ## 0.40.6
 
