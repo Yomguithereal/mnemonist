@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.7 (provisional)
+
+* Fixing `SparseMap.delete` wrt edge cases.
+
 ## 0.40.6
 
 * Fixing `LRUCacheWithDelete` & `LRUMapWithDelete` bugs related to deletion (@bompus).

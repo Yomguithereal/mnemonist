@@ -74,6 +74,16 @@ describe('SparseMap', function() {
 
     assert.strictEqual(map.size, 2);
     assert.strictEqual(map.get(3), 28);
+
+    map = new SparseMap(10);
+
+    map.set(0, 'one');
+    map.set(1, 'two');
+    map.set(2, 'three');
+
+    map.delete(0);
+
+    assert.strictEqual(map.get(2), 'three');
   });
 
   it('should be possible to clear the map.', function() {
