@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.8 (provisional)
+
+* Fixing `TrieMap.get` type declaration.
+
 ## 0.40.7
 
 * Fixing `SparseMap.delete` wrt edge cases.
