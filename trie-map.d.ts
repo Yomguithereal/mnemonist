@@ -14,7 +14,7 @@ export default class TrieMap<K, V> implements Iterable<[K, V]> {
   clear(): void;
   set(prefix: K, value: V): this;
   update(prefix: K, updateFunction: (oldValue: V | undefined) => V): this
-  get(prefix: K): V;
+  get(prefix: K): V | undefined;
   delete(prefix: K): boolean;
   has(prefix: K): boolean;
   find(prefix: K): Array<[K, V]>;
