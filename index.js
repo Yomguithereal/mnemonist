@@ -35,6 +35,7 @@ module.exports = {
   InvertedIndex: require('./inverted-index.js'),
   KDTree: require('./kd-tree.js'),
   LinkedList: require('./linked-list.js'),
+  Deque: require('./deque.js'),
   LRUCache: require('./lru-cache.js'),
   LRUCacheWithDelete: require('./lru-cache-with-delete.js'),
   LRUMap: require('./lru-map.js'),
