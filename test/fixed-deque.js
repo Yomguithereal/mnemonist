@@ -278,4 +278,35 @@ describe('FixedDeque', function() {
     assert.strictEqual(deque.unshift(5), 4);
     assert.strictEqual(deque.peekFirst(), 5);
   });
+
+  describe('should not retain items', function () {
+    var zero = { zero: 0 }, one = { one: 1 }, two = { two: 2 };
+
+    var deque, uint8deque;
+    beforeEach(function() {
+      deque = FixedDeque.from([zero, one, two], Array);
+      uint8deque = FixedDeque.from([0, 1, 2], Uint8Array);
+    });
+
+    it('on shift.', function() {
+      assert.strictEqual(deque.shift(), zero);
+      assert.deepEqual(deque.items, [undefined, one, two]);
+      assert.strictEqual(uint8deque.shift(), 0);
+      assert.deepEqual(uint8deque.items, Uint8Array.from([0, 1, 2]));
+    });
+
+    it('on pop.', function() {
+      assert.strictEqual(deque.pop(), two);
+      assert.deepEqual(deque.items, [zero, one, undefined]);
+      assert.strictEqual(uint8deque.pop(), 2);
+      assert.deepEqual(uint8deque.items, Uint8Array.from([0, 1, 0]));
+    });
+
+    it('on clear.', function() {
+      deque.clear();
+      assert.deepEqual(deque.items, new Array(3));
+      uint8deque.clear();
+      assert.deepEqual(uint8deque.items, Uint8Array.from([0, 0, 0]));
+    });
+  });
 });
