@@ -5,6 +5,8 @@
 * Fixing `TrieMap.get` type declaration.
 * Fixing `BiMap.clear` not resetting inverse's size to 0.
 * Fixing `MultiSet.edit` to be a noop when both arguments are the same.
+* Fixing `FixedDeque/CircularBuffer.get`.
+* Fixing `Vector.get`.
 
 ## 0.40.7
 

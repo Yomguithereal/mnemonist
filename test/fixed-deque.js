@@ -278,4 +278,13 @@ describe('FixedDeque', function() {
     assert.strictEqual(deque.unshift(5), 4);
     assert.strictEqual(deque.peekFirst(), 5);
   });
+
+  it('should return undefined when getting indices out of bounds.', function() {
+    var deque = new FixedDeque(Array, 4);
+    deque.push('a');
+    deque.push('b');
+    deque.pop();
+
+    assert.strictEqual(deque.get(1), undefined);
+  });
 });

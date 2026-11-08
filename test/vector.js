@@ -231,4 +231,13 @@ describe('Vector', function() {
     assert.strictEqual(vector.length, 500);
     assert(vector.array instanceof Uint16Array);
   });
+
+  it('should return undefined when getting indices out of bounds.', function() {
+      var vector = new Vector(Array, 4);
+      vector.push('a');
+      vector.push('b');
+      vector.pop();
+
+      assert.strictEqual(vector.get(1), undefined);
+    });
 });
