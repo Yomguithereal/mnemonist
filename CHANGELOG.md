@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.40.8 (provisional)
+## 0.40.8
 
 * Fixing `TrieMap.get` type declaration.
 * Fixing `BiMap.clear` not resetting inverse's size to 0.
