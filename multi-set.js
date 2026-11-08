@@ -195,6 +195,8 @@ MultiSet.prototype.remove = function(item, count) {
  * @return {MultiSet}
  */
 MultiSet.prototype.edit = function(a, b) {
+  if (a === b) return;
+
   var am = this.multiplicity(a);
 
   // If a does not exist in the set, we can stop right there

@@ -193,6 +193,11 @@ describe('MultiSet', function() {
     set.edit('b', 'c');
 
     assert.deepStrictEqual(Array.from(set.multiplicities()), [['c', 2]]);
+
+    set.edit('c', 'c');
+
+    assert.deepStrictEqual(Array.from(set.multiplicities()), [['c', 2]]);
+    assert.strictEqual(set.size, 2);
   });
 
   it('should be possible to iterate over a set.', function() {
