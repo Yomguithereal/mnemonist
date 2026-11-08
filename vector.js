@@ -85,7 +85,7 @@ Vector.prototype.set = function(index, value) {
  * @return {any}
  */
 Vector.prototype.get = function(index) {
-  if (this.length < index)
+  if (index >= this.length)
     return undefined;
 
   return this.array[index];

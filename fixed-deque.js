@@ -154,7 +154,7 @@ FixedDeque.prototype.peekLast = function() {
  * @return {any}
  */
 FixedDeque.prototype.get = function(index) {
-  if (this.size === 0 || index >= this.capacity)
+  if (this.size === 0 || index >= this.size)
     return;
 
   index = this.start + index;
