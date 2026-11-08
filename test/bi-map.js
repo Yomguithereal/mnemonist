@@ -78,6 +78,7 @@ describe('BiMap', function() {
 
     assert.strictEqual(map.size, 0);
     assert.strictEqual(map.has('one'), false);
+    assert.strictEqual(map.inverse.size, 0);
   });
 
   it('should be possible to get items in the map.', function() {

@@ -38,6 +38,7 @@ function BiMap() {
 function clear() {
   this.size = 0;
   this.items.clear();
+  this.inverse.size = 0;
   this.inverse.items.clear();
 }
 

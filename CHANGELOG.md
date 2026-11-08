@@ -3,6 +3,7 @@
 ## 0.40.8 (provisional)
 
 * Fixing `TrieMap.get` type declaration.
+* Fixing `BiMap.clear` not resetting inverse's size to 0.
 
 ## 0.40.7
 
