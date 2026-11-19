@@ -14,6 +14,15 @@ var Iterator = require('obliterator/iterator'),
     bitwise = require('./utils/bitwise.js');
 
 /**
+ * Popcount of a 32-bit word, summing the byte counts with one multiply.
+ */
+function popcount(x) {
+  x -= x >>> 1 & 0x55555555;
+  x = (x & 0x33333333) + (x >>> 2 & 0x33333333);
+  return Math.imul(x + (x >>> 4) & 0x0f0f0f0f, 0x01010101) >>> 24;
+}
+
+/**
  * Constants.
  */
 var DEFAULT_GROWING_POLICY = function(capacity) {
@@ -333,8 +342,8 @@ BitVector.prototype.rank = function(i) {
       r = 0;
 
   // Accessing the bytes before the last one
-  for (var j = 0; j < byteIndex; j++)
-    r += bitwise.table8Popcount(this.array[j]);
+  for (var j = 0, array = this.array; j < byteIndex; j++)
+    r += popcount(array[j]);
 
   // Handling masked last byte
   var maskedByte = this.array[byteIndex] & ((1 << pos) - 1);
