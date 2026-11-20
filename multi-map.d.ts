@@ -34,11 +34,44 @@ interface MultiMapConstructor {
   new <K, V>(container?: ArrayConstructor): MultiMap<K, V, V[]>;
 
   from<K, V>(
-    iterable: Iterable<[K, V]> | {[key: string]: V},
+    iterable: ReadonlyMap<K, V>,
     Container: SetConstructor
   ): MultiMap<K, V, Set<V>>;
+  from<V>(
+    iterable: ReadonlySet<V>,
+    Container: SetConstructor
+  ): MultiMap<V, V, Set<V>>;
+  from<V>(
+    iterable: Iterable<V>,
+    Container: SetConstructor
+  ): MultiMap<number, V, Set<V>>;
+  from<V>(
+    iterable: {[key: string]: V},
+    Container: SetConstructor
+  ): MultiMap<string, V, Set<V>>;
   from<K, V>(
-    iterable: Iterable<[K, V]> | {[key: string]: V},
+    iterable: ReadonlyMap<K, V>,
+    Container?: ArrayConstructor
+  ): MultiMap<K, V, V[]>;
+  from<V>(
+    iterable: ReadonlySet<V>,
+    Container?: ArrayConstructor
+  ): MultiMap<V, V, V[]>;
+  from<V>(
+    iterable: Iterable<V>,
+    Container?: ArrayConstructor
+  ): MultiMap<number, V, V[]>;
+  from<V>(
+    iterable: {[key: string]: V},
+    Container?: ArrayConstructor
+  ): MultiMap<string, V, V[]>;
+
+  fromEntries<K, V>(
+    iterable: Iterable<readonly [K, V]>,
+    Container: SetConstructor
+  ): MultiMap<K, V, Set<V>>;
+  fromEntries<K, V>(
+    iterable: Iterable<readonly [K, V]>,
     Container?: ArrayConstructor
   ): MultiMap<K, V, V[]>;
 }

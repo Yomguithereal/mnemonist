@@ -367,6 +367,79 @@ describe('MultiMap', function() {
     assert.deepStrictEqual(map.get('one'), ['hello']);
   });
 
+  describe('fromEntries', function() {
+    it('should group entries by their keys and preserve duplicate values.', function() {
+      var map = MultiMap.fromEntries([
+        ['one', 'hello'], ['two', 'world'], ['one', 'hello']
+      ]);
+
+      assert.strictEqual(map.size, 3);
+      assert.strictEqual(map.dimension, 2);
+      assert.deepStrictEqual(map.get('one'), ['hello', 'hello']);
+      assert.deepStrictEqual(map.get('two'), ['world']);
+    });
+
+    it('should deduplicate values when using Set containers.', function() {
+      var map = MultiMap.fromEntries([
+        ['one', 'hello'], ['one', 'world'], ['one', 'hello']
+      ], Set);
+
+      assert.strictEqual(map.size, 2);
+      assert.strictEqual(map.dimension, 1);
+      assert.deepStrictEqual(map.get('one'), new Set(['hello', 'world']));
+    });
+
+    it('should accept maps and preserve object keys.', function() {
+      var key = {},
+          map = MultiMap.fromEntries(new Map([[key, 'hello']]));
+
+      assert.deepStrictEqual(map.get(key), ['hello']);
+    });
+
+    it('should accept one-shot iterables and empty input.', function() {
+      function* entries() {
+        yield ['one', 'hello'];
+        yield ['one', 'world'];
+      }
+
+      var map = MultiMap.fromEntries(entries());
+
+      assert.deepStrictEqual(map.get('one'), ['hello', 'world']);
+      assert.strictEqual(MultiMap.fromEntries([]).size, 0);
+    });
+
+    it('should reject non-entry values and close their iterator.', function() {
+      var closed = false;
+
+      function* entries() {
+        try {
+          yield null;
+        }
+        finally {
+          closed = true;
+        }
+      }
+
+      assert.throws(function() {
+        MultiMap.fromEntries(entries());
+      }, /entry/);
+      assert.strictEqual(closed, true);
+
+      [1, 'ab', undefined].forEach(function(value) {
+        assert.throws(function() {
+          MultiMap.fromEntries([value]);
+        }, /entry/);
+      });
+    });
+
+    it('should preserve the indexed behavior of from.', function() {
+      var map = MultiMap.from([['one', 'hello']]);
+
+      assert.deepStrictEqual(map.get(0), [['one', 'hello']]);
+      assert.strictEqual(map.has('one'), false);
+    });
+  });
+
   it('should work with vectors.', function() {
     var map = new MultiMap(Vector.Uint8Vector);
 

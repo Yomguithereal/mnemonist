@@ -403,6 +403,26 @@ MultiMap.from = function(iterable, Container) {
 };
 
 /**
+ * Static @.fromEntries function creating a map from key-value entries.
+ *
+ * @param  {Iterable} iterable  - Iterable of [key, value] entries.
+ * @param  {Class}    Container - Container.
+ * @return {MultiMap}
+ */
+MultiMap.fromEntries = function(iterable, Container) {
+  var map = new MultiMap(Container);
+
+  for (var entry of iterable) {
+    if (entry === null || (typeof entry !== 'object' && typeof entry !== 'function'))
+      throw new TypeError('MultiMap.fromEntries: expecting a key-value entry.');
+
+    map.set(entry[0], entry[1]);
+  }
+
+  return map;
+};
+
+/**
  * Exporting.
  */
 module.exports = MultiMap;

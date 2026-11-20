@@ -203,6 +203,21 @@ multimap.set(45, 'test');
 multimap.get(45).has('test');
 let stringMultimap: MultiMap<string, number> = MultiMap.from({one: 1});
 stringMultimap.get('one').indexOf(1);
+const multimapEntries: ReadonlyArray<readonly [string, number]> = [['one', 1]];
+const fromEntries = MultiMap.fromEntries(multimapEntries);
+const entryValues: number[] = fromEntries.get('one');
+const fromSetEntries = MultiMap.fromEntries(multimapEntries, Set);
+const entrySet: Set<number> = fromSetEntries.get('one');
+const fromMapEntries: MultiMap<string, number> = MultiMap.fromEntries(new Map([['one', 1]]));
+entryValues.indexOf(1);
+entrySet.has(1);
+fromMapEntries.get('one').indexOf(1);
+const indexedMultimap: MultiMap<number, readonly [string, number]> = MultiMap.from(multimapEntries);
+const setKeyMultimap: MultiMap<string, string, Set<string>> = MultiMap.from(new Set(['one']), Set);
+const mappedMultimap: MultiMap<string, number> = MultiMap.from(new Map([['one', 1]]));
+indexedMultimap.get(0).length;
+setKeyMultimap.get('one').has('one');
+mappedMultimap.get('one').indexOf(1);
 for (const _ of multimap) { }
 for (const _ of multimap.keys()) { }
 for (const _ of multimap.values()) { }
