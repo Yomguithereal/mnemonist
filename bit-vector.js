@@ -169,7 +169,7 @@ BitVector.prototype.reallocate = function(capacity) {
   capacity = Math.ceil(capacity / 32) * 32;
 
   if (virtualCapacity < this.length)
-    this.length = virtualCapacity;
+    this.resize(virtualCapacity);
 
   if (capacity === this.capacity)
     return this;
@@ -237,12 +237,27 @@ BitVector.prototype.resize = function(length) {
     return this;
 
   if (length < this.length) {
+    var byteIndex = length >> 5,
+        pos = length & 0x0000001f,
+        oldBytes = this.array[byteIndex],
+        newBytes = (oldBytes & ((1 << pos) - 1)) >>> 0;
+
+    this.size -= bitwise.table8Popcount(oldBytes) - bitwise.table8Popcount(newBytes);
+    this.array[byteIndex] = newBytes;
+
+    for (var i = byteIndex + 1; i < this.array.length; i++) {
+      this.size -= bitwise.table8Popcount(this.array[i]);
+      this.array[i] = 0;
+    }
+
     this.length = length;
     return this;
   }
 
+  if (length > this.capacity)
+    this.reallocate(length);
+
   this.length = length;
-  this.reallocate(length);
 
   return this;
 };
@@ -285,7 +300,12 @@ BitVector.prototype.pop = function() {
   var byteIndex = index >> 5,
       pos = index & 0x0000001f;
 
-  return (this.array[byteIndex] >> pos) & 1;
+  var value = (this.array[byteIndex] >> pos) & 1;
+
+  this.array[byteIndex] &= ~(1 << pos);
+  this.size -= value;
+
+  return value;
 };
 
 /**
