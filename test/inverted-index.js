@@ -90,12 +90,47 @@ describe('InvertedIndex', function() {
   });
 
   it('should be possible to iterate using #.forEach', function() {
-    var index = InvertedIndex.from(DOCS, tokenizer);
+    var index = InvertedIndex.from(DOCS, tokenizer),
+        visited = [];
 
     index.forEach(function(doc, i, instance) {
+      assert.strictEqual(this, index);
       assert.strictEqual(instance, index);
+      assert.strictEqual(i, visited.length);
       assert.strictEqual(doc, DOCS[i]);
+      visited.push(doc);
     });
+
+    assert.deepStrictEqual(visited, DOCS);
+  });
+
+  it('should be possible to provide a scope to #.forEach.', function() {
+    var index = InvertedIndex.from(OBJECT_DOCS, documentTokenizer),
+        scope = {documents: []};
+
+    index.forEach(function(doc, i, instance) {
+      assert.strictEqual(this, scope);
+      assert.strictEqual(instance, index);
+      assert.strictEqual(i, this.documents.length);
+      assert.strictEqual(doc, OBJECT_DOCS[i]);
+      this.documents.push(doc);
+    }, scope);
+
+    assert.deepStrictEqual(scope.documents, OBJECT_DOCS);
+  });
+
+  it('should not call the #.forEach callback on an empty index.', function() {
+    var index = new InvertedIndex(tokenizer);
+
+    function fail() {
+      assert.fail('An empty index should not call the callback.');
+    }
+
+    index.forEach(fail);
+
+    index.add(DOCS[0]);
+    index.clear();
+    index.forEach(fail);
   });
 
   it('should be possible to create an iterator over documents.', function() {
