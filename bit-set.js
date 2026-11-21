@@ -181,20 +181,15 @@ BitSet.prototype.rank = function(i) {
  * tend to think the following linear implementation is faster since here
  * rank is O(n) anyway.
  *
- * @param  {number} r - Rth 1 to select (should be < length).
+ * @param  {number} r - Rth 1 to select (1 through size).
  * @return {number}
  */
 BitSet.prototype.select = function(r) {
-  if (this.size === 0)
-    return -1;
-
-  // TODO: throw?
-  if (r >= this.length)
+  if (r < 1 || r > this.size || this.size === 0)
     return -1;
 
   var byte,
       b = 32,
-      p = 0,
       c = 0;
 
   for (var i = 0, l = this.array.length; i < l; i++) {
@@ -210,13 +205,15 @@ BitSet.prototype.select = function(r) {
 
     // TODO: popcount should speed things up here
 
-    for (var j = 0; j < b; j++, p++) {
+    for (var j = 0; j < b; j++) {
       c += (byte >> j) & 1;
 
       if (c === r)
-        return p;
+        return i * 32 + j;
     }
   }
+
+  return -1;
 };
 
 /**
