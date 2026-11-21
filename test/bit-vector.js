@@ -293,6 +293,58 @@ describe('BitVector', function() {
     assert.strictEqual(vector.length, 2);
   });
 
+  [1, 31, 32, 33, 63, 64, 65].forEach(function(length) {
+    it('should clear popped bits and their cardinality at length ' + length, function() {
+      var vector = new BitVector(length);
+      vector.set(length - 1);
+
+      assert.strictEqual(vector.pop(), 1);
+      assert.strictEqual(vector.size, 0);
+      assert.strictEqual(vector.push(false), length);
+      assert.strictEqual(vector.get(length - 1), 0);
+      assert.strictEqual(vector.size, 0);
+      assert.strictEqual(vector.pop(), 0);
+      vector.push(1);
+      assert.strictEqual(vector.size, 1);
+      assert.strictEqual(vector.get(length - 1), 1);
+    });
+  });
+
+  ['resize', 'reallocate'].forEach(function(method) {
+    [0, 1, 31, 32, 33, 63, 64, 65].forEach(function(length) {
+      it('should discard truncated bits with ' + method + '(' + length + ')', function() {
+        var vector = new BitVector(80),
+            model = Array(80).fill(0);
+
+        [0, 1, 30, 31, 32, 33, 63, 64, 65, 79].forEach(function(index) {
+          vector.set(index);
+          model[index] = 1;
+        });
+
+        vector[method](length);
+        var expected = model.slice(0, length),
+            size = expected.reduce(function(sum, bit) { return sum + bit; }, 0);
+
+        assert.strictEqual(vector.length, length);
+        assert.strictEqual(vector.size, size);
+        assert.strictEqual(vector.rank(length), size);
+        assert.deepStrictEqual(Array.from(vector), expected);
+
+        vector.resize(80);
+        assert.strictEqual(vector.size, size);
+        assert.deepStrictEqual(Array.from(vector), expected.concat(Array(80 - length).fill(0)));
+      });
+    });
+  });
+
+  it('should keep allocated capacity when regrowing within it.', function() {
+    var vector = new BitVector(96);
+    vector.resize(5);
+    vector.resize(10);
+    assert.strictEqual(vector.capacity, 96);
+    assert.strictEqual(vector.length, 10);
+  });
+
   it('should be possible to reallocate.', function() {
     var vector = new BitVector();
 
