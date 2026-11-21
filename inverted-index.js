@@ -163,8 +163,8 @@ InvertedIndex.prototype.get = function(query) {
 InvertedIndex.prototype.forEach = function(callback, scope) {
   scope = arguments.length > 1 ? scope : this;
 
-  for (var i = 0, l = this.documents.length; i < l; i++)
-    callback.call(scope, this.documents[i], i, this);
+  for (var i = 0, l = this.items.length; i < l; i++)
+    callback.call(scope, this.items[i], i, this);
 };
 
 /**
