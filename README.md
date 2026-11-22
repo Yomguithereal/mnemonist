@@ -90,6 +90,28 @@ However, we advise the reader to take a look at the [`graphology`](https://graph
 
 Don't find the data structure you need? Maybe we can work it out [together](https://github.com/Yomguithereal/mnemonist/issues).
 
+## Open interval bounds
+
+`StaticIntervalTree` queries include both endpoints by default. Pass
+`openBegin: true` or `openEnd: true` to exclude an endpoint for a query:
+
+```js
+var StaticIntervalTree = require('mnemonist/static-interval-tree');
+var tree = new StaticIntervalTree([[0, 10], [10, 20]]);
+
+tree.intervalsContainingPoint(10, {openEnd: true});
+// [[10, 20]]
+
+tree.intervalsOverlappingInterval([10, 15], {openEnd: true});
+// [[10, 20]]
+```
+
+The flags interpret all indexed intervals, and also the query interval for
+overlap queries, with the same bounds. An interval whose endpoints are equal
+is empty when either bound is open. Flags apply only to the current query;
+the index retains closed bounds for conservative subtree pruning, so a tree
+can serve queries with different endpoint conventions without rebuilding.
+
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.

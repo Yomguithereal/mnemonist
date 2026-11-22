@@ -11,8 +11,7 @@
  * then proceeds building the augmented balanced BST bottom-up from the
  * sorted list.
  *
- * Note that this implementation considers every given intervals as closed for
- * simplicity's sake.
+ * The index uses closed bounds; queries may interpret either bound as open.
  *
  * For more information: https://en.wikipedia.org/wiki/Interval_tree
  */
@@ -217,11 +216,15 @@ function StaticIntervalTree(intervals, getters) {
 /**
  * Method returning a list of intervals containing the given point.
  *
- * @param  {any}   point - Target point.
+ * @param  {any}    point   - Target point.
+ * @param  {object} options - Optional openBegin/openEnd flags (default false).
  * @return {array}
  */
-StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
+StaticIntervalTree.prototype.intervalsContainingPoint = function(point, options) {
   var matches = [];
+
+  var openBegin = options && options.openBegin,
+      openEnd = options && options.openEnd;
 
   var stack = this.stack;
 
@@ -262,7 +265,8 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
     end = this.endGetter ? this.endGetter(interval) : interval[1];
 
     // Checking current node
-    if (point >= start && point <= end)
+    if ((openBegin ? point > start : point >= start) &&
+        (openEnd ? point < end : point <= end))
       matches.push(interval);
 
     // If the point is to the left of the start of the current interval,
@@ -283,14 +287,21 @@ StaticIntervalTree.prototype.intervalsContainingPoint = function(point) {
 /**
  * Method returning a list of intervals overlapping the given interval.
  *
- * @param  {any}   interval - Target interval.
+ * @param  {any}    interval - Target interval.
+ * @param  {object} options  - Open bounds for both stored and query intervals.
  * @return {array}
  */
-StaticIntervalTree.prototype.intervalsOverlappingInterval = function(interval) {
+StaticIntervalTree.prototype.intervalsOverlappingInterval = function(interval, options) {
   var intervalStart = this.startGetter ? this.startGetter(interval) : interval[0],
       intervalEnd = this.endGetter ? this.endGetter(interval) : interval[1];
 
   var matches = [];
+
+  var open = options && (options.openBegin || options.openEnd);
+
+  // An interval with equal endpoints is empty if either bound is open.
+  if (open && intervalStart >= intervalEnd)
+    return matches;
 
   var stack = this.stack;
 
@@ -331,7 +342,8 @@ StaticIntervalTree.prototype.intervalsOverlappingInterval = function(interval) {
     end = this.endGetter ? this.endGetter(currentInterval) : currentInterval[1];
 
     // Checking current node
-    if (intervalEnd >= start && intervalStart <= end)
+    if (open ? start < end && intervalEnd > start && intervalStart < end :
+      intervalEnd >= start && intervalStart <= end)
       matches.push(currentInterval);
 
     // If the end is to the left of the start of the current interval,

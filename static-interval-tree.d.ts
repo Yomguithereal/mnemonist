@@ -5,6 +5,11 @@
 type StaticIntervalTreeGetter<T> = (item: T) => number;
 type StaticIntervalTreeGettersTuple<T> = [StaticIntervalTreeGetter<T>, StaticIntervalTreeGetter<T>];
 
+export type StaticIntervalTreeQueryOptions = {
+  openBegin?: boolean;
+  openEnd?: boolean;
+};
+
 export default class StaticIntervalTree<T> {
 
   // Members
@@ -15,8 +20,8 @@ export default class StaticIntervalTree<T> {
   constructor(intervals: Array<T>, getters?: StaticIntervalTreeGettersTuple<T>);
 
   // Methods
-  intervalsContainingPoint(point: number): Array<T>;
-  intervalsOverlappingInterval(interval: T): Array<T>;
+  intervalsContainingPoint(point: number, options?: StaticIntervalTreeQueryOptions): Array<T>;
+  intervalsOverlappingInterval(interval: T, options?: StaticIntervalTreeQueryOptions): Array<T>;
   inspect(): any;
 
   // Statics
