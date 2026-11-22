@@ -8,6 +8,28 @@ var assert = require('assert'),
 
 describe('BitVector', function() {
 
+  it('should stringify bits in index order without capacity padding.', function() {
+    var bits = new BitVector(35);
+    bits.set(0);
+    bits.set(31);
+    bits.set(34);
+    assert.strictEqual(bits.toString(), '1' + '0'.repeat(30) + '1001');
+    assert.strictEqual(String(bits), bits.toString());
+    assert.strictEqual(new BitVector(0).toString(), '');
+    assert.strictEqual(new BitVector(4).toString(), '0000');
+  });
+
+  it('should exclude popped bits and unused capacity from strings.', function() {
+    var bits = new BitVector(0);
+    bits.push(1);
+    bits.push(0);
+    bits.push(1);
+    assert.strictEqual(bits.toString(), '101');
+    bits.pop();
+    assert.strictEqual(bits.toString(), '10');
+  });
+
+
   it('should be possible to create a dynamic bit vector.', function() {
     var vector = new BitVector(74);
 

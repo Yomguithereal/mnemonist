@@ -543,6 +543,20 @@ BitVector.prototype.inspect = function() {
 if (typeof Symbol !== 'undefined')
   BitVector.prototype[Symbol.for('nodejs.util.inspect.custom')] = BitVector.prototype.inspect;
 
+/**
+ * Return one digit per bit, from index 0 to length - 1.
+ *
+ * @return {string}
+ */
+BitVector.prototype.toString = function() {
+  var result = '';
+
+  for (var i = 0; i < this.length; i++)
+    result += this.get(i);
+
+  return result;
+};
+
 BitVector.prototype.toJSON = function() {
   return Array.from(this.array.slice(0, (this.length >> 5) + 1));
 };

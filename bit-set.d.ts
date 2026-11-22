@@ -25,5 +25,6 @@ export default class BitSet implements Iterable<number> {
   entries(): IterableIterator<[number, number]>;
   [Symbol.iterator](): IterableIterator<number>;
   inspect(): any;
+  toString(): string;
   toJSON(): Array<number>;
 }

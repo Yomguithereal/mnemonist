@@ -8,6 +8,18 @@ var assert = require('assert'),
 
 describe('BitSet', function() {
 
+  it('should stringify bits in index order without capacity padding.', function() {
+    var bits = new BitSet(35);
+    bits.set(0);
+    bits.set(31);
+    bits.set(34);
+    assert.strictEqual(bits.toString(), '1' + '0'.repeat(30) + '1001');
+    assert.strictEqual(String(bits), bits.toString());
+    assert.strictEqual(new BitSet(0).toString(), '');
+    assert.strictEqual(new BitSet(4).toString(), '0000');
+  });
+
+
   it('should be possible to create a bit set.', function() {
     var set = new BitSet(74);
 

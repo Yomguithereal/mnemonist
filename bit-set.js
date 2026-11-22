@@ -372,6 +372,20 @@ BitSet.prototype.inspect = function() {
 if (typeof Symbol !== 'undefined')
   BitSet.prototype[Symbol.for('nodejs.util.inspect.custom')] = BitSet.prototype.inspect;
 
+/**
+ * Return one digit per bit, from index 0 to length - 1.
+ *
+ * @return {string}
+ */
+BitSet.prototype.toString = function() {
+  var result = '';
+
+  for (var i = 0; i < this.length; i++)
+    result += this.get(i);
+
+  return result;
+};
+
 BitSet.prototype.toJSON = function() {
   return Array.from(this.array);
 };
