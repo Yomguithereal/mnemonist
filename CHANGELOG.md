@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.9 (provisional)
+
+* Fixing `InvertedIndex.forEach`.
+
 ## 0.40.8
 
 * Fixing `TrieMap.get` type declaration.

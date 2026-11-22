@@ -91,11 +91,15 @@ describe('InvertedIndex', function() {
 
   it('should be possible to iterate using #.forEach', function() {
     var index = InvertedIndex.from(DOCS, tokenizer);
+    var seen = 0;
 
     index.forEach(function(doc, i, instance) {
+      seen += 1;
       assert.strictEqual(instance, index);
       assert.strictEqual(doc, DOCS[i]);
     });
+
+    assert.strictEqual(seen, 3);
   });
 
   it('should be possible to create an iterator over documents.', function() {
