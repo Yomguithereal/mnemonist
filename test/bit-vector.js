@@ -8,6 +8,38 @@ var assert = require('assert'),
 
 describe('BitVector', function() {
 
+  it('should reserve capacity without adding bits to an explicitly empty vector.', function() {
+    var vector = new BitVector({initialCapacity: 65, initialLength: 0});
+
+    assert.strictEqual(vector.length, 0);
+    assert.strictEqual(vector.capacity, 96);
+    assert.strictEqual(vector.size, 0);
+    assert.deepStrictEqual(Array.from(vector.values()), []);
+    assert.strictEqual(vector.pop(), undefined);
+    assert.strictEqual(vector.push(1), 1);
+    assert.strictEqual(vector.capacity, 96);
+    assert.strictEqual(vector.get(0), 1);
+    assert.strictEqual(vector.size, 1);
+  });
+
+  it('should allocate for both the requested length and capacity.', function() {
+    var reserved = new BitVector({initialCapacity: 96, initialLength: 5}),
+        longer = new BitVector({initialCapacity: 32, initialLength: 65}),
+        empty = new BitVector({initialCapacity: 0, initialLength: 0}),
+        capacityOnly = new BitVector({initialCapacity: 65});
+
+    assert.strictEqual(reserved.length, 5);
+    assert.strictEqual(reserved.capacity, 96);
+    assert.strictEqual(longer.length, 65);
+    assert.strictEqual(longer.capacity, 96);
+    assert.strictEqual(empty.length, 0);
+    assert.strictEqual(empty.capacity, 0);
+    assert.strictEqual(empty.push(1), 1);
+    assert.strictEqual(empty.get(0), 1);
+    assert.strictEqual(capacityOnly.length, 65);
+    assert.strictEqual(capacityOnly.capacity, 96);
+  });
+
   it('should be possible to create a dynamic bit vector.', function() {
     var vector = new BitVector(74);
 
