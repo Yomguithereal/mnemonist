@@ -34,20 +34,19 @@ function createByteArray(capacity) {
  */
 function BitVector(initialLengthOrOptions) {
   var initialLength = initialLengthOrOptions || 0,
+      initialCapacity = 0,
       policy = DEFAULT_GROWING_POLICY;
 
   if (typeof initialLengthOrOptions === 'object') {
-    initialLength = (
-      initialLengthOrOptions.initialLength ||
-      initialLengthOrOptions.initialCapacity ||
-      0
-    );
+    initialCapacity = initialLengthOrOptions.initialCapacity || 0;
+    initialLength = typeof initialLengthOrOptions.initialLength === 'number' ?
+      initialLengthOrOptions.initialLength : initialCapacity;
     policy = initialLengthOrOptions.policy || policy;
   }
 
   this.size = 0;
   this.length = initialLength;
-  this.capacity = Math.ceil(this.length / 32) * 32;
+  this.capacity = Math.ceil(Math.max(this.length, initialCapacity) / 32) * 32;
   this.policy = policy;
   this.array = createByteArray(this.capacity);
 }

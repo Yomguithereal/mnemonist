@@ -3,6 +3,7 @@
 ## 0.40.9 (provisional)
 
 * Fixing `InvertedIndex.forEach`.
+* Fixing `BitVector` initialization wrt `initialCapacity`.
 
 ## 0.40.8
 
