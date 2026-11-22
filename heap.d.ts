@@ -2,6 +2,8 @@
  * Mnemonist Heap Typings
  * =======================
  */
+import {TypedArray} from './utils/types';
+
 type HeapComparator<T> = (a: T, b: T) => number;
 
 export default class Heap<T> {
@@ -90,7 +92,11 @@ export function pushpop<T>(comparator: HeapComparator<T>, heap: Array<T>, item: 
 export function heapify<T>(comparator: HeapComparator<T>, array: Array<T>): void;
 export function consume<T>(comparator: HeapComparator<T>, heap: Array<T>): Array<T>;
 
+export function nsmallest<T extends TypedArray>(comparator: HeapComparator<number>, n: number, values: T): ReturnType<T['slice']>;
+export function nsmallest<T extends TypedArray>(n: number, values: T): ReturnType<T['slice']>;
 export function nsmallest<T>(comparator: HeapComparator<T>, n: number, values: Iterable<T>): Array<T>;
 export function nsmallest<T>(n: number, values: Iterable<T>): Array<T>;
+export function nlargest<T extends TypedArray>(comparator: HeapComparator<number>, n: number, values: T): ReturnType<T['slice']>;
+export function nlargest<T extends TypedArray>(n: number, values: T): ReturnType<T['slice']>;
 export function nlargest<T>(comparator: HeapComparator<T>, n: number, values: Iterable<T>): Array<T>;
 export function nlargest<T>(n: number, values: Iterable<T>): Array<T>;
