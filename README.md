@@ -90,6 +90,28 @@ However, we advise the reader to take a look at the [`graphology`](https://graph
 
 Don't find the data structure you need? Maybe we can work it out [together](https://github.com/Yomguithereal/mnemonist/issues).
 
+## Copying a BiMap
+
+Use `BiMap.from(existingMap)` to create a BiMap from a native Map or another
+BiMap. The constructor does not accept initial entries.
+
+```js
+var BiMap = require('mnemonist/bi-map');
+var original = BiMap.from(new Map([['one', 1], ['two', 2]]));
+var copy = BiMap.from(original);
+
+copy.delete('one');
+console.assert(original.get('one') === 1);
+console.assert(original.inverse.get(1) === 'one');
+console.assert(!copy.has('one') && !copy.inverse.has(1));
+console.assert(copy.inverse.get(2) === 'two');
+```
+
+This is a shallow copy: the forward and inverse maps are independent, but object
+keys and values retain their identities. Copying iterates over the entries; it
+does not use a native Map constructor fast path. Values must be unique to retain
+every entry, because BiMap enforces a one-to-one mapping.
+
 ## Contribution
 
 Contributions are obviously welcome. Be sure to lint the code & add relevant unit tests.
