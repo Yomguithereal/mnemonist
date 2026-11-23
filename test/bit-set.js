@@ -181,6 +181,20 @@ describe('BitSet', function() {
       assert.strictEqual(set.select(i), results[i]);
   });
 
+  it('should select bits after empty words at their absolute indices.', function() {
+    var set = new BitSet(130);
+
+    set.set(1);
+    set.set(97);
+    set.set(129);
+
+    assert.strictEqual(set.select(1), 1);
+    assert.strictEqual(set.select(2), 97);
+    assert.strictEqual(set.select(3), 129);
+    assert.strictEqual(set.select(0), -1);
+    assert.strictEqual(set.select(4), -1);
+  });
+
   it('should be possible to iterate over bits.', function() {
     var set = new BitSet(10);
 

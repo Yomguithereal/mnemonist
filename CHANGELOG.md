@@ -4,6 +4,7 @@
 
 * Fixing `InvertedIndex.forEach`.
 * Fixing `BitVector` initialization wrt `initialCapacity`.
+* Fixing `BitSet/BitVector.select`.
 
 ## 0.40.8
 

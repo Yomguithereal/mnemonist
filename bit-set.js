@@ -185,16 +185,11 @@ BitSet.prototype.rank = function(i) {
  * @return {number}
  */
 BitSet.prototype.select = function(r) {
-  if (this.size === 0)
-    return -1;
-
-  // TODO: throw?
-  if (r >= this.length)
+  if (r < 1 || r > this.size)
     return -1;
 
   var byte,
       b = 32,
-      p = 0,
       c = 0;
 
   for (var i = 0, l = this.array.length; i < l; i++) {
@@ -210,13 +205,15 @@ BitSet.prototype.select = function(r) {
 
     // TODO: popcount should speed things up here
 
-    for (var j = 0; j < b; j++, p++) {
+    for (var j = 0; j < b; j++) {
       c += (byte >> j) & 1;
 
       if (c === r)
-        return p;
+        return i * 32 + j;
     }
   }
+
+  return -1;
 };
 
 /**

@@ -206,6 +206,20 @@ describe('BitVector', function() {
       assert.strictEqual(vector.select(i), results[i]);
   });
 
+  it('should select bits after empty words at their absolute indices.', function() {
+    var vector = new BitVector(130);
+
+    vector.set(1);
+    vector.set(97);
+    vector.set(129);
+
+    assert.strictEqual(vector.select(1), 1);
+    assert.strictEqual(vector.select(2), 97);
+    assert.strictEqual(vector.select(3), 129);
+    assert.strictEqual(vector.select(0), -1);
+    assert.strictEqual(vector.select(4), -1);
+  });
+
   it('should be possible to iterate over bits.', function() {
     var vector = new BitVector(10);
 
