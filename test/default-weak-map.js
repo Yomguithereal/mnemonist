@@ -47,6 +47,39 @@ describe('DefaultWeakMap', function() {
     assert.strictEqual(map.delete(one), false);
   });
 
+  it('should preserve explicitly stored undefined values.', function() {
+    var calls = 0;
+    var key = {};
+    var map = new DefaultWeakMap(function() {
+      calls++;
+      return 'created';
+    });
+
+    map.set(key, undefined);
+
+    assert.strictEqual(map.get(key), undefined);
+    assert.strictEqual(map.has(key), true);
+    assert.strictEqual(calls, 0);
+
+    assert.strictEqual(map.delete(key), true);
+    assert.strictEqual(map.get(key), 'created');
+    assert.strictEqual(calls, 1);
+  });
+
+  it('should cache undefined values returned by the factory.', function() {
+    var calls = 0;
+    var key = {};
+    var map = new DefaultWeakMap(function() {
+      calls++;
+      return undefined;
+    });
+
+    assert.strictEqual(map.get(key), undefined);
+    assert.strictEqual(map.get(key), undefined);
+    assert.strictEqual(map.has(key), true);
+    assert.strictEqual(calls, 1);
+  });
+
   it('should be possible to peek.', function() {
     var map = new DefaultWeakMap(FACTORY);
     const one = {}, two = {};

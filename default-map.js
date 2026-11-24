@@ -43,7 +43,7 @@ DefaultMap.prototype.clear = function() {
 DefaultMap.prototype.get = function(key) {
   var value = this.items.get(key);
 
-  if (typeof value === 'undefined') {
+  if (typeof value === 'undefined' && !this.items.has(key)) {
     value = this.factory(key, this.size);
     this.items.set(key, value);
     this.size++;

@@ -41,7 +41,7 @@ DefaultWeakMap.prototype.clear = function() {
 DefaultWeakMap.prototype.get = function(key) {
   var value = this.items.get(key);
 
-  if (typeof value === 'undefined') {
+  if (typeof value === 'undefined' && !this.items.has(key)) {
     value = this.factory(key);
     this.items.set(key, value);
   }
