@@ -84,8 +84,8 @@ function compare(string, lookup, m, n) {
 function build(string, l) {
   var a = [],
       b = [],
-      al = (2 * l / 3) | 0,
-      bl = l - al,
+      al = ((2 * l + 1) / 3) | 0,
+      bl = ((l + 2) / 3) | 0,
       r = (al + 1) >> 1,
       i = al,
       j = 0,
@@ -93,8 +93,11 @@ function build(string, l) {
       lookup = [],
       result = [];
 
-  if (l === 1)
-    return [0];
+  if (l < 2)
+    return l ? [0] : [];
+
+  // Pad every recursive input, including the dummy sample when l % 3 === 1.
+  string[l] = string[l + 1] = string[l + 2] = 0;
 
   while (i--)
     a[i] = ((i * 3) >> 1) + 1;
@@ -125,7 +128,7 @@ function build(string, l) {
   lookup[l] = -1;
   lookup[l + 1] = -2;
 
-  b = l % 3 === 1 ? [l - 1] : [];
+  b = [];
 
   for (i = 0; i < al; i++) {
     if (a[i] % 3 === 1)
@@ -134,7 +137,8 @@ function build(string, l) {
 
   sort(string, b, 0);
 
-  for (i = 0, j = 0, k = 0; i < al && j < bl;)
+  // The dummy suffix sorts first but must not appear in the result.
+  for (i = l % 3 === 1 ? 1 : 0, j = 0, k = 0; i < al && j < bl;)
     result[k++] = (
       compare(string, lookup, a[i], b[j]) < 0 ?
         a[i++] :
@@ -160,8 +164,7 @@ function convert(target) {
 
   // Creating the alphabet array
   var length = target.length,
-      paddingOffset = length % 3,
-      array = new Array(length + paddingOffset),
+      array = new Array(length),
       l,
       i;
 
@@ -186,12 +189,8 @@ function convert(target) {
   }
   else {
     for (i = 0; i < length; i++)
-      array[i] = target.charCodeAt(i);
+      array[i] = target.charCodeAt(i) + 1;
   }
-
-  // Padding the array
-  for (i = length; i < length + paddingOffset; i++)
-    array[i] = 0;
 
   return array;
 }
