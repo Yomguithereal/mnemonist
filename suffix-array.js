@@ -276,44 +276,135 @@ function GeneralizedSuffixArray(strings) {
 
 /**
  * Method used to retrieve the longest common subsequence of the generalized
- * suffix array.
+ * suffix array, i.e. the longest contiguous sequence present in every one of
+ * the input strings.
+ *
+ * It works by sliding a window over the sorted suffixes so that it always
+ * spans at least one suffix coming from each one of the input strings. The
+ * longest common subsequence is then the maximum, over every such window, of
+ * the minimal longest common prefix shared by the window's suffixes.
  *
  * @return {string|array}
  */
 GeneralizedSuffixArray.prototype.longestCommonSubsequence = function() {
-  var lcs = this.hasArbitrarySequence ? [] : '',
-      lcp,
-      i,
-      j,
-      s,
-      t;
+  var text = this.text,
+      n = this.length,
+      empty = this.hasArbitrarySequence ? [] : '',
+      i;
 
-  for (i = 1; i < this.length; i++) {
-    s = this.array[i];
-    t = this.array[i - 1];
+  // A single string is trivially its own longest common subsequence
+  if (this.size === 1)
+    return text.slice(0, n);
 
-    if (s < this.firstLength &&
-        t < this.firstLength)
-      continue;
+  if (this.size < 1)
+    return empty;
 
-    if (s > this.firstLength &&
-        t > this.firstLength)
-      continue;
+  // Mapping each position of the text to the index of the string it belongs to
+  // (separators are mapped to -1 so they cannot take part in a common sequence)
+  var positionDocument = new Array(n),
+      currentDocument = 0;
 
-    lcp = Math.min(this.length - s, this.length - t);
-
-    for (j = 0; j < lcp; j++) {
-      if (this.text[s + j] !== this.text[t + j]) {
-        lcp = j;
-        break;
-      }
+  for (i = 0; i < n; i++) {
+    if (text[i] === SEPARATOR) {
+      positionDocument[i] = -1;
+      currentDocument++;
     }
-
-    if (lcp > lcs.length)
-      lcs = this.text.slice(s, s + lcp);
+    else {
+      positionDocument[i] = currentDocument;
+    }
   }
 
-  return lcs;
+  // Keeping only the suffixes actually starting within one of the strings, in
+  // sorted order, alongside the longest common prefix shared with the previous
+  // retained suffix (capped before any separator, since a common sequence
+  // cannot span two strings)
+  var starts = [],
+      documents = [],
+      lcps = [],
+      previousStart = -1,
+      start,
+      document,
+      lcp;
+
+  for (i = 0; i < n; i++) {
+    start = this.array[i];
+    document = positionDocument[start];
+
+    if (document === -1)
+      continue;
+
+    if (previousStart === -1) {
+      lcp = 0;
+    }
+    else {
+      lcp = 0;
+
+      while (
+        start + lcp < n &&
+        previousStart + lcp < n &&
+        text[start + lcp] === text[previousStart + lcp] &&
+        text[start + lcp] !== SEPARATOR
+      )
+        lcp++;
+    }
+
+    starts.push(start);
+    documents.push(document);
+    lcps.push(lcp);
+
+    previousStart = start;
+  }
+
+  // Sliding a window [lo, hi] over the retained suffixes so that it covers every
+  // string. The candidate length for a window is the minimum of the longest
+  // common prefixes it contains, retrieved in amortized constant time using a
+  // monotonic queue of indices into `lcps`.
+  var counts = new Array(this.size),
+      distinct = 0,
+      lo = 0,
+      best = 0,
+      bestStart = -1,
+      queue = [],
+      windowMinimum,
+      hi;
+
+  for (i = 0; i < this.size; i++)
+    counts[i] = 0;
+
+  for (hi = 0; hi < starts.length; hi++) {
+    if (counts[documents[hi]]++ === 0)
+      distinct++;
+
+    // `lcps[hi]` is the longest common prefix between suffixes hi - 1 and hi
+    if (hi > 0) {
+      while (queue.length && lcps[queue[queue.length - 1]] >= lcps[hi])
+        queue.pop();
+
+      queue.push(hi);
+    }
+
+    while (distinct === this.size) {
+      windowMinimum = queue.length ? lcps[queue[0]] : 0;
+
+      if (windowMinimum > best) {
+        best = windowMinimum;
+        bestStart = starts[hi];
+      }
+
+      if (--counts[documents[lo]] === 0)
+        distinct--;
+
+      lo++;
+
+      if (queue.length && queue[0] === lo)
+        queue.shift();
+    }
+  }
+
+  if (best === 0)
+    return empty;
+
+  return text.slice(bestStart, bestStart + best);
 };
 
 /**

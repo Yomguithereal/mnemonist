@@ -88,25 +88,54 @@ describe('GeneralizedSuffixArray', function() {
     );
   });
 
-  it.skip('should work with int values (issue #196).', function() {
-    var suffixArray = new GeneralizedSuffixArray([
+  it('should work with more than two strings.', function() {
+
+    // The longest common subsequence must be shared by *every* string, and
+    // not merely by the first one and any other (issue #196).
+    var sa = new GeneralizedSuffixArray([
       '1234',
       '234',
       '1234'
     ]);
 
-    var result = suffixArray.longestCommonSubsequence();
+    assert.strictEqual(sa.longestCommonSubsequence(), '234');
 
-    assert.deepStrictEqual(result, '234');
+    sa = new GeneralizedSuffixArray(['banana', 'ananas', 'bandana']);
+
+    assert.strictEqual(sa.longestCommonSubsequence(), 'ana');
+
+    sa = new GeneralizedSuffixArray(['xabcy', 'zabcw', 'pabcq']);
+
+    assert.strictEqual(sa.longestCommonSubsequence(), 'abc');
+  });
+
+  it('should handle degenerate cases.', function() {
+
+    // A single string is its own longest common subsequence
+    var sa = new GeneralizedSuffixArray(['hello']);
+
+    assert.strictEqual(sa.longestCommonSubsequence(), 'hello');
+
+    // No common subsequence at all
+    sa = new GeneralizedSuffixArray(['abc', 'xyz']);
+
+    assert.strictEqual(sa.longestCommonSubsequence(), '');
+
+    sa = new GeneralizedSuffixArray([['a', 'b'], ['x', 'y']]);
+
+    assert.deepStrictEqual(sa.longestCommonSubsequence(), []);
+  });
+
+  it.skip('should work with arbitrary sequences of more than two strings (issue #196).', function() {
 
     // TODO: fix sentinel to be lower than anything else in the token case
-    suffixArray = new GeneralizedSuffixArray([
+    var suffixArray = new GeneralizedSuffixArray([
       [1, 2, 3, 4],
       [2, 3, 4],
       [1, 2, 3, 4]
     ]);
 
-    result = suffixArray.longestCommonSubsequence();
+    var result = suffixArray.longestCommonSubsequence();
 
     assert.deepStrictEqual(result, [2, 3, 4]);
   });
